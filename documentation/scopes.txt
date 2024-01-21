@@ -1,0 +1,2 @@
+RoleManagement.Read.Directory
+Directory.Read.All
