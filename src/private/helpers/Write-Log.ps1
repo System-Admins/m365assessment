@@ -2,13 +2,35 @@ Function Write-Log
 {
     <#
     .SYNOPSIS
-       .
+        Writes a message to a log file and optionally to the console.
     .DESCRIPTION
-       .
+        Write error, warning, information or debug messages to a log file with some additional parameters.
     .PARAMETER Message
-        .
+        Message to write to the log.
+    .PARAMETER Path
+        (Optional) Path to log file.
+    .PARAMETER Level
+        (Optional) Log level such as debug, information, error etc.
+    .PARAMETER NoDateTime
+        (Optional) If date and time should not be added to the log message.
+    .PARAMETER NoAppend
+        (Optional) If the log message should not be appended to the log file.
+    .PARAMETER NoLogLevel
+        (Optional) If the log level should not be logged.
+    .PARAMETER NoConsole
+        (Optional) If the log message should not be output to the console.
     .EXAMPLE
-        .
+        # Write a information message to the console.
+        Write-Log -Message 'This is an information message'
+    .EXAMPLE
+        # Write a debug message to a log file and console.
+        Write-Log -Message 'This is an debug message' -Path 'C:\Temp\log.txt' -Level 'Debug'
+    .EXAMPLE
+        # Write a error message to a log file but not to the console.
+        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Error' -NoConsole
+    .EXAMPLE
+        # Write a information message to a log file but not to the console and do not append to the log file.
+        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
     #>
     [CmdletBinding()]
     Param
@@ -42,14 +64,17 @@ Function Write-Log
 
         # (Optional) If the log message should not be output to the console.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
-        [switch]$NoConsole
+        [switch]$NoConsole,
+
+        # (Optional) If the log message should not be added to a file.
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [switch]$NoLogFile
     )
     
     BEGIN
     {
         # Store original preferences.
         $originalInformationPreference = $InformationPreference;
-        $originalDebugPreference = $DebugPreference;
         $originalWarningPreference = $WarningPreference;
 
         # Output to file.
@@ -60,8 +85,12 @@ Function Write-Log
         # If log file path is specified.
         if (!([string]::IsNullOrEmpty($Path)))
         {
-            # Output should be written to file.
-            $outputToFile = $true;
+            # If the message should saved to the log file.
+            if ($false -eq $NoLogFile)
+            {
+                # Do not output to file.
+                $outputToFile = $true;
+            }
             
             # If log file dont exist.
             if (!(Test-Path -Path $Path -PathType Leaf))
@@ -109,7 +138,7 @@ Function Write-Log
         }
 
         # Add message to log message.
-        $logMessage += ('{0}' -f $Message);
+        $logMessage = ('{0} {1}' -f $logMessage, $Message);
   
         switch ($Level)
         {
@@ -129,7 +158,6 @@ Function Write-Log
             }
             'Debug'
             {
-                $DebugPreference = 'Continue';
                 Write-Debug -Message $logMessage;
             }
         }
@@ -160,11 +188,6 @@ Function Write-Log
     {
         # Restore original preferences.
         $InformationPreference = $originalInformationPreference;
-        $DebugPreference = $originalDebugPreference;
         $WarningPreference = $originalWarningPreference;
     }
 }
-
-Write-Log -Message 'Hello world!' -Path '/Users/ath/log.txt' -Level Information;
-
-Get-Content -Path '/Users/ath/log.txt';
