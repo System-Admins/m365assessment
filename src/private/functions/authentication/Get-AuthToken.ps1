@@ -1,4 +1,4 @@
-Function Get-AuthToken
+function Get-AuthToken
 {
     <#
     .SYNOPSIS
@@ -62,7 +62,7 @@ Function Get-AuthToken
             Write-Log -Message 'Connecting to Microsoft Graph' -Level 'Information';
 
             # Connect to Microsoft Graph.
-            Connect-MgGraph -TenantId $TenantId -ClientSecretCredential $clientSecretCredential -NoWelcome;
+            Connect-MgGraph -TenantId $TenantId -ClientSecretCredential $clientSecretCredential -NoWelcome -ErrorAction Stop;
 
             # Write to the log.
             Write-Log -Message 'Successfully connected to Microsoft Graph' -Level 'Information';
@@ -71,7 +71,7 @@ Function Get-AuthToken
         catch
         {
             # Write to the log.
-            Write-Log -Message $_.Exception.Message -Level 'Error';
+            Write-Log -Message ("Something went wrong while connecting to Microsoft Graph. Exception is: {0}" -f $_.Exception.Message) -Level 'Error';
         }
 
 
@@ -93,7 +93,7 @@ Function Get-AuthToken
     }
 }
 
-Function Get-MgGraphTokenFromMemory
+function Get-MgGraphTokenFromMemory
 {
     <#
     .SYNOPSIS
@@ -103,7 +103,11 @@ Function Get-MgGraphTokenFromMemory
     .EXAMPLE
         $token = Get-MgGraphTokenFromMemory;
     #>
-    
+    [cmdletBinding()]
+    param
+    ( 
+    )
+
     BEGIN
     {
         # Variable to store the token.

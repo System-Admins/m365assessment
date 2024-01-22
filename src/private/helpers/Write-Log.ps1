@@ -1,4 +1,4 @@
-Function Write-Log
+function Write-Log
 {
     <#
     .SYNOPSIS

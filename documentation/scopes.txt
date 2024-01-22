@@ -1,2 +1,6 @@
+# Scopes
 RoleManagement.Read.Directory
 Directory.Read.All
+
+# Module
+Microsoft Graph

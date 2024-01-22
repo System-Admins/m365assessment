@@ -1,4 +1,4 @@
-Function Get-UsersWithAdminRole
+function Get-UsersWithAdminRole
 {
     <#
     .SYNOPSIS
@@ -8,6 +8,11 @@ Function Get-UsersWithAdminRole
     .EXAMPLE
         $usersWithAdminRoles = Get-UsersWithAdminRole;
     #>
+    [cmdletBinding()]
+    param
+    ( 
+    )
+
     BEGIN
     {
         # Object array to store users with admin roles.
@@ -73,192 +78,120 @@ Function Get-UsersWithAdminRole
     }
 }
 
-Function Get-UsersWithAdminRole
+
+function Get-UserLicenses
 {
     <#
     .SYNOPSIS
-        Get users with admin roles.
+        Get one or all users with a license.
     .DESCRIPTION
-        Get all users with admin roles and returns object array
+        Get one or all users with a license and return object array.
     .EXAMPLE
-        $usersWithAdminRoles = Get-UsersWithAdminRole;
-    #>
-    BEGIN
-    {
-        # Object array to store users with admin roles.
-        $usersWithAdminRoles = New-Object System.Collections.ArrayList;
-
-        # Get all users.
-        $users = Get-MgUser -All;
-
-        # Get all roles.
-        $roles = Get-MgDirectoryRole -All;
-    }
-    PROCESS
-    {
-        # Foreach role.
-        foreach ($role in $roles)
-        {
-            # Get role members.
-            $roleMembers = Get-MgDirectoryRoleMember -DirectoryRoleId $role.Id;
-
-            # Foreach role member.
-            foreach ($roleMember in $roleMembers)
-            {
-                # Get user.
-                $user = $users | Where-Object { $_.Id -eq $roleMember.Id };
-
-                # If user is null.
-                if ($null -eq $user)
-                {
-                    # Continue to next role member.
-                    continue;
-                }
-
-                # If user is not already in the list.
-                if ($usersWithAdminRoles -notcontains $user)
-                {
-                    # Cloud native.
-                    [bool]$cloudOnly = $false;
-
-                    # If the user is cloud only.
-                    if ($null -eq $user.OnPremisesSyncEnabled)
-                    {
-                        # Set cloud only to true.
-                        $cloudOnly = $true;
-                    }
-
-                    # Add user to list.
-                    $usersWithAdminRoles += [PSCustomObject]@{
-                        Id                = $user.Id;
-                        DisplayName       = $user.DisplayName;
-                        UserPrincipalName = $user.UserPrincipalName;
-                        CloudOnly         = $cloudOnly;
-                        RoleDisplayName   = $role.DisplayName;
-                        RoleId            = $role.Id;
-                    };
-                }
-            }
-        }
-    }
-    END
-    {
-        # Return users with admin roles.
-        return $usersWithAdminRoles;
-    }
-}
-
-Function Get-UsersWithAdminRole
-{
-    <#
-    .SYNOPSIS
-        Get users with admin roles.
-    .DESCRIPTION
-        Get all users with admin roles and returns object array
+        # Retrieve all users and return the licenses.
+        $userLicenses = Get-UserLicenses;
     .EXAMPLE
-        $usersWithAdminRoles = Get-UsersWithAdminRole;
+        # Retrieve a specific user and return the licenses.
+        $userLicenses = Get-UserLicenses -UserPrincipalName 'user@domain';
     #>
-    BEGIN
-    {
-        # Object array to store users with admin roles.
-        $usersWithAdminRoles = New-Object System.Collections.ArrayList;
-
-        # Get all users.
-        $users = Get-MgUser -All;
-
-        # Get all roles.
-        $roles = Get-MgDirectoryRole -All;
-    }
-    PROCESS
-    {
-        # Foreach role.
-        foreach ($role in $roles)
-        {
-            # Get role members.
-            $roleMembers = Get-MgDirectoryRoleMember -DirectoryRoleId $role.Id;
-
-            # Foreach role member.
-            foreach ($roleMember in $roleMembers)
-            {
-                # Get user.
-                $user = $users | Where-Object { $_.Id -eq $roleMember.Id };
-
-                # If user is null.
-                if ($null -eq $user)
-                {
-                    # Continue to next role member.
-                    continue;
-                }
-
-                # If user is not already in the list.
-                if ($usersWithAdminRoles -notcontains $user)
-                {
-                    # Cloud native.
-                    [bool]$cloudOnly = $false;
-
-                    # If the user is cloud only.
-                    if ($null -eq $user.OnPremisesSyncEnabled)
-                    {
-                        # Set cloud only to true.
-                        $cloudOnly = $true;
-                    }
-
-                    # Add user to list.
-                    $usersWithAdminRoles += [PSCustomObject]@{
-                        Id                = $user.Id;
-                        DisplayName       = $user.DisplayName;
-                        UserPrincipalName = $user.UserPrincipalName;
-                        CloudOnly         = $cloudOnly;
-                        RoleDisplayName   = $role.DisplayName;
-                        RoleId            = $role.Id;
-                    };
-                }
-            }
-        }
-    }
-    END
-    {
-        # Return users with admin roles.
-        return $usersWithAdminRoles;
-    }
-}
-
-Function Get-UsersWithLicenses
-{
-    <#
-    .SYNOPSIS
-        Get users with assigned licenses.
-    .DESCRIPTION
-        
-    .EXAMPLE
-        
-    #>
+    [CmdletBinding()]
+    Param
+    (
+        # UserPrincipalName for the user.
+        [Parameter(Mandatory = $false)]
+        [string[]]$UserPrincipalName
+    )
     BEGIN
     {
         # Object array to store users with licenses.
-        $usersWithLicenses = New-Object System.Collections.ArrayList;
+        $userLicenses = New-Object System.Collections.ArrayList;
 
+        # Write to log.
+        Write-Log -Message ('Getting all users') -Level Debug;
+            
         # Get all users.
         $users = Get-MgUser -All -Select Id, UserPrincipalName, DisplayName, AssignedLicenses;
+
+        # Download the license translation table from Microsoft.
+        $translationTable = Get-LicenseTranslationTable;
     }
     PROCESS
     {
         # Foreach user.
         foreach ($user in $users)
         {
-            # Foreach license.
-            foreach($assignedLicense in $user.AssignedLicenses)
+            # If UserPrincipalName is not empty.
+            if ($UserPrincipalName.Count -gt 0)
             {
-                # Get user licenses.
-                $licenseDetail = Get-MgUserLicenseDetail -UserId $user.Id;
+                # If the user is not in the list.
+                if ($UserPrincipalName -notcontains $user.UserPrincipalName)
+                {
+                    # Continue to next user.
+                    continue;
+                }
+            }
 
-                # Get license detail.  
-                
+            # Write to log.
+            Write-Log -Message ("Getting license information for user '{0}'" -f $user.UserPrincipalName) -Level Debug;
+
+            # Get user license details.
+            $licenseDetails = Get-MgUserLicenseDetail -UserId $user.Id -All -PageSize 500;
+
+            # Foreach license details.
+            foreach ($licenseDetail in $licenseDetails)
+            {
+                # Foreach service plan.
+                foreach ($servicePlan in $licenseDetail.ServicePlans)
+                {
+                    # Match license from translation table.
+                    $license = $translationTable | Where-Object { $_.GUID -eq $licenseDetail.SkuId -and $_.Service_Plan_Id -eq $servicePlan.ServicePlanId };
+
+                    # Foreach license from the translation table.
+                    foreach ($license in $translationTable)
+                    {
+                        # If the license SkuId dont match.
+                        if ($licenseDetail.SkuId -ne $license.GUID)
+                        {
+                            # Continue to next license.
+                            continue;
+                        }
+
+                        # If the service plan dont match.
+                        if ($servicePlan.ServicePlanId -ne $license.Service_Plan_Id)
+                        {
+                            # Continue to next license.
+                            continue;
+                        }
+
+                        # If license is not null.
+                        if ($null -ne $license)
+                        {
+                            # Add object to array.
+                            $userLicenses += [PSCustomObject]@{
+                                UserId                        = $user.Id;
+                                UserPrincipalName             = $user.UserPrincipalName;
+                                UserDisplayName               = $user.DisplayName;
+                                LicenseSkuId                  = $licenseDetail.SkuId;
+                                LicenseName                   = $license.Product_Display_Name;
+                                LicenseSkuPartNumber          = $licenseDetail.SkuPartNumber;
+                                ServicePlanId                 = $servicePlan.ServicePlanId;
+                                ServicePlanName               = $servicePlan.ServicePlanName;
+                                ServicePlanProvisioningStatus = $servicePlan.ProvisioningStatus;
+                                ServicePlanFriendlyName       = $license.Service_Plans_Included_Friendly_Names;
+                            };
+                        }
+                    }
+                }
+            }
+            
         }
     }
     END
     {
-        # Return users with licenses.
-        return $usersWithLicenses;
+        # If the user license array is not empty.
+        if ($userLicenses.Count -gt 0)
+        {
+            # Return the user license array.
+            return $userLicenses;
+        }
     }
 }

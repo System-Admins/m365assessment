@@ -1,4 +1,4 @@
-Function New-PSCredential
+function New-PSCredential
 {
     <#
     .SYNOPSIS
