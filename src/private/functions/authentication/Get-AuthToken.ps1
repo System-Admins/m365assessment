@@ -21,6 +21,11 @@ function Get-AuthToken
     [CmdletBinding()]
     Param
     (
+        # If we should get the connection to Microsoft Graph or Exchange Online.
+        [Parameter(Mandatory = $true)]
+        [ValidateSet('Microsoft.Graph', 'Exchange.Online')]
+        [string]$Backend,
+
         # If service principal/Entra ID application should be used as authentication method.
         [Parameter(Mandatory = $true)]
         [Parameter(ParameterSetName = 'ServicePrincipal')]
@@ -47,48 +52,71 @@ function Get-AuthToken
     
     BEGIN
     {
-        # Create a credential object from the input username and password.
-        $clientSecretCredential = New-PSCredential -Username $ClientId -Password $ClientSecret;
+        # Login URL for the Entra ID authentication endpoint.
+        [string]$loginUrl = ('https://login.microsoftonline.com/{0}/oauth2/v2.0/token' -f $TenantId);
 
-        # Variable to store the token.
-        [string]$token = '';
+        # Url to the Microsoft Graph endpoint.
+        [string]$graphUrl = 'https://graph.microsoft.com';
+
+        # Url to the Exchange Online endpoint.
+        [string]$exchangeUrl = 'https://outlook.office365.com';
+
+        # Variable to store the scope.
+        [string]$scope = '';
     }
     PROCESS
     {
-        # Try to connect to Microsoft Graph.
-        try
+        # If we should use the service principal authentication method.
+        if ($true -eq $ServicePrincipal)
         {
-            # Write to the log.
-            Write-Log -Message 'Connecting to Microsoft Graph' -Level 'Information';
+            # If we should use the graph endpoint.
+            if ($Backend -eq 'Microsoft.Graph')
+            {
+                # Set the scope for the request.
+                $scope = ('{0}/.default' -f $graphUrl);
+            }
+            # If we should use the Exchange Online endpoint.
+            elseif ($Backend -eq 'Exchange.Online')
+            {
+                # Set the scope for the request.
+                $scope = ('{0}/.default' -f $exchangeUrl);
+            }
 
-            # Connect to Microsoft Graph.
-            Connect-MgGraph -TenantId $TenantId -ClientSecretCredential $clientSecretCredential -NoWelcome -ErrorAction Stop;
+            # Construct the body for the request.
+            $body = @{ 
+                'grant_type'    = 'client_credentials'; 
+                'scope'         = $scope;
+                'client_id'     = $ClientId;
+                'client_Secret' = $ClientSecret;
+            };
 
-            # Write to the log.
-            Write-Log -Message 'Successfully connected to Microsoft Graph' -Level 'Information';
-        }
-        # Something went wrong while connecting to Microsoft Graph.
-        catch
-        {
-            # Write to the log.
-            Write-Log -Message ("Something went wrong while connecting to Microsoft Graph. Exception is: {0}" -f $_.Exception.Message) -Level 'Error';
-        }
+            # Try to get the token.
+            try
+            {
+                # Write to the log.
+                Write-Log -Message ("Getting access token from Entra ID with the scope '{0}'" -f $scope) -Level 'Debug';
 
-
-        # It the token is in-memory.
-        if ([Microsoft.Graph.PowerShell.Authentication.GraphSession]::Instance.AuthContext.Scopes)
-        {
-            # Get the token from memory.
-            $token = Get-MgGraphTokenFromMemory;
+                # Get the token.
+                $token = Invoke-RestMethod -Uri $loginUrl -Method 'POST' -Body $body -ContentType 'application/x-www-form-urlencoded' -ErrorAction Stop;
+                
+                # Write to the log.
+                Write-Log -Message ('Succesfully got access token: {0}' -f $token) -Level Debug -NoLogFile;
+            }
+            # Something went wrong while getting the token.
+            catch
+            {
+                # Write to the log.
+                Write-Log -Message ('Could not get access token from Entra ID, the exception is: {0}' -f $_) -Level 'Error';
+            }
         }
     }
     END
     {
-        # If the token is not empty.
-        if (! [string]::IsNullOrEmpty($token))
+        # If the access token is not null.
+        if ($null -ne $token.access_token)
         {
             # Return the token.
-            return $token;
+            return $token.access_token;
         }
     }
 }
@@ -130,11 +158,8 @@ function Get-MgGraphTokenFromMemory
             # This is the JWT as a base64 string.
             [System.Convert]::ToBase64String($tokenData);
                 
-            # Get the JWT as a UTF8 string and convert it to a object.
-            $jwtObject = [System.Text.Encoding]::UTF8.GetString($tokenData) | ConvertFrom-Json -AsHashtable;
-        
-            # Get the token.
-            $token = $jwtObject.AccessToken.Values.secret;
+            # Get the token as a UTF8 string.
+            $token = [System.Text.Encoding]::UTF8.GetString($tokenData);
 
             # Write to the log.
             Write-Log -Message ('Microsoft Graph access token is: {0}' -f $token) -Level Debug -NoLogFile;
