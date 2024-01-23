@@ -30,6 +30,9 @@ function Invoke-EnsureAdminAccountCloudOnly
             'AAD_PREMIUM_P2'
         );
 
+        # Write to log.
+        Write-Log -Message ('Allowed licenses for admin accounts are is: {0}' -f ($allowedServicePlanName -join ", ")) -Level Debug;
+
         # Get all users with admin roles.
         $usersWithAdminRole = Get-UsersWithAdminRole;
     }

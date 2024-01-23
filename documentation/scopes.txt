@@ -1,6 +1,10 @@
 # Scopes
 RoleManagement.Read.Directory
 Directory.Read.All
+AuditLog.Read.All
+User.Read.All
+Exchange.ManageAsApp
 
 # Module
-Microsoft Graph
+Microsoft.Graph
+ExchangeOnlineManagement

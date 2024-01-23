@@ -40,6 +40,9 @@ function Invoke-EnsureNumberOfGlobalAdmins
                 $globalAdminCounter++;
             }
         }
+
+        # Write to log.
+        Write-Log -Message ('Found {0} with the role Global Administrator' -f $globalAdminCounter) -Level Debug;
     }
     END
     {

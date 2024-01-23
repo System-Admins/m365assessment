@@ -58,6 +58,9 @@ function Get-UsersWithAdminRole
                         $cloudOnly = $true;
                     }
 
+                    # Write to log.
+                    Write-Log -Message ("User '{0}' have the role '{1}'" -f $user.UserPrincipalName, $role.DisplayName) -Level Debug;
+
                     # Add user to list.
                     $usersWithAdminRoles += [PSCustomObject]@{
                         Id                = $user.Id;
@@ -193,5 +196,52 @@ function Get-UserLicenses
             # Return the user license array.
             return $userLicenses;
         }
+    }
+}
+
+function Get-GuestUsers
+{
+    <#
+    .SYNOPSIS
+        Returns all guest users.
+    .DESCRIPTION
+        Get all guest users and returns object array with information like last login date.
+    .EXAMPLE
+        $guestUsers = Get-GuestUsers;
+    #>
+    [cmdletBinding()]
+    param
+    ( 
+    )
+
+    BEGIN
+    {
+        # Properties to get.
+        $property = @(
+            "Id",
+            "UserPrincipalName",
+            "GivenName",
+            "Surname",
+            "DisplayName",
+            "SignInActivity",
+            "CreatedDateTime",
+            "AccountEnabled"
+        );
+    }
+    PROCESS
+    {
+        # Write to log.
+        Write-Log -Message ('Getting all guest users') -Level Debug;
+
+        # Get all users
+        $guestUsers = Get-MgUser -All -Filter { userType eq 'Guest' } -Property $property;
+
+        # Write to log.
+        Write-Log -Message ('Found {0} guest users' -f $guestUsers.Count) -Level Debug;
+    }
+    END
+    {
+        # Return guest users.
+        return $guestUsers;
     }
 }
