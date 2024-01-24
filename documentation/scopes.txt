@@ -4,6 +4,7 @@ Directory.Read.All
 AuditLog.Read.All
 User.Read.All
 Exchange.ManageAsApp
+Policy.Read.All
 
 # Module
 Microsoft.Graph
