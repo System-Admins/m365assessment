@@ -19,7 +19,7 @@ function Invoke-ReviewUserOwnedAppsServiceRestricted
     BEGIN
     {
         # Get User owned apps and services settings.
-        $settings = Get-UserOwnedAppsServicesSettings;
+        $settings = Get-OrganizationUserOwnedAppsServicesSettings;
 
         # Boolean to check restrictions.
         [bool]$restricted = $false;

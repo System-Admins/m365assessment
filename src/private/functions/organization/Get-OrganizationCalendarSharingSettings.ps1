@@ -1,4 +1,4 @@
-function Get-CalendarSharingSettings
+function Get-OrganizationCalendarSharingSettings
 {
     <#
     .SYNOPSIS

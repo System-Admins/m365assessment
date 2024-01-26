@@ -1,4 +1,4 @@
-function Get-UserOwnedAppsServicesSettings
+function Get-OrganizationUserOwnedAppsServicesSettings
 {
     <#
     .SYNOPSIS
