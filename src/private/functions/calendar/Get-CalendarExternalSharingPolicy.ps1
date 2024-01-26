@@ -1,12 +1,12 @@
-function Invoke-ReviewCalendarExternalSharing
+function Get-CalendarExternalSharingPolicy
 {
     <#
     .SYNOPSIS
-        Review if external calendar sharing is disabled.
+        Review if external calendar sharing policy is enabled.
     .DESCRIPTION
-        Return true or false based on if the calendar sharing is disabled or enabled.
+        Return all sharing policies that is sharing externally.
     .EXAMPLE
-        Invoke-ReviewCalendarExternalSharing;
+        Get-CalendarExternalSharingPolicy;
     #>
     [CmdletBinding()]
     Param

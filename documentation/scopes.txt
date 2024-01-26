@@ -9,3 +9,4 @@ Policy.Read.All
 # Module
 Microsoft.Graph
 ExchangeOnlineManagement
+Az.Accounts

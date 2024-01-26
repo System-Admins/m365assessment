@@ -61,6 +61,9 @@ function Get-AuthToken
         # Url to the Exchange Online endpoint.
         [string]$exchangeUrl = 'https://outlook.office365.com';
 
+        # Url to the Exchange Online endpoint.
+        [string]$office365Url = 'https://admin.microsoft.com';
+
         # Variable to store the scope.
         [string]$scope = '';
     }
@@ -80,6 +83,12 @@ function Get-AuthToken
             {
                 # Set the scope for the request.
                 $scope = ('{0}/.default' -f $exchangeUrl);
+            }
+            # If we should use the Office 365 admin endpoint.
+            elseif ($Backend -eq 'Office365Api')
+            {
+                # Set the scope for the request.
+                $scope = ('{0}/.default' -f $office365Url);
             }
 
             # Construct the body for the request.
@@ -109,6 +118,7 @@ function Get-AuthToken
                 Write-Log -Message ('Could not get access token from Entra ID, the exception is: {0}' -f $_) -Level 'Error';
             }
         }
+        
     }
     END
     {
@@ -118,62 +128,5 @@ function Get-AuthToken
             # Return the token.
             return $token.access_token;
         }
-    }
-}
-
-function Get-MgGraphTokenFromMemory
-{
-    <#
-    .SYNOPSIS
-        Get Microsoft Graph token from in-memory token cache.
-    .DESCRIPTION
-        Uses reflection to get the Microsoft Graph token from the in-memory token cache.
-    .EXAMPLE
-        $token = Get-MgGraphTokenFromMemory;
-    #>
-    [cmdletBinding()]
-    param
-    ( 
-    )
-
-    BEGIN
-    {
-        # Variable to store the token.
-        [string]$token = '';
-    }
-    PROCESS
-    {
-        # Try to get token from memory.
-        try
-        {
-            # Write to the log.
-            Write-Log -Message ('Getting access token from memory') -Level 'Debug';
-
-            # Get the token data from the in-memory token cache.
-            $inMemoryTokenCacheGetTokenData = [Microsoft.Graph.PowerShell.Authentication.Core.TokenCache.InMemoryTokenCache].GetMethod('ReadTokenData', [System.Reflection.BindingFlags]::NonPublic + [System.Reflection.BindingFlags]::Instance);
-                
-            # This is the byte array containing the token data.
-            $tokenData = $inMemoryTokenCacheGetTokenData.Invoke([Microsoft.Graph.PowerShell.Authentication.GraphSession]::Instance.InMemoryTokenCache, $null);
-                
-            # This is the JWT as a base64 string.
-            [System.Convert]::ToBase64String($tokenData);
-                
-            # Get the token as a UTF8 string.
-            $token = [System.Text.Encoding]::UTF8.GetString($tokenData);
-
-            # Write to the log.
-            Write-Log -Message ('Microsoft Graph access token is: {0}' -f $token) -Level Debug -NoLogFile;
-        }
-        # Something went wrong while getting the token from memory.
-        catch
-        {
-            # Write to the log.
-            Write-Log -Message ('Could not get Microsoft Graph token from memory') -Level 'Error';
-        }
-    }
-    END
-    {
-        # Return the token.
-        return $token;
     }
 }
