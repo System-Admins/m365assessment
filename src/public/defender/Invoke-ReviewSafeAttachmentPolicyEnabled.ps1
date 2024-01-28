@@ -1,12 +1,12 @@
-function Invoke-ReviewSafeAttachmentPolicy
+function Invoke-ReviewSafeAttachmentPolicyEnabled
 {
     <#
     .SYNOPSIS
-        Review the Safe Attachment Policy is enabled.
+        Review the Safe Attachment Policy is enabled and is set to block.
     .DESCRIPTION
-        Check if anti-malware policy is cofigured correctly.
+        Check if anti-malware policy is cofigured correctly (enabled and blocked).
     .EXAMPLE
-        Invoke-ReviewSafeAttachmentPolicy;
+        Invoke-ReviewSafeAttachmentPolicyEnabled;
     #>
 
     [CmdletBinding()]
@@ -19,7 +19,7 @@ function Invoke-ReviewSafeAttachmentPolicy
         # Write to log.
         Write-Log -Category 'Defender' -Message 'Getting safe attachment policies' -Level debug;
 
-        # Get malware filter policies.
+        # Get safe attachment policies.
         $safeAttachmentPolicies = Get-SafeAttachmentPolicy;
 
         # Object array to store policies.

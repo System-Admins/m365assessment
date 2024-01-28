@@ -1,4 +1,4 @@
-function Invoke-EnsureNumberOfGlobalAdmins
+function Invoke-ReviewNumberOfGlobalAdmins
 {
     <#
     .SYNOPSIS
@@ -8,7 +8,7 @@ function Invoke-EnsureNumberOfGlobalAdmins
         Return true or false.
     .EXAMPLE
         # Check if the number of global admin is sufficent.
-        Invoke-EnsureNumberOfGlobalAdmins;
+        Invoke-ReviewNumberOfGlobalAdmins;
     #>
 
     [CmdletBinding()]

@@ -1,4 +1,4 @@
-function Invoke-EnsureAdminAccountCloudOnly
+function Invoke-ReviewAdminAccountCloudOnly
 {
     <#
     .SYNOPSIS
@@ -8,7 +8,7 @@ function Invoke-EnsureAdminAccountCloudOnly
         Returns a list of administrative accounts that should be reviewed.
     .EXAMPLE
         # Ensure administrative accounts are separate and cloud-only.
-        Invoke-EnsureAdminAccountCloudOnly;
+        Invoke-ReviewAdminAccountCloudOnly;
     #>
 
     [CmdletBinding()]
