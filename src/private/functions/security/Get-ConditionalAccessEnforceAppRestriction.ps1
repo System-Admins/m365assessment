@@ -87,7 +87,7 @@ function Get-ConditionalAccessEnforceAppRestriction
             if ($policyEnabled -and $policyAppliedToAllUsers -and $policyAppliedToCloudApp -and $policyAppliedConditionClientApp -and $policyAppliedSessionAppEnforceRestrictions)
             {
                 # Write to log.
-                Write-Log -Message ("Conditional access policy '{0}' is set to enforce session idle timeout" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+                Write-Log -Category "Security" -Message ("Conditional access policy '{0}' is set to enforce session idle timeout" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
 
                 # Add to list.
                 $policies += [PSCustomObject]@{

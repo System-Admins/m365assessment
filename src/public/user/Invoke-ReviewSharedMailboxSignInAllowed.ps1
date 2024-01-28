@@ -103,7 +103,7 @@ function Invoke-ReviewSharedMailboxSignInAllowed
         if ($reviewSharedMailbox.Count -gt 0)
         {
             # Write to log.
-            Write-Log -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Debug;
+            Write-Log  -Category "User" -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Debug;
 
             # Return shared mailboxes to review.
             return $reviewSharedMailbox;

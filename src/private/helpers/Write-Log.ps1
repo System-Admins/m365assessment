@@ -40,6 +40,10 @@ function Write-Log
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [ValidateNotNullOrEmpty()]
         [string]$Message,
+
+        # If category should be included.
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [string]$Category,
     
         # (Optional) Path to log file.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
@@ -135,6 +139,13 @@ function Write-Log
         {
             # Add log level to log message.
             $logMessage += ('[{0}]' -f $Level.ToUpper());
+        }
+
+        # If category should be added to log message.
+        if ($false -eq [string]::IsNullOrEmpty($Category))
+        {
+            # Add category to log message.
+            $logMessage += ('[{0}]' -f $Category);
         }
 
         # Add message to log message.

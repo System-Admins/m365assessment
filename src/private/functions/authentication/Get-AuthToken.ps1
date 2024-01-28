@@ -103,19 +103,19 @@ function Get-AuthToken
             try
             {
                 # Write to the log.
-                Write-Log -Message ("Getting access token from Entra ID with the scope '{0}'" -f $scope) -Level 'Debug';
+                Write-Log -Category "Authentication" -Message ("Getting access token from Entra ID with the scope '{0}'" -f $scope) -Level 'Debug';
 
                 # Get the token.
                 $token = Invoke-RestMethod -Uri $loginUrl -Method 'POST' -Body $body -ContentType 'application/x-www-form-urlencoded' -ErrorAction Stop;
                 
                 # Write to the log.
-                Write-Log -Message ('Succesfully got access token: {0}' -f $token) -Level Debug -NoLogFile;
+                Write-Log -Category "Authentication" -Message ('Succesfully got access token: {0}' -f $token) -Level Debug -NoLogFile;
             }
             # Something went wrong while getting the token.
             catch
             {
                 # Write to the log.
-                Write-Log -Message ('Could not get access token from Entra ID, the exception is: {0}' -f $_) -Level 'Error';
+                Write-Log -Category "Authentication" -Message ('Could not get access token from Entra ID, the exception is: {0}' -f $_) -Level 'Error';
             }
         }
         

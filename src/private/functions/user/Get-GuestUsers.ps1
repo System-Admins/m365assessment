@@ -31,13 +31,13 @@ function Get-GuestUsers
     PROCESS
     {
         # Write to log.
-        Write-Log -Message ('Getting all guest users') -Level Debug;
+        Write-Log -Category "User" -Message ('Getting all guest users') -Level Debug;
 
         # Get all users
         $guestUsers = Get-MgUser -All -Filter { userType eq 'Guest' } -Property $property;
 
         # Write to log.
-        Write-Log -Message ('Found {0} guest users' -f $guestUsers.Count) -Level Debug;
+        Write-Log -Category "User" -Message ('Found {0} guest users' -f $guestUsers.Count) -Level Debug;
     }
     END
     {

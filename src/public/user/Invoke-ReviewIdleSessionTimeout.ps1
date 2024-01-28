@@ -31,7 +31,7 @@ function Invoke-ReviewIdleSessionTimeout
         if ($idleSessionPolicies.IdleTimeoutInMinutes -gt 180)
         {
             # Write to log.
-            Write-Log -Message ('Idle session timeout is {0} minutes' -f $idleSessionPolicies.IdleTimeoutInMinutes) -Level Debug;
+            Write-Log  -Category "User" -Message ('Idle session timeout is {0} minutes' -f $idleSessionPolicies.IdleTimeoutInMinutes) -Level Debug;
 
             # Set valid configuration to false.
             $validConfiguration = $false;
@@ -41,7 +41,7 @@ function Invoke-ReviewIdleSessionTimeout
         if ($null -eq $conditionalAccessPolicies)
         {
             # Write to log.
-            Write-Log -Message 'No conditional access policies enforcing app restrictions found' -Level Debug;
+            Write-Log  -Category "User" -Message 'No conditional access policies enforcing app restrictions found' -Level Debug;
 
             # Set valid configuration to false.
             $validConfiguration = $false;
@@ -53,13 +53,13 @@ function Invoke-ReviewIdleSessionTimeout
         if ($validConfiguration)
         {
             # Write to log.
-            Write-Log -Message 'Idle session timeout is configured correct' -Level Debug;
+            Write-Log  -Category "User" -Message 'Idle session timeout is configured correct' -Level Debug;
         }
         # Else if the configuration is not valid.
         else
         {
             # Write to log.
-            Write-Log -Message 'Idle session timeout is not configured correct' -Level Debug;
+            Write-Log  -Category "User" -Message 'Idle session timeout is not configured correct' -Level Debug;
         }
 
         # Return the result.

@@ -42,7 +42,7 @@ function Invoke-EnsureNumberOfGlobalAdmins
         }
 
         # Write to log.
-        Write-Log -Message ('Found {0} with the role Global Administrator' -f $globalAdminCounter) -Level Debug;
+        Write-Log  -Category "User" -Message ('Found {0} with the role Global Administrator' -f $globalAdminCounter) -Level Debug;
     }
     END
     {

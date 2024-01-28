@@ -50,7 +50,7 @@ function Get-UserLicenses
             }
 
             # Write to log.
-            Write-Log -Message ("Getting license information for user '{0}'" -f $user.UserPrincipalName) -Level Debug;
+            Write-Log -Category "User" -Message ("Getting license information for user '{0}'" -f $user.UserPrincipalName) -Level Debug;
 
             # Get user license details.
             $licenseDetails = Get-MgUserLicenseDetail -UserId $user.Id -All -PageSize 500;

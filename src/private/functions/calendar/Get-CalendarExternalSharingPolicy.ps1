@@ -57,7 +57,7 @@ function Get-CalendarExternalSharingPolicy
         if ($null -ne $calendarSharingPolicies)
         {
             # Write to log.
-            Write-Log -Message 'External calendar sharing is enabled' -Level Debug;
+            Write-Log -Category "Calendar" -Message 'External calendar sharing is enabled' -Level Debug;
 
             # Return policies.
             return $calendarSharingPolicies;

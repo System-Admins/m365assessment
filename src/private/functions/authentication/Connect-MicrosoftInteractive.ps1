@@ -25,7 +25,7 @@ function Connect-MicrosoftInteractive
         if ($true -eq $Disconnect)
         {
             # Write to log.
-            Write-Log -Message ('Disconnecting from Entra ID, Exchange Online and Microsoft Graph (if connections exist)') -Level Debug;
+            Write-Log -Category "Authentication" -Message ('Disconnecting from Entra ID, Exchange Online and Microsoft Graph (if connections exist)') -Level Debug;
 
             # Disconnect from all services.
             Disconnect-MgGraph -ErrorAction SilentlyContinue | Out-Null
@@ -41,19 +41,22 @@ function Connect-MicrosoftInteractive
         try
         {
             # Write to log.
-            Write-Log -Message ('Trying to connect to Azure') -Level Debug;
+            Write-Log -Category "Authentication" -Message ('Trying to connect to Azure') -Level Debug;
 
             # Launch interactive login.
             Connect-AzAccount -ErrorAction Stop -Force | Out-Null;
 
             # Throw execption.
-            Write-Log -Message ('Successfully connected to Azure') -Level Debug;
+            Write-Log -Category "Authentication" -Message ('Successfully connected to Azure') -Level Debug;
         }
         # Something went wrong.
         catch
         {
-            # Write to log.
-            Write-Log -Message ("Could not connect to Entra ID, execption is '{0}'" -f $_) -Level Error;
+            # Throw excpetion.
+            Write-Log -Category "Authentication" -Message ("Could not connect to Entra ID, execption is '{0}'" -f $_) -Level Error;
+
+            # Exit.
+            exit 1;
         }
 
         # Get the current context.
@@ -66,17 +69,17 @@ function Connect-MicrosoftInteractive
         if ($null -eq $mgAccessToken)
         {
             # Throw execption.
-            Write-Log -Message ('Could not get access token for Microsoft Graph') -Level Error;
+            Write-Log -Category "Authentication" -Message ('Could not get access token for Microsoft Graph') -Level Error;
         }
 
         # Write to log.
-        Write-Log -Message ('Connecting to Microsoft Graph') -Level Debug;
+        Write-Log -Category "Authentication" -Message ('Connecting to Microsoft Graph') -Level Debug;
 
         # Connect to Microsoft Graph (using existing token).
         Connect-MgGraph -AccessToken ($mgAccessToken.Token | ConvertTo-SecureString -AsPlainText -Force) -NoWelcome | Out-Null;
 
         # Write to log.
-        Write-Log -Message ('Connecting to Exchange Online') -Level Debug;
+        Write-Log -Category "Authentication" -Message ('Connecting to Exchange Online') -Level Debug;
 
         # Connect to Exchange Online (interactive).
         Connect-ExchangeOnline -UserPrincipalName $context.Account.Id -ShowBanner:$false;

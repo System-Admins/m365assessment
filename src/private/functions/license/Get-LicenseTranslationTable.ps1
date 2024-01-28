@@ -26,7 +26,7 @@ function Get-LicenseTranslationTable
         try
         {
             # Write to log.
-            Write-Log -Message ("Downloading license translation from '{0}'" -f $translationTableUrl) -Level Debug;
+            Write-Log -Category "License" -Message ("Downloading license translation from '{0}'" -f $translationTableUrl) -Level Debug;
 
             # Get translation table.
             $translationTableCsv = Invoke-RestMethod -Method Get -Uri $translationTableUrl -ContentType 'application/csv; charset=utf-8' -ErrorAction Stop;
@@ -38,7 +38,7 @@ function Get-LicenseTranslationTable
         catch
         {
             # Throw execption.
-            Write-Log -Message ('Something went wrong while getting license translation. Exception is: {0}' -f $_) -Level Error;
+            Write-Log -Category "License" -Message ('Something went wrong while getting license translation. Exception is: {0}' -f $_) -Level Error;
         }
     }
     END

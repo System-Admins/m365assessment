@@ -59,7 +59,7 @@ function Get-UsersWithAdminRole
                     }
 
                     # Write to log.
-                    Write-Log -Message ("User '{0}' have the role '{1}'" -f $user.UserPrincipalName, $role.DisplayName) -Level Debug;
+                    Write-Log -Category "User" -Message ("User '{0}' have the role '{1}'" -f $user.UserPrincipalName, $role.DisplayName) -Level Debug;
 
                     # Add user to list.
                     $usersWithAdminRoles += [PSCustomObject]@{

@@ -30,7 +30,7 @@ function Invoke-ReviewUserOwnedAppsServiceRestricted
         if ($null -eq $settings)
         {
             # Throw execption.
-            Write-Log -Message ("Something went wrong getting user owned apps and services settings, execption is '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "Organization" -Message ("Something went wrong getting user owned apps and services settings, execption is '{0}'" -f $_) -Level 'Error';
         }
 
         # If "Let users access the Office store" and "Let users start trials on behalf of your organization" is disabled.

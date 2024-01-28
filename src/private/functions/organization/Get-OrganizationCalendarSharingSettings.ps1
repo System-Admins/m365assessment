@@ -26,7 +26,7 @@ function Get-OrganizationCalendarSharingSettings
         if ($null -eq $response)
         {
             # Throw execption.
-            Write-Log -Message ("Something went wrong getting calendar sharing, execption is '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "Organization" -Message ("Something went wrong getting calendar sharing, execption is '{0}'" -f $_) -Level 'Error';
         }
     }
     END
