@@ -22,6 +22,9 @@ function Invoke-ReviewPriorityAccountProtectionConfig
         # Get the current email tenant settings.
         $emailTenantSettings = Get-EmailTenantSettings;
 
+        # Get all priority users.
+        $allUsers = Get-PriorityUsers;
+
         # Get all alert policies.
         $protectionAlertPolicies = Get-ProtectionAlert;
 
@@ -32,21 +35,6 @@ function Invoke-ReviewPriorityAccountProtectionConfig
     }
     PROCESS
     {
-        # Try to get VIP users.
-        try
-        {
-            # Write to log.
-            Write-Log -Category 'Defender' -Message ('Getting all VIP users' -f $_) -Level Debug;
-
-            # Get all users.
-            $allUsers = Get-User -IsVIP;
-        }
-        catch
-        {
-            # Write to log.
-            Write-Log -Category 'Defender' -Message ('Could not get VIP users, exception is "{0}"' -f $_) -Level Warning;
-        }
-
         # If protection setting is disabled.
         if ($true -eq $emailTenantSettings.EnablePriorityAccountProtection)
         {

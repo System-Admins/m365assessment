@@ -24,7 +24,11 @@ function Invoke-Office365ManagementApi
         # Method (GET, POST etc).
         [Parameter(Mandatory = $false)]
         [ValidateSet('GET', 'POST')]
-        [string]$Method = 'GET'
+        [string]$Method = 'GET',
+
+        # Body for the request.
+        [Parameter(Mandatory = $false)]
+        $Body
     )
     
     BEGIN
@@ -43,6 +47,20 @@ function Invoke-Office365ManagementApi
     }
     PROCESS
     {
+        # Create parameter splatting.
+        $param = @{
+            Uri     = $Uri;
+            Method  = $Method;
+            Headers = $headers;
+        };
+
+        # If body is not null.
+        if ($null -ne $Body)
+        {
+            # Add body to parameter splatting.
+            $param.Add('Body', $Body);
+        }
+
         # Try to invoke API.
         try
         {
@@ -50,7 +68,7 @@ function Invoke-Office365ManagementApi
             Write-Log -Category "Authentication" -Message ('Trying to call Office 365 Management API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
-            $response = Invoke-RestMethod -Uri $Uri -Method $Method -Headers $headers -ErrorAction Stop;
+            $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
             Write-Log -Category "Authentication" -Message ('Successfully called Office 365 Management API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
