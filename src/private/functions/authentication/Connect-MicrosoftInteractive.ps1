@@ -28,9 +28,9 @@ function Connect-MicrosoftInteractive
             Write-Log -Category "Authentication" -Message ('Disconnecting from Entra ID, Exchange Online and Microsoft Graph (if connections exist)') -Level Debug;
 
             # Disconnect from all services.
-            Disconnect-MgGraph -ErrorAction SilentlyContinue | Out-Null
-            Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -Confirm:$false | Out-Null
-            Disconnect-AzAccount -ErrorAction SilentlyContinue | Out-Null
+            Disconnect-MgGraph -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null
+            Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -Confirm:$false | Out-Null
+            Disconnect-AzAccount -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null
         }
     }
     PROCESS
@@ -83,6 +83,12 @@ function Connect-MicrosoftInteractive
 
         # Connect to Exchange Online (interactive).
         Connect-ExchangeOnline -UserPrincipalName $context.Account.Id -ShowBanner:$false;
+
+        # Write to log.
+        Write-Log -Category "Authentication" -Message ('Connecting to Security & Compliance') -Level Debug;
+
+        # Connect to Security and Compliance (interactive).
+        Connect-IPPSSession -UserPrincipalName $context.Account.Id -ShowBanner:$false;
     }
     END
     {
