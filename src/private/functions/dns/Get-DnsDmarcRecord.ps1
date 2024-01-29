@@ -1,0 +1,54 @@
+function Get-DnsDmarcRecord
+{
+    <#
+    .SYNOPSIS
+        Get DMARC record for domain.
+    .DESCRIPTION
+        Uses Google API to resolve DNS.
+    .PARAMETER Domain
+        Domain to resolve.
+    .EXAMPLE
+        # Get DMARC record for domain.
+        Get-DnsDmarcRecord -Domain 'example.com';
+    #>
+
+    [cmdletbinding()]	
+        
+    Param
+    (
+        # Domain to lookup.
+        [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$Domain
+    )
+
+    BEGIN
+    {
+        # Get TXT records for domain.
+        $txtRecords = Invoke-DnsRequest -Domain $Domain -Type 'TXT';
+
+        # Object array to store DMARC records.
+        $dmarcRecords = @();
+    }
+    PROCESS
+    {
+        # Foreach TXT record.
+        foreach ($txtRecord in $txtRecords)
+        {
+            # If the TXT record contains DMARC.
+            if ($txtRecord.data -like 'v=DMARC1*')
+            {
+                # Add to object array.
+                $dmarcRecords += [PSCustomObject]@{
+                    Domain = $Domain;
+                    Record    = $txtRecord.data;
+                };
+            }
+        }
+    }
+    END
+    {
+        # Return SPF records.
+        return $dmarcRecords;
+    }
+}
