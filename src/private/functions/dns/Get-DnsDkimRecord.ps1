@@ -5,6 +5,7 @@ function Get-DnsDkimRecord
         Get DKIM record for domain.
     .DESCRIPTION
         Uses Google API to resolve DNS.
+        Returns selector1 and selector2 if they exists.
     .PARAMETER Domain
         Domain to resolve.
     .EXAMPLE
@@ -27,12 +28,23 @@ function Get-DnsDkimRecord
         # Object array to store SPF records.
         $dkimRecords = @();
 
-        # Construct selector1
+        # Construct selectors.
+        $selector1 = 'selector1._domainkey';
+        $selector2 = 'selector2._domainkey';
+
+        # Construct DKIM record.
+        $dkimRecord1 = ("{0}.{1}" -f $selector1, $Domain);
+        $dkimRecord2 = ("{0}.{1}" -f $selector2, $Domain);
     }
     PROCESS
     {
-        # Get CNAME records for domain.
+        # Invoke DNS requests.
+        $dkimRecord1 = Invoke-DnsRequest -Domain $dkimRecord1 -Type 'CNAME' -ErrorAction SilentlyContinue;
+        $dkimRecord2 = Invoke-DnsRequest -Domain $dkimRecord2 -Type 'CNAME' -ErrorAction SilentlyContinue;
 
+        # Add DKIM records to array.
+        $dkimRecords += $dkimRecord1;
+        $dkimRecords += $dkimRecord2;
     }
     END
     {
@@ -40,5 +52,3 @@ function Get-DnsDkimRecord
         return $dkimRecords;
     }
 }
-
-Invoke-DnsRequest -Domain 'selector1._domainkey.systemadmins.com' -Type 'CNAME';
