@@ -1,12 +1,12 @@
-function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
+function Invoke-ReviewEntraUsersAllowedToCreateTenants
 {
     <#
     .SYNOPSIS
-        If users are allowed to register apps in Entra ID.
+        If users are allowed to create tenants in Entra ID.
     .DESCRIPTION
         Return true or false.
     .EXAMPLE
-        Invoke-ReviewEntraUsersCanRegisterAppsEnabled;
+        Invoke-ReviewEntraUsersAllowedToCreateTenants;
     #>
 
     [CmdletBinding()]
@@ -26,6 +26,6 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
     END
     {
         # Return state.
-        return [bool]$authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateApps;
+        return [bool]$authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateTenants;
     }
 }
