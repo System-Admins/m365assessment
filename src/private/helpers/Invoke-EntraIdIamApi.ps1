@@ -1,18 +1,18 @@
-function Invoke-Office365ManagementApi
+function Invoke-EntraIdIamApi
 {
     <#
     .SYNOPSIS
-        Invoke Office 365 Management API.
+        Invoke Entra ID Iam API.
     .DESCRIPTION
-        Used to call the Office 365 Management API.
+        Used to call the Entra ID Iam API.
         Currently this use undocumented APIs from Microsoft.
     .PARAMETER Uri
         URI to the API.
     .PARAMETER Method
         GET or POST.
     .EXAMPLE
-        # Get the external calendar sharing settings.
-        Invoke-Office365ManagementApi -Uri 'https://admin.microsoft.com/admin/api/settings/apps/calendarsharing' -Method 'GET';
+        # Get the Entra ID property settings.
+        Invoke-Office365ManagementApi -Uri 'https://main.iam.ad.ext.azure.com/api/Directories/Properties' -Method 'GET';
     #>
     [CmdletBinding()]
     Param
@@ -33,8 +33,8 @@ function Invoke-Office365ManagementApi
     
     BEGIN
     {
-        # Get access token for Office 365 Management API.
-        $accessToken = Get-Office365ManagementApiToken;
+        # Get access token for Entra ID IAM API.
+        $accessToken = Get-EntraIdIamApiToken;
 
         # Construct the headers for the request.
         $headers = @{
@@ -65,19 +65,19 @@ function Invoke-Office365ManagementApi
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Message ('Trying to call Office 365 Management API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Message ('Trying to call Entra ID IAM API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Message ('Successfully called Office 365 Management API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Message ('Successfully called Entra ID IAM API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
         }
         # Something went wrong while invoking API.
         catch
         {
             # Throw execption.
-            Write-Log -Category "API" -Message ("Could not call Office 365 Management API, the exception is: '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "API" -Message ("Could not call Entra ID IAM API, the exception is: '{0}'" -f $_) -Level 'Error';
         }
     }
     END
@@ -90,6 +90,6 @@ function Invoke-Office365ManagementApi
         }
 
         # Write to log.
-        Write-Log -Category "API" -Message ('Response from Office 365 Management API is empty') -Level 'Debug';
+        Write-Log -Category "API" -Message ('Response from Entra ID IAM API is empty') -Level 'Debug';
     }
 }
