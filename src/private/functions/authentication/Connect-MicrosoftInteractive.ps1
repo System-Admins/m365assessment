@@ -40,7 +40,8 @@ function Connect-MicrosoftInteractive
             'AuditLog.Read.All',
             'User.Read.All',
             'Policy.Read.All',
-            'Policy.ReadWrite.ConditionalAccess'
+            'Policy.ReadWrite.ConditionalAccess',
+            'Reports.Read.All'
         );
     }
     PROCESS

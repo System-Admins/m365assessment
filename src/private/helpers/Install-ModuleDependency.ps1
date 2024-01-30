@@ -22,7 +22,8 @@ function Install-ModuleDependency
         $modules = @(
             'Az.Accounts',
             'ExchangeOnlineManagement',
-            'Microsoft.Graph'
+            'Microsoft.Graph',
+            'Microsoft.Graph.Beta'
         );
 
         # Write to log.
