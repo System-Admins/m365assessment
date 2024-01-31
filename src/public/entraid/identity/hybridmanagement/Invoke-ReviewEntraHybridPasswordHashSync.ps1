@@ -16,17 +16,26 @@ function Invoke-ReviewEntraHybridPasswordHashSync
 
     BEGIN
     {
-        # Get the B2B policy.
-        $policy = Get-EntraIdB2BPolicy;
+        # Get the hybrid AD connect status.
+        $adConnectStatus = Get-EntraIdHybridAdConnectStatus;
 
+        # Get the hybrid AD connect password sync status.
+        $adConnectPasswordSyncStatus = Get-EntraIdHybridAdConnectPasswordSyncStatus;
+
+        # Boolean for the settings is correct.
+        [bool]$valid = $true;
     }
     PROCESS
     {
-        # If the policy is not a allow list.
-        if ($false -eq $policy.isAllowlist)
+        # If the AD connect is enabled.
+        if ($true -eq $adConnectStatus.dirSyncEnabled)
         {
-            # Set bool.
-            $valid = $false;
+            # If the AD connect password sync is disabled.
+            if ($false -eq $adConnectPasswordSyncStatus)
+            {
+                # Set bool.
+                $valid = $false;
+            }
         }
     }
     END
@@ -35,5 +44,3 @@ function Invoke-ReviewEntraHybridPasswordHashSync
         return $valid;
     }
 }
-
-Invoke-MgGraphRequest -uri "https://graph.microsoft.com/beta/security/secureScores"
