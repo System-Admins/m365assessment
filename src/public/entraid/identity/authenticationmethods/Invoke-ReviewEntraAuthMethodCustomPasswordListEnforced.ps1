@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraAuthMethodEnsureCustomPasswordListEnforced
+function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraAuthMethodEnsureCustomPasswordListEnforced
     .DESCRIPTION
         Return true if enabled, otherwise false.
     .EXAMPLE
-        Invoke-ReviewEntraAuthMethodEnsureCustomPasswordListEnforced;
+        Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced;
     #>
 
     [CmdletBinding()]
