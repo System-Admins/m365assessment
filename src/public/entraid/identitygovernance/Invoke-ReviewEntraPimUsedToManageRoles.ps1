@@ -111,7 +111,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
                 if ($activeAssignment.isPermanent -eq $true)
                 {
                     # Write to log.
-                    Write-Log -Category 'Identity Governance' -Message ("Member '{0}' is permanent for the role '{1}'" -f $activeAssignment.subject.principalName, $pimRbacRole.displayName) -Level Debug;
+                    Write-Log -Category 'Identity Governance' -Message ("Member '{0}' is permanent for the role '{1}', should only be eligible" -f $activeAssignment.subject.principalName, $pimRbacRole.displayName) -Level Debug;
             
                     # Add to the list of incorrectly configured roles.
                     $incorrectlyConfigured += [PSCustomObject]@{
