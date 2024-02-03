@@ -83,10 +83,10 @@ function Invoke-EntraIdAccessReviewApi
     END
     {
         # If the response is not null.
-        if ($null -ne $response.value)
+        if ($null -ne $response)
         {
             # Return the response.
-            return $response.value;
+            return $response;
         }
 
         # Write to log.

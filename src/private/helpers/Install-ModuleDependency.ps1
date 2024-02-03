@@ -23,7 +23,8 @@ function Install-ModuleDependency
             'Az.Accounts',
             'ExchangeOnlineManagement',
             'Microsoft.Graph',
-            'Microsoft.Graph.Beta'
+            'Microsoft.Graph.Beta',
+            'Az.Resources'
         );
 
         # Write to log.
