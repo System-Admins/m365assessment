@@ -107,6 +107,15 @@ function Connect-MicrosoftInteractive
 
         # Connect to Security and Compliance (interactive).
         Connect-IPPSSession -UserPrincipalName $context.Account.Id -ShowBanner:$false;
+
+        # Write to log.
+        Write-Log -Category 'Authentication' -Message ('Connecting to SharePoint') -Level Debug;
+
+        # Get SharePoint URLs.
+        $spoUrls = Get-SpoUrl;
+
+        # Connect to SharePoint Online (interactive).
+        Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl;
     }
     END
     {

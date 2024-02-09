@@ -24,7 +24,8 @@ function Install-ModuleDependency
             'ExchangeOnlineManagement',
             'Microsoft.Graph',
             'Microsoft.Graph.Beta',
-            'Az.Resources'
+            'Az.Resources',
+            'PnP.PowerShell'
         );
 
         # Write to log.
