@@ -121,7 +121,7 @@ function Connect-MicrosoftInteractive
         Write-Log -Category 'Authentication' -Message ('Connecting to Teams') -Level Debug;
 
         # Connect to Teams (interactive).
-        Connect-MicrosoftTeams -AccountId $context.Account.Id | Out-Null;
+        Connect-MicrosoftTeams | Out-Null;
     }
     END
     {
