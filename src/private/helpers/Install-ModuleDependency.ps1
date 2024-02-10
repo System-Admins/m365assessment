@@ -25,7 +25,8 @@ function Install-ModuleDependency
             'Microsoft.Graph',
             'Microsoft.Graph.Beta',
             'Az.Resources',
-            'PnP.PowerShell'
+            'PnP.PowerShell',
+            'MicrosoftTeams'
         );
 
         # Write to log.

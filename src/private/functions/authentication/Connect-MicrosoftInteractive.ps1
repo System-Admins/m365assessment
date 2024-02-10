@@ -116,6 +116,12 @@ function Connect-MicrosoftInteractive
 
         # Connect to SharePoint Online (interactive).
         Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl;
+
+        # Write to log.
+        Write-Log -Category 'Authentication' -Message ('Connecting to Teams') -Level Debug;
+
+        # Connect to Teams (interactive).
+        Connect-MicrosoftTeams -AccountId $context.Account.Id | Out-Null;
     }
     END
     {
