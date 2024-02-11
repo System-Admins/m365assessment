@@ -20,7 +20,7 @@ function Invoke-ReviewExoMailboxAuditEnabled
         $mailboxes = Get-Mailbox -ResultSize Unlimited;
 
         # Object array with mailboxes where auditing is disabled.
-        $mailboxesAuditDisabled = @();
+        $mailboxesAuditDisabled = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

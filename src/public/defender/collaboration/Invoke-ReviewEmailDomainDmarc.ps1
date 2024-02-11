@@ -26,7 +26,7 @@ function Invoke-ReviewEmailDomainDmarc
         $initialDomain = Get-DnsOnmicrosoftDomain;
 
         # Object array to store domain DMARC settings.
-        $dmarcSettings = @();
+        $dmarcSettings = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

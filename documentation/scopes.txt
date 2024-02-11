@@ -7,6 +7,11 @@ Policy.Read.All
 Policy.ReadWrite.ConditionalAccess
 
 # Module
-Microsoft.Graph
+#Microsoft.Graph
+Microsoft.Graph.Authentication
+Microsoft.Graph.Users
+Microsoft.Graph.Identity.SignIns
+Microsoft.Graph.Beta.Identity.DirectoryManagement
 ExchangeOnlineManagement
 Az.Accounts
+Az.Resources

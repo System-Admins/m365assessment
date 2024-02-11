@@ -23,7 +23,7 @@ function Invoke-ReviewSafeAttachmentPolicyEnabled
         $safeAttachmentPolicies = Get-SafeAttachmentPolicy;
 
         # Object array to store policies.
-        $policies = @();
+        $policies = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

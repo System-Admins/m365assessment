@@ -2,9 +2,12 @@ function Get-EntraIdApplicationDirectorySettings
 {
     <#
     .SYNOPSIS
-        Get the directory setting (consent).
+        Get the directory settings.
     .DESCRIPTION
         Returns directory settings as PSCustomObject.
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Beta.Identity.DirectoryManagement
     .EXAMPLE
         Get-EntraIdApplicationDirectorySettings;
     #>
@@ -16,6 +19,9 @@ function Get-EntraIdApplicationDirectorySettings
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Message 'Getting directory settings' -Level Debug;
+
         # Get directory settings.
         $directorySettings = Get-MgBetaDirectorySetting -All;
 

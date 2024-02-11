@@ -23,7 +23,7 @@ function Invoke-ReviewEmailDomainSpf
         $domains = Get-MgDomain -All;
 
         # Object array to store domain SPF settings.
-        $spfSettings = @();
+        $spfSettings = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

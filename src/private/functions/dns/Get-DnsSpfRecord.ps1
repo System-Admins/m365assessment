@@ -28,7 +28,7 @@ function Get-DnsSpfRecord
         $txtRecords = Invoke-DnsRequest -Domain $Domain -Type 'TXT';
 
         # Object array to store SPF records.
-        $spfRecords = @();
+        $spfRecords = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {
@@ -38,6 +38,9 @@ function Get-DnsSpfRecord
             # If the TXT record contains SPF.
             if ($txtRecord.data -like 'v=spf1*')
             {
+                # Write to log.
+                Write-Log -Category "DNS" -Message ("SPF data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Debug;
+
                 # Add to object array.
                 $spfRecords += [PSCustomObject]@{
                     Domain = $Domain;

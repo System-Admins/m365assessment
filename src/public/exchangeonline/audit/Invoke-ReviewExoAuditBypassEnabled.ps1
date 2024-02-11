@@ -20,7 +20,7 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
         $mailboxes = Get-MailboxAuditBypassAssociation -ResultSize unlimited -WarningAction SilentlyContinue;
 
         # Object array with mailboxes where auditing bypass is enabled.
-        $mailboxesAuditBypassEnabled = @();
+        $mailboxesAuditBypassEnabled = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

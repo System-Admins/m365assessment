@@ -31,7 +31,7 @@ function Get-UserLicenses
         $users = Get-MgUser -All -Select Id, UserPrincipalName, DisplayName, AssignedLicenses;
 
         # Download the license translation table from Microsoft.
-        $translationTable = Get-LicenseTranslationTable;
+        $translationTable = Get-MicrosoftLicenseTranslationTable;
     }
     PROCESS
     {

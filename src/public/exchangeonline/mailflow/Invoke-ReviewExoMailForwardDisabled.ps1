@@ -20,13 +20,13 @@ function Invoke-ReviewExoMailForwardDisabled
         $transportRules = Get-TransportRule -ResultSize Unlimited;
 
         # List of transport rules with forward/redirect/blindcopy actions.
-        $transportRulesWithForward = @();
+        $transportRulesWithForward = New-Object System.Collections.ArrayList;
 
         # Get all out-bound anti-spam policies.
         $outboundSpamFilterPolicies = Get-HostedOutboundSpamFilterPolicy;
 
         # List of out-bound anti-spam policies with mail forwarding enabled.
-        $outboundSpamFilterPoliciesWithForward = @();
+        $outboundSpamFilterPoliciesWithForward = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

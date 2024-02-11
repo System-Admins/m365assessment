@@ -28,7 +28,7 @@ function Get-DnsDmarcRecord
         $txtRecords = Invoke-DnsRequest -Domain $Domain -Type 'TXT';
 
         # Object array to store DMARC records.
-        $dmarcRecords = @();
+        $dmarcRecords = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {
@@ -38,6 +38,9 @@ function Get-DnsDmarcRecord
             # If the TXT record contains DMARC.
             if ($txtRecord.data -like 'v=DMARC1*')
             {
+                # Write to log.
+                Write-Log -Category "DNS" -Message ("DMARC data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Debug;
+
                 # Add to object array.
                 $dmarcRecords += [PSCustomObject]@{
                     Domain = $Domain;
@@ -48,7 +51,7 @@ function Get-DnsDmarcRecord
     }
     END
     {
-        # Return SPF records.
+        # Return DMARC records.
         return $dmarcRecords;
     }
 }

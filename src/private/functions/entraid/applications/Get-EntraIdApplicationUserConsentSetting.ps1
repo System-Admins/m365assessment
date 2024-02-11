@@ -1,10 +1,13 @@
-function Get-EntraIdApplicationUserConsentSetting
+function Get-EntraIdApplicationUserConsentSetting -Debug
 {
     <#
     .SYNOPSIS
-        Return the state of the user consent to apps.
+        Return the state of the setting 'user consent to apps'.
     .DESCRIPTION
         Returns either "Do not allow user consent", "Allow user consent for apps from verified publishers, for selected permissions (Recommended)" or "Allow user consent for apps".
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Identity.SignIns
     .EXAMPLE
         Get-EntraIdApplicationUserConsentSetting;
     #>
@@ -16,6 +19,9 @@ function Get-EntraIdApplicationUserConsentSetting
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Message 'Getting user consent setting' -Level Debug;
+
         # Get auth policy.
         $authorizationPolicy = Get-MgPolicyAuthorizationPolicy;
 
@@ -42,6 +48,9 @@ function Get-EntraIdApplicationUserConsentSetting
             # Set the state.
             $setting = 'DoNotAllowUserConsent';
         }
+
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Message ("User consent setting is '{0}'" -f $setting) -Level Debug;
     }
     END
     {

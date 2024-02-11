@@ -23,7 +23,7 @@ function Invoke-ReviewEntraRiskySignInReport
         $body = @{
             riskStates  = @(1, 4);
             riskLevels  = @(2, 1);
-            riskDetails = @();
+            riskDetails = New-Object System.Collections.ArrayList;
             userStatus  = @($false);
             sort        = @{
                 field        = 'riskLastUpdatedDateTime';

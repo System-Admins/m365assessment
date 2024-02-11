@@ -26,7 +26,7 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
         $roles = @('Global Administrator', 'SharePoint Administrator', 'Teams Administrator', 'Security Administrator', 'Exchange Administrator');
 
         # List of missing access reviews.
-        $configuredAccessReviews = @();
+        $configuredAccessReviews = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

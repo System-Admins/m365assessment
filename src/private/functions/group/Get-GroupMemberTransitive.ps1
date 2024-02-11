@@ -5,8 +5,11 @@ function Get-GroupMemberTransitive
         Get members recursively from a group, and only return the users.
     .DESCRIPTION
         Return transitive users from a group.
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Authentication
     .EXAMPLE
-        Get-GroupMemberTransitive;
+        Get-GroupMemberTransitive -Id '<group id>';
     #>
     [CmdletBinding()]
     Param
@@ -28,19 +31,19 @@ function Get-GroupMemberTransitive
         try
         {
             # Write to log.
-            Write-Log -Message ("Trying to get members from group '{0}'" -f $Id) -Level Debug;
+            Write-Log -Category 'Entra ID' -Message ("Trying to get members from group '{0}'" -f $Id) -Level Debug;
 
             # Get members.
             $response = Invoke-MgGraphRequest -Method Get -Uri $uri -OutputType PSObject -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Message ("Successfully got members from group '{0}'" -f $Id) -Level Debug;
+            Write-Log -Category 'Entra ID' -Message ("Successfully got members from group '{0}'" -f $Id) -Level Debug;
         }
         # Something went wrong while getting members from group.
         catch
         {
             # Throw execption.
-            Write-Log -Message ("Something went wrong while getting members from group '{0}', exception is '{1}'" -f $Id, $_) -Level Error;
+            Write-Log -Category 'Entra ID' -Message ("Something went wrong while getting members from group '{0}', exception is '{1}'" -f $Id, $_) -Level Error;
         }
     }
     END

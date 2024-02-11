@@ -155,7 +155,7 @@ function Write-Log
         {
             'Error'
             {
-                Write-Error -Message $logMessage;
+                Write-Error -Message $logMessage -ErrorAction Stop;
             }
             'Warning'
             {

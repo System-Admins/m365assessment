@@ -21,10 +21,11 @@ function Install-ModuleDependency
         # Modules to install.
         $modules = @(
             'Az.Accounts',
-            'ExchangeOnlineManagement',
-            'Microsoft.Graph',
-            'Microsoft.Graph.Beta',
             'Az.Resources',
+            'Microsoft.Graph.Authentication',
+            'Microsoft.Graph.Users',
+            'Microsoft.Graph.Identity.DirectoryManagement',
+            'ExchangeOnlineManagement',
             'PnP.PowerShell',
             'MicrosoftTeams'
         );

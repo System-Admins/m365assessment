@@ -23,7 +23,7 @@ function Invoke-ReviewSafeLinksPolicyOfficeApps
         $safeLinksPolicies = Get-SafeLinksPolicy;
 
         # Object array to store policies.
-        $policies = @();
+        $policies = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {

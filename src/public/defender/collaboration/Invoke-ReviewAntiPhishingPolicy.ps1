@@ -25,7 +25,7 @@ function Invoke-ReviewAntiPhishingPolicy
     PROCESS
     {
         # Object array to store policies.
-        $settings = @();
+        $settings = New-Object System.Collections.ArrayList;
 
         # Foreach anti-phishing e-mail policy.
         foreach ($antiPhishPolicy in $antiPhishPolicies)

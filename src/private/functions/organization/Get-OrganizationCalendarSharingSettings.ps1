@@ -19,6 +19,9 @@ function Get-OrganizationCalendarSharingSettings
     }
     PROCESS
     {
+        # Write to log.
+        Write-Log -Category "Organization" -Message "Getting calendar sharing settings" -Level Debug;
+
         # Invoke the API.
         $response = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';
 
@@ -26,7 +29,7 @@ function Get-OrganizationCalendarSharingSettings
         if ($null -eq $response)
         {
             # Throw execption.
-            Write-Log -Category "Organization" -Message ("Something went wrong getting calendar sharing, execption is '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "Organization" -Message ("Something went wrong getting calendar sharing, execption is '{0}'" -f $_) -Level Error;
         }
     }
     END

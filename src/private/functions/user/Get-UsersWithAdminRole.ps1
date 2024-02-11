@@ -5,8 +5,10 @@ function Get-UsersWithAdminRole
         Get users with admin roles.
     .DESCRIPTION
         Get all users with admin roles and returns object array
+    .NOTES
+        
     .EXAMPLE
-        $usersWithAdminRoles = Get-UsersWithAdminRole;
+        Get-UsersWithAdminRole;
     #>
     [cmdletBinding()]
     param

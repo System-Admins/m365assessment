@@ -1,4 +1,4 @@
-function Get-LicenseTranslationTable
+function Get-MicrosoftLicenseTranslationTable
 {
     <#
     .SYNOPSIS
@@ -7,7 +7,7 @@ function Get-LicenseTranslationTable
         Get service plan license translation file from Microsoft and return it as a object array.
     .EXAMPLE
         # Get license translation file from Microsoft.
-        $licenseTranslation = Get-LicenseTranslationTable;
+        $licenseTranslation = Get-MicrosoftLicenseTranslationTable;
     #>
 
     [cmdletBinding()]
@@ -26,7 +26,7 @@ function Get-LicenseTranslationTable
         try
         {
             # Write to log.
-            Write-Log -Category "License" -Message ("Downloading license translation from '{0}'" -f $translationTableUrl) -Level Debug;
+            Write-Log -Category 'License' -Message ("Downloading license translation from '{0}'" -f $translationTableUrl) -Level Debug;
 
             # Get translation table.
             $translationTableCsv = Invoke-RestMethod -Method Get -Uri $translationTableUrl -ContentType 'application/csv; charset=utf-8' -ErrorAction Stop;
@@ -38,13 +38,13 @@ function Get-LicenseTranslationTable
         catch
         {
             # Throw execption.
-            Write-Log -Category "License" -Message ('Something went wrong while getting license translation. Exception is: {0}' -f $_) -Level Error;
+            Write-Log -Category 'License' -Message ("Something went wrong while getting license translation, exception '{0}'" -f $_) -Level Error;
         }
     }
     END
     {
         # If translation table is not empty.
-        if (! [string]::IsNullOrEmpty($translationTable))
+        if (![string]::IsNullOrEmpty($translationTable))
         {
             # Return the translation table.
             return $translationTable;

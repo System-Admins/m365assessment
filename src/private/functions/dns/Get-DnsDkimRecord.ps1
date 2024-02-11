@@ -9,7 +9,7 @@ function Get-DnsDkimRecord
     .PARAMETER Domain
         Domain to resolve.
     .EXAMPLE
-        # Get SPF record for domain.
+        # Get DKIM record for domain.
         Get-DnsDkimRecord -Domain 'example.com';
     #>
 
@@ -26,7 +26,7 @@ function Get-DnsDkimRecord
     BEGIN
     {
         # Object array to store SPF records.
-        $dkimRecords = @();
+        $dkimRecords = New-Object System.Collections.ArrayList;
 
         # Construct selectors.
         $selector1 = 'selector1._domainkey';
@@ -39,12 +39,16 @@ function Get-DnsDkimRecord
     PROCESS
     {
         # Invoke DNS requests.
-        $dkimRecord1 = Invoke-DnsRequest -Domain $dkimRecord1 -Type 'CNAME' -ErrorAction SilentlyContinue;
-        $dkimRecord2 = Invoke-DnsRequest -Domain $dkimRecord2 -Type 'CNAME' -ErrorAction SilentlyContinue;
+        $dkimRecord1Result = Invoke-DnsRequest -Domain $dkimRecord1 -Type 'CNAME' -ErrorAction SilentlyContinue;
+        $dkimRecord2Result = Invoke-DnsRequest -Domain $dkimRecord2 -Type 'CNAME' -ErrorAction SilentlyContinue;
 
         # Add DKIM records to array.
-        $dkimRecords += $dkimRecord1;
-        $dkimRecords += $dkimRecord2;
+        $dkimRecords += $dkimRecord1Result;
+        $dkimRecords += $dkimRecord2Result;
+
+        # Write to log.
+        Write-Log -Category "DNS" -Message ("DKIM data for '{0}' is '{1}'" -f $dkimRecord1, $dkimRecord1Result.data) -Level Debug;
+        Write-Log -Category "DNS" -Message ("DKIM data for '{0}' is '{1}'" -f $dkimRecord2, $dkimRecord2Result.data) -Level Debug;
     }
     END
     {

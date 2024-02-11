@@ -25,7 +25,7 @@ function Invoke-ReviewAntiSpamNotifyAdmins
     PROCESS
     {
         # Object array to store policies.
-        $settings = @();
+        $settings = New-Object System.Collections.ArrayList;
 
         # Foreach outbound e-mail spam policy.
         foreach ($outboundSpamFilterPolicy in $outboundSpamFilterPolicies)
