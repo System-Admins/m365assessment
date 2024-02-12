@@ -2,8 +2,7 @@
 class Review
 {
     [string]$Id;
-    [string]$Category;
     [string]$Title;
-    [string]$Url;
+    [bool]$Review;
     $Data;
 }

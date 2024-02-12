@@ -1,14 +1,12 @@
-function Invoke-ReviewAdminAccountCloudOnly
+function Invoke-ReviewEntraIdAdminAccountCloudOnly
 {
     <#
     .SYNOPSIS
-        Ensure Administrative accounts are separate and cloud-only.
+        Ensure administrative accounts are separate and cloud-only in Entra ID.
     .DESCRIPTION
-        Ensure administrative accounts are licensed without attached applications and cloud-only.
-        Returns a list of administrative accounts that should be reviewed.
+        Returns review object.
     .EXAMPLE
-        # Ensure administrative accounts are separate and cloud-only.
-        Invoke-ReviewAdminAccountCloudOnly;
+        Invoke-ReviewEntraIdAdminAccountCloudOnly;
     #>
 
     [cmdletbinding()]
@@ -122,6 +120,9 @@ function Invoke-ReviewAdminAccountCloudOnly
                 # Get all licenses.
                 $licenses = ($userLicenses | Where-Object { $_.UserPrincipalName -eq $adminAccount.UserPrincipalName } | Select-Object -ExpandProperty LicenseName -Unique);
 
+                # Write to log.
+                Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ("Admin account '{0}' is not cloud-only or has invalid licenses" -f $adminAccount.UserPrincipalName) -Level Debug;
+
                 # Add to object array.
                 $reviewAdminAccounts += [PSCustomObject]@{
                     Id                = $adminAccount.Id;
@@ -137,11 +138,26 @@ function Invoke-ReviewAdminAccountCloudOnly
     }
     END
     {
-        # If there are admin accounts that should be reviewed.
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+
+        # If review flag should be set.
         if ($reviewAdminAccounts.Count -gt 0)
         {
-            # Return admin accounts that should be reviewed.
-            return $reviewAdminAccounts;
+            # Should be reviewed.
+            $reviewFlag = $true;
         }
+        
+        # Create new review object to return.
+        $review = [Review]::new();
+
+        # Add to object.
+        $review.Id = '289efa41-e17f-43e7-a6b8-9ff8868d3511';
+        $review.Title = 'Ensure Administrative accounts are separate and cloud-only';
+        $review.Data = $reviewAdminAccounts;
+        $review.Review = $reviewFlag;
+
+        # Return object.
+        return $review;
     }
 }

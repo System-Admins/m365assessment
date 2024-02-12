@@ -1,16 +1,16 @@
-function Invoke-ReviewSharedMailboxSignInAllowed
+function Invoke-ReviewEntraIdSharedMailboxSignInAllowed
 {
     <#
     .SYNOPSIS
         Get shared mailboxes and check if sign-in is allowed.
     .DESCRIPTION
-        Return list of mailboxes that are allowed to sign-in.
+        Return review object.
     .NOTES
         Requires the following modules:
         - ExchangeOnlineManagement
         - Microsoft.Graph.Users
     .EXAMPLE
-        Invoke-ReviewSharedMailboxSignInAllowed;
+        Invoke-ReviewEntraIdSharedMailboxSignInAllowed;
     #>
     [cmdletbinding()]
     param
@@ -109,17 +109,32 @@ function Invoke-ReviewSharedMailboxSignInAllowed
                 };
             }
         }
+
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Level Debug;
     }
     END
     {
-        # If there are shared mailboxes to review.
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If there is any accounts.
         if ($reviewSharedMailbox.Count -gt 0)
         {
-            # Write to log.
-            Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Level Debug;
-
-            # Return shared mailboxes to review.
-            return $reviewSharedMailbox;
+            # Should be reviewed.
+            $reviewFlag = $true;
         }
+                               
+        # Create new review object to return.
+        $review = [Review]::new();
+                       
+        # Add to object.
+        $review.Id = 'dc6727fe-333d-46ad-9ad6-f9b0ae23d03b';
+        $review.Title = 'Ensure sign-in to shared mailboxes is blocked';
+        $review.Data = $reviewSharedMailbox;
+        $review.Review = $reviewFlag;
+                       
+        # Return object.
+        return $review;
     }
 }

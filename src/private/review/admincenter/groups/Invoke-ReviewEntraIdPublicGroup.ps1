@@ -1,12 +1,15 @@
-function Invoke-ReviewPublicGroup
+function Invoke-ReviewEntraIdPublicGroup
 {
     <#
     .SYNOPSIS
         Get all Microsoft 365 groups with public visibility.
     .DESCRIPTION
-        Get all Microsoft 365 groups with public visibility and return object array.
+        Returns review object.
+     .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Groups
     .EXAMPLE
-        Invoke-ReviewPublicGroup;
+        Invoke-ReviewEntraIdPublicGroup;
     #>
 
     [cmdletbinding()]
@@ -33,6 +36,9 @@ function Invoke-ReviewPublicGroup
                 continue;
             }
 
+            # Write to log.
+            Write-Log -Category 'Entra ID' -Subcategory 'Group' -Message ("Public group '{0}' have public visibility" -f $group.DisplayName);
+
             # Add group to public visibility groups.
             $publicVisibilityGroups += [PSCustomObject]@{
                 Id              = $group.Id;
@@ -46,7 +52,26 @@ function Invoke-ReviewPublicGroup
     }
     END
     {
-        # Return groups with public visibility.
-        return $publicVisibilityGroups;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($publicVisibilityGroups.Count -gt 0)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                       
+        # Create new review object to return.
+        $review = [Review]::new();
+               
+        # Add to object.
+        $review.Id = '90295b64-2528-4c22-aa96-a606633bc705';
+        $review.Title = 'Ensure that only organizationally managed/approved public groups exist';
+        $review.Data = $publicVisibilityGroups;
+        $review.Review = $reviewFlag;
+               
+        # Return object.
+        return $review;
     }
 }

@@ -1,12 +1,12 @@
-function Invoke-ReviewGuestUsers
+function Invoke-ReviewEntraIdGuestUsers
 {
     <#
     .SYNOPSIS
-        Get guests for review.
+        Review guest users in Entra ID.
     .DESCRIPTION
-        Retrieves all guest accounts for review.
+        Returns review object.
     .EXAMPLE
-        Invoke-ReviewGuestUsers;
+        Invoke-ReviewEntraIdGuestUsers;
     #>
 
     [cmdletbinding()]
@@ -33,6 +33,9 @@ function Invoke-ReviewGuestUsers
             # Get all roles for the guest account.
             $roles = ($usersWithAdminRole | Where-Object { $_.UserPrincipalName -eq $guestUser.UserPrincipalName }).RoleDisplayName;
 
+            # Write to log.
+            Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ("Found guest user '{0}'" -f $guestUser.UserPrincipalName) -Level Debug;
+
             # Add to object array.
             $reviewAccounts += [PSCustomObject]@{
                 Id                = $guestUser.Id;
@@ -49,7 +52,26 @@ function Invoke-ReviewGuestUsers
     }
     END
     {
-        # Return guest accounts to review.
-        return $reviewAccounts;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($reviewAccounts.Count -gt 0)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                
+        # Create new review object to return.
+        $review = [Review]::new();
+        
+        # Add to object.
+        $review.Id = '7fe4d30e-42bd-44d4-8066-0b732dcbda4c';
+        $review.Title = 'Ensure Guest Users are reviewed';
+        $review.Data = $reviewAccounts;
+        $review.Review = $reviewFlag;
+        
+        # Return object.
+        return $review;
     }
 }

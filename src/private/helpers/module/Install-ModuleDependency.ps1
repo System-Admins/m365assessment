@@ -91,7 +91,6 @@ function Install-ModuleDependency
                 {
                     # Write to log.
                     Write-Log -Category 'Module' -Subcategory $module -Message ('Trying to install PowerShell module') -Level Debug;
-                    Write-Log -Category 'Module' -Subcategory $module -Message ('Installing PowerShell module') -Level Information;
 
                     # Install module.
                     Install-Module -Name $module -Force -Scope CurrentUser -AcceptLicense -SkipPublisherCheck -Confirm:$false -ErrorAction Stop -WarningAction SilentlyContinue | Out-Null;

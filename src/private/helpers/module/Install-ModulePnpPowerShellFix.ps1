@@ -19,7 +19,6 @@ function Install-ModulePnpPowerShellFix
     {
         # Write to log.
         Write-Log -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Removing modules "Microsoft.Graph.Authentication" and "PnP.PowerShell" from current session' -Level Debug;
-        Write-Log -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Implementing fix for "https://github.com/pnp/powershell/issues/3637"' -Level Information;
 
         # Remove modules from current session.
         Remove-Module -Name Microsoft.Graph.Authentication -Force;

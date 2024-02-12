@@ -33,7 +33,7 @@ function Connect-Tenant
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Login' -Message ('Starting login process to Microsoft') -Level Information;
+        Write-Log -Category 'Login' -Message ('Starting login process to Microsoft') -Level Debug;
 
         # Microsoft Graph scopes.
         $mgScopes = @(
@@ -52,33 +52,33 @@ function Connect-Tenant
         if ($true -eq $Disconnect)
         {
             # Disconnect from Microsoft Graph.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Disconnecting from Microsoft Graph') -Level Information;
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Disconnecting from Microsoft Graph') -Level Debug;
             Disconnect-MgGraph -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
 
             # Disconnect from Exchange Online.
-            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Disconnecting from Exchange Online') -Level Information;
+            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Disconnecting from Exchange Online') -Level Debug;
             Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -Confirm:$false | Out-Null;
 
             # Disconnect from Azure.
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Disconnecting from Azure') -Level Information;
+            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Disconnecting from Azure') -Level Debug;
             Disconnect-AzAccount -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
 
             # Disconnect from Microsoft Teams.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Disconnecting from Microsoft Teams') -Level Information;
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Disconnecting from Microsoft Teams') -Level Debug;
             Disconnect-MicrosoftTeams -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
 
             # Try to disconnect SharePoint.
             try
             {   
                 # Disconnect from SharePoint Online.
-                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Disconnecting from SharePoint Online') -Level Information;
+                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Disconnecting from SharePoint Online') -Level Debug;
                 Disconnect-PnPOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
             }
             # Something went wrong.
             catch
             {
                 # Throw warning.
-                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Something went wrong while disconnecting from SharePoint Online, execption is '{0}'" -f $_) -Level Warning;
+                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Something went wrong while disconnecting from SharePoint Online, execption is '{0}'" -f $_) -Level Debug;
             }
         }
 
@@ -228,6 +228,6 @@ function Connect-Tenant
     END
     {
         # Write to log.
-        Write-Log -Category 'Login' -Message ('Completed login process to Microsoft') -Level Information;
+        Write-Log -Category 'Login' -Message ('Completed login process to Microsoft') -Level Debug;
     }
 }

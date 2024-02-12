@@ -19,6 +19,9 @@ function Get-TenantIdleSessionTimeout
         # Store all idle session policies.
         $idleSessionPolicies = New-Object System.Collections.ArrayList;
 
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Subcategory 'Policy' -Message 'Getting all activity based timeout policies' -Level Debug;
+
         # Get idle session timeout policy.
         $activityBasedTimeoutPolicies = Get-MgPolicyActivityBasedTimeoutPolicy -All;
     }
@@ -28,15 +31,7 @@ function Get-TenantIdleSessionTimeout
         if ($null -eq $activityBasedTimeoutPolicies)
         {
             # Write to log.
-            Write-Log -Category "Policy" -Message 'No activity based timeout policies found' -Level Debug;
-
-            # Add to array.
-            $idleSessionPolicies += [PSCustomObject]@{
-                Id                    = "";
-                DisplayName           = "Not Configured";
-                IsOrganizationDefault = $true;
-                IdleTimeoutInMinutes  = [int]::MaxValue;
-            };
+            Write-Log -Category 'Entra ID' -Subcategory 'Policy' -Message 'No activity based timeout policies found' -Level Debug;
         }
         # Else if there is one ore more policies.
         else
@@ -44,6 +39,9 @@ function Get-TenantIdleSessionTimeout
             # Foreach policy.
             foreach ($activityBasedTimeoutPolicy in $activityBasedTimeoutPolicies)
             {
+                # Review the policy.
+                [bool]$reviewFlag = $true;
+
                 # Get application policies.
                 $applicationPolicies = ($activityBasedTimeoutPolicy.Definition | ConvertFrom-Json).ActivityBasedTimeoutPolicy.ApplicationPolicies;
 
@@ -51,14 +49,7 @@ function Get-TenantIdleSessionTimeout
                 [timespan]$totalMinutes = $applicationPolicies.WebSessionIdleTimeout;
 
                 # Write to log.
-                Write-Log -Category "Policy" -Message ("Found idle session policy '{0}' with timeout {1} minutes" -f $activityBasedTimeoutPolicy.DisplayName, $totalMinutes.TotalMinutes) -Level Debug;
-
-                # If the total minutes is higher than 180 minutes (3 hours).
-                if ($totalMinutes.TotalMinutes -le 180)
-                {
-                    # Skip.
-                    continue;
-                }
+                Write-Log -Category 'Policy' -Message ("Found idle session policy '{0}' with timeout {1} minutes" -f $activityBasedTimeoutPolicy.DisplayName, $totalMinutes.TotalMinutes) -Level Debug;
             
                 # Add to array.
                 $idleSessionPolicies += [PSCustomObject]@{

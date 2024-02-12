@@ -2,11 +2,11 @@ function Get-TenantOfficeFormSetting
 {
     <#
     .SYNOPSIS
-        Get the organization Microsoft Forms settings.
+        Get the Microsoft Forms tenant settings.
     .DESCRIPTION
-        Return the settings of the organization Microsoft Forms settings.
+        Return the settings of the tenant Microsoft Forms settings.
     .EXAMPLE
-        Get-MicrosoftFormsSettings;
+        Get-TenantOfficeFormSetting;
     #>
     [cmdletbinding()]
     param
@@ -19,19 +19,22 @@ function Get-TenantOfficeFormSetting
     }
     PROCESS
     {
+        # Write to log.
+        Write-Log -Category "Microsoft Forms" -Subcategory 'Settings' -Message ("Getting Microsoft Forms tenant settings") -Level Debug;
+
         # Invoke the API.
-        $response = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';
+        $settings = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';
 
         # If the response is null.
-        if ($null -eq $response)
+        if ($null -eq $settings)
         {
             # Throw execption.
-            Write-Log -Category "Organization" -Message ("Something went wrong getting organization Microsoft Form settings, execption is '{0}'" -f $_) -Level Error;
+            Write-Log -Category "Microsoft Forms" -Subcategory 'Settings' -Message ("Something went wrong getting organization Microsoft Form settings, execption is '{0}'" -f $_) -Level Error;
         }
     }
     END
     {
-        # Return the value.
-        return $response;
+        # Return settings.
+        return $settings;
     }
 }
