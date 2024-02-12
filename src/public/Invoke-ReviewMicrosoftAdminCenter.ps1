@@ -1,6 +1,9 @@
 # Object array storing all the reviews.
 $reviews = New-Object System.Collections.ArrayList;
 
+$Category = 'Microsoft 365 Admin Center';
+$documentationUrl = 'https://someurl.com/';
+
 ######################################
 
 # Ensure Administrative accounts are separate and cloud-only.
@@ -17,9 +20,9 @@ if ($null -ne $reviewAdminAccountCloudOnly)
 
     # Add to object.
     $review.Id = '289efa41-e17f-43e7-a6b8-9ff8868d3511';
-    $review.Category = 'Microsoft 365 Admin Center'
+    $review.Category = $Category;
     $review.Title = 'Ensure Administrative accounts are separate and cloud-only';
-    $review.Url = ('https://someurl.com/{0}' -f $review.Id);
+    $review.Url = ('{0}{1}' -f $documentationUrl, $review.Id);
     $review.Data = $reviewAdminAccountCloudOnly;
 
     # Add to object array.
@@ -42,9 +45,9 @@ if ($false -eq $reviewNumberOfGlobalAdmins.Valid)
 
     # Add to object.
     $review.Id = 'f2f56ef5-5957-46b7-a555-5f5404e367f2';
-    $review.Category = 'Microsoft 365 Admin Center'
+    $review.Category = $Category;
     $review.Title = 'Ensure that between two and four global admins are designated';
-    $review.Url = ('https://someurl.com/{0}' -f $review.Id);
+    $review.Url = ('{0}{1}' -f $documentationUrl, $review.Id);
     $review.Data = $reviewNumberOfGlobalAdmins;
 
     # Add to object array.
@@ -67,9 +70,9 @@ if ($null -ne $reviewGuestUsers)
 
     # Add to object.
     $review.Id = 'a2032723-e080-4948-a829-513ac2e085c8';
-    $review.Category = 'Microsoft 365 Admin Center'
+    $review.Category = $Category;
     $review.Title = 'Ensure Guest Users are reviewed';
-    $review.Url = ('https://someurl.com/{0}' -f $review.Id);
+    $review.Url = ('{0}{1}' -f $documentationUrl, $review.Id);
     $review.Data = $reviewGuestUsers;
 
     # Add to object array.
@@ -92,9 +95,9 @@ if ($null -ne $reviewPublicGroup)
 
     # Add to object.
     $review.Id = 'ce8b25cf-2daa-45dc-aaeb-e381b3970594';
-    $review.Category = 'Microsoft 365 Admin Center'
+    $review.Category = $Category;
     $review.Title = 'Ensure that only organizationally managed/approved public groups exist';
-    $review.Url = ('https://someurl.com/{0}' -f $review.Id);
+    $review.Url = ('{0}{1}' -f $documentationUrl, $review.Id);
     $review.Data = $reviewPublicGroup;
 
     # Add to object array.
@@ -117,9 +120,9 @@ if ($null -ne $reviewSharedMailboxSignInAllowed)
 
     # Add to object.
     $review.Id = '01b48032-3e2e-4361-a976-6915b7e0df73';
-    $review.Category = 'Microsoft 365 Admin Center'
+    $review.Category = $Category;
     $review.Title = 'Ensure sign-in to shared mailboxes is blocked';
-    $review.Url = ('https://someurl.com/{0}' -f $review.Id);
+    $review.Url = ('{0}{1}' -f $documentationUrl, $review.Id);
     $review.Data = $reviewSharedMailboxSignInAllowed;
 
     # Add to object array.
