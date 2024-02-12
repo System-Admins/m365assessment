@@ -86,7 +86,7 @@ function Connect-Tenant
         try
         {
             # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Please provide your credentials for Microsoft Graph in the web browser') -Level Information;
 
             # Launch interactive login.

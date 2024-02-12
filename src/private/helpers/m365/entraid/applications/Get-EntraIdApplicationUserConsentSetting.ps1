@@ -1,4 +1,4 @@
-function Get-EntraIdApplicationUserConsentSetting -Debug
+function Get-EntraIdApplicationUserConsentSetting
 {
     <#
     .SYNOPSIS
