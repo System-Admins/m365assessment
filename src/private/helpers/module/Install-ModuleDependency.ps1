@@ -4,7 +4,7 @@ function Install-ModuleDependency
     .SYNOPSIS
         Install PowerShell required modules.
     .DESCRIPTION
-        Install many of the PowerShell modules from Microsoft and other vendors.
+        Install PowerShell modules from Microsoft required to run the project.
     .EXAMPLE
         Install-ModuleDependency
     #>
@@ -18,6 +18,9 @@ function Install-ModuleDependency
     
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Module' -Message ('Installing all PowerShell modules required to run the project, this might take a few moments') -Level Information;
+                
         # Modules to install.
         $modules = @(
             'Az.Accounts',
@@ -31,7 +34,7 @@ function Install-ModuleDependency
         );
 
         # Write to log.
-        Write-Log -Category "Module" -Message ('Getting all PowerShell modules installed') -Level Debug;
+        Write-Log -Category 'Module' -Message ('Getting all PowerShell modules installed') -Level Debug;
 
         # If we should reinstall the modules.
         if ($true -eq $Reinstall)
@@ -43,7 +46,7 @@ function Install-ModuleDependency
                 try
                 {
                     # Write to log.
-                    Write-Log -Category "Module" -Message ('Uninstalling PowerShell module "{0}"' -f $module) -Level Debug;
+                    Write-Log -Category 'Module' -Subcategory $module -Message ('Uninstalling PowerShell module') -Level Debug;
 
                     # Remove module from session.
                     Remove-Module -Name $module -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
@@ -55,7 +58,7 @@ function Install-ModuleDependency
                 catch
                 {
                     # Write warning.
-                    Write-Log -Category "Module" -Message ('Something went wrong uninstalling PowerShell module "{0}"' -f $module) -Level Warning;
+                    Write-Log -Category 'Module' -Subcategory $module -Message ('Something went wrong uninstalling PowerShell module') -Level Warning;
                 }
             }
         }
@@ -92,26 +95,26 @@ function Install-ModuleDependency
                 try
                 {
                     # Write to log.
-                    Write-Log -Category "Module" -Message ('Trying to install PowerShell module "{0}"' -f $module) -Level Debug;
+                    Write-Log -Category 'Module' -Subcategory $module -Message ('Trying to install PowerShell module') -Level Debug;
 
                     # Install module.
                     Install-Module -Name $module -Force -Scope CurrentUser -AcceptLicense -SkipPublisherCheck -Confirm:$false -ErrorAction Stop -WarningAction SilentlyContinue | Out-Null;
 
                     # Write to log.
-                    Write-Log -Category "Module" -Message ('Succesfully installed PowerShell module "{0}"' -f $module) -Level Debug;
+                    Write-Log -Category 'Module' -Subcategory $module -Message ('Succesfully installed PowerShell module') -Level Debug;
                 }
                 # Something went wrong installing the module
                 catch
                 {
                     # Throw execption.
-                    Write-Log -Category "Module" -Message ("Something went wrong while installing PowerShell module '{0}', excepction is: {1}" -f $module, $_) -Level Error;
+                    Write-Log -Category 'Module' -Subcategory $module -Message ("Something went wrong while installing PowerShell module, excepction is '{0}'" -f $_) -Level Error;
                 }
             }
             # Module is installed.
             else
             {
                 # Write to log.
-                Write-Log -Category "Module" -Message ('PowerShell module "{0}" is already installed' -f $module) -Level Debug;
+                Write-Log -Category 'Module' -Subcategory $module -Message ('PowerShell module is already installed') -Level Debug;
             }
         }
     }
@@ -124,7 +127,7 @@ function Install-ModuleDependency
             try
             {
                 # Write to log.
-                Write-Log -Category "Module" -Message ("Importing PowerShell module '{0}'" -f $module) -Level Debug;
+                Write-Log -Category 'Module' -Subcategory $module -Message ('Importing PowerShell module') -Level Debug;
 
                 # Import the module.
                 Import-Module -Name $module -DisableNameChecking -Force -ErrorAction Stop -WarningAction SilentlyContinue | Out-Null;
@@ -133,7 +136,7 @@ function Install-ModuleDependency
             catch
             {
                 # Throw execption.
-                Write-Log -Category "Module" -Message ("Something went wrong while importing PowerShell module '{0}', excepction is: {1}" -f $module, $_) -Level Error;
+                Write-Log -Category 'Module' -Subcategory $module -Message ("Something went wrong while importing PowerShell module, excepction is '{0}'" -f $_) -Level Error;
             }
         }
     }

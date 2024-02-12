@@ -51,34 +51,34 @@ function Connect-Tenant
         # If we should disconnect.
         if ($true -eq $Disconnect)
         {
-            # Try to disconnect from all services.
+            # Disconnect from Microsoft Graph.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Disconnecting from Microsoft Graph') -Level Information;
+            Disconnect-MgGraph -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+
+            # Disconnect from Exchange Online.
+            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Disconnecting from Exchange Online') -Level Information;
+            Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -Confirm:$false | Out-Null;
+
+            # Disconnect from Azure.
+            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Disconnecting from Azure') -Level Information;
+            Disconnect-AzAccount -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+
+            # Disconnect from Microsoft Teams.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Disconnecting from Microsoft Teams') -Level Information;
+            Disconnect-MicrosoftTeams -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+
+            # Try to disconnect SharePoint.
             try
-            {            
-                # Disconnect from Microsoft Graph.
-                Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Disconnecting from Microsoft Graph') -Level Information;
-                Disconnect-MgGraph -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
-
-                # Disconnect from Exchange Online.
-                Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Disconnecting from Exchange Online') -Level Information;
-                Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -Confirm:$false | Out-Null;
-
-                # Disconnect from Azure.
-                Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Disconnecting from Azure') -Level Information;
-                Disconnect-AzAccount -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
-
+            {   
                 # Disconnect from SharePoint Online.
                 Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Disconnecting from SharePoint Online') -Level Information;
                 Disconnect-PnPOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
-
-                # Disconnect from Microsoft Teams.
-                Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Disconnecting from Microsoft Teams') -Level Information;
-                Disconnect-MicrosoftTeams -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null
             }
             # Something went wrong.
             catch
             {
                 # Throw warning.
-                Write-Log -Category 'Login' -Message ("Something went wrong while disconnecting from Microsoft services, execption is '{0}'" -f $_) -Level Warning;
+                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Something went wrong while disconnecting from SharePoint Online, execption is '{0}'" -f $_) -Level Warning;
             }
         }
 
@@ -142,6 +142,26 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Could not get Azure context') -Level Error;
         }
 
+        # Try to connect to Microsoft Teams.
+        try
+        {
+            # Write to log.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Debug;
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Please provide your credentials for Teams in the web browser') -Level Information;
+
+            # Launch interactive login.
+            Connect-MicrosoftTeams -ErrorAction Stop | Out-Null;
+
+            # Throw execption.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
+        }
+        # Something went wrong.
+        catch
+        {
+            # Throw excpetion.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ("Could not connect to Teams, execption is '{0}'" -f $_) -Level Error;
+        }
+
         # Try to connect to Exchange Online.
         try
         {
@@ -190,7 +210,7 @@ function Connect-Tenant
         {
             # Write to log.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Trying to connect to SharePoint') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Please provide your credentials for SharePoint in the web browser') -Level Information;
+            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Please provide your credentials for SharePoint in the web browser or webview prompt') -Level Information;
 
             # Launch interactive login.
             Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -ErrorAction Stop | Out-Null;
@@ -203,26 +223,6 @@ function Connect-Tenant
         {
             # Throw excpetion.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Could not connect to SharePoint, execption is '{0}'" -f $_) -Level Error;
-        }
-
-        # Try to connect to Teams.
-        try
-        {
-            # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Please provide your credentials for Teams in the web browser') -Level Information;
-
-            # Launch interactive login.
-            Connect-MicrosoftTeams -AccountId $azContext.Account.Id -ErrorAction Stop | Out-Null;
-
-            # Throw execption.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
-        }
-        # Something went wrong.
-        catch
-        {
-            # Throw excpetion.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ("Could not connect to Teams, execption is '{0}'" -f $_) -Level Error;
         }
     }
     END
