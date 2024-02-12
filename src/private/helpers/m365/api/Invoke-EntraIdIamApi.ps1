@@ -65,19 +65,19 @@ function Invoke-EntraIdIamApi
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Message ('Trying to call Entra ID IAM API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Trying to call IAM API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Message ('Successfully called Entra ID IAM API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Successfully called IAM API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
         }
         # Something went wrong while invoking API.
         catch
         {
             # Throw execption.
-            Write-Log -Category "API" -Message ("Could not call Entra ID IAM API, the exception is: '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ("Could not call IAM API, the exception is '{0}'" -f $_) -Level Error;
         }
     }
     END
@@ -90,6 +90,6 @@ function Invoke-EntraIdIamApi
         }
 
         # Write to log.
-        Write-Log -Category "API" -Message ('Response from Entra ID IAM API is empty') -Level 'Debug';
+        Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Response from IAM API is empty') -Level Debug;
     }
 }

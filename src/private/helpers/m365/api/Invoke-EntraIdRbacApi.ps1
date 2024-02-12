@@ -6,6 +6,9 @@ function Invoke-EntraIdRbacApi
     .DESCRIPTION
         Used to call the Entra ID RBAC API.
         Currently this use undocumented APIs from Microsoft.
+    .NOTES
+        Requires the following modules:
+        - Az.Accounts
     .PARAMETER Uri
         URI to the API.
     .PARAMETER Method
@@ -64,19 +67,19 @@ function Invoke-EntraIdRbacApi
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Message ('Trying to call Entra ID RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Trying to call RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Message ('Successfully called Entra ID RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Successfully called RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
         }
         # Something went wrong while invoking API.
         catch
         {
             # Throw execption.
-            Write-Log -Category "API" -Message ("Could not call Entra ID RBAC API, the exception is: '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ("Could not call RBAC API, the exception is '{0}'" -f $_) -Level Error;
         }
     }
     END
@@ -89,6 +92,6 @@ function Invoke-EntraIdRbacApi
         }
 
         # Write to log.
-        Write-Log -Category "API" -Message ('Response from Entra ID RBAC API is empty') -Level 'Debug';
+        Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Response from RBAC API is empty') -Level Debug;
     }
 }

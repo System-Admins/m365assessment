@@ -65,19 +65,19 @@ function Invoke-Office365ManagementApi
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Message ('Trying to call Office 365 Management API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Office 365 Management'  -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Message ('Successfully called Office 365 Management API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Office 365 Management' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
         }
         # Something went wrong while invoking API.
         catch
         {
             # Throw execption.
-            Write-Log -Category "API" -Message ("Could not call Office 365 Management API, the exception is: '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "API" -Subcategory 'Office 365 Management' -Message ("Could not call API, the exception is '{0}'" -f $_) -Level Error;
         }
     }
     END
@@ -90,6 +90,6 @@ function Invoke-Office365ManagementApi
         }
 
         # Write to log.
-        Write-Log -Category "API" -Message ('Response from Office 365 Management API is empty') -Level 'Debug';
+        Write-Log -Category "API" -Subcategory 'Office 365 Management' -Message ('Response from API is empty') -Level Debug;
     }
 }

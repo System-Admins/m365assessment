@@ -39,7 +39,7 @@ function Get-DnsDmarcRecord
             if ($txtRecord.data -like 'v=DMARC1*')
             {
                 # Write to log.
-                Write-Log -Category "DNS" -Message ("DMARC data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Debug;
+                Write-Log -Category "DNS" -Subcategory 'DMARC' -Message ("DMARC data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Debug;
 
                 # Add to object array.
                 $dmarcRecords += [PSCustomObject]@{

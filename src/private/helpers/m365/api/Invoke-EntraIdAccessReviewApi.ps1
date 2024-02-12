@@ -6,6 +6,9 @@ function Invoke-EntraIdAccessReviewApi
     .DESCRIPTION
         Used to call the Entra ID Access Review API.
         Currently this use undocumented APIs from Microsoft.
+    .NOTES
+        Requires the following modules:
+        - Az.Accounts
     .PARAMETER Uri
         URI to the API.
     .PARAMETER Method
@@ -65,19 +68,19 @@ function Invoke-EntraIdAccessReviewApi
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Message ('Trying to call Entra ID Access Review API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Trying to call access review API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Message ('Successfully called Entra ID Access Review API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Successfully called access review API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
         }
         # Something went wrong while invoking API.
         catch
         {
             # Throw execption.
-            Write-Log -Category "API" -Message ("Could not call Entra ID Access Review API, the exception is: '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ("Could not call access review API, the exception is '{0}'" -f $_) -Level Error;
         }
     }
     END
@@ -90,6 +93,6 @@ function Invoke-EntraIdAccessReviewApi
         }
 
         # Write to log.
-        Write-Log -Category "API" -Message ('Response from Entra ID Access Review API is empty') -Level 'Debug';
+        Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Response from access review API is empty') -Level Debug;
     }
 }

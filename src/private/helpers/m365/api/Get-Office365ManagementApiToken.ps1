@@ -30,11 +30,11 @@ function Get-Office365ManagementApiToken
         if ($null -eq $azContext)
         {
             # Throw execption.
-            Write-Log -Category 'Authentication' -Message 'Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet' -Level Error;
+            Write-Log -Category 'API' -Subcategory 'Office 365 Management' -Message 'Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet' -Level Error;
         }
 
         # Write to log.
-        Write-Log -Category 'Authentication' -Message ('Getting access token for Office 365 Management API') -Level Debug;
+        Write-Log -Category 'API' -Subcategory 'Office 365 Management' -Message ('Getting access token') -Level Debug;
 
         # Construct (JTW) access token.
         $jwtToken = [Microsoft.Azure.Commands.Common.Authentication.AzureSession]::Instance.AuthenticationFactory.Authenticate(
@@ -51,7 +51,7 @@ function Get-Office365ManagementApiToken
         if ($null -eq $jwtToken.AccessToken)
         {
             # Throw execption.
-            Write-Log -Category 'Authentication' -Message ('Something went wrong getting access token for Office 365 Management API') -Level Error;
+            Write-Log -Category 'API' -Subcategory 'Office 365 Management' -Message ('Something went wrong getting access token') -Level Error;
         }
 
         # Save the token.

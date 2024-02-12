@@ -47,8 +47,8 @@ function Get-DnsDkimRecord
         $dkimRecords += $dkimRecord2Result;
 
         # Write to log.
-        Write-Log -Category "DNS" -Message ("DKIM data for '{0}' is '{1}'" -f $dkimRecord1, $dkimRecord1Result.data) -Level Debug;
-        Write-Log -Category "DNS" -Message ("DKIM data for '{0}' is '{1}'" -f $dkimRecord2, $dkimRecord2Result.data) -Level Debug;
+        Write-Log -Category "DNS" -Subcategory 'DKIM' -Message ("DKIM data for '{0}' is '{1}'" -f $dkimRecord1, $dkimRecord1Result.data) -Level Debug;
+        Write-Log -Category "DNS" -Subcategory 'DKIM' -Message ("DKIM data for '{0}' is '{1}'" -f $dkimRecord2, $dkimRecord2Result.data) -Level Debug;
     }
     END
     {

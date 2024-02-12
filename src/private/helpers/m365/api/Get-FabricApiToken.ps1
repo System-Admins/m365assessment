@@ -26,7 +26,7 @@ function Get-FabricApiToken
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Authentication' -Message ('Getting access token for Microsoft Fabric API') -Level Debug;
+        Write-Log -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Getting access token') -Level Debug;
 
         # Get Azure token for Microsoft Fabric.
         $azToken = Get-AzAccessToken -ResourceUrl $uri;
@@ -35,7 +35,7 @@ function Get-FabricApiToken
         if ($null -eq $azToken.Token)
         {
             # Throw execption.
-            Write-Log -Category 'Authentication' -Message ('Something went wrong getting access token for Microsoft Fabric API') -Level Error;
+            Write-Log -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Something went wrong getting the access token') -Level Error;
         }
 
         # Save the token.

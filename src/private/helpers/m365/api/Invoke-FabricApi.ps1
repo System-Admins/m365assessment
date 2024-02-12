@@ -61,19 +61,19 @@ function Invoke-FabricApi
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Message ('Trying to call Microsoft Fabric API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Message ('Successfully called Microsoft Fabric API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
         }
         # Something went wrong while invoking API.
         catch
         {
             # Throw execption.
-            Write-Log -Category "API" -Message ("Could not call Microsoft Fabric API, the exception is: '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ("Could not call API, the exception is '{0}'" -f $_) -Level Error;
         }
     }
     END
@@ -86,6 +86,6 @@ function Invoke-FabricApi
         }
 
         # Write to log.
-        Write-Log -Category "API" -Message ('Response from Microsoft Fabric API is empty') -Level 'Debug';
+        Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ('Response from API is empty') -Level Debug;
     }
 }

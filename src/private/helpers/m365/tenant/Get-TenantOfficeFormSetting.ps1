@@ -26,7 +26,7 @@ function Get-TenantOfficeFormSetting
         if ($null -eq $response)
         {
             # Throw execption.
-            Write-Log -Category "Organization" -Message ("Something went wrong getting organization Microsoft Form settings, execption is '{0}'" -f $_) -Level 'Error';
+            Write-Log -Category "Organization" -Message ("Something went wrong getting organization Microsoft Form settings, execption is '{0}'" -f $_) -Level Error;
         }
     }
     END

@@ -35,7 +35,7 @@ function Invoke-DnsRequest
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'DNS' -Message ("Resolving record of type '{0}' for domain '{1}'" -f $Type, $Domain) -Level Debug;
+        Write-Log -Category 'DNS' -Subcategory $Type -Message ("Resolving record of type '{0}' for domain '{1}'" -f $Type, $Domain) -Level Debug;
 
         # Base URL to query.
         $baseUrl = 'https://dns.google.com/resolve';
@@ -52,7 +52,7 @@ function Invoke-DnsRequest
         try
         {
             # Write to log.
-            Write-Log -Category 'DNS' -Message ("Calling API endpoint '{0}'" -f $uri) -Level Debug;
+            Write-Log -Category 'DNS' -Subcategory $Type -Message ("Calling API endpoint '{0}'" -f $uri) -Level Debug;
 
             # Invoke the request.
             $response = Invoke-RestMethod -Method Get -Uri $uri -ErrorAction Stop;
@@ -60,17 +60,17 @@ function Invoke-DnsRequest
             if ($response.Status -ne 0)
             {
                 # Throw execption.
-                Write-Log -Category 'DNS' -Message ("DNS lookup failed for '{0}', execption is '{1}'" -f $domain, $_) -Level Error;
+                Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup failed for '{0}', execption is '{1}'" -f $domain, $_) -Level Error;
             }
 
             # Write to log.
-            Write-Log -Category 'DNS' -Message ("DNS lookup succeeded for '{0}'" -f $domain) -Level Debug;
+            Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup succeeded for '{0}'" -f $domain) -Level Debug;
         }
         # Something went wrong invoking the DNS request.
         catch
         {
             # Throw execption.
-            Write-Log -Category 'DNS' -Message ("Something went wrong while invoking DNS request for '{0}', execption is '{1}'" -f $domain, $_) -Level Error;
+            Write-Log -Category 'DNS' -Subcategory $Type -Message ("Something went wrong while invoking DNS request for '{0}', execption is '{1}'" -f $domain, $_) -Level Error;
         }
     }
     END
