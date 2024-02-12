@@ -17,7 +17,8 @@ function Uninstall-ModuleAll
     BEGIN
     {
         # Write to log.
-        Write-Log -Category "Module" -Message "Getting all installed modules";
+        Write-Log -Category 'Module' -Message 'Getting all installed modules' -Level Debug;
+        Write-Log -Category 'Module' -Message 'Uninstalling all user installed modules' -Level Information;
 
         # Get all installed modules.
         $installedModules = Get-InstalledModule;
@@ -25,40 +26,27 @@ function Uninstall-ModuleAll
     PROCESS
     {
         # Write to log.
-        Write-Log -Category "Module" -Message ("Found {0} installed modules" -f $installedModules.Count);
+        Write-Log -Category 'Module' -Message ('Found {0} installed modules' -f $installedModules.Count) -Level Debug;
 
         # Foreach module installed.
         foreach ($installedModule in $installedModules)
         {
             # Write to log.
-            Write-Log -Category "Module" -Subcategory $installedModule.Name -Message "Getting all versions";
+            Write-Log -Category 'Module' -Subcategory $installedModule.Name -Message 'Getting all versions' -Level Debug;
 
             # Get all versions.
             $moduleVersions = Get-InstalledModule -Name $installedModule.Name -AllVersions;
 
             # Write to log.
-            Write-Log -Category "Module" -Subcategory $installedModule.Name -Message ("Found {0} versions of the module" -f $moduleVersions.Count);
+            Write-Log -Category 'Module' -Subcategory $installedModule.Name -Message ('Found {0} versions of the module' -f $moduleVersions.Count) -Level Debug;
 
-            # Foreach version.
-            foreach($moduleVersion in $moduleVersions)
-            {
-                # Write to log.
-                Write-Log -Category "Module" -Subcategory $installedModule.Name -Message ("Removing version '{0}' from current session" -f $moduleVersion.Version);
-
-                # Remove module from the current session.
-                Remove-Module -Name $moduleVersion.Name -Force -Confirm:$false -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
-
-                # Write to log.
-                Write-Log -Category "Module" -Subcategory $installedModule.Name -Message ("Uninstalling version '{0}'" -f $moduleVersion.Version);
-
-                # Uninstall module.
-                Uninstall-Module -Name $moduleVersion.Name -AllVersions -Force -Confirm:$false -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
-            }
+            # Uninstall all versions of module.
+            Uninstall-Module -Name $installedModule.Name -AllVersions -Force -Confirm:$false -WarningAction SilentlyContinue -ErrorAction SilentlyContinue;
         }
     }
     END
     {
         # Write to log.
-        Write-Log -Category "Module" -Message "Finished removing all user installed modules";
+        Write-Log -Category 'Module' -Message 'Finished removing all user installed modules' -Level Debug;
     }
 }

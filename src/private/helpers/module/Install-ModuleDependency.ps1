@@ -17,24 +17,19 @@ function Install-ModuleDependency
     )
     
     BEGIN
-    {
-        # Write to log.
-        Write-Log -Category 'Module' -Message ('Installing all PowerShell modules required to run the project, this might take a few moments') -Level Information;
-                
+    {                
         # Modules to install.
         $modules = @(
             'Az.Accounts',
             'Az.Resources',
             'Microsoft.Graph.Authentication',
+            'Microsoft.Graph.Groups'
             'Microsoft.Graph.Users',
             'Microsoft.Graph.Identity.DirectoryManagement',
             'ExchangeOnlineManagement',
             'PnP.PowerShell',
             'MicrosoftTeams'
         );
-
-        # Write to log.
-        Write-Log -Category 'Module' -Message ('Getting all PowerShell modules installed') -Level Debug;
 
         # If we should reinstall the modules.
         if ($true -eq $Reinstall)
@@ -96,6 +91,7 @@ function Install-ModuleDependency
                 {
                     # Write to log.
                     Write-Log -Category 'Module' -Subcategory $module -Message ('Trying to install PowerShell module') -Level Debug;
+                    Write-Log -Category 'Module' -Subcategory $module -Message ('Installing PowerShell module') -Level Information;
 
                     # Install module.
                     Install-Module -Name $module -Force -Scope CurrentUser -AcceptLicense -SkipPublisherCheck -Confirm:$false -ErrorAction Stop -WarningAction SilentlyContinue | Out-Null;
@@ -139,5 +135,8 @@ function Install-ModuleDependency
                 Write-Log -Category 'Module' -Subcategory $module -Message ("Something went wrong while importing PowerShell module, excepction is '{0}'" -f $_) -Level Error;
             }
         }
+
+        # Implement fix for Pnp.Online
+        Install-ModulePnpPowerShellFix;
     }
 }
