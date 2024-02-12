@@ -9,8 +9,8 @@ function Invoke-ReviewEntraPasswordResetAudit
         Invoke-ReviewEntraPasswordResetAudit;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -9,8 +9,8 @@ function Invoke-ReviewSpoEntraIdB2B
         Invoke-ReviewSpoEntraIdB2B;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

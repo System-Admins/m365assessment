@@ -9,8 +9,8 @@ function Get-EntraIdB2BPolicy
         Get-EntraIdB2BPolicy;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

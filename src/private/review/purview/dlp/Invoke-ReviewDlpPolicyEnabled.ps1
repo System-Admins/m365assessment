@@ -9,8 +9,8 @@ function Invoke-ReviewDlpPolicyEnabled
         Invoke-ReviewDlpPolicyEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

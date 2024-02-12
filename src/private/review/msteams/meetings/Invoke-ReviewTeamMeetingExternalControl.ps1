@@ -9,8 +9,8 @@ function Invoke-ReviewTeamMeetingExternalControl
         Invoke-ReviewTeamMeetingExternalControl;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

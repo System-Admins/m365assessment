@@ -9,8 +9,8 @@ function Invoke-ReviewUnifiedAuditLogIsEnabled
         Invoke-ReviewUnifiedAuditLogIsEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

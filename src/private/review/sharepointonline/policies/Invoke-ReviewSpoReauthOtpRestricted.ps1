@@ -9,8 +9,8 @@ function Invoke-ReviewSpoReauthOtpRestricted
         Invoke-ReviewSpoReauthOtpRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

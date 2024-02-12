@@ -9,8 +9,8 @@ function Invoke-ReviewEntraApplicationUserConsent
         Invoke-ReviewEntraApplicationUserConsent;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

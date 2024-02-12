@@ -9,7 +9,7 @@ function Invoke-ReviewPublicGroup
         Invoke-ReviewPublicGroup;
     #>
 
-    [cmdletBinding()]
+    [cmdletbinding()]
     param
     (
     )

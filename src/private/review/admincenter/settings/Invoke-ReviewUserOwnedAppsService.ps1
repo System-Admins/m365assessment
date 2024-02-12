@@ -11,8 +11,8 @@ function Invoke-ReviewUserOwnedAppsServiceRestricted
         Invoke-ReviewUserOwnedAppsServiceRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

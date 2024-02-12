@@ -8,8 +8,8 @@ function Invoke-ReviewSharedMailboxSignInAllowed
     .EXAMPLE
         Invoke-ReviewSharedMailboxSignInAllowed;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

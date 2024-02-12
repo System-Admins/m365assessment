@@ -13,8 +13,8 @@ function Invoke-FabricApi
         # Get the Entra ID property settings.
         Invoke-FabricApi -Uri 'https://api.fabric.microsoft.com/v1/admin/tenantsettings' -Method 'GET';
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # API URL.
         [Parameter(Mandatory = $true)]

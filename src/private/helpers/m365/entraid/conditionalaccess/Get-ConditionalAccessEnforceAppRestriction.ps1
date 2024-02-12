@@ -9,8 +9,8 @@ function Get-ConditionalAccessEnforceAppRestriction
         Get-ConditionalAccessEnforceAppRestriction;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

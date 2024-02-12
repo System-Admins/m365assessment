@@ -32,8 +32,8 @@ function Write-Log
         # Write a information message to a log file but not to the console and do not append to the log file.
         Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     
         # Message to write to log.
@@ -44,6 +44,10 @@ function Write-Log
         # If category should be included.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [string]$Category,
+
+        # If subcategory should be included.
+        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
+        [string]$Subcategory,
     
         # (Optional) Path to log file.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
@@ -79,7 +83,6 @@ function Write-Log
     {
         # Store original preferences.
         $originalInformationPreference = $InformationPreference;
-        $originalWarningPreference = $WarningPreference;
 
         # Output to file.
         [bool]$outputToFile = $false;
@@ -148,6 +151,13 @@ function Write-Log
             $logMessage += ('[{0}]' -f $Category);
         }
 
+        # If subcategory should be added to log message.
+        if ($false -eq [string]::IsNullOrEmpty($Subcategory))
+        {
+            # Add category to log message.
+            $logMessage += ('[{0}]' -f $Subcategory);
+        }
+
         # Add message to log message.
         $logMessage = ('{0} {1}' -f $logMessage, $Message);
   
@@ -159,7 +169,6 @@ function Write-Log
             }
             'Warning'
             {
-                $WarningPreference = 'Continue';
                 Write-Warning -Message $logMessage;
             }
             'Information'
@@ -199,6 +208,5 @@ function Write-Log
     {
         # Restore original preferences.
         $InformationPreference = $originalInformationPreference;
-        $WarningPreference = $originalWarningPreference;
     }
 }

@@ -9,8 +9,8 @@ function Invoke-ReviewGuestUsers
         Invoke-ReviewGuestUsers;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

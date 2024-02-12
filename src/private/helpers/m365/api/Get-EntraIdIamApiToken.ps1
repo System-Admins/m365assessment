@@ -11,8 +11,8 @@ function Get-EntraIdIamApiToken
     .EXAMPLE
         Get-EntraIdIamApiToken;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

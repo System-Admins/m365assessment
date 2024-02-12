@@ -9,8 +9,8 @@ function Invoke-ReviewEmailSpoofSenders
         Invoke-ReviewEmailDomainDmarc;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

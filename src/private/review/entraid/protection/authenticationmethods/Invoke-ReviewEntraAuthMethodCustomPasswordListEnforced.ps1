@@ -9,8 +9,8 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
         Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

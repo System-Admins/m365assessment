@@ -9,8 +9,8 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
         Invoke-ReviewExoMailboxAuditBypassDisabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

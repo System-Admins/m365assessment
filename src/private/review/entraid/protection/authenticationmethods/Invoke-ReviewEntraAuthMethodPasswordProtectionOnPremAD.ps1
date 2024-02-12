@@ -9,8 +9,8 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
         Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

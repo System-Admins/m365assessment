@@ -9,8 +9,8 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
         Invoke-ReviewSpoExternalSharingRestrictedGroup;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

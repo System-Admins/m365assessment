@@ -9,8 +9,8 @@ function Invoke-ReviewAntiSpamNotifyAdmins
         Invoke-ReviewAntiSpamNotifyAdmins;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

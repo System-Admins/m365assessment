@@ -9,8 +9,8 @@ function Invoke-ReviewExoIdentifiedExternalSenders
         Invoke-ReviewExoIdentifiedExternalSenders;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

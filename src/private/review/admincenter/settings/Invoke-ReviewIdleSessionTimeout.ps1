@@ -9,8 +9,8 @@ function Invoke-ReviewIdleSessionTimeout
         Invoke-ReviewIdleSessionTimeout;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

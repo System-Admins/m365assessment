@@ -9,8 +9,8 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
         Invoke-ReviewEntraUsersCanRegisterAppsEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

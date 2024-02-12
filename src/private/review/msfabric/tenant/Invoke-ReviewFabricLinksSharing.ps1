@@ -9,8 +9,8 @@ function Invoke-ReviewFabricLinksSharing
         Invoke-ReviewFabricLinksSharing;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

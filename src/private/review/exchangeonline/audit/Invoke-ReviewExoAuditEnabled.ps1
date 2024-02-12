@@ -9,8 +9,8 @@ function Invoke-ReviewExoAuditEnabled
         Invoke-ReviewExoAuditEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

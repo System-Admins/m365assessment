@@ -9,8 +9,8 @@ function Invoke-ReviewTeamMeetingChatAnonymousUsers
         Invoke-ReviewTeamMeetingChatAnonymousUsers;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

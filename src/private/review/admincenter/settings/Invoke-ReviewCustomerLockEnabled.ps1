@@ -10,8 +10,8 @@ function Invoke-ReviewCustomerLockEnabled
         Invoke-ReviewCustomerLockEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

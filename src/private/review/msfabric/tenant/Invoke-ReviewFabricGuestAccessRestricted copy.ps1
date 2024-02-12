@@ -9,8 +9,8 @@ function Invoke-ReviewFabricContentGuestAccessRestricted
         Invoke-ReviewFabricContentGuestAccessRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -9,8 +9,8 @@ function Invoke-ReviewExoModenAuthEnabled
         Invoke-ReviewExoModenAuthEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

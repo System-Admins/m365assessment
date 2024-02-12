@@ -9,8 +9,8 @@ function Invoke-ReviewEntraRestrictNonAdminUsersAdminPortal
         Invoke-ReviewEntraRestrictNonAdminUsersAdminPortal;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

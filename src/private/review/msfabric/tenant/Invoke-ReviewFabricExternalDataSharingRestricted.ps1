@@ -9,8 +9,8 @@ function Invoke-ReviewFabricExternalDataSharingRestricted
         Invoke-ReviewFabricExternalDataSharingRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

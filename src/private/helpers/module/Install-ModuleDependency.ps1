@@ -8,8 +8,8 @@ function Install-ModuleDependency
     .EXAMPLE
         Install-ModuleDependency
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # If the modules should be reinstalled.
         [Parameter(Mandatory = $false)]

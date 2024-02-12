@@ -16,7 +16,7 @@ function Get-DnsOnmicrosoftDomain
 
     [cmdletbinding()]	
         
-    Param
+    param
     (
         
     )

@@ -9,8 +9,8 @@ function Invoke-ReviewTeamApprovedCloudStorage
         Invoke-ReviewTeamApprovedCloudStorage;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -10,8 +10,8 @@ Outlook on the web.
         Invoke-ReviewExoStorageProvidersRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -9,8 +9,8 @@ function Invoke-ReviewAntiPhishingPolicy
         Invoke-ReviewAntiPhishingPolicy;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

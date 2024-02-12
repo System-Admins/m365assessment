@@ -9,8 +9,8 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         Invoke-ReviewEntraHideKeepMeSignedIn;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

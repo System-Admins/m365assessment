@@ -9,8 +9,8 @@ function Invoke-ReviewEntraGuestDynamicGroup
         Invoke-ReviewEntraGuestDynamicGroup;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

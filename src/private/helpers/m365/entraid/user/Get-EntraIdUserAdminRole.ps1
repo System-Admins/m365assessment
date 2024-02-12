@@ -10,7 +10,7 @@ function Get-EntraIdUserAdminRole
     .EXAMPLE
         Get-EntraIdUserAdminRole;
     #>
-    [cmdletBinding()]
+    [cmdletbinding()]
     param
     ( 
     )

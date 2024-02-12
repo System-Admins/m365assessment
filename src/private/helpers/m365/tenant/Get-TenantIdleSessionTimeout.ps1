@@ -9,8 +9,8 @@ function Get-TenantIdleSessionTimeout
         Get-TenantIdleSessionTimeout;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

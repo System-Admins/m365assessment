@@ -9,8 +9,8 @@ function Invoke-ReviewEntraApplicationUsageReport
         Invoke-ReviewEntraApplicationUsageReport;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

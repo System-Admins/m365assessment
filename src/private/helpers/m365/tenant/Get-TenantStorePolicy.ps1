@@ -8,8 +8,8 @@ function Get-TenantStorePolicy
     .EXAMPLE
         Get-TenantStorePolicy;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

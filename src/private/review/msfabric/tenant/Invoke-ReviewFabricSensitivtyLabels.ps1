@@ -9,8 +9,8 @@ function Invoke-ReviewFabricSensitivtyLabels
         Invoke-ReviewFabricSensitivtyLabels;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

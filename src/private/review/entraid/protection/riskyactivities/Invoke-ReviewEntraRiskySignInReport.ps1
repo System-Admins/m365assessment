@@ -9,8 +9,8 @@ function Invoke-ReviewEntraRiskySignInReport
         Invoke-ReviewEntraRiskySignInReport;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

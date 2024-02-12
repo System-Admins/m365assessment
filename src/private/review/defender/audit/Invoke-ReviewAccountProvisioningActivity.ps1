@@ -9,8 +9,8 @@ function Invoke-ReviewAccountProvisioningActivity
         Invoke-ReviewAccountProvisioningActivity;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

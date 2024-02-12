@@ -9,8 +9,8 @@ function Invoke-ReviewSpoLegacyAuthEnabled
         Invoke-ReviewSpoLegacyAuthEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

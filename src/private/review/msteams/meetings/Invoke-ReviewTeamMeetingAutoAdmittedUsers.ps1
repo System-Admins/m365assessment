@@ -9,8 +9,8 @@ function Invoke-ReviewTeamMeetingAutoAdmittedUsers
         Invoke-ReviewTeamMeetingAutoAdmittedUsers;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -11,8 +11,8 @@ function Get-EntraIdGroupMemberTransitive
     .EXAMPLE
         Get-EntraIdGroupMemberTransitive -Id '<group id>';
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # Group ID.
         [Parameter(Mandatory = $true)]

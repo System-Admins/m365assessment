@@ -9,8 +9,8 @@ function Invoke-ReviewSpoGuestResharingRestricted
         Invoke-ReviewSpoGuestResharingRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

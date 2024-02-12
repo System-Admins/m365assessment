@@ -8,8 +8,8 @@ function Get-EntraIdUserPriority
     .EXAMPLE
         Get-EntraIdUserPriority;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

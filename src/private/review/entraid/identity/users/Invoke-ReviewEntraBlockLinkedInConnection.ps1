@@ -9,8 +9,8 @@ function Invoke-ReviewEntraBlockLinkedInConnection
         Invoke-ReviewEntraBlockLinkedInConnection;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

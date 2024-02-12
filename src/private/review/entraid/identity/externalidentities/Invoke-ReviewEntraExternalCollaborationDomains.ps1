@@ -9,8 +9,8 @@ function Invoke-ReviewEntraExternalCollaborationDomains
         Invoke-ReviewEntraExternalCollaborationDomains;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

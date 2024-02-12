@@ -11,8 +11,8 @@ function Invoke-ReviewAdminAccountCloudOnly
         Invoke-ReviewAdminAccountCloudOnly;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

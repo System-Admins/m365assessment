@@ -9,8 +9,8 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenants
         Invoke-ReviewEntraUsersAllowedToCreateTenants;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

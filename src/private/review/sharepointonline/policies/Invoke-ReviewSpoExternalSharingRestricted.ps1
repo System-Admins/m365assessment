@@ -9,8 +9,8 @@ function Invoke-ReviewSpoSharingCapability
         Invoke-ReviewSpoSharingCapability;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

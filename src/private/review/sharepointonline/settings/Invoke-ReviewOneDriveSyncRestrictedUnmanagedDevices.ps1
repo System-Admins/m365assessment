@@ -9,8 +9,8 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices
         Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

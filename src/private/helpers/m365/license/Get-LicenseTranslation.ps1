@@ -10,7 +10,7 @@ function Get-LicenseTranslation
         $licenseTranslation = Get-LicenseTranslation;
     #>
 
-    [cmdletBinding()]
+    [cmdletbinding()]
     param
     (
         

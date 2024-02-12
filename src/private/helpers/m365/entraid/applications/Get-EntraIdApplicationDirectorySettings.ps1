@@ -12,8 +12,8 @@ function Get-EntraIdApplicationDirectorySettings
         Get-EntraIdApplicationDirectorySettings;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

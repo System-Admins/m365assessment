@@ -9,8 +9,8 @@ function Invoke-ReviewExoMailForwardDisabled
         Invoke-ReviewExoMailForwardDisabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -14,8 +14,8 @@ function Invoke-EntraIdAccessReviewApi
         # Get the Entra ID property settings.
         Invoke-EntraIdAccessReviewApi -Uri 'https://api.accessreviews.identitygovernance.azure.com/accessReviews/v2.0/approvalWorkflowProviders/D5EC9F3B-324E-4F8A-AF55-B69EDD48ECBE/requests?$count=true&$orderby=createdDateTime%20desc&$skip=0&$top=10&$select=id,businessFlowId,decisionsCriteria,reviewedEntity,businessFlowTemplateId,policy,settings,errors,displayName,status,createdDateTime&$filter=((customDataProvider%20eq%20null))&x-tenantid=<tenantID>&{}&_=1706945719963' -Method 'GET';
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # API URL.
         [Parameter(Mandatory = $true)]

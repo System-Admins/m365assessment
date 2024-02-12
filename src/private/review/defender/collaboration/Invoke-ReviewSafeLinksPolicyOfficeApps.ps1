@@ -9,8 +9,8 @@ function Invoke-ReviewSafeLinksPolicyOfficeApps
         Invoke-ReviewSafeLinksPolicyOfficeApps;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

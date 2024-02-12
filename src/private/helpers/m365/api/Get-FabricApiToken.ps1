@@ -11,8 +11,8 @@ function Get-FabricApiToken
     .EXAMPLE
         Get-FabricApiToken;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

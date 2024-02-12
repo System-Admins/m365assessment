@@ -14,8 +14,8 @@ function Invoke-Office365ManagementApi
         # Get the external calendar sharing settings.
         Invoke-Office365ManagementApi -Uri 'https://admin.microsoft.com/admin/api/settings/apps/calendarsharing' -Method 'GET';
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # API URL.
         [Parameter(Mandatory = $true)]

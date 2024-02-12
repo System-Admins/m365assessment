@@ -9,8 +9,8 @@ function Invoke-ReviewSafeAttachmentPolicyEnabledForApps
         Invoke-ReviewSafeAttachmentPolicyEnabledForApps;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

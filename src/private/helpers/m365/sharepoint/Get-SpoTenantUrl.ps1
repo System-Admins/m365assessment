@@ -8,8 +8,8 @@ function Get-SpoTenantUrl
     .EXAMPLE
         Get-SpoTenantUrl
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     

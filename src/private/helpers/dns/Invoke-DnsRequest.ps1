@@ -19,7 +19,7 @@ function Invoke-DnsRequest
 
     [cmdletbinding()]	
 		
-    Param
+    param
     (
         # Domain to lookup.
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]

@@ -9,8 +9,8 @@ function Invoke-ReviewEmailRestrictedSenders
         Invoke-ReviewEmailRestrictedSenders;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

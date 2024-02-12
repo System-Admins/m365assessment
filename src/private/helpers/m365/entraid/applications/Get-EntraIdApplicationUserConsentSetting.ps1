@@ -12,8 +12,8 @@ function Get-EntraIdApplicationUserConsentSetting -Debug
         Get-EntraIdApplicationUserConsentSetting;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

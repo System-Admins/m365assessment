@@ -9,8 +9,8 @@ function Invoke-ReviewFabricExternalUserInvitationsRestricted
         Invoke-ReviewFabricExternalUserInvitationsRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

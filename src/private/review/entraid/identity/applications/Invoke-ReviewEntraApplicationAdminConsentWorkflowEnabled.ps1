@@ -9,8 +9,8 @@ function Invoke-ReviewEntraApplicationAdminConsentWorkflowEnabled
         Invoke-ReviewEntraApplicationAdminConsentWorkflowEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

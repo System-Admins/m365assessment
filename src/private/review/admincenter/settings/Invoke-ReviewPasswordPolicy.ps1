@@ -9,8 +9,8 @@ function Invoke-ReviewPasswordPolicy
         Invoke-ReviewPasswordPolicy;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

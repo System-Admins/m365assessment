@@ -9,8 +9,8 @@ function Invoke-ReviewTeamUsersCantSendEmailToChannel
         Invoke-ReviewTeamUsersCantSendEmailToChannel;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

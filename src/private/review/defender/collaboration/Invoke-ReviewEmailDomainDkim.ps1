@@ -9,8 +9,8 @@ function Invoke-ReviewEmailDomainDkim
         Invoke-ReviewEmailDomainDkim;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

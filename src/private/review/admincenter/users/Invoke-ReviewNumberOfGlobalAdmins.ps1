@@ -11,8 +11,8 @@ function Invoke-ReviewNumberOfGlobalAdmins
         Invoke-ReviewNumberOfGlobalAdmins;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

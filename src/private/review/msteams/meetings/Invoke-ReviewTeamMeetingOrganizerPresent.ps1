@@ -9,8 +9,8 @@ function Invoke-ReviewTeamMeetingOrganizerPresent
         Invoke-ReviewTeamMeetingOrganizerPresent;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

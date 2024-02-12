@@ -9,8 +9,8 @@ function Invoke-ReviewFabricInteractPython
         Invoke-ReviewFabricInteractPython;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

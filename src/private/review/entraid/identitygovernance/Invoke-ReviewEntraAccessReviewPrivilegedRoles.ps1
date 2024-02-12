@@ -9,8 +9,8 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
         Invoke-ReviewEntraAccessReviewPrivilegedRoles;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -9,8 +9,8 @@ function Invoke-ReviewTeamExternalSharingRestricted
         Invoke-ReviewTeamExternalSharingRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

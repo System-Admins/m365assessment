@@ -9,8 +9,8 @@ function Invoke-ReviewEmailDomainSpf
         Invoke-ReviewEmailDomainSpf;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

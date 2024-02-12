@@ -9,8 +9,8 @@ function Invoke-ReviewInformationProtectionLabelPolicy
         Invoke-ReviewInformationProtectionLabelPolicy;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

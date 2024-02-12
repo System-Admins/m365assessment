@@ -14,7 +14,7 @@ function Get-DnsDmarcRecord
 
     [cmdletbinding()]	
         
-    Param
+    param
     (
         # Domain to lookup.
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]

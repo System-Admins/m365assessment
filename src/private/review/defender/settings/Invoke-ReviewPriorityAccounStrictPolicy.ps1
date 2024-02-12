@@ -9,8 +9,8 @@ function Invoke-ReviewPriorityAccounStrictPolicy
         Invoke-ReviewPriorityAccounStrictPolicy;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

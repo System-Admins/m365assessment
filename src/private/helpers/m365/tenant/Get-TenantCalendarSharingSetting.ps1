@@ -8,8 +8,8 @@ function Get-TenantCalendarSharingSetting
     .EXAMPLE
         Get-TenantCalendarSharingSetting;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

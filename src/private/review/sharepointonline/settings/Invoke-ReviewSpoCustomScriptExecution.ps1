@@ -9,8 +9,8 @@ function Invoke-ReviewSpoCustomScriptExecution
         Invoke-ReviewSpoCustomScriptExecution;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

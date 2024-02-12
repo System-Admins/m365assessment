@@ -9,8 +9,8 @@ function Invoke-ReviewSpoInfectedFileDownloadDisabled
         Invoke-ReviewSpoInfectedFileDownloadDisabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

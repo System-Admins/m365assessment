@@ -9,8 +9,8 @@ function Invoke-ReviewPriorityAccountProtectionConfig
         Invoke-ReviewPriorityAccountProtectionConfig;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -10,8 +10,8 @@ function Invoke-ReviewMicrosoftSwayExternalSharing
         Invoke-ReviewMicrosoftSwayExternalSharingDisabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

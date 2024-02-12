@@ -16,11 +16,14 @@ function New-PSCredential
 
     [cmdletbinding()]	
 		
-    Param
+    param
     (
         [Parameter(Mandatory = $true)][string]$Username,
         [Parameter(Mandatory = $true)][string]$Password
     )
+
+    # Write to log.
+    Write-Log -Category 'Credential' -Message ("Creating credential for '{0}'" -f $Username) -Level Information;
  
     # Convert the password to a secure string.
     $securePassword = $Password | ConvertTo-SecureString -AsPlainText -Force;

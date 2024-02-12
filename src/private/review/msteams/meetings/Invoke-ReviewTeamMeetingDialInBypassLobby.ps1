@@ -9,8 +9,8 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
         Invoke-ReviewTeamMeetingDialInBypassLobby;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

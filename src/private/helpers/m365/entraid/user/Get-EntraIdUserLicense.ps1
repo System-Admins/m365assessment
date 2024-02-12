@@ -12,8 +12,8 @@ function Get-EntraIdUserLicense
         # Retrieve a specific user and return the licenses.
         $userLicenses = Get-EntraIdUserLicense -UserPrincipalName 'user@domain';
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # UserPrincipalName for the user.
         [Parameter(Mandatory = $false)]

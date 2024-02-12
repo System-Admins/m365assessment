@@ -9,8 +9,8 @@ function Invoke-ReviewEntraSsprEnabledForAll
         Invoke-ReviewEntraSsprEnabledForAll;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

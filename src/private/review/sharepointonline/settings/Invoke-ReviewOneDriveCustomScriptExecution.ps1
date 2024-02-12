@@ -9,8 +9,8 @@ function Invoke-ReviewOneDriveCustomScriptExecution
         Invoke-ReviewOneDriveCustomScriptExecution;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

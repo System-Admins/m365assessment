@@ -9,8 +9,8 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
          Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

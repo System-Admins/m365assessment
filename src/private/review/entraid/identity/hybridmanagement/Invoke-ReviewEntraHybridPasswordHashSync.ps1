@@ -9,8 +9,8 @@ function Invoke-ReviewEntraHybridPasswordHashSync
         Invoke-ReviewEntraHybridPasswordHashSync;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

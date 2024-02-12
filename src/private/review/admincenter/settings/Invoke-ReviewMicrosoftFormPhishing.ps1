@@ -11,8 +11,8 @@ function Invoke-ReviewMicrosoftFormInternalPhishingScanEnabled
         Invoke-ReviewMicrosoftFormInternalPhishingScanEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

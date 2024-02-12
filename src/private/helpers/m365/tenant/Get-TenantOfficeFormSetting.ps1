@@ -8,8 +8,8 @@ function Get-TenantOfficeFormSetting
     .EXAMPLE
         Get-MicrosoftFormsSettings;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

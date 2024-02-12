@@ -9,8 +9,8 @@ function Invoke-ReviewTeamMessagingReportSecurityConcerns
         Invoke-ReviewTeamMessagingReportSecurityConcerns;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

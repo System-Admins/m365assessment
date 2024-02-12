@@ -11,8 +11,8 @@ function Invoke-ReviewCalendarExternalSharing
     .EXAMPLE
         Invoke-ReviewCalendarExternalSharing;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

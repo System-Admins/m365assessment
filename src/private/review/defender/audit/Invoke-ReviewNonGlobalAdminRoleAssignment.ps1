@@ -9,8 +9,8 @@ function Invoke-ReviewNonGlobalAdminRoleAssignment
         Invoke-ReviewNonGlobalAdminRoleAssignment;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

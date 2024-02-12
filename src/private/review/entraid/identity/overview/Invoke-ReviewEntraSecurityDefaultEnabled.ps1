@@ -9,8 +9,8 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
         Invoke-ReviewEntraSecurityDefaultEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

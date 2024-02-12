@@ -8,8 +8,8 @@ function Get-TenantSwaySetting
     .EXAMPLE
         Get-MicrosoftFormsSettings;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

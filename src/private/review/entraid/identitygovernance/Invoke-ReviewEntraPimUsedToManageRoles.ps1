@@ -9,8 +9,8 @@ function Invoke-ReviewEntraPimUsedToManageRoles
         Invoke-ReviewEntraPimUsedToManageRoles;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

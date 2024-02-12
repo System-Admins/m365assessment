@@ -9,8 +9,8 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
         Invoke-ReviewSpoExternalLinkSharingRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

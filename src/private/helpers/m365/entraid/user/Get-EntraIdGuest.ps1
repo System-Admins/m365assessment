@@ -9,7 +9,7 @@ function Get-EntraIdGuest
     .EXAMPLE
         $guestUsers = Get-EntraIdGuest;
     #>
-    [cmdletBinding()]
+    [cmdletbinding()]
     param
     ( 
     )

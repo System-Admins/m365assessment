@@ -9,8 +9,8 @@ function Get-EntraIdHybridAdConnectPasswordSyncStatus
         Get-EntraIdHybridAdConnectPasswordSyncStatus;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

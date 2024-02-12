@@ -9,8 +9,8 @@ function Invoke-ReviewFabricPublishToWebRestricted
         Invoke-ReviewFabricPublishToWebRestricted;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

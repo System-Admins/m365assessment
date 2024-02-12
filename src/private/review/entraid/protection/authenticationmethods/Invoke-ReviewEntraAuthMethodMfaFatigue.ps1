@@ -9,8 +9,8 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
         Invoke-ReviewEntraAuthMethodMfaFatigue;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

@@ -14,8 +14,8 @@ function Invoke-EntraIdRbacApi
         # PIM RBAC roles.
         Invoke-EntraIdRbacApi -Uri 'https://api.azrbac.mspim.azure.com/api/v2/privilegedAccess/aadroles/resources/<tenant ID>/roleDefinitions?$select=id,displayName,type,templateId,resourceId,externalId,isbuiltIn,subjectCount,eligibleAssignmentCount,activeAssignmentCount&$orderby=displayName' -Method 'GET';
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # API URL.
         [Parameter(Mandatory = $true)]

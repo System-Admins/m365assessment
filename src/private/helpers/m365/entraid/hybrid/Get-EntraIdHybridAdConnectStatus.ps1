@@ -9,8 +9,8 @@ function Get-EntraIdHybridAdConnectStatus
         Get-EntraIdHybridAdConnectStatus;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

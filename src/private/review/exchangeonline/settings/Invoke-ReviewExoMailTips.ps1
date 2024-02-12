@@ -9,8 +9,8 @@ function Invoke-ReviewExoMailTips
         Invoke-ReviewExoMailTips;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

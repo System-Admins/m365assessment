@@ -9,8 +9,8 @@ function Invoke-ReviewOneDriveSharingCapability
         Invoke-ReviewOneDriveSharingCapability;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

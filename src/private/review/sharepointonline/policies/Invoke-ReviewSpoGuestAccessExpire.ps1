@@ -9,8 +9,8 @@ function Invoke-ReviewSpoGuestAccessExpire
         Invoke-ReviewSpoGuestAccessExpire;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

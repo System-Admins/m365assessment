@@ -9,8 +9,8 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
         Invoke-ReviewExoTransportRuleWhitelistSpecificDomains;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

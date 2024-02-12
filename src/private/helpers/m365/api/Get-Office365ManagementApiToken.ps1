@@ -12,8 +12,8 @@ function Get-Office365ManagementApiToken
     .EXAMPLE
         Get-Office365ManagementApiToken;
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
     BEGIN

@@ -9,8 +9,8 @@ function Invoke-ReviewCalendarSharingPolicy
         Invoke-ReviewCalendarSharingPolicy;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

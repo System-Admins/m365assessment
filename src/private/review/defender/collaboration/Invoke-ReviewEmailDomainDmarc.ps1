@@ -9,8 +9,8 @@ function Invoke-ReviewEmailDomainDmarc
         Invoke-ReviewEmailDomainDmarc;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

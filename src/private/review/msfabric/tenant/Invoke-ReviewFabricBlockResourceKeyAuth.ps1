@@ -9,8 +9,8 @@ function Invoke-ReviewFabricBlockResourceKeyAuth
         Invoke-ReviewFabricBlockResourceKeyAuth;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 

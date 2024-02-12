@@ -14,8 +14,8 @@ function Invoke-EntraIdIamApi
         # Get the Entra ID property settings.
         Invoke-Office365ManagementApi -Uri 'https://main.iam.ad.ext.azure.com/api/Directories/Properties' -Method 'GET';
     #>
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
         # API URL.
         [Parameter(Mandatory = $true)]

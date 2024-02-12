@@ -10,8 +10,8 @@ function Invoke-ReviewThirdPartStorageEnabled
         Invoke-ReviewThirdPartStorageEnabled;
     #>
 
-    [CmdletBinding()]
-    Param
+    [cmdletbinding()]
+    param
     (
     )
 
