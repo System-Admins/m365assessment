@@ -4,7 +4,11 @@ function Invoke-ReviewSharedMailboxSignInAllowed
     .SYNOPSIS
         Get shared mailboxes and check if sign-in is allowed.
     .DESCRIPTION
-        Goes through all shared mailboxes and checks if login is allowed.
+        Return list of mailboxes that are allowed to sign-in.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagement
+        - Microsoft.Graph.Users
     .EXAMPLE
         Invoke-ReviewSharedMailboxSignInAllowed;
     #>
@@ -17,6 +21,9 @@ function Invoke-ReviewSharedMailboxSignInAllowed
         # Object array to store shared mailbox review.
         $reviewSharedMailbox = New-Object System.Collections.ArrayList;
         
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message 'Getting shared mailboxes' -Level Debug;
+
         # Get all shared mailboxes.
         $sharedMailboxes = Get-Mailbox -RecipientTypeDetails SharedMailbox -ResultSize Unlimited;
 
@@ -32,6 +39,9 @@ function Invoke-ReviewSharedMailboxSignInAllowed
             'AccountEnabled',
             'OnPremisesSyncEnabled'
         );
+
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Subcategory 'User' -Message 'Getting all users' -Level Debug;
 
         # Get all users.
         $users = Get-MgUser -All -Property $property;
@@ -81,6 +91,9 @@ function Invoke-ReviewSharedMailboxSignInAllowed
                     }
                 }
 
+                # Write to log.
+                Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ("Shared mailbox '{0}' is allowed to login" -f $sharedMailbox.PrimarySmtpAddress) -Level Debug;
+
                 # Add to object array.
                 $reviewSharedMailbox += [PSCustomObject]@{
                     Id                 = $user.Id;
@@ -103,7 +116,7 @@ function Invoke-ReviewSharedMailboxSignInAllowed
         if ($reviewSharedMailbox.Count -gt 0)
         {
             # Write to log.
-            Write-Log  -Category "User" -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Debug;
+            Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Level Debug;
 
             # Return shared mailboxes to review.
             return $reviewSharedMailbox;

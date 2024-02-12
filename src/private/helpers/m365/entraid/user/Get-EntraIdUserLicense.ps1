@@ -5,6 +5,9 @@ function Get-EntraIdUserLicense
         Get one or all users with a license.
     .DESCRIPTION
         Get one or all users with a license and return object array.
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Users
     .EXAMPLE
         # Retrieve all users and return the licenses.
         $userLicenses = Get-EntraIdUserLicense;
@@ -25,7 +28,7 @@ function Get-EntraIdUserLicense
         $userLicenses = New-Object System.Collections.ArrayList;
 
         # Write to log.
-        Write-Log -Message ('Getting all users') -Level Debug;
+        Write-Log -Category 'Entra ID' -Subcategory 'License' -Message ('Getting all users') -Level Debug;
             
         # Get all users.
         $users = Get-MgUser -All -Select Id, UserPrincipalName, DisplayName, AssignedLicenses;
@@ -50,7 +53,7 @@ function Get-EntraIdUserLicense
             }
 
             # Write to log.
-            Write-Log -Category "User" -Message ("Getting license information for user '{0}'" -f $user.UserPrincipalName) -Level Debug;
+            Write-Log -Category 'Entra ID' -Subcategory 'License' -Message ("Getting license information for user '{0}'" -f $user.UserPrincipalName) -Level Debug;
 
             # Get user license details.
             $licenseDetails = Get-MgUserLicenseDetail -UserId $user.Id -All -PageSize 500;
@@ -84,6 +87,9 @@ function Get-EntraIdUserLicense
                         # If license is not null.
                         if ($null -ne $license)
                         {
+                            # Write to log.
+                            Write-Log -Category 'Entra ID' -Subcategory 'License' -Message ("User '{0}' have the service plan '{1}'" -f $user.UserPrincipalName, $license.Service_Plans_Included_Friendly_Names) -Level Debug;
+
                             # Add object to array.
                             $userLicenses += [PSCustomObject]@{
                                 UserId                        = $user.Id;
@@ -112,5 +118,8 @@ function Get-EntraIdUserLicense
             # Return the user license array.
             return $userLicenses;
         }
+
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Subcategory 'License' -Message ('No licenses are assigned to any users') -Level Debug;
     }
 }

@@ -30,9 +30,6 @@ function Invoke-ReviewAdminAccountCloudOnly
             'AAD_PREMIUM_P2'
         );
 
-        # Write to log.
-        Write-Log -Category "User" -Message ('Allowed licenses for admin accounts are is: {0}' -f ($allowedServicePlanName -join ", ")) -Level Debug;
-
         # Get all users with admin roles.
         $usersWithAdminRole = Get-EntraIdUserAdminRole;
     }
@@ -53,6 +50,7 @@ function Invoke-ReviewAdminAccountCloudOnly
                     UserPrincipalName = $userWithAdminRole.UserPrincipalName;
                     DisplayName       = $userWithAdminRole.DisplayName;
                     CloudOnly         = $userWithAdminRole.CloudOnly;
+                    AccountEnabled    = $userWithAdminRole.AccountEnabled;
                     Roles             = @(
                         [PSCustomObject]@{
                             RoleId          = $userWithAdminRole.RoleId;
@@ -114,14 +112,15 @@ function Invoke-ReviewAdminAccountCloudOnly
                 } 
             }
 
-            # If the recommendations is not fulfilled.
-            if ($false -eq $cloudOnly -or $false -eq $licenseValid)
+            # If the recommendations is not fulfilled and account is enabled.
+            if (($false -eq $cloudOnly -or $false -eq $licenseValid) -and
+                $adminAccount.AccountEnabled -eq $true)
             {
                 # Get all roles for the admin account.
                 $roles = ($adminAccount.Roles | Select-Object -ExpandProperty RoleDisplayName -Unique) -join ',';
 
                 # Get all licenses.
-                $licenses = ($userLicenses | Where-Object { $_.UserPrincipalName -eq $adminAccount.UserPrincipalName } | Select-Object -ExpandProperty LicenseName -Unique) -join ',';
+                $licenses = ($userLicenses | Where-Object { $_.UserPrincipalName -eq $adminAccount.UserPrincipalName } | Select-Object -ExpandProperty LicenseName -Unique);
 
                 # Add to object array.
                 $reviewAdminAccounts += [PSCustomObject]@{
@@ -131,6 +130,7 @@ function Invoke-ReviewAdminAccountCloudOnly
                     CloudOnly         = $adminAccount.CloudOnly;
                     Roles             = $roles;
                     Licenses          = $licenses;
+                    AccountEnabled    = $adminAccount.AccountEnabled;
                 };
             }
         }

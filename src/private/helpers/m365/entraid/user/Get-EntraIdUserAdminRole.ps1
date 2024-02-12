@@ -4,9 +4,10 @@ function Get-EntraIdUserAdminRole
     .SYNOPSIS
         Get users with admin roles.
     .DESCRIPTION
-        Get all users with admin roles and returns object array
+        Returns a list of users with admin roles.
     .NOTES
-        
+        Requires the following modules:
+        - Microsoft.Graph.Identity.DirectoryManagement
     .EXAMPLE
         Get-EntraIdUserAdminRole;
     #>
@@ -20,8 +21,14 @@ function Get-EntraIdUserAdminRole
         # Object array to store users with admin roles.
         $usersWithAdminRoles = New-Object System.Collections.ArrayList;
 
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ('Getting all users') -Level Debug;
+
         # Get all users.
-        $users = Get-MgUser -All;
+        $users = Get-MgUser -Property 'Id', 'DisplayName', 'UserPrincipalName', 'OnPremisesSyncEnabled', 'AccountEnabled' -All;
+
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ('Getting all directory roles') -Level Debug;
 
         # Get all roles.
         $roles = Get-MgDirectoryRole -All;
@@ -31,6 +38,9 @@ function Get-EntraIdUserAdminRole
         # Foreach role.
         foreach ($role in $roles)
         {
+            # Write to log.
+            Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ("Getting members of role '{0}'" -f $role.DisplayName) -Level Debug;
+
             # Get role members.
             $roleMembers = Get-MgDirectoryRoleMember -DirectoryRoleId $role.Id;
 
@@ -61,7 +71,7 @@ function Get-EntraIdUserAdminRole
                     }
 
                     # Write to log.
-                    Write-Log -Category "User" -Message ("User '{0}' have the role '{1}'" -f $user.UserPrincipalName, $role.DisplayName) -Level Debug;
+                    Write-Log -Category 'User' -Message ("User '{0}' have the role '{1}'" -f $user.UserPrincipalName, $role.DisplayName) -Level Debug;
 
                     # Add user to list.
                     $usersWithAdminRoles += [PSCustomObject]@{
@@ -71,6 +81,7 @@ function Get-EntraIdUserAdminRole
                         CloudOnly         = $cloudOnly;
                         RoleDisplayName   = $role.DisplayName;
                         RoleId            = $role.Id;
+                        AccountEnabled    = $user.AccountEnabled;
                     };
                 }
             }

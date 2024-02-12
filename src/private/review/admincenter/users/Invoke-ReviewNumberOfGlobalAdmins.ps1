@@ -2,12 +2,10 @@ function Invoke-ReviewNumberOfGlobalAdmins
 {
     <#
     .SYNOPSIS
-        Check if the number of global admin is sufficent.
+        If there is between two and four global admins are designated.
     .DESCRIPTION
-        The best practice is to have at least 2 and at most 4 global admins.
-        Return true or false.
+        Return object with a valid flag and number of global admins.
     .EXAMPLE
-        # Check if the number of global admin is sufficent.
         Invoke-ReviewNumberOfGlobalAdmins;
     #>
 
@@ -36,26 +34,35 @@ function Invoke-ReviewNumberOfGlobalAdmins
             # If user is global admin.
             if ($userWithAdminRole.RoleDisplayName -eq 'Global Administrator')
             {
+                # Write to log.
+                Write-Log -Category 'Entra ID' -Subcategory 'Role' -Message ("User '{0}' have the role '{1}'" -f $userWithAdminRole.UserPrincipalName, $userWithAdminRole.RoleDisplayName) -Level Debug;
+
                 # Increment global admin counter.
                 $globalAdminCounter++;
             }
         }
-
-        # Write to log.
-        Write-Log  -Category "User" -Message ('Found {0} with the role Global Administrator' -f $globalAdminCounter) -Level Debug;
     }
     END
     {
+        # Write to log.
+        Write-Log -Category 'Entra ID' -Subcategory 'Role' -Message ('Found {0} with the role Global Administrator' -f $globalAdminCounter) -Level Debug;
+                    
         # If the global admin counter is between the minimum and maximum threshold.
         if ($globalAdminCounter -ge $minimumThreshold -and $globalAdminCounter -le $maximumThreshold)
         {
-            # Return true.
-            return $true;
+            # Return object.
+            return [PSCustomObject]@{
+                Valid = $true;
+                Count = $globalAdminCounter;
+            };
         }
         else
         {
-            # Return false.
-            return $false;
+            # Return object.
+            return [PSCustomObject]@{
+                Valid = $false;
+                Count = $globalAdminCounter;
+            };
         }
     }
 }
