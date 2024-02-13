@@ -18,7 +18,6 @@ function Uninstall-ModuleAll
     {
         # Write to log.
         Write-Log -Category 'Module' -Message 'Getting all installed modules' -Level Debug;
-        Write-Log -Category 'Module' -Message 'Uninstalling all user installed modules' -Level Information;
 
         # Get all installed modules.
         $installedModules = Get-InstalledModule;

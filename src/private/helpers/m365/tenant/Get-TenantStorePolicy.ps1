@@ -31,11 +31,22 @@ function Get-TenantStorePolicy
     }
     PROCESS
     {
+        # Write to log.
+        Write-Log -Category "Tenant" -Subcategory "Office Store" -Message ("Getting setting 'Let users access the Office store'") -Level Debug;
+
         # Setting - Let users access the Office store.
         $accessOfficeStore = Invoke-Office365ManagementApi -Uri $storeUri -Method 'GET';
 
+        # Write to log.
+        Write-Log -Category "Tenant" -Subcategory "Office Store" -Message ("Setting 'Let users access the Office store' is set to '{0}'" -f $accessOfficeStore) -Level Debug;
+        Write-Log -Category "Tenant" -Subcategory "Office Store" -Message ("Getting setting 'Let users start trials on behalf of your organization'") -Level Debug;
+
         # Setting - Let users start trials on behalf of your organization.
         $startTrial = Invoke-Office365ManagementApi -Uri $iwPurchaseAllowedUri -Method 'GET';
+
+        # Write to log.
+        Write-Log -Category "Tenant" -Subcategory "Office Store" -Message ("Setting 'Let users start trials on behalf of your organization' is set to '{0}'" -f $startTrial) -Level Debug;
+        Write-Log -Category "Tenant" -Subcategory "Office Store" -Message ("Getting setting 'Let users auto-claim licenses the first time they sign in'") -Level Debug;
 
         # Setting - Let users auto-claim licenses the first time they sign in.
         $autoclaim = Invoke-Office365ManagementApi -Uri $autoclaimUri -Method 'GET';
@@ -46,6 +57,9 @@ function Get-TenantStorePolicy
             # Set the value to false.
             $autoClaimLicense = $true;
         }
+
+        # Write to log.
+        Write-Log -Category "Tenant" -Subcategory "Office Store" -Message ("Setting 'Let users auto-claim licenses the first time they sign in' is set to '{0}'" -f $autoClaimLicense) -Level Debug;
 
         # Create a custom object.
         $response = [PSCustomObject]@{

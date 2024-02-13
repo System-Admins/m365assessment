@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraIdAdminAccountCloudOnly
+function Invoke-ReviewEntraAdminAccountCloudOnly
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraIdAdminAccountCloudOnly
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraIdAdminAccountCloudOnly;
+        Invoke-ReviewEntraAdminAccountCloudOnly;
     #>
 
     [cmdletbinding()]
@@ -121,7 +121,7 @@ function Invoke-ReviewEntraIdAdminAccountCloudOnly
                 $licenses = ($userLicenses | Where-Object { $_.UserPrincipalName -eq $adminAccount.UserPrincipalName } | Select-Object -ExpandProperty LicenseName -Unique);
 
                 # Write to log.
-                Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ("Admin account '{0}' is not cloud-only or has invalid licenses" -f $adminAccount.UserPrincipalName) -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'User' -Message ("Admin account '{0}' is not cloud-only or has invalid licenses" -f $adminAccount.UserPrincipalName) -Level Debug;
 
                 # Add to object array.
                 $reviewAdminAccounts += [PSCustomObject]@{
@@ -149,13 +149,18 @@ function Invoke-ReviewEntraIdAdminAccountCloudOnly
         }
         
         # Create new review object to return.
-        $review = [Review]::new();
+        [Review]$review = [Review]::new();
 
         # Add to object.
         $review.Id = '289efa41-e17f-43e7-a6b8-9ff8868d3511';
+        $review.Category = 'Microsoft 365 Admin Center';
+        $review.Subcategory = 'Users';
         $review.Title = 'Ensure Administrative accounts are separate and cloud-only';
         $review.Data = $reviewAdminAccounts;
         $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
 
         # Return object.
         return $review;

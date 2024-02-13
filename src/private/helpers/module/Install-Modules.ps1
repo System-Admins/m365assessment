@@ -1,4 +1,4 @@
-function Install-ModuleDependency
+function Install-Modules
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Install-ModuleDependency
     .DESCRIPTION
         Install PowerShell modules from Microsoft required to run the project.
     .EXAMPLE
-        Install-ModuleDependency
+        Install-Modules
     #>
     [cmdletbinding()]
     param
@@ -26,6 +26,7 @@ function Install-ModuleDependency
             'Microsoft.Graph.Groups'
             'Microsoft.Graph.Users',
             'Microsoft.Graph.Identity.DirectoryManagement',
+            'Microsoft.Graph.Identity.SignIns'
             'ExchangeOnlineManagement',
             'PnP.PowerShell',
             'MicrosoftTeams'

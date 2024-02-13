@@ -20,7 +20,7 @@ function Get-EntraIdApplicationUserConsentSetting
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Entra ID' -Message 'Getting user consent setting' -Level Debug;
+        Write-Log -Category 'Entra' -Message 'Getting user consent setting' -Level Debug;
 
         # Get auth policy.
         $authorizationPolicy = Get-MgPolicyAuthorizationPolicy;
@@ -50,7 +50,7 @@ function Get-EntraIdApplicationUserConsentSetting
         }
 
         # Write to log.
-        Write-Log -Category 'Entra ID' -Message ("User consent setting is '{0}'" -f $setting) -Level Debug;
+        Write-Log -Category 'Entra' -Message ("User consent setting is '{0}'" -f $setting) -Level Debug;
     }
     END
     {

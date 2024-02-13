@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraIdNumberOfGlobalAdmins
+function Invoke-ReviewEntraNumberOfGlobalAdmins
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraIdNumberOfGlobalAdmins
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraIdNumberOfGlobalAdmins;
+        Invoke-ReviewEntraNumberOfGlobalAdmins;
     #>
 
     [cmdletbinding()]
@@ -35,7 +35,7 @@ function Invoke-ReviewEntraIdNumberOfGlobalAdmins
             if ($userWithAdminRole.RoleDisplayName -eq 'Global Administrator')
             {
                 # Write to log.
-                Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ("User '{0}' have the role '{1}'" -f $userWithAdminRole.UserPrincipalName, $userWithAdminRole.RoleDisplayName) -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'User' -Message ("User '{0}' have the role '{1}'" -f $userWithAdminRole.UserPrincipalName, $userWithAdminRole.RoleDisplayName) -Level Debug;
 
                 # Add to object array.
                 $globalAdmins.Add($userWithAdminRole) | Out-Null;
@@ -43,7 +43,7 @@ function Invoke-ReviewEntraIdNumberOfGlobalAdmins
         }
 
         # Write to log.
-        Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ('Found {0} with the role Global Administrator' -f $globalAdmins.Count) -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'User' -Message ('Found {0} with the role Global Administrator' -f $globalAdmins.Count) -Level Debug;
     }
     END
     {
@@ -58,13 +58,18 @@ function Invoke-ReviewEntraIdNumberOfGlobalAdmins
         }
                 
         # Create new review object to return.
-        $review = [Review]::new();
+        [Review]$review = [Review]::new();
         
         # Add to object.
         $review.Id = 'd106f228-2f57-4009-a4c1-8d309a97c4f3';
+        $review.Category = 'Microsoft 365 Admin Center';
+        $review.Subcategory = 'Users';
         $review.Title = 'Ensure that between two and four global admins are designated';
         $review.Data = $globalAdmins;
         $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
         
         # Return object.
         return $review;

@@ -35,13 +35,18 @@ function Invoke-ReviewTenantCustomerLockEnabled
         }
                                
         # Create new review object to return.
-        $review = [Review]::new();
+        [Review]$review = [Review]::new();
                        
         # Add to object.
         $review.Id = 'f4cf24ca-cd8f-4ded-bfe0-6f45f3bcfed0';
+        $review.Category = 'Microsoft 365 Admin Center';
+        $review.Subcategory = 'Settings';
         $review.Title = "Ensure the customer lockbox feature is enabled";
         $review.Data = $settings.CustomerLockBoxEnabled;
         $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
                        
         # Return object.
         return $review;

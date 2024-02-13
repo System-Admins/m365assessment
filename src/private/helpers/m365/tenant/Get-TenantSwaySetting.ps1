@@ -19,6 +19,9 @@ function Get-TenantSwaySetting
     }
     PROCESS
     {
+        # Write to log.
+        Write-Log -Category "Microsoft Sway" -Subcategory "Settings" -Message ("Getting Microsoft Sway settings") -Level Debug;
+        
         # Invoke the API.
         $response = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';
 
@@ -26,7 +29,7 @@ function Get-TenantSwaySetting
         if ($null -eq $response)
         {
             # Throw execption.
-            Write-Log -Category "Organization" -Message ("Something went wrong getting organization Microsoft Sway settings, execption is '{0}'" -f $_) -Level Error;
+            Write-Log -Category "Microsoft Sway" -Subcategory "Settings" -Message ("Something went wrong getting organization Microsoft Sway settings") -Level Error;
         }
     }
     END

@@ -31,7 +31,7 @@ function Invoke-ReviewTenantUserOwnedAppsService
         if ($null -eq $settings)
         {
             # Throw execption.
-            Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("Something went wrong getting user owned apps and services settings, execption is '{0}'" -f $_) -Level Error;
+            Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("Something went wrong getting user owned apps and services settings") -Level Error;
         }
 
         # If "Let users access the Office store" and "Let users start trials on behalf of your organization" is disabled.
@@ -42,8 +42,8 @@ function Invoke-ReviewTenantUserOwnedAppsService
         }
 
         # Write to log.
-        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("Let users access the Office store status is set to '{0}'" -f $settings.accessOfficeStore) -Level Debug;
-        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("Let users start trials on behalf of your organization status is set to '{0}'" -f $settings.accessOfficeStore) -Level Debug;
+        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("'Let users access the Office store' status is set to '{0}'" -f $settings.accessOfficeStore) -Level Debug;
+        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("'Let users start trials on behalf of your organization' status is set to '{0}'" -f $settings.accessOfficeStore) -Level Debug;
     }
     END
     {
@@ -58,13 +58,18 @@ function Invoke-ReviewTenantUserOwnedAppsService
         }
                                     
         # Create new review object to return.
-        $review = [Review]::new();
+        [Review]$review = [Review]::new();
                             
         # Add to object.
         $review.Id = '59a56832-8e8f-42ef-b03c-3a147059fe6f';
+        $review.Category = 'Microsoft 365 Admin Center';
+        $review.Subcategory = 'Settings';
         $review.Title = "Ensure 'User owned apps and services' is restricted";
         $review.Data = $settings;
         $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
                             
         # Return object.
         return $review;

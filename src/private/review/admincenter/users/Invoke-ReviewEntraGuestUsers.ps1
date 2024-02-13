@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraIdGuestUsers
+function Invoke-ReviewEntraGuestUsers
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraIdGuestUsers
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraIdGuestUsers;
+        Invoke-ReviewEntraGuestUsers;
     #>
 
     [cmdletbinding()]
@@ -34,7 +34,7 @@ function Invoke-ReviewEntraIdGuestUsers
             $roles = ($usersWithAdminRole | Where-Object { $_.UserPrincipalName -eq $guestUser.UserPrincipalName }).RoleDisplayName;
 
             # Write to log.
-            Write-Log -Category 'Entra ID' -Subcategory 'User' -Message ("Found guest user '{0}'" -f $guestUser.UserPrincipalName) -Level Debug;
+            Write-Log -Category 'Entra' -Subcategory 'User' -Message ("Found guest user '{0}'" -f $guestUser.UserPrincipalName) -Level Debug;
 
             # Add to object array.
             $reviewAccounts += [PSCustomObject]@{
@@ -63,13 +63,18 @@ function Invoke-ReviewEntraIdGuestUsers
         }
                 
         # Create new review object to return.
-        $review = [Review]::new();
+        [Review]$review = [Review]::new();
         
         # Add to object.
         $review.Id = '7fe4d30e-42bd-44d4-8066-0b732dcbda4c';
+        $review.Category = 'Microsoft 365 Admin Center';
+        $review.Subcategory = 'Users';
         $review.Title = 'Ensure Guest Users are reviewed';
         $review.Data = $reviewAccounts;
         $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
         
         # Return object.
         return $review;

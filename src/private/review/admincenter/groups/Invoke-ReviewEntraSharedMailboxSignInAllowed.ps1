@@ -1,16 +1,16 @@
-function Invoke-ReviewEntraIdSharedMailboxSignInAllowed
+function Invoke-ReviewEntraSharedMailboxSignInAllowed
 {
     <#
     .SYNOPSIS
         Get shared mailboxes and check if sign-in is allowed.
     .DESCRIPTION
-        Return review object.
+        Returns review object.
     .NOTES
         Requires the following modules:
         - ExchangeOnlineManagement
         - Microsoft.Graph.Users
     .EXAMPLE
-        Invoke-ReviewEntraIdSharedMailboxSignInAllowed;
+        Invoke-ReviewEntraSharedMailboxSignInAllowed;
     #>
     [cmdletbinding()]
     param
@@ -41,7 +41,7 @@ function Invoke-ReviewEntraIdSharedMailboxSignInAllowed
         );
 
         # Write to log.
-        Write-Log -Category 'Entra ID' -Subcategory 'User' -Message 'Getting all users' -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'User' -Message 'Getting all users' -Level Debug;
 
         # Get all users.
         $users = Get-MgUser -All -Property $property;
@@ -126,13 +126,18 @@ function Invoke-ReviewEntraIdSharedMailboxSignInAllowed
         }
                                
         # Create new review object to return.
-        $review = [Review]::new();
+        [Review]$review = [Review]::new();
                        
         # Add to object.
         $review.Id = 'dc6727fe-333d-46ad-9ad6-f9b0ae23d03b';
+        $review.Category = 'Microsoft 365 Admin Center';
+        $review.Subcategory = 'Teams and groups';
         $review.Title = 'Ensure sign-in to shared mailboxes is blocked';
         $review.Data = $reviewSharedMailbox;
         $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
                        
         # Return object.
         return $review;

@@ -1,12 +1,15 @@
-function Get-ConditionalAccessEnforceAppRestriction
+function Get-EntraIdConditionalAccessEnforceAppRestriction
 {
     <#
     .SYNOPSIS
-        Review in conditional access is configured to enforce app restrictions.
+        Get all conditional access policies that is set to enforce app restriction.
     .DESCRIPTION
-        Run through every conditional access and check if it's fulfilled.
+        Returns list of policies that are set to enforce app restrictions.
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Identity.SignIns
     .EXAMPLE
-        Get-ConditionalAccessEnforceAppRestriction;
+        Get-EntraIdConditionalAccessEnforceAppRestriction;
     #>
 
     [cmdletbinding()]
@@ -16,6 +19,9 @@ function Get-ConditionalAccessEnforceAppRestriction
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message 'Getting all conditional access policies' -Level Debug;
+
         # Get all policies.
         $conditionalAccessPolicies = Get-MgIdentityConditionalAccessPolicy -All;
 
@@ -37,6 +43,9 @@ function Get-ConditionalAccessEnforceAppRestriction
             # If the policy is not enabled.
             if ($conditionalAccessPolicy.State -ne 'enabled')
             {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' disabled" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+
                 # Set condition.
                 $policyEnabled = $false;
             }
@@ -44,6 +53,9 @@ function Get-ConditionalAccessEnforceAppRestriction
             # If the policy is not applied to all users.
             if ($conditionalAccessPolicy.Conditions.Users.IncludeUsers -ne 'All')
             {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' is not applied to all users" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+
                 # Set condition.
                 $policyAppliedToAllUsers = $false;
             }
@@ -51,6 +63,9 @@ function Get-ConditionalAccessEnforceAppRestriction
             # Else if the policy is excluded from all users.
             if ($conditionalAccessPolicy.Conditions.Users.ExcludeUsers -eq 'All')
             {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' have excluded all users" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+
                 # Set condition.
                 $policyAppliedToAllUsers = $false;
             }
@@ -58,6 +73,9 @@ function Get-ConditionalAccessEnforceAppRestriction
             # If the policy is not applied to the Office 365 cloud app.
             if ($conditionalAccessPolicy.Conditions.Applications.IncludeApplications -ne 'Office365')
             {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' is not applied to Office 365 app" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+
                 # Set condition.
                 $policyAppliedToCloudApp = $false;
             }
@@ -65,6 +83,9 @@ function Get-ConditionalAccessEnforceAppRestriction
             # Else if the policy is excluded from the Office 365 cloud app.
             if ($conditionalAccessPolicy.Conditions.Applications.ExcludeApplications -eq 'Office365')
             {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' have excluded the Office 365 app" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+
                 # Set condition.
                 $policyAppliedToCloudApp = $false;
             }
@@ -72,6 +93,9 @@ function Get-ConditionalAccessEnforceAppRestriction
             # If the policy is not applied to the browser client app.
             if ($conditionalAccessPolicy.Conditions.ClientAppTypes -notcontains 'browser')
             {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' do not have the browser as a client app" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+
                 # Set condition.
                 $policyAppliedConditionClientApp = $false;
             }
@@ -79,15 +103,22 @@ function Get-ConditionalAccessEnforceAppRestriction
             # If the session control is not set to enforce application restrictions.
             if ($false -eq $conditionalAccessPolicy.SessionControls.ApplicationEnforcedRestrictions.IsEnabled)
             {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' session control do not have application enforce restriction set" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+
                 # Set condition.
                 $policyAppliedSessionAppEnforceRestrictions = $false;
             }
 
             # If conditions are met.
-            if ($policyEnabled -and $policyAppliedToAllUsers -and $policyAppliedToCloudApp -and $policyAppliedConditionClientApp -and $policyAppliedSessionAppEnforceRestrictions)
+            if ($true -eq $policyEnabled -and
+                $true -eq $policyAppliedToAllUsers -and
+                $true -eq $policyAppliedToCloudApp -and
+                $true -eq $policyAppliedConditionClientApp -and
+                $true -eq $policyAppliedSessionAppEnforceRestrictions)
             {
                 # Write to log.
-                Write-Log -Category "Security" -Message ("Conditional access policy '{0}' is set to enforce session idle timeout" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Conditional access policy '{0}' is set to enforce session idle timeout" -f $conditionalAccessPolicy.DisplayName) -Level Debug;
 
                 # Add to list.
                 $policies += [PSCustomObject]@{
@@ -97,15 +128,14 @@ function Get-ConditionalAccessEnforceAppRestriction
                     State       = $conditionalAccessPolicy.State;
                 }
             }
+
+            # Write to log.
+            Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ('Found {0} that is set to enforce session idle timenout (enforce app restriction)' -f $policies.Count) -Level Debug;
         }
     }
     END
     {
-        # If there is enforced application restrictions.
-        if ($policies.Count -gt 0)
-        {
-            # Return policies.
-            return $policies;
-        }
+        # Return policies.
+        return $policies;
     }
 }

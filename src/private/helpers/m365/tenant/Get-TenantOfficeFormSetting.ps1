@@ -20,7 +20,7 @@ function Get-TenantOfficeFormSetting
     PROCESS
     {
         # Write to log.
-        Write-Log -Category "Microsoft Forms" -Subcategory 'Settings' -Message ("Getting Microsoft Forms tenant settings") -Level Debug;
+        Write-Log -Category 'Microsoft Forms' -Subcategory 'Policy' -Message ('Getting tenant settings') -Level Debug;
 
         # Invoke the API.
         $settings = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';
@@ -29,7 +29,7 @@ function Get-TenantOfficeFormSetting
         if ($null -eq $settings)
         {
             # Throw execption.
-            Write-Log -Category "Microsoft Forms" -Subcategory 'Settings' -Message ("Something went wrong getting organization Microsoft Form settings, execption is '{0}'" -f $_) -Level Error;
+            Write-Log -Category 'Microsoft Forms' -Subcategory 'Policy' -Message ("Something went wrong getting organization Microsoft Form settings") -Level Error;
         }
     }
     END

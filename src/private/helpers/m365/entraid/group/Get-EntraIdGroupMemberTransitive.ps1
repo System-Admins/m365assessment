@@ -31,19 +31,19 @@ function Get-EntraIdGroupMemberTransitive
         try
         {
             # Write to log.
-            Write-Log -Category 'Entra ID' -Message ("Trying to get members from group '{0}'" -f $Id) -Level Debug;
+            Write-Log -Category 'Entra' -Message ("Trying to get members from group '{0}'" -f $Id) -Level Debug;
 
             # Get members.
             $response = Invoke-MgGraphRequest -Method Get -Uri $uri -OutputType PSObject -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category 'Entra ID' -Message ("Successfully got members from group '{0}'" -f $Id) -Level Debug;
+            Write-Log -Category 'Entra' -Message ("Successfully got members from group '{0}'" -f $Id) -Level Debug;
         }
         # Something went wrong while getting members from group.
         catch
         {
             # Throw execption.
-            Write-Log -Category 'Entra ID' -Message ("Something went wrong while getting members from group '{0}', exception is '{1}'" -f $Id, $_) -Level Error;
+            Write-Log -Category 'Entra' -Message ("Something went wrong while getting members from group '{0}', exception is '{1}'" -f $Id, $_) -Level Error;
         }
     }
     END
