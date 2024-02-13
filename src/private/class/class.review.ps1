@@ -23,6 +23,6 @@ class Review
         }
         
         # Write to log.
-        Write-Log -Category $this.Category -Subcategory $_.Subcategory -Message ('{0} {1}' -f $emoji, $this.Title) -Level Information -NoDateTime -NoLogLevel -NoLogFile;
+        Write-Log -Category $this.Category -Subcategory $this.Subcategory -Message ('{0} {1}' -f $emoji, $this.Title) -Level Information -NoDateTime -NoLogLevel -NoLogFile;
     }
 }

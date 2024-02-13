@@ -24,7 +24,7 @@ function Get-DnsOnmicrosoftDomain
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'DNS' -Subcategory 'ONMICROSOFT' -Message ('Getting all Microsoft 365 managed domains') -Level Debug;
+        Write-Log -Category 'DNS' -Subcategory 'Microsoft 365' -Message ('Getting all Microsoft 365 managed domains') -Level Debug;
 
         # Get domains.
         $domains = Get-MgDomain -All;
@@ -44,7 +44,7 @@ function Get-DnsOnmicrosoftDomain
                 $initialDomain = $domain.id;
 
                 #  Write to log.
-                Write-Log -Category 'DNS' -Subcategory 'ONMICROSOFT' -Message ('Initial Microsoft 365 domain is "{0}"' -f $initialDomain) -Level Debug;
+                Write-Log -Category 'DNS' -Subcategory 'Microsoft 365' -Message ('Initial Microsoft 365 domain is "{0}"' -f $initialDomain) -Level Debug;
 
                 # Break loop.
                 break;

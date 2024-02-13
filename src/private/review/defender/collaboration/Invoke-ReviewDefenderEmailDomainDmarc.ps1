@@ -1,12 +1,15 @@
-function Invoke-ReviewEmailDomainDmarc
+function Invoke-ReviewDefenderEmailDomainDmarc
 {
     <#
     .SYNOPSIS
         Review that all e-mail domains have a valid DMARC-record.
     .DESCRIPTION
-        Lookup DNS TXT records and verify that e-mail.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Identity.DirectoryManagement
     .EXAMPLE
-        Invoke-ReviewEmailDomainDmarc;
+        Invoke-ReviewDefenderEmailDomainDmarc;
     #>
 
     [cmdletbinding()]
@@ -17,7 +20,7 @@ function Invoke-ReviewEmailDomainDmarc
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Defender' -Message 'Getting all domains' -Level Debug;
+        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all domains' -Level Debug;
 
         # Get all domains in Microsoft 365 tenant.
         $domains = Get-MgDomain -All;
@@ -41,7 +44,10 @@ function Invoke-ReviewEmailDomainDmarc
             }
             
             # Boolean if DMARC is configured correct.
-            $dmarcValid = $false;
+            $valid = $false;
+
+            # CLear DMARC records.
+            $dmarcRecords = $null;
 
             # If e-mail is a supported service.
             if ($domain.SupportedServices -contains 'Email')
@@ -53,23 +59,48 @@ function Invoke-ReviewEmailDomainDmarc
                 if ($dmarcRecords.Count -gt 0)
                 {
                     # Set boolean to true.
-                    $dmarcValid = $true;
+                    $valid = $true;
                 }
             }
 
             # Add domain DMARC settings to object array.
             $dmarcSettings += [pscustomobject]@{
                 Domain             = $domain.Id;
-                DnsRecordValid     = $dmarcValid;
+                Valid              = $valid;
                 IsDefault          = $domain.IsDefault;
                 IsVerified         = $domain.IsVerified;
                 AuthenticationType = $domain.AuthenticationType;
+                Record             = $dmarcRecords.Record;
             };
         }
     }
     END
     {
-        # Return object array.
-        return $dmarcSettings;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($dmarcSettings | Where-Object { $_.Valid -eq $false })
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                       
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+               
+        # Add to object.
+        $review.Id = '7f46d070-097f-4a6b-aad1-118b5b707f41';
+        $review.Category = 'Microsoft 365 Defender';
+        $review.Subcategory = 'Email and collaboration';
+        $review.Title = 'Ensure DMARC Records for all Exchange Online domains are published';
+        $review.Data = $dmarcSettings;
+        $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
+               
+        # Return object.
+        return $review;
     }
 }

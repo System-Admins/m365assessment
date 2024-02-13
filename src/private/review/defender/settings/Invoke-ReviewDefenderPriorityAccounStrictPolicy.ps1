@@ -1,12 +1,16 @@
-function Invoke-ReviewPriorityAccounStrictPolicy
+function Invoke-ReviewDefenderPriorityAccounStrictPolicy
 {
     <#
     .SYNOPSIS
         Review that priority accounts have 'Strict protection' presets applied.
     .DESCRIPTION
-        Get all priority account and check if they have applied the strict proction policies.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagement
+        - Microsoft.Graph.Groups
     .EXAMPLE
-        Invoke-ReviewPriorityAccounStrictPolicy;
+        Invoke-ReviewDefenderPriorityAccounStrictPolicy;
     #>
 
     [cmdletbinding()]
@@ -16,6 +20,9 @@ function Invoke-ReviewPriorityAccounStrictPolicy
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policies' -Level Debug;
+        
         # Get proctection policy rules.
         $eopProtectionPolicyRule = Get-EOPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
         $atpProtectionPolicyRule = Get-ATPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
@@ -201,6 +208,9 @@ function Invoke-ReviewPriorityAccounStrictPolicy
             # If the user is not protected by the strict policy.
             if ($false -eq $protectedByStrictPolicy)
             {
+                # Write to log.
+                Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message ("Priority user '{0}' is not protected by the strict policy" -f $priorityUser) -Level Debug;
+
                 # Add user to the list.
                 $priorityUsersNotInStrictPolicy.Add($priorityUser) | Out-Null;
             }
@@ -208,7 +218,31 @@ function Invoke-ReviewPriorityAccounStrictPolicy
     }
     END
     {
-        # Return the users not in the strict policy.
-        return $priorityUsersNotInStrictPolicy;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($priorityUsersNotInStrictPolicy.Count -gt 0)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                              
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                      
+        # Add to object.
+        $review.Id = '9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7';
+        $review.Category = 'Microsoft 365 Defender';
+        $review.Subcategory = 'Settings';
+        $review.Title = "Ensure Priority accounts have 'Strict protection' presets applied";
+        $review.Data = $priorityUsersNotInStrictPolicy;
+        $review.Review = $reviewFlag;
+                       
+        # Print result.
+        $review.PrintResult();
+                                      
+        # Return object.
+        return $review;
     }
 }

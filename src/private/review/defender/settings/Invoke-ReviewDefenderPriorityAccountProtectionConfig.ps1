@@ -1,12 +1,15 @@
-function Invoke-ReviewPriorityAccountProtectionConfig
+function Invoke-ReviewDefenderPriorityAccountProtectionConfig
 {
     <#
     .SYNOPSIS
         Review that priority account protection is enabled and configured.
     .DESCRIPTION
-        Ensure that priority account protection is enabled and one or more users are protected.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewPriorityAccountProtectionConfig;
+        Invoke-ReviewDefenderPriorityAccountProtectionConfig;
     #>
 
     [cmdletbinding()]
@@ -17,7 +20,7 @@ function Invoke-ReviewPriorityAccountProtectionConfig
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Defender' -Message 'Getting email tenant settings' -Level Debug;
+        Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Getting email tenant settings' -Level Debug;
 
         # Get the current email tenant settings.
         $emailTenantSettings = Get-EmailTenantSettings;
@@ -114,7 +117,33 @@ function Invoke-ReviewPriorityAccountProtectionConfig
     }
     END
     {
-        # Return settings.
-        return $settings;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $settings.PriorityAccountProtectionEnabled -or
+            $false -eq $settings.PriorityAccountUsersExist -or
+            $false -eq $settings.PriorityAccountProtectionPolicyExist)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                      
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                              
+        # Add to object.
+        $review.Id = '749ee441-71ea-4261-86da-1f1081c65bb3';
+        $review.Category = 'Microsoft 365 Defender';
+        $review.Subcategory = 'Settings';
+        $review.Title = 'Ensure Priority account protection is enabled and configured';
+        $review.Data = $settings;
+        $review.Review = $reviewFlag;
+               
+        # Print result.
+        $review.PrintResult();
+                              
+        # Return object.
+        return $review;
     }
 }

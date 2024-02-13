@@ -1,12 +1,15 @@
-function Invoke-ReviewAntiSpamNotifyAdmins
+function Invoke-ReviewDefenderAntiSpamNotifyAdmins
 {
     <#
     .SYNOPSIS
         Review Exchange Online Spam Policies are set to notify administrators.
     .DESCRIPTION
-        Get spam policy settings and check if they are configured correctly to notify administrators.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewAntiSpamNotifyAdmins;
+        Invoke-ReviewDefenderAntiSpamNotifyAdmins;
     #>
 
     [cmdletbinding()]
@@ -17,7 +20,7 @@ function Invoke-ReviewAntiSpamNotifyAdmins
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Defender' -Message 'Getting outbound e-mail spam policies' -Level Debug;
+        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting outbound e-mail spam policies' -Level Debug;
 
         # Get outbound e-mail spam policies.
         $outboundSpamFilterPolicies = Get-HostedOutboundSpamFilterPolicy;
@@ -31,34 +34,41 @@ function Invoke-ReviewAntiSpamNotifyAdmins
         foreach ($outboundSpamFilterPolicy in $outboundSpamFilterPolicies)
         {
             # Boolean if configured correctly.
-            $configuredCorrect = $true;
+            $valid = $true;
 
             # If bcc suspicous outbound email is not enabled.
             if ($false -eq $outboundSpamFilterPolicy.BccSuspiciousOutboundMail)
             {
                 # Set the boolean to false.
-                $configuredCorrect = $false;
+                $valid = $false;
             }
 
             # If notify outbound spam is not enabled.
             if ($false -eq $outboundSpamFilterPolicy.NotifyOutboundSpam)
             {
                 # Set the boolean to false.
-                $configuredCorrect = $false;
+                $valid = $false;
             }
 
             # If no recipient.
             if ($null -eq $outboundSpamFilterPolicy.NotifyOutboundSpamRecipients)
             {
                 # Set the boolean to false.
-                $configuredCorrect = $false;
+                $valid = $false;
             }
 
             # If the policy is not enabled.
             if ($false -eq $outboundSpamFilterPolicy.Enabled)
             {
                 # Set the boolean to false.
-                $configuredCorrect = $false;
+                $valid = $false;
+            }
+
+            # If not valid.
+            if ($valid -eq $false)
+            {
+                # Write to log.
+                Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ('Outbound e-mail spam policy {0} is not set to notify administrators' -f $outboundSpamFilterPolicy.Name) -Level Debug;
             }
 
             # Create object.
@@ -66,7 +76,7 @@ function Invoke-ReviewAntiSpamNotifyAdmins
                 Guid                         = $outboundSpamFilterPolicy.Guid;
                 Id                           = $outboundSpamFilterPolicy.Id;
                 Name                         = $outboundSpamFilterPolicy.Name;
-                ConfiguredCorrect            = $configuredCorrect;
+                Valid                        = $valid;
                 BccSuspiciousOutboundMail    = $outboundSpamFilterPolicy.BccSuspiciousOutboundMail;
                 NotifyOutboundSpam           = $outboundSpamFilterPolicy.NotifyOutboundSpam;
                 NotifyOutboundSpamRecipients = $outboundSpamFilterPolicy.NotifyOutboundSpamRecipients;
@@ -76,8 +86,32 @@ function Invoke-ReviewAntiSpamNotifyAdmins
     }
     END
     {
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($settings | Where-Object { $_.Valid -eq $false })
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                       
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+               
+        # Add to object.
+        $review.Id = 'a019303a-3b0a-4f42-999d-0d76b528ae28';
+        $review.Category = 'Microsoft 365 Defender';
+        $review.Subcategory = 'Email and collaboration';
+        $review.Title = 'Ensure Exchange Online Spam Policies are set to notify administrators';
+        $review.Data = $settings;
+        $review.Review = $reviewFlag;
+
+        # Print result.
+        $review.PrintResult();
+               
         # Return object.
-        return $settings;
+        return $review;
     }
 }
 

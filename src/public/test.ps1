@@ -11,10 +11,10 @@ foreach ($ps1File in $ps1Files)
 ######################################
 
 # Install modules.
-#Install-Modules -Reinstall;
+#Install-Modules;
 
 # Connect to Microsoft.
-#Connect-Tenant -Disconnect;
+#Connect-Tenant;
 
 ######################################
 
@@ -121,3 +121,81 @@ $reviews.Add((Invoke-ReviewDefenderMalwareCommonAttachmentTypesFilter)) | Out-Nu
 # 2.1.3 Ensure notifications for internal users sending malware is Enabled.
 # 01f7327e-f8cf-4542-b12a-41b40d03415d
 $reviews.Add((Invoke-ReviewDefenderMalwareInternalUserNotifications)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.4 Ensure Safe Attachments policy is enabled.
+# 383ea8f2-48e1-4a1f-bcc7-626fbeb0f331
+$reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabled)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.5 Ensure Safe Attachments for SharePoint, OneDrive, and Microsoft Teams is Enabled.
+# a4fb003f-b742-4a97-8a9a-c4e5a82171a4
+$reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.6 Ensure Exchange Online Spam Policies are set to notify administrators.
+# a019303a-3b0a-4f42-999d-0d76b528ae28
+$reviews.Add((Invoke-ReviewDefenderAntiSpamNotifyAdmins)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.7 Ensure that an anti-phishing policy has been created.
+# 13954bef-f9cd-49f8-b8c8-626e87de6ba2
+$reviews.Add((Invoke-ReviewDefenderAntiPhishingPolicy)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.8 Ensure that SPF records are published for all Exchange Domains.
+# 9be729e4-0378-4c2c-afa1-92b2af71c4e9
+$reviews.Add((Invoke-ReviewDefenderEmailDomainSpf)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.9 Ensure that DKIM is enabled for all Exchange Online Domains.
+# 92adb77c-a12b-4dee-8ce8-2b5f748f22ec
+$reviews.Add((Invoke-ReviewDefenderEmailDomainDkim)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.10 Ensure DMARC Records for all Exchange Online domains are published.
+# 7f46d070-097f-4a6b-aad1-118b5b707f41
+$reviews.Add((Invoke-ReviewDefenderEmailDomainDmarc)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.11 Ensure the spoofed domains report is reviewed weekly.
+# c7d90aa7-bcb3-403c-96f4-bc828e6246ff
+$reviews.Add((Invoke-ReviewDefenderEmailSpoofSenders)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.1 Email and collaboration
+# 2.1.12 Ensure the 'Restricted entities' report is reviewed weekly.
+# 86bab3de-8bac-442f-8495-496bd1ed75b9
+$reviews.Add((Invoke-ReviewEmailRestrictedSenders)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.3 Audit
+# 2.3.1 Ensure the Account Provisioning Activity report is reviewed at least weekly.
+# 3483e87b-6069-4355-928f-dc9be4e31902
+$reviews.Add((Invoke-ReviewDefenderAccountProvisioningActivity)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.3 Audit
+# 2.3.2 Ensure non-global administrator role group assignments are reviewed at least weekly.
+# 8104752c-9e07-4a61-99a1-7161a792d76e
+$reviews.Add((Invoke-ReviewDefenderNonGlobalAdminRoleAssignment)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.4 Settings
+# 2.4.1 Ensure Priority account protection is enabled and configured.
+# 749ee441-71ea-4261-86da-1f1081c65bb3
+$reviews.Add((Invoke-ReviewDefenderPriorityAccountProtectionConfig)) | Out-Null;
+
+# 2. Microsoft 365 Defender
+# 2.4 Settings
+# 2.4.2 Ensure Priority accounts have 'Strict protection' presets applied.
+# 9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7
+$reviews.Add((Invoke-ReviewDefenderEmailRestrictedSenders)) | Out-Null;
