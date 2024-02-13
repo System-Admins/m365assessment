@@ -198,4 +198,4 @@ $reviews.Add((Invoke-ReviewDefenderPriorityAccountProtectionConfig)) | Out-Null;
 # 2.4 Settings
 # 2.4.2 Ensure Priority accounts have 'Strict protection' presets applied.
 # 9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7
-$reviews.Add((Invoke-ReviewDefenderEmailRestrictedSenders)) | Out-Null;
+$reviews.Add((Invoke-ReviewDefenderPriorityAccounStrictPolicy)) | Out-Null;
