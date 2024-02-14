@@ -26,7 +26,8 @@ function Install-Modules
             'Microsoft.Graph.Groups'
             'Microsoft.Graph.Users',
             'Microsoft.Graph.Identity.DirectoryManagement',
-            'Microsoft.Graph.Identity.SignIns'
+            'Microsoft.Graph.Identity.SignIns',
+            'Microsoft.Graph.Beta.Reports',
             'ExchangeOnlineManagement',
             'PnP.PowerShell',
             'MicrosoftTeams'

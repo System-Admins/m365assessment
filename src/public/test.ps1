@@ -1,5 +1,6 @@
 # Get all the files in the src (private) folder.
-$ps1Files = Get-ChildItem -Path 'C:\Repositories\m365assessment\src\private' -Recurse -File -Filter *.ps1;
+#$ps1Files = Get-ChildItem -Path 'C:\Repositories\m365assessment\src\private' -Recurse -File -Filter *.ps1;
+$ps1Files = Get-ChildItem -Path '/Users/ath/Repositories/m365assessment/src/private' -Recurse -File -Filter *.ps1;
 
 # Loop through each file
 foreach ($ps1File in $ps1Files)
@@ -9,6 +10,8 @@ foreach ($ps1File in $ps1Files)
 }
 
 ######################################
+
+#Uninstall-ModuleAll
 
 # Install modules.
 #Install-Modules;
@@ -274,7 +277,14 @@ $reviews.Add((Invoke-ReviewEntraBlockLinkedInConnection)) | Out-Null;
 
 # 5. Microsoft Entra Admin Center
 # 5.1 Identity
-# 5.1.2 Groups
-# 5.1.2.6 Ensure a dynamic group for guest users is created.
+# 5.1.3 Groups
+# 5.1.3.6 Ensure a dynamic group for guest users is created.
 # a15e2ff5-2a03-495d-a4f2-4935742395d5
 $reviews.Add((Invoke-ReviewEntraGuestDynamicGroup)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.5 Applications
+# 5.1.5.1 Ensure the Application Usage report is reviewed at least weekly.
+# 95d55daa-d432-44f5-907a-eda61b57696f
+$reviews.Add((Invoke-ReviewEntraApplicationUsageReport)) | Out-Null;

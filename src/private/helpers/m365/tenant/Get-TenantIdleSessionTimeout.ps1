@@ -5,6 +5,9 @@ function Get-TenantIdleSessionTimeout
         Review the idle session timeout policy.
     .DESCRIPTION
         Get all idle session timeout policies and return them.
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Identity.SignIns
     .EXAMPLE
         Get-TenantIdleSessionTimeout;
     #>
