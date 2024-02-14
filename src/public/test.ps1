@@ -199,3 +199,82 @@ $reviews.Add((Invoke-ReviewDefenderPriorityAccountProtectionConfig)) | Out-Null;
 # 2.4.2 Ensure Priority accounts have 'Strict protection' presets applied.
 # 9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7
 $reviews.Add((Invoke-ReviewDefenderPriorityAccounStrictPolicy)) | Out-Null;
+
+# 3. Microsoft Purview
+# 3.1 Audit
+# 3.1.1 Ensure Microsoft 365 audit log search is Enabled.
+# 55299518-ad01-4532-aa35-422fd962c881
+$reviews.Add((Invoke-ReviewPurviewUnifiedAuditLogIsEnabled)) | Out-Null;
+
+# 3. Microsoft Purview
+# 3.1 Audit
+# 3.1.2 Ensure Microsoft 365 audit log search is Enabled.
+# 6fe596b2-1ee0-46e1-9dba-316d1888d016
+$reviews.Add((Invoke-ReviewPurviewUserRoleGroupChanges)) | Out-Null;
+
+# 3. Microsoft Purview
+# 3.2 Data Loss Prevention (DLP)
+# 3.2.1 Ensure DLP policies are enabled.
+# b9caf88c-0c9c-42a8-b6be-14953a8b76c3
+$reviews.Add((Invoke-ReviewPurviewDlpPolicyEnabled)) | Out-Null;
+
+# 3. Microsoft Purview
+# 3.2 Data Loss Prevention (DLP)
+# 3.2.2 Ensure DLP policies are enabled for Microsoft Teams.
+# 48d970b5-a31b-41e9-9d66-eb8e02e0546d
+$reviews.Add((Invoke-ReviewPurviewDlpTeamsPolicyEnabled)) | Out-Null;
+
+# 3. Microsoft Purview
+# 3.3 Information Protection
+# 3.3.1 Ensure SharePoint Online Information Protection policies are set up and used.
+# b01a1187-5921-4b29-95fd-73e1af3c5285
+$reviews.Add((Invoke-ReviewPurviewInformationProtectionLabelPolicy)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.1 Overview.
+# 5.1.1.1 Ensure Security Defaults is disabled on Azure Active Directory.
+# bf8c7733-8ec0-4c86-9c4e-28bf4812a57a
+$reviews.Add((Invoke-ReviewEntraSecurityDefaultEnabled)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.2 Users
+# 5.1.2.2 Ensure third-party integrated applications are not allowed.
+# 3caa1bff-bce3-4744-8898-00b0ebc49ff7
+$reviews.Add((Invoke-ReviewEntraUsersCanRegisterAppsEnabled)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.2 Users
+# 5.1.2.3 Ensure 'Restrict non-admin users from creating tenants' is set to 'Yes'.
+# bf785c94-b3b4-4b1b-bf90-55031fdba42c
+$reviews.Add((Invoke-ReviewEntraUsersAllowedToCreateTenants)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.2 Users
+# 5.1.2.4 Ensure 'Restrict access to the Azure AD administration portal' is set to 'Yes'.
+# 591c821b-52ca-48f3-806e-56a98d25c041
+$reviews.Add((Invoke-ReviewEntraRestrictNonAdminUsersAdminPortal)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.2 Users
+# 5.1.2.5 Ensure the option to remain signed in is hidden.
+# 08798711-af3c-4fdc-8daf-947b050dca95
+$reviews.Add((Invoke-ReviewEntraHideKeepMeSignedIn)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.2 Users
+# 5.1.2.6 Ensure 'LinkedIn account connections' is disabled.
+# 23d22457-f5e2-4f55-9aba-e483e8cbb11d
+$reviews.Add((Invoke-ReviewEntraBlockLinkedInConnection)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.2 Groups
+# 5.1.2.6 Ensure a dynamic group for guest users is created.
+# a15e2ff5-2a03-495d-a4f2-4935742395d5
+$reviews.Add((Invoke-ReviewEntraGuestDynamicGroup)) | Out-Null;
