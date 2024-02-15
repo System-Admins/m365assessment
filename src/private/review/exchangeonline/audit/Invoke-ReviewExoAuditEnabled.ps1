@@ -4,7 +4,10 @@ function Invoke-ReviewExoAuditEnabled
     .SYNOPSIS
         Check if 'AuditDisabled' organizationally is set to 'False'.
     .DESCRIPTION
-        Return true if enabled otherwise false.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagent
     .EXAMPLE
         Invoke-ReviewExoAuditEnabled;
     #>
@@ -16,6 +19,9 @@ function Invoke-ReviewExoAuditEnabled
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting organization configuration' -Level Debug;
+
         # Get organization config.
         $organizationConfig = Get-OrganizationConfig;
 
@@ -30,10 +36,37 @@ function Invoke-ReviewExoAuditEnabled
             # Set to true.
             $enabled = $true;
         }
+
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Audit feature is set to '{0}'" -f $enabled) -Level Debug;
     }
     END
     {
-        # Return state.
-        return $enabled;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $enabled)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = '7cf11de7-eeb9-4e96-b406-7e69c232a9c0';
+        $review.Category = 'Microsoft Exchange Admin Center';
+        $review.Subcategory = 'Audit';
+        $review.Title = "Ensure 'AuditDisabled' organizationally is set to 'False'";
+        $review.Data = $enabled;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

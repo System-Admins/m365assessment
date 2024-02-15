@@ -4,7 +4,10 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
     .SYNOPSIS
         Check if 'AuditBypassEnabled' is not enabled on mailboxes.
     .DESCRIPTION
-        Return list of users with mailbox audit bypass enabled.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagent
     .EXAMPLE
         Invoke-ReviewExoMailboxAuditBypassDisabled;
     #>
@@ -16,8 +19,11 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting mailbox audit bypass associations' -Level Debug;
+
         # Get all mailboxes.
-        $mailboxes = Get-MailboxAuditBypassAssociation -ResultSize unlimited -WarningAction SilentlyContinue;
+        $mailboxes = Get-MailboxAuditBypassAssociation -ResultSize Unlimited -WarningAction SilentlyContinue;
 
         # Object array with mailboxes where auditing bypass is enabled.
         $mailboxesAuditBypassEnabled = New-Object System.Collections.ArrayList;
@@ -34,10 +40,37 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
                 $mailboxesAuditBypassEnabled += $mailbox;
             }
         }
+
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Found {0} mailboxes with audit bypasss enabled" -f $mailboxesAuditBypassEnabled) -Level Debug;
     }
     END
     {
-        # Return list.
-        return $mailboxesAuditBypassEnabled;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($mailboxesAuditBypassEnabled.Count -gt 0)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = 'a2c3a619-df82-4e0b-ac98-47ff51ea8c2a';
+        $review.Category = 'Microsoft Exchange Admin Center';
+        $review.Subcategory = 'Audit';
+        $review.Title = "Ensure 'AuditBypassEnabled' is not enabled on mailboxes";
+        $review.Data = $mailboxesAuditBypassEnabled;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

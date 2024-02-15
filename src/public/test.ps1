@@ -378,3 +378,20 @@ $reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles)) | Out-Null;
 
 ##############################################
 
+# 6. Microsoft Exchange Admin Center
+# 6.1 Audit
+# 6.1.1 Ensure 'AuditDisabled' organizationally is set to 'False'.
+# 7cf11de7-eeb9-4e96-b406-7e69c232a9c0
+$reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.1 Audit
+# 6.1.2 / 6.1.3 Ensure mailbox auditing for users is Enabled.
+# 2b849f34-8991-4a13-a6f1-9f7d0ea4bcef
+$reviews.Add((Invoke-ReviewExoMailboxAuditEnabled)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.1 Audit
+# 6.1.4 Ensure 'AuditBypassEnabled' is not enabled on mailboxes.
+# a2c3a619-df82-4e0b-ac98-47ff51ea8c2a
+$reviews.Add((Invoke-ReviewExoMailboxAuditBypassDisabled)) | Out-Null;
