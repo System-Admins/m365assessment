@@ -4,7 +4,7 @@ function Invoke-ReviewEntraHybridPasswordHashSync
     .SYNOPSIS
         Check that password hash sync is enabled for hybrid deployments.
     .DESCRIPTION
-        Return true if configured correct otherwise false.
+        Returns review object.
     .EXAMPLE
         Invoke-ReviewEntraHybridPasswordHashSync;
     #>
@@ -40,7 +40,31 @@ function Invoke-ReviewEntraHybridPasswordHashSync
     }
     END
     {
-        # Return bool.
-        return $valid;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = 'ac82d275-9102-4df6-bf3c-ca012a74a306';
+        $review.Category = 'Microsoft Entra Admin Center';
+        $review.Subcategory = 'Identity';
+        $review.Title = 'Ensure that password hash sync is enabled for hybrid deployments';
+        $review.Data = $adConnectStatus.dirSyncEnabled;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

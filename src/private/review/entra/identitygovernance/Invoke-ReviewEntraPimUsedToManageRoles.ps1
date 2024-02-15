@@ -4,7 +4,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
     .SYNOPSIS
         If 'Privileged Identity Management' is used to manage roles and if there is any permanent roles assigned.
     .DESCRIPTION
-        Return list of active members of a role that only should be eligible instead of permanent.
+        Returns review object.
     .EXAMPLE
         Invoke-ReviewEntraPimUsedToManageRoles;
     #>
@@ -79,7 +79,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
             if ($isInEligibleList -eq $false)
             {
                 # Write to log.
-                Write-Log -Category 'Identity Governance' -Message ('The role "{0}" is not in the eligible list, skipping' -f $pimRbacRole.displayName) -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('The role "{0}" is not in the eligible list, skipping' -f $pimRbacRole.displayName) -Level Debug;
 
                 # Skip.
                 continue;
@@ -89,14 +89,14 @@ function Invoke-ReviewEntraPimUsedToManageRoles
             if ($pimRbacRole.activeAssignmentCount -eq 0)
             {
                 # Write to log.
-                Write-Log -Category 'Identity Governance' -Message ('The role "{0}" dont have any active assignments, skipping' -f $pimRbacRole.displayName) -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('The role "{0}" dont have any active assignments, skipping' -f $pimRbacRole.displayName) -Level Debug;
 
                 # Skip.
                 continue;
             }
 
             # Write to log.
-            Write-Log -Category 'Identity Governance' -Message ('Getting active assignments for the role "{0}"' -f $pimRbacRole.displayName) -Level Debug;
+            Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Getting active assignments for the role "{0}"' -f $pimRbacRole.displayName) -Level Debug;
 
             # Construct active assignments URI.
             $activeAssignmentsUri = ('https://api.azrbac.mspim.azure.com/api/v2/privilegedAccess/aadroles/roleAssignments?$expand=linkedEligibleRoleAssignment,subject,scopedResource,roleDefinition($expand=resource)&$count=true&$filter=(roleDefinition/resource/id%20eq%20%27{0}%27)+and+(roleDefinition/id%20eq%20%27{1}%27)+and+(assignmentState%20eq%20%27Active%27)&$orderby=roleDefinition/displayName&$skip=0&$top=10' -f $pimRbacRole.resourceId, $pimRbacRole.id);
@@ -111,7 +111,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
                 if ($activeAssignment.isPermanent -eq $true)
                 {
                     # Write to log.
-                    Write-Log -Category 'Identity Governance' -Message ("Member '{0}' is permanent for the role '{1}', should only be eligible" -f $activeAssignment.subject.principalName, $pimRbacRole.displayName) -Level Debug;
+                    Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ("Member '{0}' is permanent for the role '{1}', should only be eligible" -f $activeAssignment.subject.principalName, $pimRbacRole.displayName) -Level Debug;
             
                     # Add to the list of incorrectly configured roles.
                     $incorrectlyConfigured += [PSCustomObject]@{
@@ -130,7 +130,31 @@ function Invoke-ReviewEntraPimUsedToManageRoles
     }
     END
     {
-        # Return the list of incorrectly configured roles.
-        return $incorrectlyConfigured;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($incorrectlyConfigured.Count -gt 0)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = '99dcdd37-60f6-450e-be03-13a85fcc5776';
+        $review.Category = 'Microsoft Entra Admin Center';
+        $review.Subcategory = 'Identity Governance';
+        $review.Title = "Ensure 'Privileged Identity Management' is used to manage roles";
+        $review.Data = $incorrectlyConfigured;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

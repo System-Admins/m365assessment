@@ -4,7 +4,10 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
     .SYNOPSIS
         If Microsoft Authenticator is configured to protect against MFA fatigue.
     .DESCRIPTION
-        Return true if enabled, otherwise false.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - Microsoft.Graph.Identity.SignIns
     .EXAMPLE
         Invoke-ReviewEntraAuthMethodMfaFatigue;
     #>
@@ -16,11 +19,14 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ("Getting authentication methods") -Level Debug;
+
         # Get authentication method policy.
         $authenticationMethodPolicy = Get-MgPolicyAuthenticationMethodPolicy;
         
         # Valid configuration.
-        [bool]$validConfiguration = $false;
+        [bool]$valid = $false;
     }
     PROCESS
     {
@@ -38,7 +44,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if ($authenticationMethodConfiguration.state -eq 'disabled')
             {
                 # Write to log.
-                Write-Log -Message 'Microsoft Authenticator authentication method is disabled' -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Microsoft Authenticator authentication method is disabled' -Level Debug;
 
                 # Skip to next item.
                 continue;
@@ -50,12 +56,11 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             # Get feature settings for "Show application name in push and passwordless notifications".
             $displayAppInformationRequiredState = $microsoftAuthenticator.AdditionalProperties.featureSettings.displayAppInformationRequiredState;
             
-
             # If display app information required state is "disabled".
             if ($displayAppInformationRequiredState.state -eq 'disabled')
             {
                 # Write to log.
-                Write-Log -Message 'Show application name in push and passwordless notifications, is not enabled' -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show application name in push and passwordless notifications, is not enabled' -Level Debug;
 
                 # Skip to next item.
                 continue;
@@ -65,7 +70,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if (($displayAppInformationRequiredState.includeTarget).Values -notcontains 'all_users')
             {
                 # Write to log.
-                Write-Log -Message 'Show application name in push and passwordless notifications, is not deployed to all users' -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show application name in push and passwordless notifications, is not deployed to all users' -Level Debug;
 
                 # Skip to next item.
                 continue;
@@ -78,7 +83,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if ($displayLocationInformationRequiredState.state -eq 'disabled')
             {
                 # Write to log.
-                Write-Log -Message 'Show geographic location in push and passwordless notifications, is not enabled' -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show geographic location in push and passwordless notifications, is not enabled' -Level Debug;
 
                 # Skip to next item.
                 continue;
@@ -88,19 +93,46 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if (($displayLocationInformationRequiredState.includeTarget).Values -notcontains 'all_users')
             {
                 # Write to log.
-                Write-Log -Message 'Show geographic location in push and passwordless notifications, is not deployed to all users' -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show geographic location in push and passwordless notifications, is not deployed to all users' -Level Debug;
 
                 # Skip to next item.
                 continue;
             }
 
+            # Write to log.
+            Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ("The authentication method policy '{0}' is valid" -f $authenticationMethodConfiguration.Id) -Level Debug;
+
             # Set valid configuration.
-            $validConfiguration = $true;
+            $valid = $true;
         }
     }
     END
     {
-        # Return state of valid configuration.
-        return $validConfiguration;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = '0c1ccf40-64f3-4300-96e4-2f7f3272bf9a';
+        $review.Category = 'Microsoft Entra Admin Center';
+        $review.Subcategory = 'Protection';
+        $review.Title = 'Ensure Microsoft Authenticator is configured to protect against MFA fatigue';
+        $review.Data = $authenticationMethodPolicy.AuthenticationMethodConfigurations;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

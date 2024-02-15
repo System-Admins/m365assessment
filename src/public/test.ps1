@@ -1,6 +1,6 @@
 # Get all the files in the src (private) folder.
-#$ps1Files = Get-ChildItem -Path 'C:\Repositories\m365assessment\src\private' -Recurse -File -Filter *.ps1;
-$ps1Files = Get-ChildItem -Path '/Users/ath/Repositories/m365assessment/src/private' -Recurse -File -Filter *.ps1;
+$ps1Files = Get-ChildItem -Path 'C:\Repositories\m365assessment\src\private' -Recurse -File -Filter *.ps1;
+#$ps1Files = Get-ChildItem -Path '/Users/ath/Repositories/m365assessment/src/private' -Recurse -File -Filter *.ps1;
 
 # Loop through each file
 foreach ($ps1File in $ps1Files)
@@ -288,3 +288,91 @@ $reviews.Add((Invoke-ReviewEntraGuestDynamicGroup)) | Out-Null;
 # 5.1.5.1 Ensure the Application Usage report is reviewed at least weekly.
 # 95d55daa-d432-44f5-907a-eda61b57696f
 $reviews.Add((Invoke-ReviewEntraApplicationUsageReport)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.5 Applications
+# 5.1.5.3 Ensure the admin consent workflow is enabled.
+# ca409d22-6638-48ff-ad7c-4a61e3488b94
+$reviews.Add((Invoke-ReviewEntraApplicationUserConsent)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.5 Applications
+# 5.1.5.3 Ensure the admin consent workflow is enabled.
+# ca409d22-6638-48ff-ad7c-4a61e3488b94
+$reviews.Add((Invoke-ReviewEntraApplicationUserConsent)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.5 External Identities
+# 5.1.6.1 Ensure that collaboration invitations are sent to allowed domains only.
+# 54848e5b-7bb0-4a70-aeb1-63a1e54562d6
+$reviews.Add((Invoke-ReviewEntraExternalCollaborationDomains)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.1 Identity
+# 5.1.8 Hybrid Management
+# 5.1.8.1 Ensure that password hash sync is enabled for hybrid deployments.
+# ac82d275-9102-4df6-bf3c-ca012a74a306
+$reviews.Add((Invoke-ReviewEntraHybridPasswordHashSync)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.2 Protection
+# 5.2.3 Authentication Methods
+# 5.2.3.1 Ensure Microsoft Authenticator is configured to protect against MFA fatigue.
+# 0c1ccf40-64f3-4300-96e4-2f7f3272bf9a
+$reviews.Add((Invoke-ReviewEntraAuthMethodMfaFatigue)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.2 Protection
+# 5.2.3 Authentication Methods
+# 5.2.3.2 Ensure custom banned passwords lists are used.
+# bb23f25a-0c03-4607-a232-ef8902a0a899
+$reviews.Add((Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.2 Protection
+# 5.2.3 Authentication Methods
+# 5.2.3.3 Ensure password protection is enabled for on-prem Active Directory.
+# ee6975f8-842f-4096-a8a7-0ad093db82c0
+$reviews.Add((Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.2 Protection
+# 5.2.4 Password reset
+# 5.2.4.1 Ensure 'Self service password reset enabled' is set to 'All'.
+# 2425f84f-76cf-441b-891e-86142f14ff9e
+$reviews.Add((Invoke-ReviewEntraSsprEnabledForAll)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.2 Protection
+# 5.2.4 Password reset
+# 5.2.4.2 Ensure the self-service password reset activity report is reviewed at least weekly.
+# 9141c4a0-0323-4aa3-abb5-e6a0a2bedffa
+$reviews.Add((Invoke-ReviewEntraPasswordResetAudit)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.2 Protection
+# 5.2.6 Risky Activities
+# 5.2.6.1 Ensure the Azure AD 'Risky sign-ins' report is reviewed at least weekly.
+# ff9b1c25-464c-4c6a-a469-10aab9470e4c
+$reviews.Add((Invoke-ReviewEntraRiskySignInReport)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.3 Identity Governance
+# 5.3.1 Ensure 'Privileged Identity Management' is used to manage roles.
+# 99dcdd37-60f6-450e-be03-13a85fcc5776
+$reviews.Add((Invoke-ReviewEntraPimUsedToManageRoles)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.3 Identity Governance
+# 5.3.2 Ensure 'Access reviews' for Guest Users are configured.
+# 03a57762-4613-47fc-835d-5a5c3d0dbe61
+$reviews.Add((Invoke-ReviewEntraAccessReviewGuestUsers)) | Out-Null;
+
+# 5. Microsoft Entra Admin Center
+# 5.3 Identity Governance
+# 5.3.3 Ensure 'Access reviews' for high privileged Azure AD roles are configured.
+# e8c91221-63d2-4797-8a86-7ef53c30a9d6
+$reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles)) | Out-Null;

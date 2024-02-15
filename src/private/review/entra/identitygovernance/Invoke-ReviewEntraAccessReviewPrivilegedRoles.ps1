@@ -4,7 +4,7 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
     .SYNOPSIS
         If 'Access reviews' for high privileged Azure AD roles are configured.
     .DESCRIPTION
-        Returns list of missing access reviews for privileged roles.
+        Returns review object.
     .EXAMPLE
         Invoke-ReviewEntraAccessReviewPrivilegedRoles;
     #>
@@ -45,21 +45,44 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
             }
 
             # If the access is reviewed weekly or monthly.
-            if($accessReview.settings.recurrenceSettings.recurrenceType -eq 'Weekly' -or $accessReview.settings.recurrenceSettings.recurrenceType -eq 'Monthly')
+            if ($accessReview.settings.recurrenceSettings.recurrenceType -eq 'Weekly' -or $accessReview.settings.recurrenceSettings.recurrenceType -eq 'Monthly')
             {
                 # Add to the list of missing access reviews.
                 $configuredAccessReviews += ($accessReview.decisionsCriteria)[0].roleDisplayName;
             }
         }
+
+        # Get difference between predefined roles and configured access reviews.
+        $missingAccessReviews = $roles | Where-Object { $_ -notin $configuredAccessReviews };
     }
     END
     {
-        
-        # Get difference between predefined roles and configured access reviews.
-        $missingAccessReviews = $roles | Where-Object {$_ -notin $configuredAccessReviews};
-
-        # Return the result.
-        return $missingAccessReviews;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($missingAccessReviews.Count -gt 0)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = 'e8c91221-63d2-4797-8a86-7ef53c30a9d6';
+        $review.Category = 'Microsoft Entra Admin Center';
+        $review.Subcategory = 'Identity Governance';
+        $review.Title = "Ensure 'Access reviews' for high privileged Azure AD roles are configured";
+        $review.Data = $missingAccessReviews;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }
 

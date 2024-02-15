@@ -22,13 +22,13 @@ function Get-EntraIdHybridAdConnectPasswordSyncStatus
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Message 'Getting hybrid AD connect password sync status' -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'Hybrid' -Message 'Getting hybrid AD connect password sync status' -Level Debug;
 
         # Invoke the request.
         $status = Invoke-EntraIdIamApi -Uri $uri -Method Get;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Message ("Hybrid AD connect password sync status is '{0}'" -f $status) -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'Hybrid' -Message ("Hybrid AD connect password sync status is '{0}'" -f $status) -Level Debug;
     }
     END
     {

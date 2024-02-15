@@ -43,7 +43,8 @@ function Connect-Tenant
             'User.Read.All',
             'Policy.Read.All',
             'Policy.ReadWrite.ConditionalAccess',
-            'Reports.Read.All'
+            'Reports.Read.All',
+            'SecurityEvents.Read.All'
         );
     }
     PROCESS

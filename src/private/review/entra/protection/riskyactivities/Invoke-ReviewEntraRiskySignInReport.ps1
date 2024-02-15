@@ -34,16 +34,39 @@ function Invoke-ReviewEntraRiskySignInReport
     }
     PROCESS
     {
+        # Write to log.
+        Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ('Getting risky users report') -Level Debug;
+        
         # Invoke Entra ID API.
         $riskyUsers = Invoke-EntraIdIamApi -Uri $uri -Body $body -Method POST;
     }
     END
     {
-        # If there is any risky users.
-        if ($riskyUsers.items.count -gt 0)
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($riskyUsers.items.Count -gt 0)
         {
-            # Return risky users.
-            return $riskyUsers;
+            # Should be reviewed.
+            $reviewFlag = $true;
         }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = 'ff9b1c25-464c-4c6a-a469-10aab9470e4c';
+        $review.Category = 'Microsoft Entra Admin Center';
+        $review.Subcategory = 'Protection';
+        $review.Title = "Ensure the Azure AD 'Risky sign-ins' report is reviewed at least weekly";
+        $review.Data = $riskyUsers.items;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

@@ -4,7 +4,7 @@ function Invoke-ReviewEntraSsprEnabledForAll
     .SYNOPSIS
         If 'Self service password reset enabled' is set to 'All'.
     .DESCRIPTION
-        Return true if enabled, otherwise false.
+        Returns review object.
     .EXAMPLE
         Invoke-ReviewEntraSsprEnabledForAll;
     #>
@@ -20,7 +20,10 @@ function Invoke-ReviewEntraSsprEnabledForAll
         $uri = 'https://main.iam.ad.ext.azure.com/api/PasswordReset/PasswordResetPolicies?getPasswordResetEnabledGroup=true';
         
         # Valid configuration.
-        [bool]$validConfiguration = $true;
+        [bool]$valid = $true;
+
+        # Display name for password reset policy.
+        $displayName = '';
     }
     PROCESS
     {
@@ -28,15 +31,71 @@ function Invoke-ReviewEntraSsprEnabledForAll
         $passwordResetPolicies = Invoke-EntraIdIamApi -Uri $uri -Method Get;
 
         # If not set to all users.
-        if($passwordResetPolicies.enablementType -ne 2)
+        if ($passwordResetPolicies.enablementType -ne 2)
         {
             # Set valid configuration to false.
-            $validConfiguration = $false;
+            $valid = $false;
+        }
+
+        # Switch on enablement type.
+        switch ($passwordResetPolicies.enablementType)
+        {
+            # All users.
+            2
+            {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'All'") -Level Debug;
+
+                # Set display name.
+                $displayName = 'All';
+            }
+            # None.
+            0
+            {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'None'") -Level Debug;
+
+                # Set display name.
+                $displayName = 'None';
+            }
+            # Selected users.
+            1
+            {
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'Selected'") -Level Debug;
+
+                # Set display name.
+                $displayName = 'Selected';
+            }
         }
     }
     END
     {
-        # Return state of valid configuration.
-        return $validConfiguration;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = '2425f84f-76cf-441b-891e-86142f14ff9e';
+        $review.Category = 'Microsoft Entra Admin Center';
+        $review.Subcategory = 'Protection';
+        $review.Title = "Ensure 'Self service password reset enabled' is set to 'All'";
+        $review.Data = $displayName;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

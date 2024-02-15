@@ -4,7 +4,7 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
     .SYNOPSIS
         If password protection is enabled for on-prem Active Directory.
     .DESCRIPTION
-        Return true if enabled, otherwise false.
+        Returns review object.
     .EXAMPLE
         Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD;
     #>
@@ -23,7 +23,7 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
         $uri = 'https://main.iam.ad.ext.azure.com/api/AuthenticationMethods/PasswordPolicy';
         
         # Valid configuration.
-        [bool]$validConfiguration = $true;
+        [bool]$valid = $true;
     }
     PROCESS
     {
@@ -37,13 +37,43 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
             if ($false -eq $passwordPolicy.enableBannedPasswordCheckOnPremises)
             {
                 # Set valid configuration to false.
-                $validConfiguration = $false;
+                $valid = $false;
+
+                # Write to log.
+                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message 'Password protection is not enforced on premises' -Level Debug;
             }
         }
     }
     END
     {
-        # Return state of valid configuration.
-        return $validConfiguration;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = 'ee6975f8-842f-4096-a8a7-0ad093db82c0';
+        $review.Category = 'Microsoft Entra Admin Center';
+        $review.Subcategory = 'Protection';
+        $review.Title = 'Ensure password protection is enabled for on-prem Active Directory';
+        $review.Data = [PSCustomObject]@{
+            HybridStatus = $adConnectStatus;
+            PasswordPolicy = $passwordPolicy;
+        };
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     }
 }

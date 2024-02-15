@@ -22,7 +22,7 @@ function Get-EntraIdB2BPolicy
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Message 'Getting B2B policy' -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message 'Getting B2B policy' -Level Debug;
         
         # Invoke the request.
         $policies = Invoke-EntraIdIamApi -Uri $uri -Method Get;

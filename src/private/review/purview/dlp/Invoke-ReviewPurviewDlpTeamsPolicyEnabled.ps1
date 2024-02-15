@@ -23,7 +23,7 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
         Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Getting DLP policies") -Level Debug;
         
         # Get DLP policies.
-        $dlpPolicies = Get-DlpCompliancePolicy;
+        $dlpPolicies = Get-DlpCompliancePolicy -WarningAction SilentlyContinue;
     }
     PROCESS
     {

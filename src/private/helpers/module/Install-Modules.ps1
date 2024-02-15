@@ -20,14 +20,15 @@ function Install-Modules
     {                
         # Modules to install.
         $modules = @(
-            'Az.Accounts',
-            'Az.Resources',
             'Microsoft.Graph.Authentication',
-            'Microsoft.Graph.Groups'
+            'Microsoft.Graph.Groups',
             'Microsoft.Graph.Users',
             'Microsoft.Graph.Identity.DirectoryManagement',
             'Microsoft.Graph.Identity.SignIns',
             'Microsoft.Graph.Beta.Reports',
+            'Microsoft.Graph.Reports',
+            'Az.Accounts',
+            'Az.Resources',
             'ExchangeOnlineManagement',
             'PnP.PowerShell',
             'MicrosoftTeams'

@@ -1,4 +1,4 @@
-function Get-EntraIdApplicationUserConsentSetting
+function Get-EntraIdApplicationUserConsentSettings
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Get-EntraIdApplicationUserConsentSetting
         Requires the following modules:
         - Microsoft.Graph.Identity.SignIns
     .EXAMPLE
-        Get-EntraIdApplicationUserConsentSetting;
+        Get-EntraIdApplicationUserConsentSettings;
     #>
 
     [cmdletbinding()]
@@ -20,7 +20,7 @@ function Get-EntraIdApplicationUserConsentSetting
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Message 'Getting user consent setting' -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message 'Getting user consent setting' -Level Debug;
 
         # Get auth policy.
         $authorizationPolicy = Get-MgPolicyAuthorizationPolicy;
@@ -31,7 +31,7 @@ function Get-EntraIdApplicationUserConsentSetting
     PROCESS
     {
         # If "Allow user consent for apps".
-        if ($authorizationPolicy.DefaultUserRolePermissions.PermissionGrantPoliciesAssigne -eq 'ManagePermissionGrantsForSelf.microsoft-user-default-legacy')
+        if ($authorizationPolicy.DefaultUserRolePermissions.PermissionGrantPoliciesAssigned -eq 'ManagePermissionGrantsForSelf.microsoft-user-default-legacy')
         {
             # Set the state.
             $setting = 'AllowUserConsentForApps';
@@ -43,14 +43,14 @@ function Get-EntraIdApplicationUserConsentSetting
             $setting = 'AllowUserConsentForSelectedPermissions';
         }
         # Else if "Do not allow user consent".
-        elseif ($authorizationPolicy.DefaultUserRolePermissions.PermissionGrantPoliciesAssigned.Count -eq 0)
+        else
         {
             # Set the state.
             $setting = 'DoNotAllowUserConsent';
         }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Message ("User consent setting is '{0}'" -f $setting) -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("User consent setting is '{0}'" -f $setting) -Level Debug;
     }
     END
     {
