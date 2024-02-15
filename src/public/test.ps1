@@ -107,6 +107,8 @@ $reviews.Add((Invoke-ReviewTenantThirdPartyStorage)) | Out-Null;
 # d10b85ac-05df-4c78-91a5-5bc03f799ea2
 $reviews.Add((Invoke-ReviewTenantSwayExternalSharing)) | Out-Null;
 
+##############################################
+
 # 2. Microsoft 365 Defender
 # 2.1 Email and collaboration
 # 2.1.1 Ensure Safe Links for Office Applications is Enabled.
@@ -203,6 +205,8 @@ $reviews.Add((Invoke-ReviewDefenderPriorityAccountProtectionConfig)) | Out-Null;
 # 9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7
 $reviews.Add((Invoke-ReviewDefenderPriorityAccounStrictPolicy)) | Out-Null;
 
+##############################################
+
 # 3. Microsoft Purview
 # 3.1 Audit
 # 3.1.1 Ensure Microsoft 365 audit log search is Enabled.
@@ -232,6 +236,8 @@ $reviews.Add((Invoke-ReviewPurviewDlpTeamsPolicyEnabled)) | Out-Null;
 # 3.3.1 Ensure SharePoint Online Information Protection policies are set up and used.
 # b01a1187-5921-4b29-95fd-73e1af3c5285
 $reviews.Add((Invoke-ReviewPurviewInformationProtectionLabelPolicy)) | Out-Null;
+
+##############################################
 
 # 5. Microsoft Entra Admin Center
 # 5.1 Identity
@@ -288,13 +294,6 @@ $reviews.Add((Invoke-ReviewEntraGuestDynamicGroup)) | Out-Null;
 # 5.1.5.1 Ensure the Application Usage report is reviewed at least weekly.
 # 95d55daa-d432-44f5-907a-eda61b57696f
 $reviews.Add((Invoke-ReviewEntraApplicationUsageReport)) | Out-Null;
-
-# 5. Microsoft Entra Admin Center
-# 5.1 Identity
-# 5.1.5 Applications
-# 5.1.5.3 Ensure the admin consent workflow is enabled.
-# ca409d22-6638-48ff-ad7c-4a61e3488b94
-$reviews.Add((Invoke-ReviewEntraApplicationUserConsent)) | Out-Null;
 
 # 5. Microsoft Entra Admin Center
 # 5.1 Identity
@@ -376,3 +375,6 @@ $reviews.Add((Invoke-ReviewEntraAccessReviewGuestUsers)) | Out-Null;
 # 5.3.3 Ensure 'Access reviews' for high privileged Azure AD roles are configured.
 # e8c91221-63d2-4797-8a86-7ef53c30a9d6
 $reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles)) | Out-Null;
+
+##############################################
+

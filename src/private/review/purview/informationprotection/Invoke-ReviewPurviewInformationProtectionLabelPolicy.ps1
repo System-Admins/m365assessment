@@ -23,7 +23,7 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
         Write-Log -Category 'Microsoft Purview' -Subcategory 'Information Protection' -Message ("Getting label policies") -Level Debug;
 
         # Get all label policies.
-        $labelPolicies = Get-LabelPolicy;
+        $labelPolicies = Get-LabelPolicy -WarningAction SilentlyContinue;
 
         # Object array for storing policies.
         $policies = New-Object System.Collections.ArrayList;
