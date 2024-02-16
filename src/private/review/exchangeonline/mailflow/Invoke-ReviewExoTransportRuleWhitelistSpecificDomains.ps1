@@ -4,7 +4,10 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
     .SYNOPSIS
         Check if mail transport rules do not whitelist specific domains.
     .DESCRIPTION
-        Return object if any rules is found.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagement
     .EXAMPLE
         Invoke-ReviewExoTransportRuleWhitelistSpecificDomains;
     #>
@@ -16,6 +19,9 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting transport rules' -Level Debug;
+
         # Get all transport rules.
         $transportRules = Get-TransportRule -ResultSize Unlimited;
 
@@ -47,6 +53,9 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
             # If transport rule is not valid.
             if ($valid -eq $false)
             {
+                # Write to log.
+                Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Transport rule '{0}' have a whitelisted domain" -f $transportRule.Name) -Level Debug;
+        
                 # Add to list.
                 $transportRulesWithWhitelistSpecificDomains.Add($transportRule) | Out-Null;
             }
@@ -54,7 +63,31 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
     }
     END
     {
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($transportRulesWithWhitelistSpecificDomains.Count -gt 0)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = '8bf19b9f-7c76-4cb6-8d9a-2a327db4d7d3';
+        $review.Category = 'Microsoft Exchange Admin Center';
+        $review.Subcategory = 'Mail Flow';
+        $review.Title = "Ensure mail transport rules do not whitelist specific domains";
+        $review.Data = $transportRulesWithWhitelistSpecificDomains;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
         # Return object.
-        return $transportRulesWithWhitelistSpecificDomains;
+        return $review;
     } 
 }

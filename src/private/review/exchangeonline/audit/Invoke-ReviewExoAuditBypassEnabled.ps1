@@ -7,7 +7,7 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
         Returns review object.
     .NOTES
         Requires the following modules:
-        - ExchangeOnlineManagent
+        - ExchangeOnlineManagement
     .EXAMPLE
         Invoke-ReviewExoMailboxAuditBypassDisabled;
     #>

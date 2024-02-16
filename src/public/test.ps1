@@ -395,3 +395,51 @@ $reviews.Add((Invoke-ReviewExoMailboxAuditEnabled)) | Out-Null;
 # 6.1.4 Ensure 'AuditBypassEnabled' is not enabled on mailboxes.
 # a2c3a619-df82-4e0b-ac98-47ff51ea8c2a
 $reviews.Add((Invoke-ReviewExoMailboxAuditBypassDisabled)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.2 Mail flow
+# 6.2.1 Ensure all forms of mail forwarding are blocked and/or disabled.
+# 45887263-5f2f-4306-946d-8f36acfb3691
+$reviews.Add((Invoke-ReviewExoMailForwardDisabled)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.2 Mail flow
+# 6.2.2 Ensure mail transport rules do not whitelist specific domains.
+# 8bf19b9f-7c76-4cb6-8d9a-2a327db4d7d3
+$reviews.Add((Invoke-ReviewExoTransportRuleWhitelistSpecificDomains)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.2 Mail flow
+# 6.2.3 Ensure email from external senders is identified.
+# a73f7dd0-6c32-44d1-ae18-197b775e28bb
+$reviews.Add((Invoke-ReviewExoIdentifiedExternalSenders)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.3 Roles
+# 6.3.1 Ensure users installing Outlook add-ins is not allowed.
+# 36ee88d3-0ab8-41ea-90e7-fd9b14ed6a03
+$reviews.Add((Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.4 Reports
+# 6.4.1 Ensure mail forwarding rules are reviewed at least weekly.
+# b2798cfb-c5cc-41d4-9309-d1bd932a4a91
+$reviews.Add((Invoke-ReviewExoMailForwardRules)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.5 Settings
+# 6.5.1 Ensure modern authentication for Exchange Online is enabled.
+# bd574cc3-88f8-4ce5-9b0c-5c9982c2de10
+$reviews.Add((Invoke-ReviewExoModenAuthEnabled)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.5 Settings
+# 6.5.2 Ensure MailTips are enabled for end users.
+# bed51aa7-e6de-4542-96fc-ffe9d699763c
+$reviews.Add((Invoke-ReviewExoMailTips)) | Out-Null;
+
+# 6. Microsoft Exchange Admin Center
+# 6.5 Settings
+# 6.5.3 Ensure additional storage providers are restricted in Outlook on the web.
+# d576ebed-fe29-44a7-9fdf-bb8b3c484894
+$reviews.Add((Invoke-ReviewExoStorageProvidersRestricted)) | Out-Null;

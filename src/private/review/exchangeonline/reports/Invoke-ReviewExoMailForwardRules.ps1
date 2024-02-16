@@ -4,7 +4,10 @@ function Invoke-ReviewExoMailForwardRules
     .SYNOPSIS
         Check mailforwarding rules in mailboxes.
     .DESCRIPTION
-        Return object if any rules is found.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - ExchangeOnlineManagement
     .EXAMPLE
         Invoke-ReviewExoMailForwardRules;
     #>
@@ -16,6 +19,9 @@ function Invoke-ReviewExoMailForwardRules
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message 'Getting all mailboxes' -Level Debug;
+        
         # Get all mailboxes.
         $mailboxes = Get-Mailbox -ResultSize Unlimited;
 
@@ -27,6 +33,9 @@ function Invoke-ReviewExoMailForwardRules
         # Foreach mailbox.
         foreach ($mailbox in $mailboxes)
         {
+            # Write to log.
+            Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Getting inbox rules for '{0}'" -f $mailbox.PrimarySmtpAddress) -Level Debug;
+
             # Get all inbox rules.
             $inboxRules = Get-InboxRule -Mailbox $mailbox.Identity -ErrorAction SilentlyContinue;
 
@@ -34,20 +43,23 @@ function Invoke-ReviewExoMailForwardRules
             foreach ($inboxRule in $inboxRules)
             {
                 # If mail forwarding is enabled.
-                if ($inboxRule.ForwardTo -ne $null -or
-                    $inboxRule.RedirectTo -ne $null -or
-                    $inboxRule.ForwardAsAttachmentTo -ne $null)
+                if ($null -ne $inboxRule.ForwardTo -or
+                    $null -ne $inboxRule.RedirectTo -or
+                    $null -ne $inboxRule.ForwardAsAttachmentTo)
                 {
+                    # Write to log.
+                    Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Mail forward is enabled for mailbox '{0}' in inbox rule '{1}'" -f $mailbox.PrimarySmtpAddress, $inboxRule.Name) -Level Debug;
+        
                     # Return object.
                     $mailboxesWithForwardRule += [PSCustomObject]@{
-                        Id = $mailbox.Id;
-                        PrimarySmtpAddress = $mailbox.PrimarySmtpAddress;
-                        Alias = $mailbox.Alias;
-                        RuleId = $inboxRule.Id;
-                        RuleName = $inboxRule.Name;
-                        RuleEnabled = $inboxRule.Enabled;
-                        ForwardTo = $inboxRule.ForwardTo;
-                        RedirectTo = $inboxRule.RedirectTo;
+                        Id                    = $mailbox.Id;
+                        PrimarySmtpAddress    = $mailbox.PrimarySmtpAddress;
+                        Alias                 = $mailbox.Alias;
+                        RuleId                = $inboxRule.Id;
+                        RuleName              = $inboxRule.Name;
+                        RuleEnabled           = $inboxRule.Enabled;
+                        ForwardTo             = $inboxRule.ForwardTo;
+                        RedirectTo            = $inboxRule.RedirectTo;
                         ForwardAsAttachmentTo = $inboxRule.ForwardAsAttachmentTo;
                     } | Out-Null;
                 }
@@ -56,11 +68,31 @@ function Invoke-ReviewExoMailForwardRules
     }
     END
     {
-        # If there is any mailboxes with mail forwarding rules.
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
         if ($mailboxesWithForwardRule.Count -gt 0)
         {
-            # Return object.
-            return $mailboxesWithForwardRule;
+            # Should be reviewed.
+            $reviewFlag = $true;
         }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = 'b2798cfb-c5cc-41d4-9309-d1bd932a4a91';
+        $review.Category = 'Microsoft Exchange Admin Center';
+        $review.Subcategory = 'Reports';
+        $review.Title = 'Ensure mail forwarding rules are reviewed at least weekly';
+        $review.Data = $mailboxesWithForwardRule;
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     } 
 }

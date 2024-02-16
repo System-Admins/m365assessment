@@ -7,7 +7,7 @@ function Invoke-ReviewExoMailboxAuditEnabled
         Returns review object.
     .NOTES
         Requires the following modules:
-        - ExchangeOnlineManagent
+        - ExchangeOnlineManagement
     .EXAMPLE
         Invoke-ReviewExoMailboxAuditEnabled;
     #>
