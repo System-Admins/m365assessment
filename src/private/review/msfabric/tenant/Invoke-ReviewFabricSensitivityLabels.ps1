@@ -1,4 +1,4 @@
-function Invoke-ReviewFabricSensitivtyLabels
+function Invoke-ReviewFabricSensitivityLabels
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewFabricSensitivtyLabels
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewFabricSensitivtyLabels;
+        Invoke-ReviewFabricSensitivityLabels;
     #>
 
     [cmdletbinding()]

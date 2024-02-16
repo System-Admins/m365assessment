@@ -1,4 +1,4 @@
-function Invoke-ReviewExoModenAuthEnabled
+function Invoke-ReviewExoModernAuthEnabled
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewExoModenAuthEnabled
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewExoModenAuthEnabled;
+        Invoke-ReviewExoModernAuthEnabled;
     #>
 
     [cmdletbinding()]

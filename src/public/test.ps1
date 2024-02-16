@@ -204,7 +204,7 @@ $reviews.Add((Invoke-ReviewDefenderPriorityAccountProtectionConfig)) | Out-Null;
 # 2.4 Settings
 # 2.4.2 Ensure Priority accounts have 'Strict protection' presets applied.
 # 9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7
-$reviews.Add((Invoke-ReviewDefenderPriorityAccounStrictPolicy)) | Out-Null;
+$reviews.Add((Invoke-ReviewDefenderPriorityAccountStrictPolicy)) | Out-Null;
 
 ##############################################
 
@@ -431,7 +431,7 @@ $reviews.Add((Invoke-ReviewExoMailForwardRules)) | Out-Null;
 # 6.5 Settings
 # 6.5.1 Ensure modern authentication for Exchange Online is enabled.
 # bd574cc3-88f8-4ce5-9b0c-5c9982c2de10
-$reviews.Add((Invoke-ReviewExoModenAuthEnabled)) | Out-Null;
+$reviews.Add((Invoke-ReviewExoModernAuthEnabled)) | Out-Null;
 
 # 6. Microsoft Exchange Admin Center
 # 6.5 Settings
@@ -629,13 +629,13 @@ $reviews.Add((Invoke-ReviewFabricPublishToWebRestricted)) | Out-Null;
 # 9.1 Tenant settings
 # 9.1.5 Ensure 'Interact with and share R and Python' visuals is 'Disabled'.
 # 134ffbee-2092-42a7-9309-7b9b04c14b4b
-$reviews.Add((Invoke-ReviewFabricInteractPythond)) | Out-Null;
+$reviews.Add((Invoke-ReviewFabricInteractPython)) | Out-Null;
 
 # 9. Microsoft Fabric Admin Center
 # 9.1 Tenant settings
 # 9.1.6 Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'.
 # 6aa91139-4667-4d38-887b-a22905da5bcc
-$reviews.Add((Invoke-ReviewFabricSensitivtyLabels)) | Out-Null;
+$reviews.Add((Invoke-ReviewFabricSensitivityLabels)) | Out-Null;
 
 # 9. Microsoft Fabric Admin Center
 # 9.1 Tenant settings

@@ -1,4 +1,4 @@
-function Invoke-ReviewDefenderPriorityAccounStrictPolicy
+function Invoke-ReviewDefenderPriorityAccountStrictPolicy
 {
     <#
     .SYNOPSIS
@@ -10,7 +10,7 @@ function Invoke-ReviewDefenderPriorityAccounStrictPolicy
         - ExchangeOnlineManagement
         - Microsoft.Graph.Groups
     .EXAMPLE
-        Invoke-ReviewDefenderPriorityAccounStrictPolicy;
+        Invoke-ReviewDefenderPriorityAccountStrictPolicy;
     #>
 
     [cmdletbinding()]
