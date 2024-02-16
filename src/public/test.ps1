@@ -382,7 +382,7 @@ $reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles)) | Out-Null;
 # 6.1 Audit
 # 6.1.1 Ensure 'AuditDisabled' organizationally is set to 'False'.
 # 7cf11de7-eeb9-4e96-b406-7e69c232a9c0
-$reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles)) | Out-Null;
+$reviews.Add((Invoke-ReviewExoAuditEnabled)) | Out-Null;
 
 # 6. Microsoft Exchange Admin Center
 # 6.1 Audit
@@ -443,3 +443,35 @@ $reviews.Add((Invoke-ReviewExoMailTips)) | Out-Null;
 # 6.5.3 Ensure additional storage providers are restricted in Outlook on the web.
 # d576ebed-fe29-44a7-9fdf-bb8b3c484894
 $reviews.Add((Invoke-ReviewExoStorageProvidersRestricted)) | Out-Null;
+
+##############################################
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.1 Ensure modern authentication for SharePoint applications is required.
+# a8f1139f-9e08-4da9-bfea-1ddd811e6d68
+$reviews.Add((Invoke-ReviewSpoLegacyAuthEnabled)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.2 Ensure SharePoint and OneDrive integration with Azure AD B2B is enabled.
+# 68e99561-878a-4bcd-bce1-d69a6c0e2282
+$reviews.Add((Invoke-ReviewSpoEntraIdB2B)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.3 Ensure external content sharing is restricted.
+# f30646cc-e1f1-42b5-a3a5-4d46db01e822
+$reviews.Add((Invoke-ReviewSpoExternalSharingRestricted)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.4 Ensure OneDrive content sharing is restricted.
+# fcf37f2f-6b1d-4616-85cd-0b5b33d8f028
+$reviews.Add((Invoke-ReviewOneDriveSharingCapability)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.5 Ensure that SharePoint guest users cannot share items they don't own.
+# 1a27642f-0ab9-46ba-8d26-8e14a5b52994
+$reviews.Add((Invoke-ReviewSpoGuestResharingRestricted)) | Out-Null;
