@@ -99,13 +99,13 @@ function Write-Log
                 $outputToFile = $true;
             }
             
-            # If log file dont exist.
+            # If log file don't exist.
             if (!(Test-Path -Path $Path -PathType Leaf))
             {
                 # Get folder path.
                 [string]$folderPath = Split-Path -Path $Path -Parent;
 
-                # If folder path dont exist.
+                # If folder path don't exist.
                 if (!(Test-Path -Path $folderPath -PathType Container))
                 {
                     # Create folder path.

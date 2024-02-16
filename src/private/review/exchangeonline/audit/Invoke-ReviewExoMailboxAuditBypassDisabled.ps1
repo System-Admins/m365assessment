@@ -42,7 +42,7 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
         }
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Found {0} mailboxes with audit bypasss enabled" -f $mailboxesAuditBypassEnabled) -Level Debug;
+        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Found {0} mailboxes with audit bypass enabled" -f $mailboxesAuditBypassEnabled) -Level Debug;
     }
     END
     {

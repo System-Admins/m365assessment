@@ -25,7 +25,7 @@ function Invoke-ReviewExoMailForwardDisabled
         # Get all transport rules.
         $transportRules = Get-TransportRule -ResultSize Unlimited;
 
-        # List of transport rules with forward/redirect/blindcopy actions.
+        # List of transport rules with forward/redirect/blind copy actions.
         $transportRulesWithForward = New-Object System.Collections.ArrayList;
 
         # Write to log.

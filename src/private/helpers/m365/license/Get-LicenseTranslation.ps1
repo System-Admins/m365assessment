@@ -37,7 +37,7 @@ function Get-LicenseTranslation
         # Something went wrong while getting the translation table.
         catch
         {
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'License' -Subcategory 'Translation' -Message ("Something went wrong while getting license translation, exception '{0}'" -f $_) -Level Error;
         }
     }

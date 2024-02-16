@@ -13,12 +13,12 @@ class Review
         # If review is true.
         if ($true -eq $this.Review)
         {
-            # Get checkmark.
+            # Get check mark.
             $emoji = Get-Emoji -Type Crossmark;
         }
         else
         {
-            # Get crossmark.
+            # Get cross mark.
             $emoji = Get-Emoji -Type Checkmark;
         }
         

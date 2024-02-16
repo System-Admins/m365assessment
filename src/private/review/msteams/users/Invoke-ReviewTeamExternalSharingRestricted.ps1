@@ -22,7 +22,7 @@ function Invoke-ReviewTeamExternalSharingRestricted
         # Write to log.
         Write-Log -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('Getting federation configuration') -Level Debug;
 
-        # Get tenant federation configuraiton.
+        # Get tenant federation configuration.
         $tenantFederationConfig = Get-CsTenantFederationConfiguration;
 
         # Valid flag.

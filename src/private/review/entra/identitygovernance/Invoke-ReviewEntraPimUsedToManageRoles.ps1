@@ -89,7 +89,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
             if ($pimRbacRole.activeAssignmentCount -eq 0)
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('The role "{0}" dont have any active assignments, skipping' -f $pimRbacRole.displayName) -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ("The role '{0}' don't have any active assignments, skipping" -f $pimRbacRole.displayName) -Level Debug;
 
                 # Skip.
                 continue;

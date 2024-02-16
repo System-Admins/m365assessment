@@ -64,7 +64,7 @@ function Invoke-ReviewDefenderEmailDomainDmarc
             }
 
             # Add domain DMARC settings to object array.
-            $dmarcSettings += [pscustomobject]@{
+            $dmarcSettings += [PSCustomObject]@{
                 Domain             = $domain.Id;
                 Valid              = $valid;
                 IsDefault          = $domain.IsDefault;

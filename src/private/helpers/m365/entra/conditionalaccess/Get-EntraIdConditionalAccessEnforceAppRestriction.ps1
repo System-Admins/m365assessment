@@ -130,7 +130,7 @@ function Get-EntraIdConditionalAccessEnforceAppRestriction
             }
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ('Found {0} that is set to enforce session idle timenout (enforce app restriction)' -f $policies.Count) -Level Debug;
+            Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ('Found {0} that is set to enforce session idle timeout (enforce app restriction)' -f $policies.Count) -Level Debug;
         }
     }
     END

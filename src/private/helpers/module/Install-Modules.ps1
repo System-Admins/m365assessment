@@ -99,13 +99,13 @@ function Install-Modules
                     Install-Module -Name $module -Force -Scope CurrentUser -AcceptLicense -SkipPublisherCheck -Confirm:$false -ErrorAction Stop -WarningAction SilentlyContinue | Out-Null;
 
                     # Write to log.
-                    Write-Log -Category 'Module' -Subcategory $module -Message ('Succesfully installed PowerShell module') -Level Debug;
+                    Write-Log -Category 'Module' -Subcategory $module -Message ('Successfully installed PowerShell module') -Level Debug;
                 }
                 # Something went wrong installing the module
                 catch
                 {
-                    # Throw execption.
-                    Write-Log -Category 'Module' -Subcategory $module -Message ("Something went wrong while installing PowerShell module, excepction is '{0}'" -f $_) -Level Error;
+                    # Throw exception.
+                    Write-Log -Category 'Module' -Subcategory $module -Message ("Something went wrong while installing PowerShell module, exception is '{0}'" -f $_) -Level Error;
                 }
             }
             # Module is installed.
@@ -133,8 +133,8 @@ function Install-Modules
             # Something went wrong importing the module.
             catch
             {
-                # Throw execption.
-                Write-Log -Category 'Module' -Subcategory $module -Message ("Something went wrong while importing PowerShell module, excepction is '{0}'" -f $_) -Level Error;
+                # Throw exception.
+                Write-Log -Category 'Module' -Subcategory $module -Message ("Something went wrong while importing PowerShell module, exception is '{0}'" -f $_) -Level Error;
             }
         }
 

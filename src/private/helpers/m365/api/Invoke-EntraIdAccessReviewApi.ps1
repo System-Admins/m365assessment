@@ -79,7 +79,7 @@ function Invoke-EntraIdAccessReviewApi
         # Something went wrong while invoking API.
         catch
         {
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category "API" -Subcategory 'Entra ID' -Message ("Could not call access review API, the exception is '{0}'" -f $_) -Level Error;
         }
     }

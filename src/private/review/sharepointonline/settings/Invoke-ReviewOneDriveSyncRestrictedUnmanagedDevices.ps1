@@ -30,7 +30,7 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices
     }
     PROCESS
     {
-        # If setting set to allow syncing only on computers joined to specifc domains.
+        # If setting set to allow syncing only on computers joined to specific domains.
         if ($tenantSettings.AllowedDomainListForSyncClient.Count -gt 0)
         {
             # Return object.

@@ -2,7 +2,7 @@ function Invoke-ReviewExoMailForwardRules
 {
     <#
     .SYNOPSIS
-        Check mailforwarding rules in mailboxes.
+        Check mail forwarding rules in mailboxes.
     .DESCRIPTION
         Returns review object.
     .NOTES

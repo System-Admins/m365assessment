@@ -70,14 +70,14 @@ function Get-EntraIdUserLicense
                     # Foreach license from the translation table.
                     foreach ($license in $translationTable)
                     {
-                        # If the license SkuId dont match.
+                        # If the license SkuId don't match.
                         if ($licenseDetail.SkuId -ne $license.GUID)
                         {
                             # Continue to next license.
                             continue;
                         }
 
-                        # If the service plan dont match.
+                        # If the service plan don't match.
                         if ($servicePlan.ServicePlanId -ne $license.Service_Plan_Id)
                         {
                             # Continue to next license.

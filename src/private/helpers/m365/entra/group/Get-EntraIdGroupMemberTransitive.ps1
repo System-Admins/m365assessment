@@ -42,7 +42,7 @@ function Get-EntraIdGroupMemberTransitive
         # Something went wrong while getting members from group.
         catch
         {
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Entra' -Message ("Something went wrong while getting members from group '{0}', exception is '{1}'" -f $Id, $_) -Level Error;
         }
     }

@@ -28,8 +28,8 @@ function Get-TenantCalendarSharingSetting
         # If the response is null.
         if ($null -eq $response)
         {
-            # Throw execption.
-            Write-Log -Category "Organization" -Message ("Something went wrong getting calendar sharing, execption is '{0}'" -f $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category "Organization" -Message ("Something went wrong getting calendar sharing, exception is '{0}'" -f $_) -Level Error;
         }
     }
     END

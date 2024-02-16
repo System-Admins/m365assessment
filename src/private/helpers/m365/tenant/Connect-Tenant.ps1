@@ -79,7 +79,7 @@ function Connect-Tenant
             catch
             {
                 # Throw warning.
-                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Something went wrong while disconnecting from SharePoint Online, execption is '{0}'" -f $_) -Level Debug;
+                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Something went wrong while disconnecting from SharePoint Online, exception is '{0}'" -f $_) -Level Debug;
             }
         }
 
@@ -93,14 +93,14 @@ function Connect-Tenant
             # Launch interactive login.
             Connect-MgGraph -Scopes $mgScopes -NoWelcome -ErrorAction Stop | Out-Null;
 
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
         }
         # Something went wrong.
         catch
         {
-            # Throw excpetion.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not connect to Microsoft Graph, execption is '{0}'" -f $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not connect to Microsoft Graph, exception is '{0}'" -f $_) -Level Error;
         }
 
         # Get Microsoft Graph context.
@@ -109,7 +109,7 @@ function Connect-Tenant
         # If there is not context, exit.
         if ($null -eq $mgContext)
         {
-            # Throw excpetion.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Could not get Microsoft Graph context') -Level Error;
         }
 
@@ -123,14 +123,14 @@ function Connect-Tenant
             # Launch interactive login.
             Connect-AzAccount -AccountId $mgContext.Account -ErrorAction Stop -Force | Out-Null;
 
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Debug;
         }
         # Something went wrong.
         catch
         {
-            # Throw excpetion.
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ("Could not connect to Entra ID, execption is '{0}'" -f $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ("Could not connect to Entra ID, exception is '{0}'" -f $_) -Level Error;
         }
 
         # Get the current context.
@@ -139,7 +139,7 @@ function Connect-Tenant
         # If there is not context, exit.
         if ($null -eq $azContext)
         {
-            # Throw excpetion.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Could not get Azure context') -Level Error;
         }
 
@@ -153,14 +153,14 @@ function Connect-Tenant
             # Launch interactive login.
             Connect-MicrosoftTeams -ErrorAction Stop | Out-Null;
 
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
         }
         # Something went wrong.
         catch
         {
-            # Throw excpetion.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ("Could not connect to Teams, execption is '{0}'" -f $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ("Could not connect to Teams, exception is '{0}'" -f $_) -Level Error;
         }
 
         # Try to connect to Exchange Online.
@@ -173,14 +173,14 @@ function Connect-Tenant
             # Launch interactive login.
             Connect-ExchangeOnline -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop | Out-Null;
 
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Successfully connected to Exchange Online') -Level Debug;
         }
         # Something went wrong.
         catch
         {
-            # Throw excpetion.
-            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ("Could not connect to Exchange Online, execption is '{0}'" -f $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ("Could not connect to Exchange Online, exception is '{0}'" -f $_) -Level Error;
         }
 
         # Try to connect to Security and Compliance.
@@ -193,14 +193,14 @@ function Connect-Tenant
             # Launch interactive login.
             Connect-IPPSSession -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop | Out-Null;
 
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Successfully connected to Security and Compliance') -Level Debug;
         }
         # Something went wrong.
         catch
         {
-            # Throw excpetion.
-            Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ("Could not connect to Security and Compliance, execption is '{0}'" -f $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ("Could not connect to Security and Compliance, exception is '{0}'" -f $_) -Level Error;
         }
 
         # Get SharePoint URLs.
@@ -216,14 +216,14 @@ function Connect-Tenant
             # Launch interactive login.
             Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -ErrorAction Stop | Out-Null;
 
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Successfully connected to SharePoint') -Level Debug;
         }
         # Something went wrong.
         catch
         {
-            # Throw excpetion.
-            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Could not connect to SharePoint, execption is '{0}'" -f $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Could not connect to SharePoint, exception is '{0}'" -f $_) -Level Error;
         }
     }
     END

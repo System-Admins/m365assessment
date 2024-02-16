@@ -36,7 +36,7 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmins
             # Boolean if configured correctly.
             $valid = $true;
 
-            # If bcc suspicous outbound email is not enabled.
+            # If bcc suspicious outbound email is not enabled.
             if ($false -eq $outboundSpamFilterPolicy.BccSuspiciousOutboundMail)
             {
                 # Set the boolean to false.

@@ -8,7 +8,7 @@ function Get-Emoji
     .PARAMETER Type
         What type of emoji.
     .EXAMPLE
-        # Get checkmark Emoji.
+        # Get check mark Emoji.
         Get-Emoji -Type Checkmark;
     #>
     [cmdletbinding()]
@@ -30,7 +30,7 @@ function Get-Emoji
         # Based on type.
         switch ($Type)
         {
-            # Checkmark.
+            # Check mark.
             'Checkmark'
             {
                 # Get emoji from HEX.

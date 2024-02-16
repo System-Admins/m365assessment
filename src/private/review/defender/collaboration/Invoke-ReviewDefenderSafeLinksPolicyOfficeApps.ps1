@@ -113,7 +113,7 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApps
             }
 
             # Add to object array.
-            $policies += [pscustomobject]@{
+            $policies += [PSCustomObject]@{
                 Guid                     = $safeLinksPolicy.Guid;
                 Id                       = $safeLinksPolicy.Id;
                 Name                     = $safeLinksPolicy.Name;

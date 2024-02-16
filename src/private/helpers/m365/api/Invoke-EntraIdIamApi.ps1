@@ -76,7 +76,7 @@ function Invoke-EntraIdIamApi
         # Something went wrong while invoking API.
         catch
         {
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category "API" -Subcategory 'Entra ID' -Message ("Could not call IAM API, the exception is '{0}'" -f $_) -Level Error;
         }
     }

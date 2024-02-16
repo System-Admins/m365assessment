@@ -76,7 +76,7 @@ function Invoke-Office365ManagementApi
         # Something went wrong while invoking API.
         catch
         {
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category "API" -Subcategory 'Office 365 Management' -Message ("Could not call API, the exception is '{0}'" -f $_) -Level Error;
         }
     }

@@ -2,7 +2,7 @@ function Invoke-ReviewSpoReauthOtpRestricted
 {
     <#
     .SYNOPSIS
-        Review if reauthentication with verification code is restricted.
+        Review if re-authentication with verification code is restricted.
     .DESCRIPTION
         Returns review object.
     .NOTES

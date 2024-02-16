@@ -28,7 +28,7 @@ function Get-TenantSwaySetting
         # If the response is null.
         if ($null -eq $response)
         {
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category "Microsoft Sway" -Subcategory "Settings" -Message ("Something went wrong getting organization Microsoft Sway settings") -Level Error;
         }
     }

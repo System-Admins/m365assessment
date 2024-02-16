@@ -23,7 +23,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         # Write to log.
         Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policies' -Level Debug;
         
-        # Get proctection policy rules.
+        # Get protection policy rules.
         $eopProtectionPolicyRule = Get-EOPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
         $atpProtectionPolicyRule = Get-ATPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
 

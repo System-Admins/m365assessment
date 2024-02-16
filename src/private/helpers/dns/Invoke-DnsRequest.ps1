@@ -59,8 +59,8 @@ function Invoke-DnsRequest
 
             if ($response.Status -ne 0)
             {
-                # Throw execption.
-                Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup failed for '{0}', execption is '{1}'" -f $domain, $_) -Level Error;
+                # Throw exception.
+                Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup failed for '{0}', exception is '{1}'" -f $domain, $_) -Level Error;
             }
 
             # Write to log.
@@ -69,8 +69,8 @@ function Invoke-DnsRequest
         # Something went wrong invoking the DNS request.
         catch
         {
-            # Throw execption.
-            Write-Log -Category 'DNS' -Subcategory $Type -Message ("Something went wrong while invoking DNS request for '{0}', execption is '{1}'" -f $domain, $_) -Level Error;
+            # Throw exception.
+            Write-Log -Category 'DNS' -Subcategory $Type -Message ("Something went wrong while invoking DNS request for '{0}', exception is '{1}'" -f $domain, $_) -Level Error;
         }
     }
     END

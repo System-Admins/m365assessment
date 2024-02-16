@@ -88,7 +88,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
             }
 
             # Add to object array.
-            $dkimSigningSettings += [pscustomobject]@{
+            $dkimSigningSettings += [PSCustomObject]@{
                 Domain         = $domain.Domain;
                 Enabled        = $domain.Enabled;
                 Valid          = $valid;
@@ -136,7 +136,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
                 }
 
                 # Add domain object array.
-                $results += [pscustomobject]@{
+                $results += [PSCustomObject]@{
                     Domain             = $domain.Id;
                     Valid              = $valid;
                     IsDefault          = $domain.IsDefault;

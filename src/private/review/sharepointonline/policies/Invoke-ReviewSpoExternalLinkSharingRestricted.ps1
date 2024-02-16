@@ -29,7 +29,7 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
         $spoTenantSettings = Get-PnPTenant;
         $odfbTenantSettings = Get-PnPTenantSite -Identity $spoUrls.OneDrive;
 
-        # External sharing bools.
+        # External sharing bool.
         [bool]$valid = $false;
     }
     PROCESS

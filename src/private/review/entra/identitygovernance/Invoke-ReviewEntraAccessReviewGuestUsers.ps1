@@ -107,11 +107,11 @@ function Invoke-ReviewEntraAccessReviewGuestUsers
                 $reviewSchedule = $false;
             }
 
-            # If reviewers dont respond is not set to automatically remove access.
+            # If reviewers don't respond is not set to automatically remove access.
             if ($accessReview.settings.autoReviewSettings.notReviewedResult -ne 'Deny')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('If reviewers dont respond is not automatically set to remove access') -Level Debug;
+                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ("If reviewers don't respond is not automatically set to remove access") -Level Debug;
 
                 # Set auto apply to false.
                 $reviewerRemoveNoRespond = $false;

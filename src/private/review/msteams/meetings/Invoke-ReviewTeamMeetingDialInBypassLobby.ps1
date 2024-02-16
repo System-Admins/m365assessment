@@ -38,7 +38,7 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
         }
 
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Dialin users are allowed to bypass lobby is set to '{0}'" -f $meetingPolicy.AllowPSTNUsersToBypassLobby) -Level Debug;
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Dial in users are allowed to bypass lobby is set to '{0}'" -f $meetingPolicy.AllowPSTNUsersToBypassLobby) -Level Debug;
     }
     END
     {

@@ -36,7 +36,7 @@ function Get-TenantIdleSessionTimeout
             # Get application policies.
             $applicationPolicies = ($activityBasedTimeoutPolicy.Definition | ConvertFrom-Json).ActivityBasedTimeoutPolicy.ApplicationPolicies;
 
-            # Convert timespan to minutes.
+            # Convert time span to minutes.
             [timespan]$totalMinutes = $applicationPolicies.WebSessionIdleTimeout;
 
             # Write to log.

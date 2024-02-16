@@ -26,7 +26,7 @@ function Invoke-ReviewPurviewUserRoleGroupChanges
         # Write to log.
         Write-Log -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'Getting user role group changes' -Level Debug;
 
-        # Search betwen the following dates.
+        # Search between the following dates.
         $startDate = ((Get-Date).AddDays(-14)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
         $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
 

@@ -38,7 +38,7 @@ function Invoke-ReviewTeamMeetingAutoAdmittedUsers
         }
 
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Auto admitt users is set to '{0}'" -f $meetingPolicy.AutoAdmittedUsers) -Level Debug;
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Auto admit users is set to '{0}'" -f $meetingPolicy.AutoAdmittedUsers) -Level Debug;
     }
     END
     {

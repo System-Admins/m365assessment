@@ -31,7 +31,7 @@ function Invoke-ReviewExoModernAuthEnabled
         [bool]$modernAuthSettings = $organizationSettings.OAuth2ClientProfileEnabled;
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message ("Modern authenticaiton is set to '{0}'" -f $modernAuthSettings) -Level Debug;
+        Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message ("Modern authentication is set to '{0}'" -f $modernAuthSettings) -Level Debug;
     }
     END
     {

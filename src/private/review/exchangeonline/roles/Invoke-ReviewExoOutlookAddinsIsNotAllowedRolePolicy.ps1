@@ -29,7 +29,7 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
         $roleAssignmentPolicies = New-Object System.Collections.ArrayList;
 
         # Role assignment policies used.
-        $usedRoleAssignementPolicies = New-Object System.Collections.ArrayList;
+        $usedRoleAssignmentPolicies = New-Object System.Collections.ArrayList;
 
     }
     PROCESS
@@ -45,21 +45,21 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
             }
 
             # If role assignment policy is not in list.
-            if ($usedRoleAssignementPolicies -notcontains $mailbox.RoleAssignmentPolicy)
+            if ($usedRoleAssignmentPolicies -notcontains $mailbox.RoleAssignmentPolicy)
             {
                 # Write to log.
                 Write-Log -Category 'Exchange Online' -Subcategory 'Roles' -Message ("Role assignment policy '{0}' is used in the organization" -f $mailbox.RoleAssignmentPolicy) -Level Debug;
 
                 # Add to list.
-                $usedRoleAssignementPolicies.Add($mailbox.RoleAssignmentPolicy) | Out-Null;
+                $usedRoleAssignmentPolicies.Add($mailbox.RoleAssignmentPolicy) | Out-Null;
             }
         }
 
         # Foreach role assignment policy used.
-        foreach ($usedRoleAssignementPolicy in $usedRoleAssignementPolicies)
+        foreach ($usedRoleAssignmentPolicy in $usedRoleAssignmentPolicies)
         {
             # Get role assignment policy.
-            $roleAssignmentPolicy = Get-RoleAssignmentPolicy -Identity $usedRoleAssignementPolicy;
+            $roleAssignmentPolicy = Get-RoleAssignmentPolicy -Identity $usedRoleAssignmentPolicy;
 
             # If there is not any assigned roles with Apps.
             if ($roleAssignmentPolicy.AssignedRoles -like '*My Custom Apps*' -or

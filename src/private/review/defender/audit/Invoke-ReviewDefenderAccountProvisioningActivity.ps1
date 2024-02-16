@@ -19,7 +19,7 @@ function Invoke-ReviewDefenderAccountProvisioningActivity
 
     BEGIN
     {
-        # Search betwen the following dates.
+        # Search between the following dates.
         $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:sz');
         $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:sz');
 

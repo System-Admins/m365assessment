@@ -19,7 +19,7 @@ function Invoke-ReviewDefenderNonGlobalAdminRoleAssignment
 
     BEGIN
     {
-        # Search betwen the following dates.
+        # Search between the following dates.
         $startDate = ((Get-Date).AddDays(-14)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
         $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
 

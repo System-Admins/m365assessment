@@ -59,7 +59,7 @@ function Invoke-ReviewDefenderEmailDomainSpf
             }
 
             # Add domain SPF settings to object array.
-            $spfSettings += [pscustomobject]@{
+            $spfSettings += [PSCustomObject]@{
                 Domain             = $domain.Id;
                 Valid              = $valid;
                 IsDefault          = $domain.IsDefault;

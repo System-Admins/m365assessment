@@ -30,7 +30,7 @@ function Invoke-ReviewTenantUserOwnedAppsService
         # If the settings are null.
         if ($null -eq $settings)
         {
-            # Throw execption.
+            # Throw exception.
             Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("Something went wrong getting user owned apps and services settings") -Level Error;
         }
 
