@@ -36,6 +36,9 @@ function Invoke-ReviewTeamMeetingAnonymousJoin
             # Set valid flag.
             $valid = $true;
         }
+
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Anonymous users cant join a meeting is set to '{0}'" -f $meetingPolicy.AllowAnonymousUsersToJoinMeeting) -Level Debug;
     }
     END
     {

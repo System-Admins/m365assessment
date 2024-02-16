@@ -4,7 +4,10 @@ function Invoke-ReviewTeamMessagingReportSecurityConcerns
     .SYNOPSIS
         Review if users can report security concerns in Teams.
     .DESCRIPTION
-        Return object with a valid flag if configured correct, the object also contains current settings.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - MicrosoftTeams
     .EXAMPLE
         Invoke-ReviewTeamMessagingReportSecurityConcerns;
     #>
@@ -16,8 +19,14 @@ function Invoke-ReviewTeamMessagingReportSecurityConcerns
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Getting meeting policies') -Level Debug;
+
         # Get messaging policy.
         $messagingPolicy = Get-CsTeamsMessagingPolicy -Identity Global;
+
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Getting report submission policies') -Level Debug;
 
         # Get report submission policy.
         $reportSubmissionPolicy = Get-ReportSubmissionPolicy;
@@ -46,11 +55,13 @@ function Invoke-ReviewTeamMessagingReportSecurityConcerns
         {
             # Set valid flag.
             $valid = $false;
+
+            # Write to log.
+            Write-Log -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Report submission settings are not configured correctly') -Level Debug;
         }
 
         # Create object.
         $settings = [PSCustomObject]@{
-            Valid                                       = $valid;
             AllowSecurityEndUserReporting               = $messagingPolicy.AllowSecurityEndUserReporting;
             ReportJunkToCustomizedAddress               = $reportSubmissionPolicy.ReportJunkToCustomizedAddress;
             ReportNotJunkToCustomizedAddress            = $reportSubmissionPolicy.ReportNotJunkToCustomizedAddress;
@@ -64,7 +75,31 @@ function Invoke-ReviewTeamMessagingReportSecurityConcerns
     }
     END
     {
-        # Return object.
-        return $settings;
+                # Bool for review flag.
+                [bool]$reviewFlag = $false;
+                    
+                # If review flag should be set.
+                if ($false -eq $valid)
+                {
+                    # Should be reviewed.
+                    $reviewFlag = $true;
+                }
+                                                                     
+                # Create new review object to return.
+                [Review]$review = [Review]::new();
+                                                             
+                # Add to object.
+                $review.Id = '3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc';
+                $review.Category = 'Microsoft Teams Admin Center';
+                $review.Subcategory = 'Messaging';
+                $review.Title = "Ensure users can report security concerns in Teams";
+                $review.Data = $settings;
+                $review.Review = $reviewFlag;
+                                              
+                # Print result.
+                $review.PrintResult();
+                                                             
+                # Return object.
+                return $review;
     }
 } 

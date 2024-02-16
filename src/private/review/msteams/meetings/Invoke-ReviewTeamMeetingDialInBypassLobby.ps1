@@ -3,8 +3,11 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
     <#
     .SYNOPSIS
         Review if users dialing in can't bypass the lobby.
-    .DESCRIPTION
-        Return true if configured correct, otherwise return false.
+     .DESCRIPTION
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - MicrosoftTeams
     .EXAMPLE
         Invoke-ReviewTeamMeetingDialInBypassLobby;
     #>
@@ -16,6 +19,9 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Debug;
+
         # Get meeting policy.
         $meetingPolicy = Get-CsTeamsMeetingPolicy -Identity Global;
 
@@ -30,10 +36,37 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
             # Set valid flag.
             $valid = $true;
         }
+
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Dialin users are allowed to bypass lobby is set to '{0}'" -f $meetingPolicy.AllowPSTNUsersToBypassLobby) -Level Debug;
     }
     END
     {
-        # Return bool.
-        return $valid;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                             
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                                     
+        # Add to object.
+        $review.Id = '710df2b2-b6f8-43f3-9d07-0079497f5c57';
+        $review.Category = 'Microsoft Teams Admin Center';
+        $review.Subcategory = 'Meetings';
+        $review.Title = "Ensure users dialing in can't bypass the lobby";
+        $review.Data = $meetingPolicy.AllowPSTNUsersToBypassLobby;
+        $review.Review = $reviewFlag;
+                                      
+        # Print result.
+        $review.PrintResult();
+                                                     
+        # Return object.
+        return $review;
     } 
 }

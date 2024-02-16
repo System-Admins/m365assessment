@@ -1,6 +1,6 @@
 # Get all the files in the src (private) folder.
-$ps1Files = Get-ChildItem -Path 'C:\Repositories\m365assessment\src\private' -Recurse -File -Filter *.ps1;
-#$ps1Files = Get-ChildItem -Path '/Users/ath/Repositories/m365assessment/src/private' -Recurse -File -Filter *.ps1;
+#$ps1Files = Get-ChildItem -Path 'C:\Repositories\m365assessment\src\private' -Recurse -File -Filter *.ps1;
+$ps1Files = Get-ChildItem -Path '/Users/ath/Repositories/m365assessment/src/private' -Recurse -File -Filter *.ps1;
 
 # Loop through each file
 foreach ($ps1File in $ps1Files)
@@ -559,7 +559,42 @@ $reviews.Add((Invoke-ReviewTeamMeetingAnonymousJoin)) | Out-Null;
 
 # 8. Microsoft Teams Admin Center
 # 8.5 Meetings
-# 8.5.1 Ensure anonymous users and dial-in callers can't start a meeting.
+# 8.5.2 Ensure anonymous users and dial-in callers can't start a meeting.
 # 963797c1-0f06-4ae9-9446-7856eef4f7d7
 $reviews.Add((Invoke-ReviewTeamMeetingAnonymousStartMeeting)) | Out-Null;
 
+# 8. Microsoft Teams Admin Center
+# 8.5 Meetings
+# 8.5.3 Ensure only people in my org can bypass the lobby.
+# 5252f126-4d4e-4a1c-ab56-743f8efe2b3e
+$reviews.Add((Invoke-ReviewTeamMeetingAutoAdmittedUsers)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.5 Meetings
+# 8.5.4 Ensure users dialing in can't bypass the lobby.
+# 710df2b2-b6f8-43f3-9d07-0079497f5c57
+$reviews.Add((Invoke-ReviewTeamMeetingDialInBypassLobby)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.5 Meetings
+# 8.5.5 Ensure meeting chat does not allow anonymous users.
+# 61b9c972-bb4e-4768-8db4-89a62fc09877
+$reviews.Add((Invoke-ReviewTeamMeetingChatAnonymousUsers)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.5 Meetings
+# 8.5.6 Ensure only organizers and co-organizers can present.
+# 8cd7d1c7-6491-433d-9d5b-68f1bf7bcfc3
+$reviews.Add((Invoke-ReviewTeamMeetingOrganizerPresent)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.5 Meetings
+# 8.5.7 Ensure external participants can't give or request control.
+# 89773e80-9004-4d41-bf8b-80d4dcbb141b
+$reviews.Add((Invoke-ReviewTeamMeetingExternalControl)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.6 Messaging
+# 8.6.1 Ensure users can report security concerns in Teams.
+# 3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc
+$reviews.Add((Invoke-ReviewTeamMessagingReportSecurityConcerns)) | Out-Null;

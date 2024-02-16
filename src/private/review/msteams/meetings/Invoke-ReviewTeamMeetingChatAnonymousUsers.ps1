@@ -4,7 +4,10 @@ function Invoke-ReviewTeamMeetingChatAnonymousUsers
     .SYNOPSIS
         Review if meeting chat does not allow anonymous users.
     .DESCRIPTION
-        Return object with a valid flag if configured correct, the object also contains current setting.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - MicrosoftTeams
     .EXAMPLE
         Invoke-ReviewTeamMeetingChatAnonymousUsers;
     #>
@@ -16,6 +19,9 @@ function Invoke-ReviewTeamMeetingChatAnonymousUsers
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Debug;
+
         # Get meeting policy.
         $meetingPolicy = Get-CsTeamsMeetingPolicy -Identity Global;
 
@@ -30,13 +36,37 @@ function Invoke-ReviewTeamMeetingChatAnonymousUsers
             # Set valid flag.
             $valid = $true;
         }
+
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Meetings anonymous chat is set to '{0}'" -f $meetingPolicy.MeetingChatEnabledType) -Level Debug;
     }
     END
     {
-        # Return object.
-        return [PSCustomObject]@{
-            Valid = $valid;
-            MeetingChatEnabledType = $meetingPolicy.MeetingChatEnabledType;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
         }
+                                                             
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                                     
+        # Add to object.
+        $review.Id = '61b9c972-bb4e-4768-8db4-89a62fc09877';
+        $review.Category = 'Microsoft Teams Admin Center';
+        $review.Subcategory = 'Meetings';
+        $review.Title = 'Ensure meeting chat does not allow anonymous users';
+        $review.Data = $meetingPolicy.MeetingChatEnabledType;
+        $review.Review = $reviewFlag;
+                                      
+        # Print result.
+        $review.PrintResult();
+                                                     
+        # Return object.
+        return $review;
     } 
 }

@@ -33,12 +33,12 @@ function Invoke-ReviewTeamMeetingAnonymousStartMeeting
         # If anonymous users and dial-in callers can't start a meeting.
         if ($meetingPolicy.AllowAnonymousUsersToStartMeeting -eq $false)
         {
-            # Write to log.
-            Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Anonymous users and dial-in callers can't start a meeting") -Level Debug;
-
             # Set valid flag.
             $valid = $true;
         }
+
+        # Write to log.
+        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Anonymous users and dial-in callers start a meeting is set to '{0}'" -f $meetingPolicy.AllowAnonymousUsersToStartMeeting) -Level Debug;
     }
     END
     {
