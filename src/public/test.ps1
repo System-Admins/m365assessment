@@ -11,10 +11,11 @@ foreach ($ps1File in $ps1Files)
 
 ######################################
 
-#Uninstall-ModuleAll
+#Uninstall-ModuleAll -OnlyUnload
+#Uninstall-ModuleAll -Debug
 
 # Install modules.
-#Install-Modules;
+#Install-Modules -Reinstall -Debug;
 
 # Connect to Microsoft.
 #Connect-Tenant;
@@ -475,3 +476,57 @@ $reviews.Add((Invoke-ReviewOneDriveSharingCapability)) | Out-Null;
 # 7.2.5 Ensure that SharePoint guest users cannot share items they don't own.
 # 1a27642f-0ab9-46ba-8d26-8e14a5b52994
 $reviews.Add((Invoke-ReviewSpoGuestResharingRestricted)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.6 Ensure SharePoint external sharing is managed through domain whitelist/blacklists.
+# 2c6d9aa6-0698-468d-8b0f-8d40ba5daa7b
+$reviews.Add((Invoke-ReviewSpoDomainSharingControl)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.7 Ensure link sharing is restricted in SharePoint and OneDrive.
+# c4b93e39-d8a1-459e-835e-e4545418c633
+$reviews.Add((Invoke-ReviewSpoExternalLinkSharingRestricted)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.8 Ensure external sharing is restricted by security group.
+# d62a22ba-144b-44e6-8592-9e3692742a89
+$reviews.Add((Invoke-ReviewSpoExternalSharingRestrictedGroup)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.8 Ensure guest access to a site or OneDrive will expire automatically.
+# af231488-4ca8-4496-8d10-09b65110d1ee
+$reviews.Add((Invoke-ReviewSpoGuestAccessExpire)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.2 Policies
+# 7.2.9 Ensure reauthentication with verification code is restricted.
+# 82712a94-8427-4871-8d09-f2b94e8e1bf1
+$reviews.Add((Invoke-ReviewSpoReauthOtpRestricted)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.3 Settings
+# 7.3.1 Ensure Office 365 SharePoint infected files are disallowed for download.
+# 7033c11e-71d9-407b-9a19-cde209d05426
+$reviews.Add((Invoke-ReviewSpoInfectedFileDownloadDisabled)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.3 Settings
+# 7.3.2 Ensure OneDrive sync is restricted for unmanaged devices.
+# d1412fb3-33a5-4b8f-a7c1-9a491b121d21
+$reviews.Add((Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.3 Settings
+# 7.3.3 Ensure custom script execution is restricted on personal sites.
+# 2f538008-8944-4d45-9b79-4cd771851622
+$reviews.Add((Invoke-ReviewOneDriveCustomScriptExecution)) | Out-Null;
+
+# 7. Microsoft SharePoint Admin Center
+# 7.3 Settings
+# 7.3.4 Ensure custom script execution is restricted on site collections.
+# 6339c889-76d7-450b-855d-b9e22869c94f
+$reviews.Add((Invoke-ReviewSpoCustomScriptExecution)) | Out-Null;

@@ -4,7 +4,10 @@ function Invoke-ReviewSpoReauthOtpRestricted
     .SYNOPSIS
         Review if reauthentication with verification code is restricted.
     .DESCRIPTION
-        Return object with days and if setting is valid.
+        Returns review object.
+    .NOTES
+        Requires the following modules:
+        - Pnp.PowerShell
     .EXAMPLE
         Invoke-ReviewSpoReauthOtpRestricted;
     #>
@@ -16,11 +19,14 @@ function Invoke-ReviewSpoReauthOtpRestricted
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Debug;
+        
         # Get tenant settings.
         $tenantSettings = Invoke-PnPSPRestMethod -Method Get -Url '/_api/SPOInternalUseOnly.Tenant';
 
         # Setting is valid.
-        [bool]$reauthOtpValid = $false;
+        [bool]$valid = $false;
 
     }
     PROCESS
@@ -30,16 +36,42 @@ function Invoke-ReviewSpoReauthOtpRestricted
             $tenantSettings.EmailAttestationReAuthDays -le 15)
         {
             # Setting is valid.
-            $reauthOtpValid = $true;
+            $valid = $true;
         }
+
+        # Write to log.
+        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Email attestation is '{0}' and re-auth days is '{1}'" -f $tenantSettings.EmailAttestationEnabled, $tenantSettings.EmailAttestationReAuthDays) -Level Debug;
     }
     END
     {
-        # Return object.
-        return [PSCustomObject]@{
-            Valid                      = $reauthOtpValid;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                     
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                             
+        # Add to object.
+        $review.Id = '82712a94-8427-4871-8d09-f2b94e8e1bf1';
+        $review.Category = 'Microsoft SharePoint Admin Center';
+        $review.Subcategory = 'Policies';
+        $review.Title = 'Ensure reauthentication with verification code is restricted';
+        $review.Data = [PSCustomObject]@{
             EmailAttestationEnabled    = $tenantSettings.EmailAttestationEnabled;
             EmailAttestationReAuthDays = $tenantSettings.EmailAttestationReAuthDays;
-        }
+        };
+        $review.Review = $reviewFlag;
+                              
+        # Print result.
+        $review.PrintResult();
+                                             
+        # Return object.
+        return $review;
     } 
 }
