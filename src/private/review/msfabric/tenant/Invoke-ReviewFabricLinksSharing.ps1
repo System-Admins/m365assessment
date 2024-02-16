@@ -4,7 +4,7 @@ function Invoke-ReviewFabricLinksSharing
     .SYNOPSIS
         Review if shareable links are restricted in Microsoft Fabric.
     .DESCRIPTION
-        Return true if configured correctly, false otherwise.
+        Returns review object.
     .EXAMPLE
         Invoke-ReviewFabricLinksSharing;
     #>
@@ -24,6 +24,9 @@ function Invoke-ReviewFabricLinksSharing
     }
     PROCESS
     {
+        # Write to log.
+        Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ('Getting tenant settings') -Level Debug;
+
         # Get tenant settings.
         $tenantSettings = (Invoke-FabricApi -Uri $uri -Method 'GET').tenantsettings;
 
@@ -43,11 +46,38 @@ function Invoke-ReviewFabricLinksSharing
                 # Set valid to false.
                 $valid = $false;
             }
+
+            # Write to log.
+            Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ("Shareable links are restricted '{0}'" -f $valid) -Level Debug;
         }
     }
     END
     {
-        # Return bool.
-        return $valid;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                            
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                                    
+        # Add to object.
+        $review.Id = 'e9ec0d44-00a5-4305-9d15-a225f00a8364';
+        $review.Category = 'Microsoft Fabric Admin Center';
+        $review.Subcategory = 'Tenant Settings';
+        $review.Title = 'Ensure shareable links are restricted';
+        $review.Data = $valid;
+        $review.Review = $reviewFlag;
+                                     
+        # Print result.
+        $review.PrintResult();
+                                                    
+        # Return object.
+        return $review;
     } 
 }

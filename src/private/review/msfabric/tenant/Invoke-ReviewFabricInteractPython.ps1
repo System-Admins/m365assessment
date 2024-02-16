@@ -4,7 +4,7 @@ function Invoke-ReviewFabricInteractPython
     .SYNOPSIS
         Review if 'Interact with and share R and Python' visuals is 'Disabled' in Microsoft Fabric.
     .DESCRIPTION
-        Return true if configured correctly, false otherwise.
+        Returns review object.
     .EXAMPLE
         Invoke-ReviewFabricInteractPython;
     #>
@@ -24,6 +24,9 @@ function Invoke-ReviewFabricInteractPython
     }
     PROCESS
     {
+        # Write to log.
+        Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ('Getting tenant settings') -Level Debug;
+
         # Get tenant settings.
         $tenantSettings = (Invoke-FabricApi -Uri $uri -Method 'GET').tenantsettings;
 
@@ -43,11 +46,38 @@ function Invoke-ReviewFabricInteractPython
                 # Set valid to false.
                 $valid = $false;
             }
+
+            # Write to log.
+            Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ("Interact with and share R and Python visuals is set to '{0}'" -f $valid) -Level Debug;
         }
     }
     END
     {
-        # Return bool.
-        return $valid;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
+                    
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
+                                                            
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
+                                                    
+        # Add to object.
+        $review.Id = '134ffbee-2092-42a7-9309-7b9b04c14b4b';
+        $review.Category = 'Microsoft Fabric Admin Center';
+        $review.Subcategory = 'Tenant Settings';
+        $review.Title = "Ensure 'Interact with and share R and Python' visuals is 'Disabled'";
+        $review.Data = $valid;
+        $review.Review = $reviewFlag;
+                                     
+        # Print result.
+        $review.PrintResult();
+                                                    
+        # Return object.
+        return $review;
     } 
 }

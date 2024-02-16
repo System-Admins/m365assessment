@@ -598,3 +598,59 @@ $reviews.Add((Invoke-ReviewTeamMeetingExternalControl)) | Out-Null;
 # 8.6.1 Ensure users can report security concerns in Teams.
 # 3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc
 $reviews.Add((Invoke-ReviewTeamMessagingReportSecurityConcerns)) | Out-Null;
+
+######################################
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.1 Ensure guest user access is restricted.
+# 4d179407-ca60-4a37-981f-99584ea2d6ea
+$reviews.Add((Invoke-ReviewFabricGuestAccessRestricted)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.2 Ensure external user invitations are restricted.
+# da8daeae-fc77-4bff-9733-19e8fe73b87b
+$reviews.Add((Invoke-ReviewFabricExternalUserInvitationsRestricted)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.3 Ensure guest access to content is restricted.
+# 24e5ca61-a473-4fcc-b4ef-aad5235e573f
+$reviews.Add((Invoke-ReviewFabricContentGuestAccessRestricted)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.4 Ensure 'Publish to web' is restricted.
+# fdd450f1-fb71-4450-a9e2-c82e916e86ab
+$reviews.Add((Invoke-ReviewFabricPublishToWebRestricted)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.5 Ensure 'Interact with and share R and Python' visuals is 'Disabled'.
+# 134ffbee-2092-42a7-9309-7b9b04c14b4b
+$reviews.Add((Invoke-ReviewFabricInteractPythond)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.6 Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'.
+# 6aa91139-4667-4d38-887b-a22905da5bcc
+$reviews.Add((Invoke-ReviewFabricSensitivtyLabels)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.7 Ensure shareable links are restricted.
+# e9ec0d44-00a5-4305-9d15-a225f00a8364
+$reviews.Add((Invoke-ReviewFabricLinksSharing)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.8 Ensure enabling of external data sharing is restricted.
+# 832a0d52-55b7-4a27-a6c7-a90e04bdaa7a
+$reviews.Add((Invoke-ReviewFabricExternalDataSharingRestricted)) | Out-Null;
+
+# 9. Microsoft Fabric Admin Center
+# 9.1 Tenant settings
+# 9.1.9 Ensure 'Block ResourceKey Authentication' is 'Enabled'.
+# bbcbdabf-221c-412e-92d5-67367053ff27
+$reviews.Add((Invoke-ReviewFabricBlockResourceKeyAuth)) | Out-Null;

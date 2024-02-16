@@ -1,12 +1,12 @@
-function Invoke-ReviewFabricSensitivtyLabels
+function Invoke-ReviewFabricContentGuestAccessRestricted
 {
     <#
     .SYNOPSIS
-        Review if 'Allow users to apply sensitivity labels for content' is 'Enabled' in Microsoft Fabric.
+        Review if guest access to content is restricted in Microsoft Fabric.
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewFabricSensitivtyLabels;
+        Invoke-ReviewFabricContentGuestAccessRestricted;
     #>
 
     [cmdletbinding()]
@@ -31,24 +31,24 @@ function Invoke-ReviewFabricSensitivtyLabels
         $tenantSettings = (Invoke-FabricApi -Uri $uri -Method 'GET').tenantsettings;
 
         # Foreach tenant setting.
-        foreach($tenantSetting in $tenantSettings)
+        foreach ($tenantSetting in $tenantSettings)
         {
-            # If the setting name is not "EimInformationProtectionEdit".
-            if($tenantSetting.SettingName -ne 'EimInformationProtectionEdit')
+            # If the setting name is not "ElevatedGuestsTenant".
+            if ($tenantSetting.SettingName -ne 'ElevatedGuestsTenant')
             {
                 # Continue to next.
                 continue;
             }
 
-            # If tenant setting value is "false".
-            if($tenantSetting.Enabled -eq $false)
+            # If tenant setting value is not "false".
+            if ($tenantSetting.Enabled -eq $true)
             {
                 # Set valid to false.
                 $valid = $false;
             }
 
             # Write to log.
-            Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ("Allow users to apply sensitivity labels for content is set to '{0}'" -f $valid) -Level Debug;
+            Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ('Guest access to content is restricted') -Level Debug;
         }
     }
     END
@@ -67,10 +67,10 @@ function Invoke-ReviewFabricSensitivtyLabels
         [Review]$review = [Review]::new();
                                                     
         # Add to object.
-        $review.Id = '6aa91139-4667-4d38-887b-a22905da5bcc';
+        $review.Id = '24e5ca61-a473-4fcc-b4ef-aad5235e573f';
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
-        $review.Title = "Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'";
+        $review.Title = 'Ensure guest access to content is restricted';
         $review.Data = $valid;
         $review.Review = $reviewFlag;
                                      
