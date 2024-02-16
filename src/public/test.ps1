@@ -530,3 +530,36 @@ $reviews.Add((Invoke-ReviewOneDriveCustomScriptExecution)) | Out-Null;
 # 7.3.4 Ensure custom script execution is restricted on site collections.
 # 6339c889-76d7-450b-855d-b9e22869c94f
 $reviews.Add((Invoke-ReviewSpoCustomScriptExecution)) | Out-Null;
+
+######################################
+
+# 8. Microsoft Teams Admin Center
+# 8.1 Teams
+# 8.1.1 Ensure external file sharing in Teams is enabled for only approved cloud storage services.
+# 36016fe3-30fe-4070-a446-441ae23cfe95
+$reviews.Add((Invoke-ReviewTeamApprovedCloudStorage)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.1 Teams
+# 8.1.2 Ensure users can't send emails to a channel email address.
+# 4623807d-6c30-4906-a33e-1e55fbbdfdec
+$reviews.Add((Invoke-ReviewTeamUsersCantSendEmailToChannel)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.2 Users
+# 8.2.1 Ensure 'external access' is restricted in the Teams admin center.
+# 1d4902a0-dcb6-4b1a-b77a-0662ba15a431
+$reviews.Add((Invoke-ReviewTeamExternalSharingRestricted)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.5 Meetings
+# 8.5.1 Ensure anonymous users can't join a meeting.
+# 087cd766-1d44-444d-a572-21312ddfb804
+$reviews.Add((Invoke-ReviewTeamMeetingAnonymousJoin)) | Out-Null;
+
+# 8. Microsoft Teams Admin Center
+# 8.5 Meetings
+# 8.5.1 Ensure anonymous users and dial-in callers can't start a meeting.
+# 963797c1-0f06-4ae9-9446-7856eef4f7d7
+$reviews.Add((Invoke-ReviewTeamMeetingAnonymousStartMeeting)) | Out-Null;
+
