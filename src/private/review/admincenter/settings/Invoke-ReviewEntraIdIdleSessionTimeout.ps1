@@ -21,20 +21,47 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
 
         # Get conditional access that enforce application restrictions.
         $conditionalAccessPolicies = Get-EntraIdConditionalAccessEnforceAppRestriction;
+
+        # Object array to store results.
+        $data = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {
         # If idleSessionPolicies is higher than 180 minutes (3 hours).
-        $idleSessionPolicies = $idleSessionPolicies | Where-Object { $_.IdleTimeoutInMinutes -gt 180 };
+        $idleSessionPolicy = $idleSessionPolicies | Where-Object { $_.IdleTimeoutInMinutes -gt 180 -and $_.IsOrganizationDefault -eq $true};
+
+        # Foreach idle policy.
+        foreach ($policy in $idleSessionPolicies)
+        {
+            # Add to results.
+            $data += [PSCustomObject]@{
+                Type = 'IdleTimeoutPolicy';
+                Id   = $policy.Id;
+                Name = $policy.DisplayName;
+                Value = $policy.IdleTimeoutInMinutes;
+            };
+        }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ('Found {0} idle session policies that which allows session for more than 3 hours' -f $idleSessionPolicies.Count) -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ('Idle session policy allows session for more than 3 hours') -Level Debug;
 
         # If there is no conditional access policies enforcing this.
         if ($null -eq $conditionalAccessPolicies)
         {
             # Write to log.
             Write-Log -Category 'Entra' -Subcategory 'Policy' -Message 'No conditional access policies enforcing app restrictions found' -Level Debug;
+        }
+
+        # Foreach conditional access policy.
+        foreach ($policy in $conditionalAccessPolicies)
+        {
+            # Add to results.
+            $data += [PSCustomObject]@{
+                Type = 'ConditionalAccess';
+                Id   = $policy.Id;
+                Name = $policy.DisplayName;
+                Value = $policy.State;
+            };
         }
     }
     END
@@ -43,7 +70,8 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
         [bool]$reviewFlag = $false;
                     
         # If review flag should be set.
-        if ($idleSessionPolicies.Count -gt 0 -or $null -eq $conditionalAccessPolicies)
+        if ($null -ne $idleSessionPolicy -or 
+            $null -eq $conditionalAccessPolicies)
         {
             # Should be reviewed.
             $reviewFlag = $true;
@@ -57,10 +85,7 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
         $review.Category = 'Microsoft 365 Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = "Ensure 'Idle session timeout' is set to '3 hours (or less)' for unmanaged devices";
-        $review.Data = [PSCustomObject]@{
-            IdleSessionPolicies       = $idleSessionPolicies;
-            ConditionalAccessPolicies = $conditionalAccessPolicies;
-        };
+        $review.Data = $data;
         $review.Review = $reviewFlag;
 
         # Print result.

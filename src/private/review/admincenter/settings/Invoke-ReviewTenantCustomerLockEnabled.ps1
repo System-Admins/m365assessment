@@ -42,7 +42,9 @@ function Invoke-ReviewTenantCustomerLockEnabled
         $review.Category = 'Microsoft 365 Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = "Ensure the customer lockbox feature is enabled";
-        $review.Data = $settings.CustomerLockBoxEnabled;
+        $review.Data = [PSCustomObject]@{
+            Enabled = $settings.CustomerLockBoxEnabled;
+        };
         $review.Review = $reviewFlag;
 
         # Print result.

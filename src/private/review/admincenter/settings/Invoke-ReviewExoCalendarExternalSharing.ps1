@@ -52,7 +52,12 @@ function Invoke-ReviewExoCalendarExternalSharing
             Write-Log -Category 'Exchange Online' -Subcategory 'Policy' -Message ("External calendar sharing is enabled in the sharing policy '{0}'" -f $sharingPolicy.Name) -Level Debug;
 
             # Add to array.
-            $calendarSharingPolicies += $sharingPolicy;
+            $calendarSharingPolicies += [PSCustomObject]@{
+                Name = $sharingPolicy.Name;
+                Domains = $sharingPolicy.Domains -join '|';
+                Enabled = $sharingPolicy.Enabled;
+                Default = $sharingPolicy.Default;
+            };
         }
     }
     END

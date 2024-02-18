@@ -39,10 +39,12 @@ function Invoke-ReviewTenantSwayExternalSharing
                                
         # Add to object.
         $review.Id = 'd10b85ac-05df-4c78-91a5-5bc03f799ea2';
-        $review.Category = "Microsoft 365 Admin Center";
-        $review.Subcategory = "Settings";
-        $review.Title = "Ensure that Sways cannot be shared with people outside of your organization";
-        $review.Data = $settings.ExternalSharingEnabled;
+        $review.Category = 'Microsoft 365 Admin Center';
+        $review.Subcategory = 'Settings';
+        $review.Title = 'Ensure that Sways cannot be shared with people outside of your organization';
+        $review.Data = [PSCustomObject]@{
+            Enabled = $settings.ExternalSharingEnabled
+        };
         $review.Review = $reviewFlag;
 
         # Print result.

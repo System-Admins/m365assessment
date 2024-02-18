@@ -45,7 +45,9 @@ function Invoke-ReviewTenantThirdPartyStorage
         $review.Category = 'Microsoft 365 Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = "Ensure 'third-party storage services' are restricted in 'Microsoft 365 on the web'";
-        $review.Data = $settings.thirdPartyStorageEnabled;
+        $review.Data = [PSCustomObject]@{
+            Enabled = $settings.thirdPartyStorageEnabled;
+        };
         $review.Review = $reviewFlag;
 
         # Print result.

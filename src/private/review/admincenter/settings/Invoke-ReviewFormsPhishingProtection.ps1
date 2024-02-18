@@ -45,7 +45,9 @@ function Invoke-ReviewFormsPhishingProtection
         $review.Category = 'Microsoft 365 Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = "Ensure internal phishing protection for Forms is enabled";
-        $review.Data = $settings.InOrgFormsPhishingScanEnabled;
+        $review.Data = [PSCustomObject]@{
+            Enabled = $settings.InOrgFormsPhishingScanEnabled;
+        }
         $review.Review = $reviewFlag;
 
         # Print result.
