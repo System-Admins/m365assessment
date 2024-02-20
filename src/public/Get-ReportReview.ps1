@@ -1,4 +1,4 @@
-$reviews = Invoke-Review -Service m365admin;
+$reviews = Invoke-Review -Service m365purview;
 
 # Get all templates.
 $reviewTemplates = Get-ChildItem -Path 'documentation/review' -Recurse -File -Filter '*.md';
@@ -18,6 +18,7 @@ foreach ($review in $reviews)
     # If the template does not exist, skip.
     if ($null -eq $template)
     {
+        Write-Host "Kan ikke finde $($review.Id)"
         # Skip.
         continue;
     }
@@ -27,4 +28,4 @@ foreach ($review in $reviews)
 }
 
 # Return the HTML content.
-$htmlContent | Out-File -FilePath '/Users/ath/Desktop/test.html' -Encoding utf8 -Force;
+$htmlContent | Out-File -FilePath "C:\Users\AlexHansen\OneDrive - System Admins\Desktop\hmm.html" -Encoding utf8 -Force;

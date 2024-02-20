@@ -81,7 +81,7 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
         $review.Category = 'Microsoft Purview';
         $review.Subcategory = 'Information Protection';
         $review.Title = 'Ensure SharePoint Online Information Protection policies are set up and used';
-        $review.Data = $policies;
+        $review.Data = $policies | Select-Object -Property Guid, Name, Enabled, Mode, Comment, Workload;
         $review.Review = $reviewFlag;
         
         # Print result.

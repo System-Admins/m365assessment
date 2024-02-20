@@ -28,7 +28,7 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
     PROCESS
     {
         # Get only enabled policies.
-        $enabledPolicies = $dlpPolicies | Where-Object { $_.Enabled -eq $true };
+        $enabledPolicies = $dlpPolicies | Where-Object { $_.Enabled -eq $true -and $_.Name -ne 'Default policy for Teams' };
 
         # Write to log.
         Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Found {0} enabled DLP policies" -f $enabledPolicies.Count) -Level Debug;
@@ -53,7 +53,7 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
         $review.Category = 'Microsoft Purview';
         $review.Subcategory = 'Data Loss Prevention';
         $review.Title = 'Ensure DLP policies are enabled';
-        $review.Data = $dlpPolicies;
+        $review.Data = $dlpPolicies | Select-Object -Property Type, Name, DisplayName, Enabled, Workload;
         $review.Review = $reviewFlag;
         
         # Print result.

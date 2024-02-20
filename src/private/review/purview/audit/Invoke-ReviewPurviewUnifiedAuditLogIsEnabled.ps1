@@ -52,7 +52,9 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
         $review.Category = 'Microsoft Purview';
         $review.Subcategory = 'Audit';
         $review.Title = 'Ensure Microsoft 365 audit log search is Enabled';
-        $review.Data = $adminAuditLogConfig.UnifiedAuditLogIngestionEnabled;
+        $review.Data = [PSObject]@{
+            'Enabled' = $adminAuditLogConfig.UnifiedAuditLogIngestionEnabled;
+        };
         $review.Review = $reviewFlag;
         
         # Print result.

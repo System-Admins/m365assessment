@@ -53,7 +53,7 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
         $review.Category = 'Microsoft Purview';
         $review.Subcategory = 'Data Loss Prevention';
         $review.Title = 'Ensure DLP policies are enabled for Microsoft Teams';
-        $review.Data = $enabledPolicies;
+        $review.Data = $dlpPolicies | Select-Object -Property Type, Name, DisplayName, Enabled, Workload;
         $review.Review = $reviewFlag;
         
         # Print result.

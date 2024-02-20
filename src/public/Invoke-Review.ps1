@@ -310,9 +310,16 @@ function Invoke-Review
             # 5. Microsoft Entra Admin Center
             # 5.1 Identity
             # 5.1.5 Applications
-            # 5.1.5.3 Ensure the admin consent workflow is enabled.
+            # 5.1.5.2 Ensure user consent to apps accessing company data on their behalf is not allowed.
             # ca409d22-6638-48ff-ad7c-4a61e3488b94
             $reviews.Add((Invoke-ReviewEntraApplicationUserConsent)) | Out-Null;
+
+            # 5. Microsoft Entra Admin Center
+            # 5.1 Identity
+            # 5.1.5 Applications
+            # 5.1.5.3 Ensure the admin consent workflow is enabled.
+            # 7bd57849-e98c-48c0-bd98-5c337fb7bc32
+            $reviews.Add((Invoke-ReviewEntraApplicationAdminConsentWorkflowEnabled)) | Out-Null;
 
             # 5. Microsoft Entra Admin Center
             # 5.1 Identity
