@@ -1,4 +1,4 @@
-$reviews = Invoke-Review -Service m365purview;
+$reviews = Invoke-Review -Service m365entra;
 
 # Get all templates.
 $reviewTemplates = Get-ChildItem -Path 'documentation/review' -Recurse -File -Filter '*.md';
@@ -18,7 +18,7 @@ foreach ($review in $reviews)
     # If the template does not exist, skip.
     if ($null -eq $template)
     {
-        Write-Host "Kan ikke finde $($review.Id)"
+        Write-Host "Kan ikke finde $($review.Id) $($review.Title)"
         # Skip.
         continue;
     }

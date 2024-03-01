@@ -50,7 +50,7 @@ function Invoke-ReviewEntraApplicationUserConsent
         [Review]$review = [Review]::new();
                              
         # Add to object.
-        $review.Id = 'db353f34-1ee7-4e15-b6a5-d9f9a15e00c8';
+        $review.Id = 'ca409d22-6638-48ff-ad7c-4a61e3488b94';
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure user consent to apps accessing company data on their behalf is not allowed';
