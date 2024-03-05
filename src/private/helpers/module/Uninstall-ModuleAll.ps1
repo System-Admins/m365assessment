@@ -41,7 +41,7 @@ function Uninstall-ModuleAll
             if ($false -eq $OnlyUnload)
             {
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $installedModule.Name -Message ('Found {0} versions of the module' -f $moduleVersions.Count) -Level Debug;
+                Write-Log -Category 'Module' -Subcategory $installedModule.Name -Message ('Uninstalling {0} versions of the module' -f $moduleVersions.Count) -Level Debug;
 
                 # Uninstall all versions of module.
                 Uninstall-Module -Name $installedModule.Name -AllVersions -Force -Confirm:$false -WarningAction SilentlyContinue -ErrorAction SilentlyContinue;

@@ -39,6 +39,7 @@ function Connect-Tenant
         $mgScopes = @(
             'RoleManagement.Read.Directory',
             'Directory.Read.All',
+            'RoleEligibilitySchedule.Read.Directory',
             'AuditLog.Read.All',
             'User.Read.All',
             'Policy.Read.All',

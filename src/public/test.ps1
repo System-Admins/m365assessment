@@ -15,7 +15,7 @@ foreach ($ps1File in $ps1Files)
 #Uninstall-ModuleAll -Debug
 
 # Install modules.
-#Install-Modules -Reinstall -Debug;
+Install-Modules -Debug;
 
 # Connect to Microsoft.
-#Connect-Tenant;
+Connect-Tenant;

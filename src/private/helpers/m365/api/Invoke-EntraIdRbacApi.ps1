@@ -37,12 +37,12 @@ function Invoke-EntraIdRbacApi
     BEGIN
     {
         # Get access token for Entra ID.
-        $accessToken = (Get-AzAccessToken).Token
+        $accessToken = (Get-AzAccessToken -ResourceUrl 'https://api.azrbac.mspim.azure.com').Token;
 
         # Construct the headers for the request.
         $headers = @{
             'Content-Type'           = 'application/json; charset=UTF-8';
-            'Authorization'          = ('Bearer {0}' -f $accessToken);
+            'Authorization'          =  ('Bearer {0}' -f $accessToken);
             'x-ms-client-request-id' = [guid]::NewGuid();
             'x-ms-correlation-id'    = [guid]::NewGuid();
         };

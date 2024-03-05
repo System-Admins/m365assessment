@@ -16,11 +16,14 @@ function Invoke-ReviewEntraPimUsedToManageRoles
 
     BEGIN
     {
-        # Get directory id.
-        $directoryId = (Get-AzContext).Tenant.Id;
+        # Get all role definitions.
+        $directoryRoleDefinitions = Get-MgRoleManagementDirectoryRoleDefinition -All;
 
-        # URI.
-        $uri = ('https://api.azrbac.mspim.azure.com/api/v2/privilegedAccess/aadroles/resources/{0}/roleDefinitions?$select=id,displayName,type,templateId,resourceId,externalId,isbuiltIn,subjectCount,eligibleAssignmentCount,activeAssignmentCount&$orderby=displayName' -f $directoryId);
+        # Get all role eligibility schedule instances.
+        $roleEligibilityScheduleInstances = Get-MgRoleManagementDirectoryRoleEligibilityScheduleInstance -ExpandProperty '*' -All;
+
+        # Get all role active assignments.
+        $roleAssignmentScheduleInstances = Get-MgRoleManagementDirectoryRoleAssignmentScheduleInstance -ExpandProperty '*' -All;
 
         # Roles that should be eligible and not permanent.
         $shouldOnlyBeEligibleRoles = @(
@@ -50,80 +53,116 @@ function Invoke-ReviewEntraPimUsedToManageRoles
             'User Administrator'
         );
 
+        # Object array for roles eligible and active assignments.
+        $roles = @();
+
         # Object array to store the roles that is configured incorrectly.
         $incorrectlyConfigured = New-Object System.Collections.ArrayList;
     }
     PROCESS
     {
-        # Invoke the API.
-        $pimRbacRoles = Invoke-EntraIdRbacApi -Uri $uri -Method 'GET';
-        
-        # Foreach rbac role.
-        foreach ($pimRbacRole in $pimRbacRoles)
+        # Foreach role definition.
+        foreach ($directoryRoleDefinition in $directoryRoleDefinitions)
         {
-            # Bool for being in the eligible list.
-            [bool]$isInEligibleList = $false;
+            # Object arrays for eligible and active assignments.
+            $eligibleAssignments = @();
+            $activeAssignments = @();
 
-            # Foreach role in the eligible list.
-            foreach ($shouldOnlyBeEligibleRole in $shouldOnlyBeEligibleRoles)
+            # Foreach role eligibility schedule instance.
+            foreach ($roleEligibilityScheduleInstance in $roleEligibilityScheduleInstances)
             {
-                # If the role is in the eligible list.
-                if ($pimRbacRole.displayName -eq $shouldOnlyBeEligibleRole)
+                # If the role definition id matches the role id of the role eligibility schedule instance.
+                if ($directoryRoleDefinition.Id -eq $roleEligibilityScheduleInstance.RoleDefinitionId)
                 {
-                    # Set bool to true.
-                    $isInEligibleList = $true;
+                    # Assignment.
+                    [string]$assignmentType = '';
+            
+                    # If the role eligibility schedule instance is eligible.
+                    if ($null -ne $roleEligibilityScheduleInstance.EndDateTime)
+                    {
+                        # Set to eligible.
+                        $assignmentType = 'Eligible';
+                    }
+                    # Else the assignment is permanent.
+                    else
+                    {
+                        # Set to permanent.
+                        $assignmentType = 'Permanent';
+                    }
+
+                    # Add to eligible assignments.
+                    $eligibleAssignments += [PSCustomObject]@{
+                        displayName   = $roleEligibilityScheduleInstance.Principal.AdditionalProperties.displayName;
+                        startDateTime = $roleEligibilityScheduleInstance.StartDateTime;
+                        endDateTime   = $roleEligibilityScheduleInstance.EndDateTime;
+                        memberType    = $roleEligibilityScheduleInstance.MemberType;
+                        roleName      = $roleEligibilityScheduleInstance.RoleDefinition.DisplayName;
+                        roleID        = $roleEligibilityScheduleInstance.RoleDefinition.Id;
+                        assignment    = $assignmentType;
+                    };
                 }
             }
 
-            # If the role is not in the eligible list.
-            if ($isInEligibleList -eq $false)
+            # Foreach role assignment schedule instance.
+            foreach ($roleAssignmentScheduleInstance in $roleAssignmentScheduleInstances)
             {
-                # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('The role "{0}" is not in the eligible list, skipping' -f $pimRbacRole.displayName) -Level Debug;
-
-                # Skip.
-                continue;
-            }
-
-            # If there is no active assignments.
-            if ($pimRbacRole.activeAssignmentCount -eq 0)
-            {
-                # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ("The role '{0}' don't have any active assignments, skipping" -f $pimRbacRole.displayName) -Level Debug;
-
-                # Skip.
-                continue;
-            }
-
-            # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Getting active assignments for the role "{0}"' -f $pimRbacRole.displayName) -Level Debug;
-
-            # Construct active assignments URI.
-            $activeAssignmentsUri = ('https://api.azrbac.mspim.azure.com/api/v2/privilegedAccess/aadroles/roleAssignments?$expand=linkedEligibleRoleAssignment,subject,scopedResource,roleDefinition($expand=resource)&$count=true&$filter=(roleDefinition/resource/id%20eq%20%27{0}%27)+and+(roleDefinition/id%20eq%20%27{1}%27)+and+(assignmentState%20eq%20%27Active%27)&$orderby=roleDefinition/displayName&$skip=0&$top=10' -f $pimRbacRole.resourceId, $pimRbacRole.id);
-
-            # Invoke the API again for active assignments.
-            $activeAssignments = Invoke-EntraIdRbacApi -Uri $activeAssignmentsUri -Method 'GET';
-
-            # Foreach active assignment.
-            foreach ($activeAssignment in $activeAssignments)
-            {
-                # If the assignment is permanent.
-                if ($activeAssignment.isPermanent -eq $true)
+                # If the role definition id matches the role id of the role assignment schedule instance.
+                if ($directoryRoleDefinition.Id -eq $roleAssignmentScheduleInstance.RoleDefinitionId)
                 {
-                    # Write to log.
-                    Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ("Member '{0}' is permanent for the role '{1}', should only be eligible" -f $activeAssignment.subject.principalName, $pimRbacRole.displayName) -Level Debug;
+                    # Assignment.
+                    [string]$assignmentType = '';
             
-                    # Add to the list of incorrectly configured roles.
-                    $incorrectlyConfigured += [PSCustomObject]@{
-                        'RoleId'          = $pimRbacRole.id;
-                        'RoleDisplayName' = $pimRbacRole.displayName;
-                        'RoleType'        = $pimRbacRole.type;
-                        'Member'          = $activeAssignment.subject.principalName;
-                        'MemberType'      = $activeAssignment.memberType;
-                        'IsPermanent'     = $activeAssignment.isPermanent;
-                        'AssignmentState' = $activeAssignment.assignmentState;
-                        'Type'            = $activeAssignment.subject.type;
+                    # If the role assignment schedule instance is eligible.
+                    if ($null -ne $roleAssignmentScheduleInstance.EndDateTime)
+                    {
+                        # Set to eligible.
+                        $assignmentType = 'Eligible';
+                    }
+                    # Else the assignment is permanent.
+                    else
+                    {
+                        # Set to permanent.
+                        $assignmentType = 'Permanent';
+                    }
+
+                    # Add to active assignments.
+                    $activeAssignments += [PSCustomObject]@{
+                        displayName = $roleAssignmentScheduleInstance.Principal.AdditionalProperties.displayName;
+                        memberType  = $roleAssignmentScheduleInstance.MemberType;
+                        roleName    = $roleAssignmentScheduleInstance.RoleDefinition.DisplayName;
+                        roleID      = $roleAssignmentScheduleInstance.RoleDefinition.Id;
+                        assignment  = $assignmentType;
+                        state       = $roleAssignmentScheduleInstance.AssignmentType;
                     };
+                }
+            }
+
+            # Add to roles.
+            $roles += [PSCustomObject]@{
+                roleName            = $directoryRoleDefinition.DisplayName;
+                roleID              = $directoryRoleDefinition.Id;
+                eligibleAssignments = $eligibleAssignments;
+                eligibleCount       = $eligibleAssignments.Count;
+                activeAssignments   = $activeAssignments;
+                activeCount         = $activeAssignments.Count;
+            };
+        }
+
+        # Foreach role that only should be eligible.
+        foreach ($shouldOnlyBeEligibleRole in $shouldOnlyBeEligibleRoles)
+        {
+            # Foreach role.
+            foreach ($role in $roles)
+            {
+                # If the role name matches the role that only should be eligible.
+                if ($role.roleName -eq $shouldOnlyBeEligibleRole)
+                {
+                    # If the role has active assignments.
+                    if ($role.activeCount -gt 0)
+                    {
+                        # Add to incorrectly configured.
+                        $incorrectlyConfigured.Add($shouldOnlyBeEligibleRole);
+                    }
                 }
             }
         }
