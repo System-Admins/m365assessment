@@ -71,7 +71,9 @@ function Invoke-ReviewFabricExternalUserInvitationsRestricted
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
         $review.Title = 'Ensure external user invitations are restricted';
-        $review.Data = $valid;
+        $review.Data = [PSCustomObject]@{
+            Restricted = $valid
+        };
         $review.Review = $reviewFlag;
                                      
         # Print result.

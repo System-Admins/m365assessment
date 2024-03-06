@@ -68,7 +68,9 @@ function Invoke-ReviewFabricGuestAccessRestricted
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
         $review.Title = 'Ensure guest user access is restricted';
-        $review.Data = $valid;
+        $review.Data = [PSCustomObject]@{
+            Restricted = $valid
+        };
         $review.Review = $reviewFlag;
                                       
         # Print result.

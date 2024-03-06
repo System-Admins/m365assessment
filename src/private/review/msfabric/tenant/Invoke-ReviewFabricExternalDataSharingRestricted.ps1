@@ -71,7 +71,9 @@ function Invoke-ReviewFabricExternalDataSharingRestricted
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
         $review.Title = 'Ensure enabling of external data sharing is restricted';
-        $review.Data = $valid;
+        $review.Data = [PSCustomObject]@{
+            Restricted = $valid
+        };
         $review.Review = $reviewFlag;
                                      
         # Print result.

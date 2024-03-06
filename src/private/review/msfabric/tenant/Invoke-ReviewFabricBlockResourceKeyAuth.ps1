@@ -71,7 +71,9 @@ function Invoke-ReviewFabricBlockResourceKeyAuth
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
         $review.Title = "Ensure 'Block ResourceKey Authentication' is 'Enabled'";
-        $review.Data = $valid;
+        $review.Data = [PSCustomObject]@{
+            Blocked = $valid
+        };
         $review.Review = $reviewFlag;
                                              
         # Print result.

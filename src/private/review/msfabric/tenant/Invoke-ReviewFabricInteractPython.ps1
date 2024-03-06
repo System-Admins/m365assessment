@@ -71,7 +71,9 @@ function Invoke-ReviewFabricInteractPython
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
         $review.Title = "Ensure 'Interact with and share R and Python' visuals is 'Disabled'";
-        $review.Data = $valid;
+        $review.Data = [PSCustomObject]@{
+            Disabled = $valid
+        };
         $review.Review = $reviewFlag;
                                      
         # Print result.

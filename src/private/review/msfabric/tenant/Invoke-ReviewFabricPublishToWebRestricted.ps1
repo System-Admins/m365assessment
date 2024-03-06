@@ -71,7 +71,9 @@ function Invoke-ReviewFabricPublishToWebRestricted
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
         $review.Title = "Ensure 'Publish to web' is restricted";
-        $review.Data = $valid;
+        $review.Data = [PSCustomObject]@{
+            Restricted = $valid
+        };
         $review.Review = $reviewFlag;
                                      
         # Print result.

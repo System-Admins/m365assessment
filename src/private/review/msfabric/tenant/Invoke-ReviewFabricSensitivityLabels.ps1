@@ -71,7 +71,9 @@ function Invoke-ReviewFabricSensitivityLabels
         $review.Category = 'Microsoft Fabric Admin Center';
         $review.Subcategory = 'Tenant Settings';
         $review.Title = "Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'";
-        $review.Data = $valid;
+        $review.Data = [PSCustomObject]@{
+            Enabled = $valid
+        };
         $review.Review = $reviewFlag;
                                      
         # Print result.

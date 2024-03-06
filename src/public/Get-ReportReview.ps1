@@ -1,4 +1,4 @@
-$reviews = Invoke-Review -Service m365teams;
+$reviews = Invoke-Review -Service m365fabric;
 
 # Get all templates.
 $reviewTemplates = Get-ChildItem -Path 'documentation/review' -Recurse -File -Filter '*.md';
