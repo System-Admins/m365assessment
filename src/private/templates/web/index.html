@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Microsoft 365 Assessment</title>
+  <meta name="description" content="Microsoft 365 assessment report.">
+  <meta name="author" content="System Admins">
+  <meta property="og:title" content="Microsoft 365 assessment">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.systemadmins.com">
+  <meta property="og:description" content="Microsoft 365 assessment report.">
+  <meta property="og:image" content="image.png">
+  <!--<link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">-->
+  <link rel="stylesheet" href="css/reset.css?v=1.0">
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+</head>
+
+<body>
+  <div id="wrapper">
+    <div id="innerWrapper">
+      <header>
+        <div id="logo">
+          <img src="images/logo.svg">
+        </div>
+        <div id="siteTitle">
+          Microsoft 365 Assessment
+        </div>
+      </header>
+      <section>
+        <div class="4d179407-ca60-4a37-981f-99584ea2d6ea">
+          <h2 id="title">Ensure guest user access is restricted</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">4d179407-ca60-4a37-981f-99584ea2d6ea</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">True</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>This setting allows business-to-business (B2B) guests access to Microsoft Fabric, and contents that they
+            have permissions to. With the setting turned off, B2B guest users receive an error when trying to access
+            Power BI.</p>
+          <p>The recommended state is Enabled for a subset of the organization or Disabled.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>Establishing and enforcing a dedicated security group prevents unauthorized access to Microsoft Fabric for
+            guests collaborating in Azure that are new or assigned guest status from other applications. This upholds
+            the principle of least privilege and uses role-based access control (RBAC). These security groups can also
+            be used for tasks like conditional access, enhancing risk management and user accountability across the
+            organization.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Export and Sharing settings</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Allow Azure Active Directory guest users to access Microsoft Fabric</strong> to one of
+                these states:</p>
+              <ul>
+                <li>State 1: <strong>Disabled</strong></li>
+                <li>State 2: <strong>Enabled with Specific security groups</strong> selected and defined.</li>
+              </ul>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Restricted</th>
+            </tr>
+            <tr>
+              <td>False</td>
+            </tr>
+          </table>
+        </div>
+        <div class="da8daeae-fc77-4bff-9733-19e8fe73b87b">
+          <h2 id="title">Ensure external user invitations are restricted</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">da8daeae-fc77-4bff-9733-19e8fe73b87b</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">True</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>The Invite external users setting helps organizations choose whether new external users can be invited to
+            the organization through Power BI sharing, permissions, and subscription experiences. This setting only
+            controls the ability to invite through Power BI.</p>
+          <p>The recommended state is Enabled for a subset of the organization or Disabled.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>Establishing and enforcing a dedicated security group prevents unauthorized access to Microsoft Fabric for
+            guests collaborating in Azure that are new or assigned guest status from other applications. This upholds
+            the principle of least privilege and uses role-based access control (RBAC). These security groups can also
+            be used for tasks like conditional access, enhancing risk management and user accountability across the
+            organization.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Export and Sharing settings</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Invite external users to your organization</strong> to one of these states:</p>
+              <ul>
+                <li>State 1: <strong>Disabled</strong></li>
+                <li>State 2: <strong>Enabled with Specific security groups</strong> selected and defined.</li>
+              </ul>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing</a>
+            </li>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-azure-ad-b2b#invite-guest-users">https://learn.microsoft.com/en-us/power-bi/enterprise/service-admin-azure-ad-b2b#invite-guest-users</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Restricted</th>
+            </tr>
+            <tr>
+              <td>False</td>
+            </tr>
+          </table>
+        </div>
+        <div class="24e5ca61-a473-4fcc-b4ef-aad5235e573f">
+          <h2 id="title">Ensure guest access to content is restricted</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">24e5ca61-a473-4fcc-b4ef-aad5235e573f</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">False</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>This setting allows Azure AD B2B guest users to have full access to the browsing experience using the
+            left-hand navigation pane in the organization. Guest users who have been assigned workspace roles or
+            specific item permissions will continue to have those roles and/or permissions, even if this setting is
+            disabled.</p>
+          <p>The recommended state is Enabled for a subset of the organization or Disabled.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>Establishing and enforcing a dedicated security group prevents unauthorized access to Microsoft Fabric for
+            guests collaborating in Azure that are new or assigned guest status from other applications. This upholds
+            the principle of least privilege and uses role-based access control (RBAC). These security groups can also
+            be used for tasks like conditional access, enhancing risk management and user accountability across the
+            organization.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Export and Sharing settings</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Allow Azure Active Directory guest users to edit and manage content in the
+                  organization</strong> to one of these states:</p>
+              <ul>
+                <li>State 1: <strong>Disabled</strong></li>
+                <li>State 2: <strong>Enabled with Specific security groups</strong> selected and defined.</li>
+              </ul>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Restricted</th>
+            </tr>
+            <tr>
+              <td>True</td>
+            </tr>
+          </table>
+        </div>
+        <div class="fdd450f1-fb71-4450-a9e2-c82e916e86ab">
+          <h2 id="title">Ensure 'Publish to web' is restricted</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">fdd450f1-fb71-4450-a9e2-c82e916e86ab</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">False</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>Power BI enables users to share reports and materials directly on the internet from both the application's
+            desktop version and its web user interface. This functionality generates a publicly reachable web link that
+            doesn't necessitate authentication or the need to be an AAD user in order to access and view it.</p>
+          <p>The recommended state is Enabled for a subset of the organization or Disabled.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>When using Publish to the Web anyone on the Internet can view a published report or visual. Viewing
+            requires no authentication. It includes viewing detail-level data that your reports aggregate. By disabling
+            the feature, restricting access to certain users and allowing existing embed codes organizations can
+            mitigate the exposure of confidential or proprietary information.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Export and Sharing settings</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Publish to the web</strong> to one of these states:</p>
+              <ul>
+                <li>State 1: <strong>Disabled</strong></li>
+                <li>State 2: <strong>Enabled</strong> with <strong>Choose how embed codes work</strong> set to
+                  <strong>Only allow existing codes</strong> AND <strong>Specific security groups</strong> selected and
+                  defined.</li>
+              </ul>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-publish-to-web">https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-publish-to-web</a>
+            </li>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing#publish-to-web">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing#publish-to-web</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Restricted</th>
+            </tr>
+            <tr>
+              <td>True</td>
+            </tr>
+          </table>
+        </div>
+        <div class="134ffbee-2092-42a7-9309-7b9b04c14b4b">
+          <h2 id="title">Ensure 'Interact with and share R and Python' visuals is 'Disabled'</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">134ffbee-2092-42a7-9309-7b9b04c14b4b</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">True</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>Power BI allows the integration of R and Python scripts directly into visuals. This feature allows data
+            visualizations by incorporating custom calculations, statistical analyses, machine learning models, and more
+            using R or Python scripts. Custom visuals can be created by embedding them directly into Power BI reports.
+            Users can then interact with these visuals and see the results of the custom code within the Power BI
+            interface.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>Disabling this feature can reduce the attack surface by preventing potential malicious code execution
+            leading to data breaches, or unauthorized access. The potential for sensitive or confidential data being
+            leaked to unintended users is also increased with the use of scripts.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>R and Python visuals settings</strong>.</p>
+            </li>
+            <li>
+              <p>4.Set <strong>Interact with and share R and Python visuals</strong> to <strong>Disabled</strong></p>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-r-python-visuals">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-r-python-visuals</a>
+            </li>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/visuals/service-r-visuals">https://learn.microsoft.com/en-us/power-bi/visuals/service-r-visuals</a>
+            </li>
+            <li><a href="https://www.r-project.org/">https://www.r-project.org/</a></li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Disabled</th>
+            </tr>
+            <tr>
+              <td>False</td>
+            </tr>
+          </table>
+        </div>
+        <div class="6aa91139-4667-4d38-887b-a22905da5bcc">
+          <h2 id="title">Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">6aa91139-4667-4d38-887b-a22905da5bcc</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">True</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>Information protection tenant settings help to protect sensitive information in the Power BI tenant.
+            Allowing and applying sensitivity labels to content ensures that information is only seen and accessed by
+            the appropriate users.</p>
+          <p>The recommended state is Enabled or Enabled for a subset of the organization.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>Establishing data classifications and affixing labels to data at creation enables organizations to discern
+            the data's criticality, sensitivity, and value. This initial identification enables the implementation of
+            appropriate protective measures, utilizing technologies like Data Loss Prevention (DLP) to avert inadvertent
+            exposure and enforcing access controls to safeguard against unauthorized access.</p>
+          <p>This practice can also promote user awareness and responsibility in regard to the nature of the data they
+            interact with. Which in turn can foster awareness in other areas of data management across the organization.
+          </p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Information protection</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Allow users to apply sensitivity labels for content</strong> to one of these states:</p>
+              <ul>
+                <li>
+                  <p>State 1: <strong>Enabled</strong></p>
+                </li>
+                <li>
+                  <p>State 2: <strong>Enabled</strong> with <strong>Specific security groups</strong> selected and
+                    defined.</p>
+                </li>
+              </ul>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-security-enable-data-sensitivity-labels">https://learn.microsoft.com/en-us/power-bi/enterprise/service-security-enable-data-sensitivity-labels</a>
+            </li>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-security-dlp-policies-for-power-bi-overview">https://learn.microsoft.com/en-us/power-bi/enterprise/service-security-dlp-policies-for-power-bi-overview</a>
+            </li>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/enterprise/service-security-enable-data-sensitivity-labels#licensing-and-requirements">https://learn.microsoft.com/en-us/power-bi/enterprise/service-security-enable-data-sensitivity-labels#licensing-and-requirements</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Enabled</th>
+            </tr>
+            <tr>
+              <td>False</td>
+            </tr>
+          </table>
+        </div>
+        <div class="e9ec0d44-00a5-4305-9d15-a225f00a8364">
+          <h2 id="title">Ensure shareable links are restricted</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">e9ec0d44-00a5-4305-9d15-a225f00a8364</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">True</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>Creating a shareable link allows a user to create a link to a report or dashboard, then add that link to an
+            email or another messaging application.
+            There are 3 options that can be selected when creating a shareable link:</p>
+          <ul>
+            <li>People in your organization</li>
+            <li>People with existing access</li>
+            <li>Specific people</li>
+          </ul>
+          <p>This setting solely deals with restrictions to People in the organization. External users by default are
+            not included in any of these categories, and therefore cannot use any of these links regardless of the state
+            of this setting.</p>
+          <p>The recommended state is Enabled for a subset of the organization or Disabled.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>While external users are unable to utilize shareable links, disabling or restricting this feature ensures
+            that a user cannot generate a link accessible by individuals within the same organization who lack the
+            necessary clearance to the shared data. For example, a member of Human Resources intends to share sensitive
+            information with a particular employee or another colleague within their department. The owner would be
+            prompted to specify either People with existing access or Specific people when generating the link requiring
+            the person clicking the link to pass a first layer access control list. This measure along with proper file
+            and folder permissions can help prevent unintended access and potential information leakage.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Export and Sharing settings</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Allow shareable links to grant access to everyone in your organization</strong> to one of
+                these states:</p>
+              <ol>
+                <li>
+                  <p>State 1: <strong>Disabled</strong></p>
+                </li>
+                <li>
+                  <p>State 2: <strong>Enabled</strong> with <strong>Specific security groups</strong> selected and
+                    defined.</p>
+                </li>
+              </ol>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-share-dashboards?wt.mc_id=powerbi_inproduct_sharedialog#link-settings">https://learn.microsoft.com/en-us/power-bi/collaborate-share/service-share-dashboards?wt.mc_id=powerbi_inproduct_sharedialog#link-settings</a>
+            </li>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Restricted</th>
+            </tr>
+            <tr>
+              <td>False</td>
+            </tr>
+          </table>
+        </div>
+        <div class="832a0d52-55b7-4a27-a6c7-a90e04bdaa7a">
+          <h2 id="title">Ensure enabling of external data sharing is restricted</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">832a0d52-55b7-4a27-a6c7-a90e04bdaa7a</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">True</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>Power BI admins can specify which users or user groups can share datasets externally with guests from a
+            different tenant through the in-place mechanism. Disabling this setting prevents any user from sharing
+            datasets externally by restricting the ability of users to turn on external sharing for datasets they own or
+            manage.</p>
+          <p>The recommended state is Enabled for a subset of the organization or Disabled.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>Establishing and enforcing a dedicated security group prevents unauthorized access to Microsoft Fabric for
+            guests collaborating in Azure that are new or from other applications. This upholds the principle of least
+            privilege and uses role-based access control (RBAC). These security groups can also be used for tasks like
+            conditional access, enhancing risk management and user accountability across the organization.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Export and Sharing settings</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Allow specific users to turn on external data sharing</strong> to one of these states:</p>
+              <ol>
+                <li>
+                  <p>State 1: <strong>Disabled</strong></p>
+                </li>
+                <li>
+                  <p>State 2: <strong>Enabled</strong> with <strong>Specific security groups</strong> selected and
+                    defined.</p>
+                </li>
+              </ol>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-export-sharing</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Restricted</th>
+            </tr>
+            <tr>
+              <td>False</td>
+            </tr>
+          </table>
+        </div>
+        <div class="bbcbdabf-221c-412e-92d5-67367053ff27">
+          <h2 id="title">Ensure 'Block ResourceKey Authentication' is 'Enabled'</h2>
+          <p>2024-03-06</p>
+          <h3 id="information">Information</h3>
+          <table>
+            <thead>
+              <tr>
+                <th style="text-align: left;">ID</th>
+                <th style="text-align: left;">Category</th>
+                <th>Subcategory</th>
+                <th style="text-align: left;">Review</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">bbcbdabf-221c-412e-92d5-67367053ff27</td>
+                <td style="text-align: left;">Microsoft Fabric Admin Center</td>
+                <td>Tenant Settings</td>
+                <td style="text-align: left;">True</td>
+              </tr>
+            </tbody>
+          </table>
+          <h3 id="description">Description</h3>
+          <p>This setting blocks the use of resource key based authentication. The Block ResourceKey Authentication
+            setting applies to streaming and PUSH datasets. If blocked users will not be allowed send data to streaming
+            and PUSH datasets using the API with a resource key.</p>
+          <p>The recommended state is Enabled.</p>
+          <h3 id="technical-explanation">Technical explanation</h3>
+          <p>Resource keys are a form of authentication that allows users to access Power BI resources (such as reports,
+            dashboards, and datasets) without requiring individual user accounts. While convenient, this method bypasses
+            the organization's centralized identity and access management controls. Enabling ensures that access to
+            Power BI resources is tied to the organization's authentication mechanisms, providing a more secure and
+            controlled environment.</p>
+          <h3 id="advised-solution">Advised solution</h3>
+          <ol>
+            <li>
+              <p>Navigate to Microsoft Fabric <a
+                  href="https://app.powerbi.com/admin-portal">https://app.powerbi.com/admin-portal</a></p>
+            </li>
+            <li>
+              <p>Select <strong>Tenant settings</strong>.</p>
+            </li>
+            <li>
+              <p>Scroll to <strong>Developer settings</strong>.</p>
+            </li>
+            <li>
+              <p>Set <strong>Block ResourceKey Authentication</strong> to <strong>Enabled</strong>.</p>
+            </li>
+          </ol>
+          <h3 id="more-information">More information</h3>
+          <ul>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-developer">https://learn.microsoft.com/en-us/power-bi/admin/service-admin-portal-developer</a>
+            </li>
+            <li><a
+                href="https://learn.microsoft.com/en-us/power-bi/connect-data/service-real-time-streaming">https://learn.microsoft.com/en-us/power-bi/connect-data/service-real-time-streaming</a>
+            </li>
+          </ul>
+          <h3 id="data">Data</h3>
+          <table>
+            <colgroup>
+              <col />
+            </colgroup>
+            <tr>
+              <th>Blocked</th>
+            </tr>
+            <tr>
+              <td>False</td>
+            </tr>
+          </table>
+        </div>
+
+      </section>
+      <footer>
+        <p>
+          &copy; 2024 System Admins | Tjørnevænget 6 | DK-2680 Solrød Strand | www.systemadmins.com
+        </p>
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>
