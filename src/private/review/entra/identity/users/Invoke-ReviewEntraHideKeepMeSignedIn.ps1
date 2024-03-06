@@ -50,7 +50,9 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = "Ensure the option to remain signed in is hidden";
-        $review.Data = $entraIdProperties.hideKeepMeSignedIn;
+        $review.Data = [PSCustomObject]@{
+            HideKeepMeSignedIn = $entraIdProperties.hideKeepMeSignedIn
+        };
         $review.Review = $reviewFlag;
         
         # Print result.

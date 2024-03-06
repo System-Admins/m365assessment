@@ -75,7 +75,9 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity Governance';
         $review.Title = "Ensure 'Access reviews' for high privileged Azure AD roles are configured";
-        $review.Data = $missingAccessReviews;
+        $review.Data = [PSCustomObject]@{
+            NotConfigured = $missingAccessReviews -join ",";
+        };
         $review.Review = $reviewFlag;
                               
         # Print result.

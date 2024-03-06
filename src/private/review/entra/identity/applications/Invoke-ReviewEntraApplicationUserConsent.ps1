@@ -54,7 +54,9 @@ function Invoke-ReviewEntraApplicationUserConsent
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure user consent to apps accessing company data on their behalf is not allowed';
-        $review.Data = $userConsentSetting;
+        $review.Data = [PSCustomObject]@{
+            UserConsentSetting = $userConsentSetting;
+        };
         $review.Review = $reviewFlag;
               
         # Print result.

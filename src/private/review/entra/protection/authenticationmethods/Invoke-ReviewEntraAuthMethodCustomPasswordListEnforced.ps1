@@ -70,7 +70,6 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
         $review.Title = 'Ensure custom banned passwords lists are used';
         $review.Data = [PSCustomObject]@{
             Enabled   = $passwordPolicy.enforceCustomBannedPasswords;
-            Passwords = $passwordPolicy.customBannedPasswords;
         };
         $review.Review = $reviewFlag;
                               

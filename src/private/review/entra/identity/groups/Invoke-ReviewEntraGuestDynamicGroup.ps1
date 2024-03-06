@@ -66,7 +66,7 @@ function Invoke-ReviewEntraGuestDynamicGroup
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure a dynamic group for guest users is created';
-        $review.Data = $results;
+        $review.Data = $results | Select-Object Id, DisplayName, MembershipRule, MembershipRuleProcessingState;
         $review.Review = $reviewFlag;
         
         # Print result.

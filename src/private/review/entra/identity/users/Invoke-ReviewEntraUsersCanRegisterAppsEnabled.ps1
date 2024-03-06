@@ -52,7 +52,9 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure third-party integrated applications are not allowed';
-        $review.Data = $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateApps;
+        $review.Data = [PSCustomObject]@{
+            AllowedToCreateApps = $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateApps;
+        };
         $review.Review = $reviewFlag;
         
         # Print result.

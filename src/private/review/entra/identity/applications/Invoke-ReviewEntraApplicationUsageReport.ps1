@@ -48,7 +48,7 @@ function Invoke-ReviewEntraApplicationUsageReport
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure the Application Usage report is reviewed at least weekly';
-        $review.Data = $applicationSignInSummary;
+        $review.Data = $applicationSignInSummary | Select-Object Id, AppDisplayName, FailedSignInCount, SuccessfulSignInCount, SuccessPercentage;
         $review.Review = $reviewFlag;
               
         # Print result.

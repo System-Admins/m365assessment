@@ -20,7 +20,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ("Getting authentication methods") -Level Debug;
+        Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ('Getting authentication methods') -Level Debug;
 
         # Get authentication method policy.
         $authenticationMethodPolicy = Get-MgPolicyAuthenticationMethodPolicy;
@@ -50,11 +50,8 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
                 continue;
             }
 
-            # Microsoft Authenticator.
-            $microsoftAuthenticator = $authenticationMethodConfiguration;
-
             # Get feature settings for "Show application name in push and passwordless notifications".
-            $displayAppInformationRequiredState = $microsoftAuthenticator.AdditionalProperties.featureSettings.displayAppInformationRequiredState;
+            $displayAppInformationRequiredState = $authenticationMethodConfiguration.AdditionalProperties.featureSettings.displayAppInformationRequiredState;
             
             # If display app information required state is "disabled".
             if ($displayAppInformationRequiredState.state -eq 'disabled')
@@ -77,7 +74,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             }
 
             # Get feature settings for "Show geographic location in push and passwordless notifications".
-            $displayLocationInformationRequiredState = $microsoftAuthenticator.AdditionalProperties.featureSettings.displayLocationInformationRequiredState;
+            $displayLocationInformationRequiredState = $authenticationMethodConfiguration.AdditionalProperties.featureSettings.displayLocationInformationRequiredState;
 
             # If display location app information required state is "disabled".
             if ($displayLocationInformationRequiredState.state -eq 'disabled')
@@ -105,6 +102,9 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             # Set valid configuration.
             $valid = $true;
         }
+
+        # Get Microsoft Authenticator authentication method.
+        $microsoftAuthenticatorAuthMethod = ($authenticationMethodPolicy.AuthenticationMethodConfigurations | Where-Object { $_.Id -eq 'MicrosoftAuthenticator' });
     }
     END
     {
@@ -126,7 +126,12 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Protection';
         $review.Title = 'Ensure Microsoft Authenticator is configured to protect against MFA fatigue';
-        $review.Data = $authenticationMethodPolicy.AuthenticationMethodConfigurations;
+        $review.Data = [PSCustomObject]@{
+            id              = $microsoftAuthenticatorAuthMethod.Id;
+            state           = $microsoftAuthenticatorAuthMethod.State;
+            displayApp      = $microsoftAuthenticatorAuthMethod.AdditionalProperties.featureSettings.displayAppInformationRequiredState.state;
+            displayLocation = $microsoftAuthenticatorAuthMethod.AdditionalProperties.featureSettings.displayLocationInformationRequiredState.state;
+        };
         $review.Review = $reviewFlag;
                               
         # Print result.

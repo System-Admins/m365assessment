@@ -12,7 +12,7 @@ foreach ($ps1File in $ps1Files)
 ######################################
 
 #Uninstall-ModuleAll -OnlyUnload
-#Uninstall-ModuleAll -Debug
+Uninstall-ModuleAll -Debug
 
 # Install modules.
 Install-Modules -Debug;

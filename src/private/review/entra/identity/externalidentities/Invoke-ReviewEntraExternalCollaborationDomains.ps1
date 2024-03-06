@@ -52,9 +52,9 @@ function Invoke-ReviewEntraExternalCollaborationDomains
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure that collaboration invitations are sent to allowed domains only';
-        $review.Data = $policy;
+        $review.Data = $policy | Select-Object isAllowlist, @{ Name = 'targetedDomains'; Expression = { $_.targetedDomains -join ', ' } };
         $review.Review = $reviewFlag;
-                      
+
         # Print result.
         $review.PrintResult();
                                      

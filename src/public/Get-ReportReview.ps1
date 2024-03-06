@@ -21,7 +21,7 @@ foreach ($review in $reviews)
         Write-Host "Kan ikke finde $($review.Id) $($review.Title)"
         # Skip.
         continue;
-    }
+    }#
 
     # Get the HTML content.
     $htmlContent += Get-ReportReviewHtml -Path $template.FullName -Review $review;

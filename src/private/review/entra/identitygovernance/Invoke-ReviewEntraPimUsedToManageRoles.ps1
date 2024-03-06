@@ -160,8 +160,12 @@ function Invoke-ReviewEntraPimUsedToManageRoles
                     # If the role has active assignments.
                     if ($role.activeCount -gt 0)
                     {
-                        # Add to incorrectly configured.
-                        $incorrectlyConfigured.Add($shouldOnlyBeEligibleRole);
+                        # If already in object array.
+                        if ($incorrectlyConfigured -notcontains $shouldOnlyBeEligibleRole)
+                        {
+                            # Add to incorrectly configured.
+                            $incorrectlyConfigured.Add($shouldOnlyBeEligibleRole) | Out-Null;
+                        }
                     }
                 }
             }
@@ -187,7 +191,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity Governance';
         $review.Title = "Ensure 'Privileged Identity Management' is used to manage roles";
-        $review.Data = $incorrectlyConfigured;
+        $review.Data = $roles | Select-Object roleID, roleName, eligibleCount, activeCount;
         $review.Review = $reviewFlag;
                               
         # Print result.

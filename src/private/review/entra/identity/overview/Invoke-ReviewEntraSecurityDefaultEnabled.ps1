@@ -47,11 +47,13 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
         [Review]$review = [Review]::new();
                        
         # Add to object.
-        $review.Id = '48d970b5-a31b-41e9-9d66-eb8e02e0546d';
+        $review.Id = 'bf8c7733-8ec0-4c86-9c4e-28bf4812a57a';
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure Security Defaults is disabled on Azure Active Directory';
-        $review.Data = $securityDefaults.IsEnabled;
+        $review.Data = [PSCustomObject]@{
+            Enabled = $securityDefaults.IsEnabled;
+        };
         $review.Review = $reviewFlag;
         
         # Print result.

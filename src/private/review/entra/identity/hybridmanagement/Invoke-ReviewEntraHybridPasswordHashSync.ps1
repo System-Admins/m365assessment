@@ -58,7 +58,10 @@ function Invoke-ReviewEntraHybridPasswordHashSync
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure that password hash sync is enabled for hybrid deployments';
-        $review.Data = $adConnectStatus.dirSyncEnabled;
+        $review.Data = [PSCustomObject]@{
+            dirSyncEnabled      = $adConnectStatus.dirSyncEnabled;
+            passwordSyncEnabled = $adConnectPasswordSyncStatus;
+        };
         $review.Review = $reviewFlag;
                               
         # Print result.

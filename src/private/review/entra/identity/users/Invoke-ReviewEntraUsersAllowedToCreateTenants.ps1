@@ -52,7 +52,9 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenants
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = "Ensure 'Restrict non-admin users from creating tenants' is set to 'Yes'";
-        $review.Data = $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateTenants;
+        $review.Data = [PSCustomObject]@{
+            AllowedToCreateTenants = $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateTenants;
+        };
         $review.Review = $reviewFlag;
         
         # Print result.

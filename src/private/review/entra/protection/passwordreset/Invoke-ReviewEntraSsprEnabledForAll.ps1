@@ -89,7 +89,9 @@ function Invoke-ReviewEntraSsprEnabledForAll
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Protection';
         $review.Title = "Ensure 'Self service password reset enabled' is set to 'All'";
-        $review.Data = $displayName;
+        $review.Data = [PSCustomObject]@{
+            EnablementType = $displayName;
+        };
         $review.Review = $reviewFlag;
                               
         # Print result.

@@ -65,8 +65,8 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
         $review.Subcategory = 'Protection';
         $review.Title = 'Ensure password protection is enabled for on-prem Active Directory';
         $review.Data = [PSCustomObject]@{
-            HybridStatus = $adConnectStatus;
-            PasswordPolicy = $passwordPolicy;
+            dirSyncEnabled = $adConnectStatus.dirSyncEnabled;
+            enableBannedPasswordCheckOnPremises = $passwordPolicy.enableBannedPasswordCheckOnPremises;
         };
         $review.Review = $reviewFlag;
                               

@@ -50,7 +50,9 @@ function Invoke-ReviewEntraRestrictNonAdminUsersAdminPortal
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = "Ensure 'Restrict access to the Azure AD administration portal' is set to 'Yes'";
-        $review.Data = $entraIdProperties.restrictNonAdminUsers;
+        $review.Data = [PSCustomObject]@{
+            RestrictNonAdminUsers = $entraIdProperties.restrictNonAdminUsers
+        };
         $review.Review = $reviewFlag;
         
         # Print result.

@@ -60,7 +60,9 @@ function Invoke-ReviewEntraBlockLinkedInConnection
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
         $review.Title = "Ensure 'LinkedIn account connections' is disabled";
-        $review.Data = $blockLinkedInConnection;
+        $review.Data = [PSCustomObject]@{
+            BlockLinkedInConnection = $blockLinkedInConnection
+        };
         $review.Review = $reviewFlag;
         
         # Print result.
