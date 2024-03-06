@@ -60,7 +60,7 @@ function Invoke-ReviewSpoDomainSharingControl
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = 'Ensure SharePoint external sharing is managed through domain whitelist/blacklists';
-        $review.Data = $tenantSettings.SharingDomainRestrictionMode;
+        $review.Data = $tenantSettings | Select-Object -Property SharingDomainRestrictionMode;
         $review.Review = $reviewFlag;
                               
         # Print result.

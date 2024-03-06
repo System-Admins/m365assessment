@@ -66,7 +66,7 @@ function Invoke-ReviewSpoExternalSharingRestricted
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = 'Ensure external content sharing is restricted';
-        $review.Data = $tenantSettings.SharingCapability;
+        $review.Data = $tenantSettings | Select-Object -Property SharingCapability;
         $review.Review = $reviewFlag;
                               
         # Print result.

@@ -52,7 +52,7 @@ function Invoke-ReviewSpoInfectedFileDownloadDisabled
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = 'Ensure Office 365 SharePoint infected files are disallowed for download';
-        $review.Data = $tenantSettings.DisallowInfectedFileDownload;
+        $review.Data = $tenantSettings | Select-Object -Property DisallowInfectedFileDownload;
         $review.Review = $reviewFlag;
                               
         # Print result.

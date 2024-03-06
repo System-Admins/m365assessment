@@ -62,10 +62,7 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = 'Ensure external sharing is restricted by security group';
-        $review.Data = [PSObject]@{
-            WhoCanShareAllowListInTenant                    = $tenantSettings.WhoCanShareAllowListInTenant;
-            WhoCanShareAllowListInTenantByPrincipalIdentity = $tenantSettings.WhoCanShareAllowListInTenantByPrincipalIdentity;
-        };
+        $review.Data = $tenantSettings | Select-Object -Property WhoCanShareAllowListInTenant, WhoCanShareAllowListInTenantByPrincipalIdentity;
         $review.Review = $reviewFlag;
                               
         # Print result.

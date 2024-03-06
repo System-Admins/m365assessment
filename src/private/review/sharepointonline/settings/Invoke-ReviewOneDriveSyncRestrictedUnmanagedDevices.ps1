@@ -60,7 +60,7 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = 'Ensure OneDrive sync is restricted for unmanaged devices';
-        $review.Data = $tenantSettings.AllowedDomainListForSyncClient;
+        $review.Data = $tenantSettings | Select-Object @{Name='AllowedDomainListForSyncClient';Expression={$_.AllowedDomainListForSyncClient -join ', '}};
         $review.Review = $reviewFlag;
                               
         # Print result.

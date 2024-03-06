@@ -51,7 +51,7 @@ function Invoke-ReviewSpoGuestResharingRestricted
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = "Ensure that SharePoint guest users cannot share items they don't own";
-        $review.Data = $tenantSettings.PreventExternalUsersFromResharing;
+        $review.Data = $tenantSettings | Select-Object -Property PreventExternalUsersFromResharing;
         $review.Review = $reviewFlag;
                               
         # Print result.

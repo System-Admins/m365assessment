@@ -71,7 +71,7 @@ function Invoke-ReviewSpoCustomScriptExecution
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = 'Ensure custom script execution is restricted on site collections';
-        $review.Data = $sitesWithCustomScriptExecution;
+        $review.Data = $sitesWithCustomScriptExecution | Select-Object -Property Url, DenyAddAndCustomizePages;
         $review.Review = $reviewFlag;
                               
         # Print result.

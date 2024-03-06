@@ -62,10 +62,7 @@ function Invoke-ReviewSpoReauthOtpRestricted
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = 'Ensure reauthentication with verification code is restricted';
-        $review.Data = [PSCustomObject]@{
-            EmailAttestationEnabled    = $tenantSettings.EmailAttestationEnabled;
-            EmailAttestationReAuthDays = $tenantSettings.EmailAttestationReAuthDays;
-        };
+        $review.Data = $tenantSettings | Select-Object -Property EmailAttestationEnabled, EmailAttestationReAuthDays;
         $review.Review = $reviewFlag;
                               
         # Print result.

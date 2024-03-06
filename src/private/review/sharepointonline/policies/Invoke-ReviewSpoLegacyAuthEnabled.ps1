@@ -51,7 +51,7 @@ function Invoke-ReviewSpoLegacyAuthEnabled
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = "Ensure modern authentication for SharePoint applications is required";
-        $review.Data = $tenantSettings.LegacyAuthProtocolsEnabled;
+        $review.Data = $tenantSettings | Select-Object -Property LegacyAuthProtocolsEnabled;
         $review.Review = $reviewFlag;
                               
         # Print result.

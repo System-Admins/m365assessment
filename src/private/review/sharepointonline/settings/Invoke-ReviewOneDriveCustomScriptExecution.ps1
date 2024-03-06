@@ -71,7 +71,7 @@ function Invoke-ReviewOneDriveCustomScriptExecution
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = 'Ensure custom script execution is restricted on personal sites';
-        $review.Data = $sitesWithCustomScriptExecution;
+        $review.Data = $sitesWithCustomScriptExecution | Select-Object -Property Url, DenyAddAndCustomizePages;
         $review.Review = $reviewFlag;
                               
         # Print result.

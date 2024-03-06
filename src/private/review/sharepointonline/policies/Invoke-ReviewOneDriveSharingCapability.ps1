@@ -66,7 +66,7 @@ function Invoke-ReviewOneDriveSharingCapability
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = "Ensure OneDrive content sharing is restricted";
-        $review.Data = $tenantSettings.SharingCapability;
+        $review.Data = $tenantSettings | Select-Object -Property SharingCapability;
         $review.Review = $reviewFlag;
                               
         # Print result.

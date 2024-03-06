@@ -519,13 +519,13 @@ function Invoke-Review
 
             # 7. Microsoft SharePoint Admin Center
             # 7.2 Policies
-            # 7.2.8 Ensure guest access to a site or OneDrive will expire automatically.
+            # 7.2.9 Ensure guest access to a site or OneDrive will expire automatically.
             # af231488-4ca8-4496-8d10-09b65110d1ee
             $reviews.Add((Invoke-ReviewSpoGuestAccessExpire)) | Out-Null;
 
             # 7. Microsoft SharePoint Admin Center
             # 7.2 Policies
-            # 7.2.9 Ensure reauthentication with verification code is restricted.
+            # 7.2.10 Ensure reauthentication with verification code is restricted.
             # 82712a94-8427-4871-8d09-f2b94e8e1bf1
             $reviews.Add((Invoke-ReviewSpoReauthOtpRestricted)) | Out-Null;
 

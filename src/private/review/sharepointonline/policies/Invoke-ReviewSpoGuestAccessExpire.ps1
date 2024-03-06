@@ -61,7 +61,7 @@ function Invoke-ReviewSpoGuestAccessExpire
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = 'Ensure guest access to a site or OneDrive will expire automatically';
-        $review.Data = $tenantSettings.ExternalUserExpireInDays;
+        $review.Data = $tenantSettings | Select-Object -Property ExternalUserExpireInDays;
         $review.Review = $reviewFlag;
                               
         # Print result.
