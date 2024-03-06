@@ -60,7 +60,9 @@ function Invoke-ReviewExoAuditEnabled
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Audit';
         $review.Title = "Ensure 'AuditDisabled' organizationally is set to 'False'";
-        $review.Data = $enabled;
+        $review.Data = [PSCustomObject]@{
+            Enabled = $enabled;
+        };
         $review.Review = $reviewFlag;
                               
         # Print result.

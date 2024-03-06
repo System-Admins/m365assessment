@@ -64,7 +64,7 @@ function Invoke-ReviewExoMailboxAuditEnabled
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Audit';
         $review.Title = 'Ensure mailbox auditing for users is Enabled';
-        $review.Data = $mailboxesAuditDisabled;
+        $review.Data = $mailboxesAuditDisabled | Select-Object -Property Name, Alias, UserPrincipalName, PrimarySmtpAddress, AuditEnabled;
         $review.Review = $reviewFlag;
                               
         # Print result.

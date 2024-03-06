@@ -81,7 +81,7 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Mail Flow';
         $review.Title = "Ensure mail transport rules do not whitelist specific domains";
-        $review.Data = $transportRulesWithWhitelistSpecificDomains;
+        $review.Data = $transportRulesWithWhitelistSpecificDomains | Select-Object -Property Name, Priority, Enabled, Identity, SenderDomainIs, Setscl;
         $review.Review = $reviewFlag;
                               
         # Print result.

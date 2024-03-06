@@ -53,7 +53,9 @@ function Invoke-ReviewExoModernAuthEnabled
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = "Ensure modern authentication for Exchange Online is enabled";
-        $review.Data = $modernAuthSettings;
+        $review.Data = [PSCustomObject]@{
+            Enabled = $modernAuthSettings;
+        };
         $review.Review = $reviewFlag;
                               
         # Print result.

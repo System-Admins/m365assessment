@@ -90,8 +90,8 @@ function Invoke-ReviewExoMailForwardDisabled
         $review.Subcategory = 'Mail Flow';
         $review.Title = 'Ensure all forms of mail forwarding are blocked and/or disabled';
         $review.Data = [PSCustomObject]@{
-            TransportRules             = $transportRulesWithForward;
-            OutboundSpamFilterPolicies = $outboundSpamFilterPoliciesWithForward;
+            TransportRules             = ($transportRulesWithForward).Name -join ', ';
+            OutboundSpamFilterPolicies = ($outboundSpamFilterPoliciesWithForward).Name -join ', ';
         };
         $review.Review = $reviewFlag;
                               

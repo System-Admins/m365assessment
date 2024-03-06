@@ -64,7 +64,7 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Audit';
         $review.Title = "Ensure 'AuditBypassEnabled' is not enabled on mailboxes";
-        $review.Data = $mailboxesAuditBypassEnabled;
+        $review.Data = $mailboxesAuditBypassEnabled | Select-Object -Property Identity, AuditBypassEnabled;
         $review.Review = $reviewFlag;
                               
         # Print result.

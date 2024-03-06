@@ -94,7 +94,7 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Roles';
         $review.Title = "Ensure users installing Outlook add-ins is not allowed";
-        $review.Data = $roleAssignmentPolicies;
+        $review.Data = $roleAssignmentPolicies | Select-Object -Property Name, @{Name='AssignedRoles';Expression={$_.AssignedRoles -join ', '}};
         $review.Review = $reviewFlag;
                               
         # Print result.

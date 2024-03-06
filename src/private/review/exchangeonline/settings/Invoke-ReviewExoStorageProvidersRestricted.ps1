@@ -64,7 +64,7 @@ function Invoke-ReviewExoStorageProvidersRestricted
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Settings';
         $review.Title = "Ensure additional storage providers are restricted in Outlook on the web";
-        $review.Data = $owaPoliciesNotRestricted;
+        $review.Data = $owaPolicies | Select-Object -Property Name, AdditionalStorageProvidersAvailable;
         $review.Review = $reviewFlag;
                               
         # Print result.
