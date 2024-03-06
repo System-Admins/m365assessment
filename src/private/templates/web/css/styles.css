@@ -1,11 +1,21 @@
-/*#region Wrapper*/
+/* #region Overall */
+html,
+body {
+    font-family: 'DM Sans';
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+/* #endregion Overall */
+
+/* #region Wrapper */
 #wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: orange;
+    background-color: #f2f2f2;
 }
 
 #innerWrapper {
@@ -13,27 +23,25 @@
     width: 100%;
 }
 
-/*#endregion Wrapper*/
+/* #endregion Wrapper */
 
-/*#region Header*/
+/* #region Header */
 header {
     height: 80px;
     background-color: #d6fde6;
     vertical-align: middle;
+    padding: 0 80px 0 80px;
 }
 
 #logo {
     float: left;
     height: 100%;
     width: 30%;
-    text-align: center;
     display: flex;
 }
 
 #logo img {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
     width: 50%;
 }
 
@@ -43,43 +51,54 @@ header {
     width: 70%;
     display: flex;
     line-height: 80px;
-    justify-content: center;
+    justify-content: right;
 }
 
-/*#endregion Header*/
+/* #endregion Header */
 
-/*#region Content*/
+/* #region Content */
 section {
     height: 100%;
     background-color: #ffffff;
+    padding: 0 80px 0 80px;
+}
+
+section h2,
+section h3 {
+    margin-bottom: 10px;
+    font-weight: bolder;
 }
 
 section h2 {
-    font-size: 14pt;
-    font-weight: 500;
+    font-size: 18pt;
+    padding-top: 80px;
 }
 
 section h3 {
-    font-size: 11pt;
-    font-weight: 300;
+    font-size: 14pt;
+    padding-top: 40px;
+}
+
+section table {
+    margin-top: 10px;
+    min-width: 200px;
+}
+
+section table th,
+section table td {
+    padding: 15px 15px 15px 15px;
+    border: 1px solid #ffffff;
 }
 
 section table td {
-    line-height: 60px;
     vertical-align: center;
-    padding: 3px;
 }
 
 section table th {
     background-color: #004C50;
     color: #ffffff;
-    line-height: 60px;
-    padding: 3px;
     font-weight: bold;
-}
-
-section table td, section table th {
-    border: 1px solid #ffffff;
+    text-align: left;
 }
 
 section table tr:nth-child(odd) {
@@ -90,18 +109,17 @@ section table tr:nth-child(even) {
     background-color: #ffffff;
 }
 
+section ol,
+section ul {
+    padding-left: 20px;
+    line-height: 20pt;
+}
+
 section ol {
-    margin-left: 40px;
-    list-style: decimal;
+    list-style: decimal outside;
 }
 
 section ul {
-    margin-left: 40px;
-    list-style-type: square;
-}
-
-section ul {
-    margin-left: 40px;
     list-style-type: square;
 }
 
@@ -111,22 +129,108 @@ section ul li::marker {
 
 section p {
     line-height: 20pt;
-    margin: 20px;
 }
 
-section ol p {
-    margin: 0;
+section strong {
+    font-weight: bolder;
 }
 
-/*#endregion Content*/
+/* #endregion Content */
 
-/*#region Footer*/
+/* #region Footer*/
 footer {
-    height: 80px;
+    min-height: 80px;
     background-color: #d6fde6;
-    line-height: 80px;
+    display: flex;
     justify-content: center;
-    text-align: center;
+    align-items: center;
 }
 
-/*#endregion Footer*/
+/* #endregion Footer */
+
+/* #region Numbering */
+body {
+    counter-reset: h1counter h2counter h3counter h4counter h5counter h6counter;
+}
+
+h1 {
+    counter-reset: h2counter;
+}
+
+h2 {
+    counter-reset: h3counter;
+}
+
+h3 {
+    counter-reset: h4counter;
+}
+
+h4 {
+    counter-reset: h5counter;
+}
+
+h5 {
+    counter-reset: h6counter;
+}
+
+h2:before {
+    counter-increment: h2counter;
+    content: counter(h2counter) ".\0000a0\0000a0";
+}
+
+h3:before {
+    counter-increment: h3counter;
+    content: counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+}
+
+h4:before {
+    counter-increment: h4counter;
+    content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) ".\0000a0\0000a0";
+}
+
+h5:before {
+    counter-increment: h5counter;
+    content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter) ".\0000a0\0000a0";
+}
+
+h6:before {
+    counter-increment: h6counter;
+    content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter) "." counter(h6counter) ".\0000a0\0000a0";
+}
+
+/* #endregion Numbering */
+
+/* #region Print */
+@media print {
+    @page {
+        size: A4;
+        margin: 2cm;
+    }
+    #wrapper {
+        background-color: none !important;
+    }
+
+    section, header, footer {
+        padding: 0;
+    }
+
+    footer {
+        display: none;
+    }
+
+    table,
+    figure {
+        page-break-inside: avoid;
+    }
+
+    section div:first-child
+    {
+        page-break-before: avoid !important;
+    }
+
+    section div {
+        page-break-before: always;
+    }
+
+}
+/* #endregion Print */
