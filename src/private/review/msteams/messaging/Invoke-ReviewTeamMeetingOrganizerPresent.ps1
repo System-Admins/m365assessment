@@ -62,6 +62,7 @@ function Invoke-ReviewTeamMessagingReportSecurityConcerns
 
         # Create object.
         $settings = [PSCustomObject]@{
+            Valid                                       = $valid;
             AllowSecurityEndUserReporting               = $messagingPolicy.AllowSecurityEndUserReporting;
             ReportJunkToCustomizedAddress               = $reportSubmissionPolicy.ReportJunkToCustomizedAddress;
             ReportNotJunkToCustomizedAddress            = $reportSubmissionPolicy.ReportNotJunkToCustomizedAddress;
@@ -75,31 +76,31 @@ function Invoke-ReviewTeamMessagingReportSecurityConcerns
     }
     END
     {
-                # Bool for review flag.
-                [bool]$reviewFlag = $false;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
                     
-                # If review flag should be set.
-                if ($false -eq $valid)
-                {
-                    # Should be reviewed.
-                    $reviewFlag = $true;
-                }
+        # If review flag should be set.
+        if ($false -eq $valid)
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
                                                                      
-                # Create new review object to return.
-                [Review]$review = [Review]::new();
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
                                                              
-                # Add to object.
-                $review.Id = '3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc';
-                $review.Category = 'Microsoft Teams Admin Center';
-                $review.Subcategory = 'Messaging';
-                $review.Title = "Ensure users can report security concerns in Teams";
-                $review.Data = $settings;
-                $review.Review = $reviewFlag;
+        # Add to object.
+        $review.Id = '3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc';
+        $review.Category = 'Microsoft Teams Admin Center';
+        $review.Subcategory = 'Messaging';
+        $review.Title = 'Ensure users can report security concerns in Teams';
+        $review.Data = $settings;
+        $review.Review = $reviewFlag;
                                               
-                # Print result.
-                $review.PrintResult();
+        # Print result.
+        $review.PrintResult();
                                                              
-                # Return object.
-                return $review;
+        # Return object.
+        return $review;
     }
 } 

@@ -60,7 +60,7 @@ function Invoke-ReviewTeamMeetingAnonymousJoin
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Meetings';
         $review.Title = "Ensure anonymous users can't join a meeting";
-        $review.Data = $meetingPolicy.AllowAnonymousUsersToJoinMeeting;
+        $review.Data = $meetingPolicy | Select-Object -Property AllowAnonymousUsersToJoinMeeting;
         $review.Review = $reviewFlag;
                                       
         # Print result.

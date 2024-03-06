@@ -60,7 +60,7 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Meetings';
         $review.Title = "Ensure users dialing in can't bypass the lobby";
-        $review.Data = $meetingPolicy.AllowPSTNUsersToBypassLobby;
+        $review.Data = $meetingPolicy | Select-Object -Property AllowPSTNUsersToBypassLobby;
         $review.Review = $reviewFlag;
                                       
         # Print result.

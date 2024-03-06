@@ -60,7 +60,7 @@ function Invoke-ReviewTeamMeetingAnonymousStartMeeting
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Teams';
         $review.Title = "Ensure anonymous users and dial-in callers can't start a meeting";
-        $review.Data = $meetingPolicy.AllowAnonymousUsersToStartMeeting;
+        $review.Data = $meetingPolicy | Select-Object -Property AllowAnonymousUsersToStartMeeting;
         $review.Review = $reviewFlag;
                                       
         # Print result.

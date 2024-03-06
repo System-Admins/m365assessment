@@ -60,7 +60,7 @@ function Invoke-ReviewTeamUsersCantSendEmailToChannel
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Teams';
         $review.Title = "Ensure users can't send emails to a channel email address";
-        $review.Data = $teamsClientConfig.AllowEmailIntoChannel;
+        $review.Data = $teamsClientConfig | Select-Object -Property AllowEmailIntoChannel;
         $review.Review = $reviewFlag;
                                       
         # Print result.

@@ -60,7 +60,7 @@ function Invoke-ReviewTeamMeetingOrganizerPresent
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Meetings';
         $review.Title = "Ensure only organizers and co-organizers can present";
-        $review.Data = $meetingPolicy.DesignatedPresenterRoleMode;
+        $review.Data = $meetingPolicy | Select-Object -Property DesignatedPresenterRoleMode;
         $review.Review = $reviewFlag;
                                       
         # Print result.

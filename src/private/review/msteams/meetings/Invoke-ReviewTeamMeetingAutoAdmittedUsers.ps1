@@ -60,7 +60,7 @@ function Invoke-ReviewTeamMeetingAutoAdmittedUsers
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Meetings';
         $review.Title = "Ensure only people in my org can bypass the lobby";
-        $review.Data = $meetingPolicy.AutoAdmittedUsers;
+        $review.Data = $meetingPolicy | Select-Object -Property AutoAdmittedUsers;
         $review.Review = $reviewFlag;
                                       
         # Print result.

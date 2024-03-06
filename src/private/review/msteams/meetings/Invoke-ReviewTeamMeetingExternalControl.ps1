@@ -60,7 +60,7 @@ function Invoke-ReviewTeamMeetingExternalControl
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Meetings';
         $review.Title = "Ensure external participants can't give or request control";
-        $review.Data = $meetingPolicy.AllowExternalParticipantGiveRequestControl;
+        $review.Data = $meetingPolicy | Select-Object -Property AllowExternalParticipantGiveRequestControl;
         $review.Review = $reviewFlag;
                                       
         # Print result.

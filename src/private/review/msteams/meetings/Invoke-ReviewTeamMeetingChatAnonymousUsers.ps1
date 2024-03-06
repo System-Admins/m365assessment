@@ -60,7 +60,7 @@ function Invoke-ReviewTeamMeetingChatAnonymousUsers
         $review.Category = 'Microsoft Teams Admin Center';
         $review.Subcategory = 'Meetings';
         $review.Title = 'Ensure meeting chat does not allow anonymous users';
-        $review.Data = $meetingPolicy.MeetingChatEnabledType;
+        $review.Data = $meetingPolicy | Select-Object -Property MeetingChatEnabledType;
         $review.Review = $reviewFlag;
                                       
         # Print result.
