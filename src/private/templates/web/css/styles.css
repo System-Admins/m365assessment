@@ -27,10 +27,10 @@ body {
 
 /* #region Header */
 header {
-    height: 80px;
+    height: 100px;
     background-color: #d6fde6;
     vertical-align: middle;
-    padding: 0 80px 0 80px;
+    padding: 0 100px 0 100px;
 }
 
 #logo {
@@ -50,28 +50,43 @@ header {
     height: 100%;
     width: 70%;
     display: flex;
-    line-height: 80px;
+    line-height: 100px;
     justify-content: right;
 }
 
 /* #endregion Header */
 
 /* #region Content */
+#frontpage {
+    display: none;
+}
+
 section {
     height: 100%;
     background-color: #ffffff;
-    padding: 0 80px 0 80px;
+    padding: 0 100px 0 100px;
+}
+
+section>div:before {
+    display: inline-block;
+    content: "";
+    border-top: .1px solid #083339;
+    width: 100%;
+    margin-top: 80px;
+    transform: translateY(-1rem);
+    font-weight: lighter;
 }
 
 section h2,
 section h3 {
     margin-bottom: 10px;
     font-weight: bolder;
+    color: #083339;
 }
 
 section h2 {
     font-size: 18pt;
-    padding-top: 80px;
+    padding-top: 40px;
 }
 
 section h3 {
@@ -139,7 +154,7 @@ section strong {
 
 /* #region Footer*/
 footer {
-    min-height: 80px;
+    min-height: 100px;
     background-color: #d6fde6;
     display: flex;
     justify-content: center;
@@ -204,27 +219,32 @@ h6:before {
 @media print {
     @page {
         size: A4;
-        margin: 2cm;
-    }
-    #wrapper {
-        background-color: none !important;
+        margin: 0;
     }
 
-    section, header, footer {
-        padding: 0;
+    #wrapper {
+        background-color: none !important;
     }
 
     footer {
         display: none;
     }
 
+    li,
+    ul,
+    ol,
     table,
-    figure {
+    figure,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
         page-break-inside: avoid;
+        page-break-after: avoid;
     }
 
-    section div:first-child
-    {
+    section div:first-child {
         page-break-before: avoid !important;
     }
 
@@ -232,5 +252,38 @@ h6:before {
         page-break-before: always;
     }
 
+    header {
+        display: none;
+    }
+
+    #frontpage {
+        height: 100vh;
+        background-color: #d6fde6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #documentTitle {
+        justify-content: left;
+        align-items: center;
+        width: 100%;
+    }
+
+    #documentHeadline {
+        font-size: 50pt;
+        font-weight: bolder;
+        line-height: 50pt;
+    }
+
+    #documentTagline {
+        font-size: 20pt;
+        margin-top: 20px;
+    }
+
+    section>div:before {
+        display: none;
+    }
 }
+
 /* #endregion Print */
