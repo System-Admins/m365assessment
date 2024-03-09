@@ -19,7 +19,7 @@ body {
 }
 
 #innerWrapper {
-    max-width: 1024px;
+    max-width: 90vw;
     width: 100%;
 }
 
@@ -97,12 +97,16 @@ section h3 {
 section table {
     margin-top: 10px;
     min-width: 200px;
+    table-layout: fixed;
+    max-width: 100vw;
 }
 
 section table th,
 section table td {
     padding: 15px 15px 15px 15px;
     border: 1px solid #ffffff;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
 }
 
 section table td {
@@ -257,6 +261,12 @@ h6:before {
     }
 
     #frontpage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #frontpage {
         height: 100vh;
         background-color: #d6fde6;
         display: flex;
@@ -283,6 +293,10 @@ h6:before {
 
     section>div:before {
         display: none;
+    }
+
+    section table {
+        font-size: 50%;
     }
 }
 

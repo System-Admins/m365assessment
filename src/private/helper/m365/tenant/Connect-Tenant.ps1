@@ -84,36 +84,6 @@ function Connect-Tenant
             }
         }
 
-        # Try to connect to Graph.
-        try
-        {
-            # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Please provide your credentials for Microsoft Graph in the web browser') -Level Information;
-
-            # Launch interactive login.
-            Connect-MgGraph -Scopes $mgScopes -NoWelcome -ErrorAction Stop | Out-Null;
-
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
-        }
-        # Something went wrong.
-        catch
-        {
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not connect to Microsoft Graph, exception is '{0}'" -f $_) -Level Error;
-        }
-
-        # Get Microsoft Graph context.
-        $mgContext = Get-MgContext;
-
-        # If there is not context, exit.
-        if ($null -eq $mgContext)
-        {
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Could not get Microsoft Graph context') -Level Error;
-        }
-
         # Try to connect to Azure.
         try
         {
@@ -122,7 +92,7 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Please provide your credentials for Entra ID in the web browser') -Level Information;
 
             # Launch interactive login.
-            Connect-AzAccount -AccountId $mgContext.Account -ErrorAction Stop -Force | Out-Null;
+            Connect-AzAccount -ErrorAction Stop -Force | Out-Null;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Debug;
@@ -142,26 +112,6 @@ function Connect-Tenant
         {
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Could not get Azure context') -Level Error;
-        }
-
-        # Try to connect to Microsoft Teams.
-        try
-        {
-            # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Please provide your credentials for Teams in the web browser') -Level Information;
-
-            # Launch interactive login.
-            Connect-MicrosoftTeams -ErrorAction Stop | Out-Null;
-
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
-        }
-        # Something went wrong.
-        catch
-        {
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ("Could not connect to Teams, exception is '{0}'" -f $_) -Level Error;
         }
 
         # Try to connect to Exchange Online.
@@ -204,6 +154,26 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ("Could not connect to Security and Compliance, exception is '{0}'" -f $_) -Level Error;
         }
 
+        # Try to connect to Microsoft Teams.
+        try
+        {
+            # Write to log.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Debug;
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Please provide your credentials for Teams in the web browser') -Level Information;
+
+            # Launch interactive login.
+            Connect-MicrosoftTeams -ErrorAction Stop | Out-Null;
+
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
+        }
+        # Something went wrong.
+        catch
+        {
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ("Could not connect to Teams, exception is '{0}'" -f $_) -Level Error;
+        }
+
         # Get SharePoint URLs.
         $spoUrls = Get-SpoTenantUrl;
 
@@ -225,6 +195,36 @@ function Connect-Tenant
         {
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Could not connect to SharePoint, exception is '{0}'" -f $_) -Level Error;
+        }
+
+        # Try to connect to Graph.
+        try
+        {
+            # Write to log.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Please provide your credentials for Microsoft Graph in the web browser') -Level Information;
+
+            # Launch interactive login.
+            Connect-MgGraph -Scopes $mgScopes -NoWelcome -ErrorAction Stop | Out-Null;
+
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
+        }
+        # Something went wrong.
+        catch
+        {
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not connect to Microsoft Graph, exception is '{0}'" -f $_) -Level Error;
+        }
+
+        # Get Microsoft Graph context.
+        $mgContext = Get-MgContext;
+
+        # If there is not context, exit.
+        if ($null -eq $mgContext)
+        {
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Could not get Microsoft Graph context') -Level Error;
         }
     }
     END

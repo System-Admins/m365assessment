@@ -2,11 +2,17 @@ function Invoke-Review
 {
     <#
     .SYNOPSIS
-        .
+        Invokes all the review functions and returns the list of review objects.
     .DESCRIPTION
         Returns list of review objects.
+    .PARAMETER Service
+        The service to review.
     .EXAMPLE
+        # Run all the review functions.
         Invoke-Review;
+    .EXAMPLE
+        # Run all the review functions for Microsoft 365 Admin Center.
+        Invoke-Review -Service m365admin;
     #>
 
     [cmdletbinding()]

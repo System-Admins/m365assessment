@@ -1,4 +1,4 @@
-function Get-ReportReviewHtml
+function Get-ReviewHtmlBody
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Get-ReportReviewHtml
     .DESCRIPTION
         Returns HTML (fragment) code.
     .EXAMPLE
-        Get-ReportReviewHtml -Path 'C:\path\to\report.md' -Review $review;
+        Get-ReviewHtmlBody -Path 'C:\path\to\report.md' -Review $review;
     #>
     [cmdletbinding()]
     param
@@ -55,7 +55,7 @@ function Get-ReportReviewHtml
         $htmlContent += $reviewData;
 
         # Add div.
-        $htmlContent = '<div class="{0}">{1}</div>' -f $Review.Id, $htmlContent;
+        $htmlContent = '<div id="review-{0}" class="review">{1}</div>' -f $Review.Id, $htmlContent;
     }
     END
     {
