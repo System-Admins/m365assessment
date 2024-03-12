@@ -1,4 +1,4 @@
-function Install-Modules
+function Install-M365Module
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Install-Modules
     .DESCRIPTION
         Install PowerShell modules from Microsoft required to run the project.
     .EXAMPLE
-        Install-Modules
+        Install-M365Module
     #>
     [cmdletbinding()]
     param

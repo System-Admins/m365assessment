@@ -1,4 +1,4 @@
-function Disconnect-Tenant
+function Disconnect-M365Tenant
 {
     <#
     .SYNOPSIS
@@ -14,7 +14,7 @@ function Disconnect-Tenant
         - PnP.PowerShell
     .EXAMPLE
         # Initiate logout from Microsoft services.
-        Disconnect-Tenant;
+        Disconnect-M365Tenant;
     #>
     [cmdletbinding()]
     param

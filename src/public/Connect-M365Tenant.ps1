@@ -1,4 +1,4 @@
-function Connect-Tenant
+function Connect-M365Tenant
 {
     <#
     .SYNOPSIS
@@ -14,21 +14,13 @@ function Connect-Tenant
         - Microsoft.Graph.Authentication
         - MicrosoftTeams
         - PnP.PowerShell
-    .PARAMETER Disconnect
-        If current connection should be disconnected.
     .EXAMPLE
         # Initiate login to Microsoft services.
-        Connect-Tenant;
-    .EXAMPLE
-        # Disconnect first and then login to Microsoft Graph, Exchange Online and Azure.
-        Connect-Tenant -Disconnect;
+        Connect-M365Tenant;
     #>
     [cmdletbinding()]
     param
     (
-        # If current connection should be disconnected.
-        [Parameter(Mandatory = $false)]
-        [switch]$Disconnect
     )
     BEGIN
     {
@@ -50,40 +42,6 @@ function Connect-Tenant
     }
     PROCESS
     {
-        # If we should disconnect.
-        if ($true -eq $Disconnect)
-        {
-            # Disconnect from Microsoft Graph.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Disconnecting from Microsoft Graph') -Level Debug;
-            $null = Disconnect-MgGraph -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
-
-            # Disconnect from Exchange Online.
-            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Disconnecting from Exchange Online') -Level Debug;
-            $null = Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -Confirm:$false;
-
-            # Disconnect from Azure.
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Disconnecting from Azure') -Level Debug;
-            $null = Disconnect-AzAccount -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
-
-            # Disconnect from Microsoft Teams.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Disconnecting from Microsoft Teams') -Level Debug;
-            $null = Disconnect-MicrosoftTeams -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
-
-            # Try to disconnect SharePoint.
-            try
-            {   
-                # Disconnect from SharePoint Online.
-                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Disconnecting from SharePoint Online') -Level Debug;
-                $null = Disconnect-PnPOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
-            }
-            # Something went wrong.
-            catch
-            {
-                # Throw warning.
-                Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Something went wrong while disconnecting from SharePoint Online, exception is '{0}'" -f $_) -Level Debug;
-            }
-        }
-
         # Try to connect to Graph.
         try
         {

@@ -64,12 +64,7 @@ $publicFunctions = $publicPs1Files.Basename;
 Write-Log -Category 'Module' -Message ("Exporting the functions '{0}'" -f ($publicFunctions -join ',')) -Level Debug;
 
 # Export functions.
-Export-ModuleMember -Function @(
-    'Disconnect-Tenant',
-    'Connect-Tenant',
-    'Get-Report'
-    'Install-Modules'
-);
+Export-ModuleMember -Function $publicFunctions;
 
 # Set script variable.
 $Script:scriptPath = $scriptPath;
