@@ -109,11 +109,11 @@ function Write-Log
                 if (!(Test-Path -Path $folderPath -PathType Container))
                 {
                     # Create folder path.
-                    New-Item -Path $folderPath -ItemType Directory -Force | Out-Null;
+                    $null = New-Item -Path $folderPath -ItemType Directory -Force;
                 }
 
                 # Create log file.
-                New-Item -Path $Path -ItemType File -Force | Out-Null;
+                $null = New-Item -Path $Path -ItemType File -Force;
             }
             # If log file exist.
             else
@@ -122,7 +122,7 @@ function Write-Log
                 if ($true -eq $NoAppend)
                 {
                     # Clear log file.
-                    Clear-Content -Path $Path -Force | Out-Null;
+                    $null = Clear-Content -Path $Path -Force;
                 }
             }
         }        
@@ -201,7 +201,7 @@ function Write-Log
             
 
             # Write log message to file.
-            $logMessage | Out-File @params | Out-Null;
+            $null = $logMessage | Out-File @params;
         }
     }
     END

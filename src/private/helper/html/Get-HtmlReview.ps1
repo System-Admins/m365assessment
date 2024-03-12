@@ -1,17 +1,17 @@
-function Get-ReportHtml
+function Get-HtmlReview
 {
     <#
     .SYNOPSIS
-        Get the HTML for the review.
+        Get all markdown documents and replace with review data.
     .DESCRIPTION
         Returns HTML code.
     .PARAMETER Review
-        Review(s) to get the HTML for.
+        Review(s) to get the HTML code.
     .PARAMETER Path
         Path to the documentation templates.
     .EXAMPLE
         # Get report HTML.
-        Get-ReportHtml -Reviews $reviews -Path 'documentation/review';
+        Get-HtmlReview -Reviews $reviews -Path 'documentation/review';
     #>
 
     [cmdletbinding()]
@@ -43,7 +43,7 @@ function Get-ReportHtml
             $template = $reviewTemplates | Where-Object { $_.Name -eq $templateName };
 
             # Get the HTML content.
-            $htmlContent += Get-ReportReviewHtml -Path $template.FullName -Review $review;
+            $htmlContent += Set-HtmlReview -Path $template.FullName -Review $review;
         }
     }
     END

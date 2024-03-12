@@ -55,26 +55,26 @@ function Connect-Tenant
         {
             # Disconnect from Microsoft Graph.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Disconnecting from Microsoft Graph') -Level Debug;
-            Disconnect-MgGraph -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+            $null = Disconnect-MgGraph -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
 
             # Disconnect from Exchange Online.
             Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Disconnecting from Exchange Online') -Level Debug;
-            Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -Confirm:$false | Out-Null;
+            $null = Disconnect-ExchangeOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -Confirm:$false;
 
             # Disconnect from Azure.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Disconnecting from Azure') -Level Debug;
-            Disconnect-AzAccount -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+            $null = Disconnect-AzAccount -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
 
             # Disconnect from Microsoft Teams.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Disconnecting from Microsoft Teams') -Level Debug;
-            Disconnect-MicrosoftTeams -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+            $null = Disconnect-MicrosoftTeams -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
 
             # Try to disconnect SharePoint.
             try
             {   
                 # Disconnect from SharePoint Online.
                 Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Disconnecting from SharePoint Online') -Level Debug;
-                Disconnect-PnPOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+                $null = Disconnect-PnPOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
             }
             # Something went wrong.
             catch
@@ -84,6 +84,39 @@ function Connect-Tenant
             }
         }
 
+        # Try to connect to Graph.
+        try
+        {
+            # Write to log.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Please provide your credentials for Microsoft Graph in the web browser') -Level Information;
+
+            # Launch interactive login.
+            $null = Connect-MgGraph -Scopes $mgScopes -NoWelcome -ErrorAction Stop;
+
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
+        }
+        # Something went wrong.
+        catch
+        {
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not connect to Microsoft Graph, exception is '{0}'" -f $_) -Level Error;
+        }
+
+        # Get Microsoft Graph context.
+        $mgContext = Get-MgContext;
+
+        # If there is not context, exit.
+        if ($null -eq $mgContext)
+        {
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Could not get Microsoft Graph context') -Level Error;
+        }
+
+        # This is run due to issues with the Microsoft Graph module.
+        $null = Get-MgUser -Top 1;
+
         # Try to connect to Azure.
         try
         {
@@ -92,7 +125,7 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Please provide your credentials for Entra ID in the web browser') -Level Information;
 
             # Launch interactive login.
-            Connect-AzAccount -ErrorAction Stop -Force | Out-Null;
+            $null = Connect-AzAccount -ErrorAction Stop -Force;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Debug;
@@ -122,7 +155,7 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Please provide your credentials for Exchange Online in the web browser') -Level Information;
 
             # Launch interactive login.
-            Connect-ExchangeOnline -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop | Out-Null;
+            $null = Connect-ExchangeOnline -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Successfully connected to Exchange Online') -Level Debug;
@@ -142,7 +175,7 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Please provide your credentials for Security and Compliance in the web browser') -Level Information;
 
             # Launch interactive login.
-            Connect-IPPSSession -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop | Out-Null;
+            $null = Connect-IPPSSession -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Successfully connected to Security and Compliance') -Level Debug;
@@ -162,7 +195,7 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Please provide your credentials for Teams in the web browser') -Level Information;
 
             # Launch interactive login.
-            Connect-MicrosoftTeams -ErrorAction Stop | Out-Null;
+            $null = Connect-MicrosoftTeams -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
@@ -185,7 +218,7 @@ function Connect-Tenant
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Please provide your credentials for SharePoint in the web browser or webview prompt') -Level Information;
 
             # Launch interactive login.
-            Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -ErrorAction Stop | Out-Null;
+            $null = Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Successfully connected to SharePoint') -Level Debug;
@@ -195,36 +228,6 @@ function Connect-Tenant
         {
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Could not connect to SharePoint, exception is '{0}'" -f $_) -Level Error;
-        }
-
-        # Try to connect to Graph.
-        try
-        {
-            # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Please provide your credentials for Microsoft Graph in the web browser') -Level Information;
-
-            # Launch interactive login.
-            Connect-MgGraph -Scopes $mgScopes -NoWelcome -ErrorAction Stop | Out-Null;
-
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
-        }
-        # Something went wrong.
-        catch
-        {
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not connect to Microsoft Graph, exception is '{0}'" -f $_) -Level Error;
-        }
-
-        # Get Microsoft Graph context.
-        $mgContext = Get-MgContext;
-
-        # If there is not context, exit.
-        if ($null -eq $mgContext)
-        {
-            # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Could not get Microsoft Graph context') -Level Error;
         }
     }
     END

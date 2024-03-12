@@ -164,7 +164,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
                         if ($incorrectlyConfigured -notcontains $shouldOnlyBeEligibleRole)
                         {
                             # Add to incorrectly configured.
-                            $incorrectlyConfigured.Add($shouldOnlyBeEligibleRole) | Out-Null;
+                            $null = $incorrectlyConfigured.Add($shouldOnlyBeEligibleRole);
                         }
                     }
                 }

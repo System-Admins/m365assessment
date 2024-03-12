@@ -1,17 +1,17 @@
 function get-report
 {
     # Install modules.
-    Install-Modules;
+    #Install-Modules;
+
+    # Disconnect from Microsoft.
+    #Disconnect-Tenant
 
     # Connect to Microsoft.
-    Connect-Tenant;
+    #Connect-Tenant;
 
     # Get reviews.
     $reviews = Invoke-Review;
 
-    # Get report.
-    $reviewsHtml = Get-ReportHtml -Reviews $reviews;
-
-    # Return html.
-    return $reviewsHtml;
+    # Get HTML report.
+    $htmlPath = Get-HtmlReport;
 }

@@ -61,7 +61,7 @@ function Invoke-ReviewExoMailForwardRules
                         ForwardTo             = $inboxRule.ForwardTo;
                         RedirectTo            = $inboxRule.RedirectTo;
                         ForwardAsAttachmentTo = $inboxRule.ForwardAsAttachmentTo;
-                    } | Out-Null;
+                    };
                 }
             }
         }

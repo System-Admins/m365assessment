@@ -52,10 +52,10 @@ function Install-Modules
                     Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Uninstalling PowerShell module') -Level Debug;
 
                     # Remove module from session.
-                    Remove-Module -Name $moduleName -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Out-Null;
+                    $null = Remove-Module -Name $moduleName -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
 
                     # Uninstall module.
-                    Uninstall-Module -Name $moduleName -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -AllVersions -Confirm:$false | Out-Null;
+                    $null = Uninstall-Module -Name $moduleName -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue -AllVersions -Confirm:$false;
                 }
                 # Something went wrong removing the module.
                 catch
@@ -75,7 +75,7 @@ function Install-Modules
         Write-Log -Category 'Module' -Message ('Trusting PowerShell repository PSGallery') -Level Debug;
 
         # Trust the PSGallery.
-        Set-PSRepository -InstallationPolicy Trusted -Name PSGallery | Out-Null;
+        $null = Set-PSRepository -InstallationPolicy Trusted -Name PSGallery;
 
         # Loop through all required modules.
         foreach ($module in $modules.PSObject.Properties)
@@ -114,14 +114,14 @@ function Install-Modules
                         Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Trying to install PowerShell module') -Level Debug;
 
                         # Install module.
-                        Install-Module -Name $moduleName `
+                        $null = Install-Module -Name $moduleName `
                             -Force `
                             -Scope CurrentUser `
                             -AcceptLicense `
                             -SkipPublisherCheck `
                             -Confirm:$false `
                             -ErrorAction Stop `
-                            -WarningAction SilentlyContinue | Out-Null;
+                            -WarningAction SilentlyContinue;
                     }
                     # Else specific version should be installed.
                     else
@@ -130,7 +130,7 @@ function Install-Modules
                         Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Trying to install PowerShell module using version '{0}'" -f $moduleVersion) -Level Debug;
 
                         # Install module with specific version.
-                        Install-Module -Name $moduleName `
+                        $null = Install-Module -Name $moduleName `
                             -Force `
                             -Scope CurrentUser `
                             -AcceptLicense `
@@ -138,7 +138,7 @@ function Install-Modules
                             -Confirm:$false `
                             -RequiredVersion $moduleVersion `
                             -ErrorAction Stop `
-                            -WarningAction SilentlyContinue | Out-Null;
+                            -WarningAction SilentlyContinue;
                     }
 
                     # Write to log.
@@ -174,7 +174,7 @@ function Install-Modules
                 Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Importing PowerShell module') -Level Debug;
 
                 # Import the module.
-                Import-Module -Name $moduleName -DisableNameChecking -Force -ErrorAction Stop -WarningAction SilentlyContinue -NoClobber | Out-Null;
+                $null = Import-Module -Name $moduleName -DisableNameChecking -Force -ErrorAction Stop -WarningAction SilentlyContinue -NoClobber;
             }
             # Something went wrong importing the module.
             catch

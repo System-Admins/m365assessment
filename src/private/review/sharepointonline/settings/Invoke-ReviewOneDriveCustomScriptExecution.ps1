@@ -47,7 +47,7 @@ function Invoke-ReviewOneDriveCustomScriptExecution
                 Write-Log -Category 'SharePoint Online' -Subcategory 'Settings' -Message ("The OneDrive site '{0}' is set to allow custom script execution" -f $site.Url) -Level Debug;
 
                 # Add site to list.
-                $sitesWithCustomScriptExecution.Add($site) | Out-Null;
+                $null = $sitesWithCustomScriptExecution.Add($site);
             }
         }
     }

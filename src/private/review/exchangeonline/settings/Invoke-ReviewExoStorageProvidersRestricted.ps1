@@ -40,7 +40,7 @@ function Invoke-ReviewExoStorageProvidersRestricted
                 Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message ("OWA policy '{0}' allows additional storage providers" -f $owaPolicy.Name) -Level Debug;
         
                 # Add OWA policy to list.
-                $owaPoliciesNotRestricted.Add($owaPolicy) | Out-Null;
+                $null = $owaPoliciesNotRestricted.Add($owaPolicy);
             }
         }
     }

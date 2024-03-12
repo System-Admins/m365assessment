@@ -42,7 +42,7 @@ function Invoke-ReviewEntraGuestDynamicGroup
                 Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Dynamic group '{0}' have matching membership rule '{1}'" -f $group.DisplayName, $group.MembershipRule) -Level Debug;
 
                 # Add group to results.
-                $results.Add($group) | Out-Null;
+                $null = $results.Add($group);
             }
         }
     }

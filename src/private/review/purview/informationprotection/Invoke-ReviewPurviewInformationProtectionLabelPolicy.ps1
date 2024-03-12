@@ -57,7 +57,7 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
                 Write-Log -Category 'Microsoft Purview' -Subcategory 'Information Protection' -Message ("Label policy '{0}' is valid" -f $labelPolicy.Name) -Level Debug;
 
                 # Add the policy to the list.
-                $policies.Add($labelPolicy) | Out-Null;
+                $null = $policies.Add($labelPolicy);
             }
         }
     }

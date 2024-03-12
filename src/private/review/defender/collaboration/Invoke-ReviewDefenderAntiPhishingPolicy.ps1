@@ -23,7 +23,7 @@ function Invoke-ReviewDefenderAntiPhishingPolicy
         Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting anti-phishing e-mail policies' -Level Debug;
 
         # Get anti-phishing e-mail policies.
-        $antiPhishPolicies = Get-AntiPhishPolicy;
+        $antiPhishPolicies = Get-AntiPhishPolicy -WarningAction SilentlyContinue;
     }
     PROCESS
     {

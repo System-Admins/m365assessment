@@ -1,12 +1,12 @@
-function Get-ReviewHtmlBody
+function Set-HtmlReview
 {
     <#
     .SYNOPSIS
-        Get template file (markdown), replace review values and add data to the content.
+        Replace markdown content with view data.
     .DESCRIPTION
         Returns HTML (fragment) code.
     .EXAMPLE
-        Get-ReviewHtmlBody -Path 'C:\path\to\report.md' -Review $review;
+        Set-HtmlReview -Path 'C:\path\to\report.md' -Review $review;
     #>
     [cmdletbinding()]
     param

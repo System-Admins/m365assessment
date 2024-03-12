@@ -45,14 +45,14 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         foreach ($sentTo in $eopProtectionPolicyRule.SentTo)
         {
             # Add user to the list.
-            $eopUsersInclude.Add($sentTo) | Out-Null;
+            $null = $eopUsersInclude.Add($sentTo);
         }
 
         # Foreach (exclude) eop user.
         foreach ($sentTo in $eopProtectionPolicyRule.ExceptIfSentTo)
         {
             # Add user to the list.
-            $eopUsersExclude.Add($sentTo) | Out-Null;
+            $null = $eopUsersExclude.Add($sentTo);
         }
 
         # Foreach (include) eop group.
@@ -75,7 +75,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
             foreach ($groupMember in $groupMembers)
             {
                 # Add group member to the list.
-                $eopUsersInclude.Add($groupMember.userPrincipalName) | Out-Null;
+                $null = $eopUsersInclude.Add($groupMember.userPrincipalName);
             }
         }
 
@@ -99,7 +99,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
             foreach ($groupMember in $groupMembers)
             {
                 # Add group member to the list.
-                $eopUsersExclude.Add($groupMember.userPrincipalName) | Out-Null;
+                $null = $eopUsersExclude.Add($groupMember.userPrincipalName);
             }
         }
 
@@ -107,14 +107,14 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         foreach ($sentTo in $atpProtectionPolicyRule.SentTo)
         {
             # Add user to the list.
-            $atpUsersInclude.Add($sentTo) | Out-Null;
+            $null = $atpUsersInclude.Add($sentTo);
         }
 
         # Foreach (exclude) atp user.
         foreach ($sentTo in $atpProtectionPolicyRule.ExceptIfSentTo)
         {
             # Add user to the list.
-            $atpUsersExclude.Add($sentTo) | Out-Null;
+            $null = $atpUsersExclude.Add($sentTo);
         }
 
         # Foreach (include) atp group.
@@ -137,7 +137,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
             foreach ($groupMember in $groupMembers)
             {
                 # Add group member to the list.
-                $atpUsersInclude.Add($groupMember.userPrincipalName) | Out-Null;
+                $null = $atpUsersInclude.Add($groupMember.userPrincipalName);
             }
         }
         
@@ -212,7 +212,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
                 Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message ("Priority user '{0}' is not protected by the strict policy" -f $priorityUser) -Level Debug;
 
                 # Add user to the list.
-                $priorityUsersNotInStrictPolicy.Add($priorityUser) | Out-Null;
+                $null = $priorityUsersNotInStrictPolicy.Add($priorityUser);
             }
         }
     }

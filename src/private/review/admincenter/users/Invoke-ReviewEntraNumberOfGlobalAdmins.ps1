@@ -38,7 +38,7 @@ function Invoke-ReviewEntraNumberOfGlobalAdmins
                 Write-Log -Category 'Entra' -Subcategory 'User' -Message ("User '{0}' have the role '{1}'" -f $userWithAdminRole.UserPrincipalName, $userWithAdminRole.RoleDisplayName) -Level Debug;
 
                 # Add to object array.
-                $globalAdmins.Add($userWithAdminRole) | Out-Null;
+                $null = $globalAdmins.Add($userWithAdminRole);
             }
         }
 

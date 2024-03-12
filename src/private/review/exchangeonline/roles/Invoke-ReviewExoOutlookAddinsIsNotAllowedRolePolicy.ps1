@@ -51,7 +51,7 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
                 Write-Log -Category 'Exchange Online' -Subcategory 'Roles' -Message ("Role assignment policy '{0}' is used in the organization" -f $mailbox.RoleAssignmentPolicy) -Level Debug;
 
                 # Add to list.
-                $usedRoleAssignmentPolicies.Add($mailbox.RoleAssignmentPolicy) | Out-Null;
+                $null = $usedRoleAssignmentPolicies.Add($mailbox.RoleAssignmentPolicy);
             }
         }
 
@@ -70,7 +70,7 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
                 Write-Log -Category 'Exchange Online' -Subcategory 'Roles' -Message ("Role assignment policy '{0}' allows users to install outlook add-ins" -f $roleAssignmentPolicy.Name) -Level Debug;
         
                 # Add to list.
-                $roleAssignmentPolicies.Add($roleAssignmentPolicy) | Out-Null;
+                $null = $roleAssignmentPolicies.Add($roleAssignmentPolicy);
             }
         }
     }

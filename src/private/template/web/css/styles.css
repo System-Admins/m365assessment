@@ -1,7 +1,9 @@
 /* #region Overall */
 html,
 body {
-    font-family: 'DM Sans';
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
 }

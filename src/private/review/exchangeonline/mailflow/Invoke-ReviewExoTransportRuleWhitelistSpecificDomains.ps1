@@ -57,7 +57,7 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
                 Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Transport rule '{0}' have a whitelisted domain" -f $transportRule.Name) -Level Debug;
         
                 # Add to list.
-                $transportRulesWithWhitelistSpecificDomains.Add($transportRule) | Out-Null;
+                $null = $transportRulesWithWhitelistSpecificDomains.Add($transportRule);
             }
         }
     }
