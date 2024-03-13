@@ -42,6 +42,9 @@ function Invoke-Review
 
         # Object array storing all the reviews.
         $reviews = New-Object System.Collections.ArrayList;
+
+        # Get licenses.
+        $licenses = Get-LicenseTenant;
     }
     PROCESS
     {
@@ -72,11 +75,15 @@ function Invoke-Review
             # 90295b64-2528-4c22-aa96-a606633bc705
             $null = $reviews.Add((Invoke-ReviewEntraPublicGroup));
 
-            # 1. Microsoft 365 Admin Center
-            # 1.2 Teams and groups
-            # 1.2.2 Ensure sign-in to shared mailboxes is blocked.
-            # dc6727fe-333d-46ad-9ad6-f9b0ae23d03b
-            $null = $reviews.Add((Invoke-ReviewEntraSharedMailboxSignInAllowed));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Entra ID P*' })
+            {
+                # 1. Microsoft 365 Admin Center
+                # 1.2 Teams and groups
+                # 1.2.2 Ensure sign-in to shared mailboxes is blocked.
+                # dc6727fe-333d-46ad-9ad6-f9b0ae23d03b
+                $null = $reviews.Add((Invoke-ReviewEntraSharedMailboxSignInAllowed));
+            }
 
             # 1. Microsoft 365 Admin Center
             # 1.3 Settings
@@ -130,17 +137,21 @@ function Invoke-Review
         # If "Microsoft Defender" is selected.
         if ($Service -contains 'm365defender' -or $Service.Count -eq 0)
         {
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.1 Ensure Safe Links for Office Applications is Enabled.
-            # b29a3b32-4042-4ce6-86f6-eb85b183b4b5
-            $null = $reviews.Add((Invoke-ReviewDefenderSafeLinksPolicyOfficeApps));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Defender for Office 365*' })
+            {
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.1 Ensure Safe Links for Office Applications is Enabled.
+                # b29a3b32-4042-4ce6-86f6-eb85b183b4b5
+                $null = $reviews.Add((Invoke-ReviewDefenderSafeLinksPolicyOfficeApps));
 
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.2 Ensure the Common Attachment Types Filter is enabled.
-            # fd660655-99e8-4cbe-93a2-9fa3c5e34f40
-            $null = $reviews.Add((Invoke-ReviewDefenderMalwareCommonAttachmentTypesFilter));
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.2 Ensure the Common Attachment Types Filter is enabled.
+                # fd660655-99e8-4cbe-93a2-9fa3c5e34f40
+                $null = $reviews.Add((Invoke-ReviewDefenderMalwareCommonAttachmentTypesFilter));
+            }
 
             # 2. Microsoft 365 Defender
             # 2.1 Email and collaboration
@@ -148,17 +159,21 @@ function Invoke-Review
             # 01f7327e-f8cf-4542-b12a-41b40d03415d
             $null = $reviews.Add((Invoke-ReviewDefenderMalwareInternalUserNotifications));
 
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.4 Ensure Safe Attachments policy is enabled.
-            # 383ea8f2-48e1-4a1f-bcc7-626fbeb0f331
-            $null = $reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabled));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Defender for Office 365*' })
+            {
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.4 Ensure Safe Attachments policy is enabled.
+                # 383ea8f2-48e1-4a1f-bcc7-626fbeb0f331
+                $null = $reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabled));
 
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.5 Ensure Safe Attachments for SharePoint, OneDrive, and Microsoft Teams is Enabled.
-            # a4fb003f-b742-4a97-8a9a-c4e5a82171a4
-            $null = $reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps));
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.5 Ensure Safe Attachments for SharePoint, OneDrive, and Microsoft Teams is Enabled.
+                # a4fb003f-b742-4a97-8a9a-c4e5a82171a4
+                $null = $reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps));
+            }
 
             # 2. Microsoft 365 Defender
             # 2.1 Email and collaboration
@@ -202,11 +217,15 @@ function Invoke-Review
             # 86bab3de-8bac-442f-8495-496bd1ed75b9
             $null = $reviews.Add((Invoke-ReviewEmailRestrictedSenders));
 
-            # 2. Microsoft 365 Defender
-            # 2.3 Audit
-            # 2.3.1 Ensure the Account Provisioning Activity report is reviewed at least weekly.
-            # 3483e87b-6069-4355-928f-dc9be4e31902
-            $null = $reviews.Add((Invoke-ReviewDefenderAccountProvisioningActivity));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'Microsoft Defender for Office 365 (Plan 2)' })
+            {
+                # 2. Microsoft 365 Defender
+                # 2.3 Audit
+                # 2.3.1 Ensure the Account Provisioning Activity report is reviewed at least weekly.
+                # 3483e87b-6069-4355-928f-dc9be4e31902
+                $null = $reviews.Add((Invoke-ReviewDefenderAccountProvisioningActivity));
+            }
 
             # 2. Microsoft 365 Defender
             # 2.3 Audit
@@ -214,17 +233,21 @@ function Invoke-Review
             # 8104752c-9e07-4a61-99a1-7161a792d76e
             $null = $reviews.Add((Invoke-ReviewDefenderNonGlobalAdminRoleAssignment));
 
-            # 2. Microsoft 365 Defender
-            # 2.4 Settings
-            # 2.4.1 Ensure Priority account protection is enabled and configured.
-            # 749ee441-71ea-4261-86da-1f1081c65bb3
-            $null = $reviews.Add((Invoke-ReviewDefenderPriorityAccountProtectionConfig));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'Microsoft Defender for Office 365 (Plan 2)' })
+            {
+                # 2. Microsoft 365 Defender
+                # 2.4 Settings
+                # 2.4.1 Ensure Priority account protection is enabled and configured.
+                # 749ee441-71ea-4261-86da-1f1081c65bb3
+                $null = $reviews.Add((Invoke-ReviewDefenderPriorityAccountProtectionConfig));
 
-            # 2. Microsoft 365 Defender
-            # 2.4 Settings
-            # 2.4.2 Ensure Priority accounts have 'Strict protection' presets applied.
-            # 9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7
-            $null = $reviews.Add((Invoke-ReviewDefenderPriorityAccountStrictPolicy));
+                # 2. Microsoft 365 Defender
+                # 2.4 Settings
+                # 2.4.2 Ensure Priority accounts have 'Strict protection' presets applied.
+                # 9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7
+                $null = $reviews.Add((Invoke-ReviewDefenderPriorityAccountStrictPolicy));
+            }
         }
 
         # If "Microsoft Purview" is selected.
@@ -242,17 +265,24 @@ function Invoke-Review
             # 6fe596b2-1ee0-46e1-9dba-316d1888d016
             $null = $reviews.Add((Invoke-ReviewPurviewUserRoleGroupChanges));
 
-            # 3. Microsoft Purview
-            # 3.2 Data Loss Prevention (DLP)
-            # 3.2.1 Ensure DLP policies are enabled.
-            # b9caf88c-0c9c-42a8-b6be-14953a8b76c3
-            $null = $reviews.Add((Invoke-ReviewPurviewDlpPolicyEnabled));
+            # Run only if the license is available.
+            if ($licenses | Where-Object {
+                    $_.ServicePlanDisplayName -eq 'Microsoft Communications DLP' -or
+                    $_.ServicePlanDisplayName -eq 'Data Loss Prevention'
+                })
+            {
+                # 3. Microsoft Purview
+                # 3.2 Data Loss Prevention (DLP)
+                # 3.2.1 Ensure DLP policies are enabled.
+                # b9caf88c-0c9c-42a8-b6be-14953a8b76c3
+                $null = $reviews.Add((Invoke-ReviewPurviewDlpPolicyEnabled));
 
-            # 3. Microsoft Purview
-            # 3.2 Data Loss Prevention (DLP)
-            # 3.2.2 Ensure DLP policies are enabled for Microsoft Teams.
-            # 48d970b5-a31b-41e9-9d66-eb8e02e0546d
-            $null = $reviews.Add((Invoke-ReviewPurviewDlpTeamsPolicyEnabled));
+                # 3. Microsoft Purview
+                # 3.2 Data Loss Prevention (DLP)
+                # 3.2.2 Ensure DLP policies are enabled for Microsoft Teams.
+                # 48d970b5-a31b-41e9-9d66-eb8e02e0546d
+                $null = $reviews.Add((Invoke-ReviewPurviewDlpTeamsPolicyEnabled));
+            }
 
             # 3. Microsoft Purview
             # 3.3 Information Protection
@@ -260,6 +290,7 @@ function Invoke-Review
             # b01a1187-5921-4b29-95fd-73e1af3c5285
             $null = $reviews.Add((Invoke-ReviewPurviewInformationProtectionLabelPolicy));
         }
+
         # If "Microsoft Entra" is selected.
         if ($Service -contains 'm365entra' -or $Service.Count -eq 0)
         {
@@ -312,12 +343,16 @@ function Invoke-Review
             # a15e2ff5-2a03-495d-a4f2-4935742395d5
             $null = $reviews.Add((Invoke-ReviewEntraGuestDynamicGroup));
 
-            # 5. Microsoft Entra Admin Center
-            # 5.1 Identity
-            # 5.1.5 Applications
-            # 5.1.5.1 Ensure the Application Usage report is reviewed at least weekly.
-            # 95d55daa-d432-44f5-907a-eda61b57696f
-            $null = $reviews.Add((Invoke-ReviewEntraApplicationUsageReport));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Entra ID P*' })
+            {
+                # 5. Microsoft Entra Admin Center
+                # 5.1 Identity
+                # 5.1.5 Applications
+                # 5.1.5.1 Ensure the Application Usage report is reviewed at least weekly.
+                # 95d55daa-d432-44f5-907a-eda61b57696f
+                $null = $reviews.Add((Invoke-ReviewEntraApplicationUsageReport));
+            }
 
             # 5. Microsoft Entra Admin Center
             # 5.1 Identity
@@ -389,23 +424,30 @@ function Invoke-Review
             # ff9b1c25-464c-4c6a-a469-10aab9470e4c
             $null = $reviews.Add((Invoke-ReviewEntraRiskySignInReport));
 
-            # 5. Microsoft Entra Admin Center
-            # 5.3 Identity Governance
-            # 5.3.1 Ensure 'Privileged Identity Management' is used to manage roles.
-            # 99dcdd37-60f6-450e-be03-13a85fcc5776
-            $null = $reviews.Add((Invoke-ReviewEntraPimUsedToManageRoles));
+            # Run only if the license is available.
+            if ($licenses | Where-Object {
+                    $_.ServicePlanDisplayName -eq 'Microsoft Entra ID P2' -or
+                    $_.ServicePlanDisplayName -eq 'Entra Identity Governance'
+                })
+            {
+                # 5. Microsoft Entra Admin Center
+                # 5.3 Identity Governance
+                # 5.3.1 Ensure 'Privileged Identity Management' is used to manage roles.
+                # 99dcdd37-60f6-450e-be03-13a85fcc5776
+                $null = $reviews.Add((Invoke-ReviewEntraPimUsedToManageRoles));
 
-            # 5. Microsoft Entra Admin Center
-            # 5.3 Identity Governance
-            # 5.3.2 Ensure 'Access reviews' for Guest Users are configured.
-            # 03a57762-4613-47fc-835d-5a5c3d0dbe61
-            $null = $reviews.Add((Invoke-ReviewEntraAccessReviewGuestUsers));
+                # 5. Microsoft Entra Admin Center
+                # 5.3 Identity Governance
+                # 5.3.2 Ensure 'Access reviews' for Guest Users are configured.
+                # 03a57762-4613-47fc-835d-5a5c3d0dbe61
+                $null = $reviews.Add((Invoke-ReviewEntraAccessReviewGuestUsers));
 
-            # 5. Microsoft Entra Admin Center
-            # 5.3 Identity Governance
-            # 5.3.3 Ensure 'Access reviews' for high privileged Azure AD roles are configured.
-            # e8c91221-63d2-4797-8a86-7ef53c30a9d6
-            $null = $reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles));
+                # 5. Microsoft Entra Admin Center
+                # 5.3 Identity Governance
+                # 5.3.3 Ensure 'Access reviews' for high privileged Azure AD roles are configured.
+                # e8c91221-63d2-4797-8a86-7ef53c30a9d6
+                $null = $reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles));
+            }
         }
 
         # If "Microsoft Exchange Online" is selected.
@@ -639,59 +681,65 @@ function Invoke-Review
         # If "Microsoft Fabric" is selected.
         if ($Service -contains 'm365fabric' -or $Service.Count -eq 0)
         {
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.1 Ensure guest user access is restricted.
-            # 4d179407-ca60-4a37-981f-99584ea2d6ea
-            $null = $reviews.Add((Invoke-ReviewFabricGuestAccessRestricted));
+            # Run only if the license is available.
+            if ($licenses | Where-Object {
+                $_.ServicePlanDisplayName -like 'Power BI Pro *' -or
+                $_.ServicePlanDisplayName -like 'Power BI Premium*'})
+            {
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.1 Ensure guest user access is restricted.
+                # 4d179407-ca60-4a37-981f-99584ea2d6ea
+                $null = $reviews.Add((Invoke-ReviewFabricGuestAccessRestricted));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.2 Ensure external user invitations are restricted.
-            # da8daeae-fc77-4bff-9733-19e8fe73b87b
-            $null = $reviews.Add((Invoke-ReviewFabricExternalUserInvitationsRestricted));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.2 Ensure external user invitations are restricted.
+                # da8daeae-fc77-4bff-9733-19e8fe73b87b
+                $null = $reviews.Add((Invoke-ReviewFabricExternalUserInvitationsRestricted));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.3 Ensure guest access to content is restricted.
-            # 24e5ca61-a473-4fcc-b4ef-aad5235e573f
-            $null = $reviews.Add((Invoke-ReviewFabricContentGuestAccessRestricted));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.3 Ensure guest access to content is restricted.
+                # 24e5ca61-a473-4fcc-b4ef-aad5235e573f
+                $null = $reviews.Add((Invoke-ReviewFabricContentGuestAccessRestricted));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.4 Ensure 'Publish to web' is restricted.
-            # fdd450f1-fb71-4450-a9e2-c82e916e86ab
-            $null = $reviews.Add((Invoke-ReviewFabricPublishToWebRestricted));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.4 Ensure 'Publish to web' is restricted.
+                # fdd450f1-fb71-4450-a9e2-c82e916e86ab
+                $null = $reviews.Add((Invoke-ReviewFabricPublishToWebRestricted));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.5 Ensure 'Interact with and share R and Python' visuals is 'Disabled'.
-            # 134ffbee-2092-42a7-9309-7b9b04c14b4b
-            $null = $reviews.Add((Invoke-ReviewFabricInteractPython));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.5 Ensure 'Interact with and share R and Python' visuals is 'Disabled'.
+                # 134ffbee-2092-42a7-9309-7b9b04c14b4b
+                $null = $reviews.Add((Invoke-ReviewFabricInteractPython));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.6 Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'.
-            # 6aa91139-4667-4d38-887b-a22905da5bcc
-            $null = $reviews.Add((Invoke-ReviewFabricSensitivityLabels));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.6 Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'.
+                # 6aa91139-4667-4d38-887b-a22905da5bcc
+                $null = $reviews.Add((Invoke-ReviewFabricSensitivityLabels));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.7 Ensure shareable links are restricted.
-            # e9ec0d44-00a5-4305-9d15-a225f00a8364
-            $null = $reviews.Add((Invoke-ReviewFabricLinksSharing));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.7 Ensure shareable links are restricted.
+                # e9ec0d44-00a5-4305-9d15-a225f00a8364
+                $null = $reviews.Add((Invoke-ReviewFabricLinksSharing));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.8 Ensure enabling of external data sharing is restricted.
-            # 832a0d52-55b7-4a27-a6c7-a90e04bdaa7a
-            $null = $reviews.Add((Invoke-ReviewFabricExternalDataSharingRestricted));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.8 Ensure enabling of external data sharing is restricted.
+                # 832a0d52-55b7-4a27-a6c7-a90e04bdaa7a
+                $null = $reviews.Add((Invoke-ReviewFabricExternalDataSharingRestricted));
 
-            # 9. Microsoft Fabric Admin Center
-            # 9.1 Tenant settings
-            # 9.1.9 Ensure 'Block ResourceKey Authentication' is 'Enabled'.
-            # bbcbdabf-221c-412e-92d5-67367053ff27
-            $null = $reviews.Add((Invoke-ReviewFabricBlockResourceKeyAuth));
+                # 9. Microsoft Fabric Admin Center
+                # 9.1 Tenant settings
+                # 9.1.9 Ensure 'Block ResourceKey Authentication' is 'Enabled'.
+                # bbcbdabf-221c-412e-92d5-67367053ff27
+                $null = $reviews.Add((Invoke-ReviewFabricBlockResourceKeyAuth));
+            }
         }
     }
     END

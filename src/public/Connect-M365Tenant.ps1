@@ -37,7 +37,8 @@ function Connect-M365Tenant
             'Policy.Read.All',
             'Policy.ReadWrite.ConditionalAccess',
             'Reports.Read.All',
-            'SecurityEvents.Read.All'
+            'SecurityEvents.Read.All',
+            'Organization.Read.All'
         );
     }
     PROCESS

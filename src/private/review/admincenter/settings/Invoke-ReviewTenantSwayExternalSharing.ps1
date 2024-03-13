@@ -20,7 +20,7 @@ function Invoke-ReviewTenantSwayExternalSharing
     PROCESS
     {
         # Get settings.
-        $settings = Get-TenantSwaySetting;
+        $settings = Get-TenantSwaySetting -ErrorAction SilentlyContinue;
     }
     END
     {

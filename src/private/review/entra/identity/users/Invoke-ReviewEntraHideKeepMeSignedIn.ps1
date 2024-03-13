@@ -25,7 +25,7 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Getting 'Show keep user signed' login settings") -Level Debug;
 
         # Get the Entra ID property settings.
-        $entraIdProperties = Invoke-EntraIdIamApi -Uri $uri -Method 'GET';
+        $entraIdProperties = Invoke-EntraIdIamApi -Uri $uri -Method 'GET' -ErrorAction SilentlyContinue;
 
         # Write to log.
         Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("'Show keep user signed' is set to '{0}'" -f $entraIdProperties.hideKeepMeSignedIn) -Level Debug;
@@ -36,7 +36,7 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         [bool]$reviewFlag = $false;
                     
         # If review flag should be set.
-        if ($false -eq $entraIdProperties.hideKeepMeSignedIn)
+        if ($false -eq $entraIdProperties.hideKeepMeSignedIn -or $null -eq $entraIdProperties.hideKeepMeSignedIn)
         {
             # Should be reviewed.
             $reviewFlag = $true;
