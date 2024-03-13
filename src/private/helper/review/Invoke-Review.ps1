@@ -7,6 +7,8 @@ function Invoke-Review
         Returns list of review objects.
     .PARAMETER Service
         The service to review.
+    .PARAMETER ReturnReviews
+        If the reviews should be returned.
     .EXAMPLE
         # Run all the review functions.
         Invoke-Review;
@@ -18,6 +20,7 @@ function Invoke-Review
     [cmdletbinding()]
     param
     (
+        # What services to review.
         [Parameter(Mandatory = $false)]
         [ValidateSet(
             'm365admin', # Microsoft 365 Admin Center
@@ -34,6 +37,9 @@ function Invoke-Review
 
     BEGIN
     {
+        # Write to log.
+        Write-Log -Category 'Review' -Message ('Starting the review process') -Level Debug;
+
         # Object array storing all the reviews.
         $reviews = New-Object System.Collections.ArrayList;
     }
@@ -690,6 +696,22 @@ function Invoke-Review
     }
     END
     {
+        # Get emoji.
+        $emojiCheckmark = Get-Emoji -Type Checkmark;
+        $emojiCrossmark = Get-Emoji -Type Crossmark;
+
+        # Passed / Not passed.
+        $passed = $reviews | Where-Object { $_.Review -eq $false };
+        $notPassed = $reviews | Where-Object { $_.Review -eq $true };
+
+        # Get score (%).
+        $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
+
+        # Write to log.
+        Write-Log -Message ('Review Assessment: {0} {1} passed | {2} {3} not passed' -f $passed.Count, $emojiCheckmark, $notPassed.Count, $emojiCrossmark) -Level Information -NoDateTime -NoLogLevel;
+        Write-Log -Message ('Review Score: {0} out of 100' -f $score) -Level Information -NoDateTime -NoLogLevel;
+        Write-Log -Category 'Review' -Message ('Finished the review process') -Level Debug;
+
         # Return the reviews.
         return $reviews;
     }

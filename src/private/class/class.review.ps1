@@ -23,9 +23,7 @@ class Review
         }
         
         # Write to log.
-        Write-Log -Category ('{0}' -f $this.Category) `
-            -Subcategory $this.Subcategory `
-            -Message ('{0} {1}' -f $emoji, $this.Title) `
+        Write-Log -Message ('{0}[{1}][{2}] {3}' -f $emoji, $this.Category, $this.Subcategory, $this.Title) `
             -Level Information `
             -NoDateTime -NoLogLevel `
             -NoLogFile;

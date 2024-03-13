@@ -158,8 +158,19 @@ function Write-Log
             $logMessage += ('[{0}]' -f $Subcategory);
         }
 
-        # Add message to log message.
-        $logMessage = ('{0} {1}' -f $logMessage, $Message);
+        # If log message is not empty.
+        if (!([string]::IsNullOrEmpty($logMessage)))
+        {
+            # Add message to log message.
+            $logMessage = ('{0} {1}' -f $logMessage, $Message);
+        }
+        # Else log message is empty.
+        else
+        {
+            # Add message to log message.
+            $logMessage = ('{0}' -f $Message);
+        }
+        
   
         switch ($Level)
         {

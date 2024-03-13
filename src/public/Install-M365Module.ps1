@@ -5,42 +5,45 @@ function Install-M365Module
         Install PowerShell required modules.
     .DESCRIPTION
         Install PowerShell modules from Microsoft required to run the project.
+    .PARAMETER Reinstall
+        If the modules should be forced reinstalled.
+    .PARAMETER Modules
+        Modules to install.
     .EXAMPLE
-        Install-M365Module
+        # Install required modules.
+        Install-M365Module;
+    .EXAMPLE
+        # Reinstall required modules.
+        Install-M365Module -Reinstall;
+    .EXAMPLE
+        # Install required modules with specific versions.
+        Install-M365Module -Modules ([PSCustomObject]@{
+            'Microsoft.Graph.Authentication'                    = '1.2.0';
+            'Microsoft.Graph.Groups'                            = '1.0.0';
+            'Microsoft.Graph.Users'                             = '3.0.0';
+            'Microsoft.Graph.Identity.DirectoryManagement'      = 'latest';
+            'Microsoft.Graph.Identity.SignIns'                  = '1.0.5';
+        });
     #>
     [cmdletbinding()]
     param
     (
         # If the modules should be reinstalled.
         [Parameter(Mandatory = $false)]
-        [switch]$Reinstall
+        [switch]$Reinstall,
+
+        # Modules to install.
+        [Parameter(Mandatory = $false)]
+        [PSCustomObject]$Modules = $Script:Modules
     )
     
     BEGIN
-    {               
-        # Modules to install (in a specific order).
-        [PSCustomObject]$modules = [PSCustomObject]@{
-            'Microsoft.Graph.Authentication'                    = 'latest'
-            'Microsoft.Graph.Groups'                            = 'latest'
-            'Microsoft.Graph.Users'                             = 'latest'
-            'Microsoft.Graph.Identity.DirectoryManagement'      = 'latest'
-            'Microsoft.Graph.Identity.SignIns'                  = 'latest'
-            'Microsoft.Graph.Identity.Governance'               = 'latest'
-            'Microsoft.Graph.Beta.Identity.DirectoryManagement' = 'latest'
-            'Microsoft.Graph.Beta.Reports'                      = 'latest'
-            'Microsoft.Graph.Reports'                           = 'latest'
-            'Az.Accounts'                                       = 'latest'
-            'Az.Resources'                                      = 'latest'  
-            'ExchangeOnlineManagement'                          = 'latest'
-            'PnP.PowerShell'                                    = 'latest'
-            'MicrosoftTeams'                                    = 'latest'
-        };
-
+    {
         # If we should reinstall the modules.
         if ($true -eq $Reinstall)
         {
             # Foreach module.
-            foreach ($module in $modules.PSObject.Properties)
+            foreach ($module in $Modules.PSObject.Properties)
             {
                 # Get module name.
                 $moduleName = $module.Name;
@@ -78,7 +81,7 @@ function Install-M365Module
         $null = Set-PSRepository -InstallationPolicy Trusted -Name PSGallery;
 
         # Loop through all required modules.
-        foreach ($module in $modules.PSObject.Properties)
+        foreach ($module in $Modules.PSObject.Properties)
         {
             # Get module name and version.
             $moduleName = $module.Name;
@@ -161,39 +164,6 @@ function Install-M365Module
     }
     END
     {
-        # Foreach module.
-        foreach ($module in $modules.PSObject.Properties)
-        {
-            # Get module name.
-            $moduleName = $module.Name;
-
-            # Try to import the module.
-            try
-            {
-                # Write to log.
-                Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Importing PowerShell module') -Level Debug;
-
-                # Import the module.
-                $null = Import-Module -Name $moduleName -DisableNameChecking -Force -ErrorAction Stop -WarningAction SilentlyContinue -NoClobber;
-            }
-            # Something went wrong importing the module.
-            catch
-            {
-                # If the error message is not 'Assembly with same name is already loaded'.
-                if ($_.Exception.Message -notlike '*Assembly with same name is already loaded*')
-                {
-                    # Throw exception.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Something went wrong while importing PowerShell module, exception is '{0}'" -f $_) -Level Error;
-                }
-                # If the error message is 'Assembly with same name is already loaded'.
-                else
-                {
-                    # Write to log.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Module '{0}' assembly with same name is already loaded" -f $moduleName) -Level Debug;
-                }
-            }
-        }
-
         # Implement fix for Pnp.Online
         Install-ModulePnpPowerShellFix;
     }

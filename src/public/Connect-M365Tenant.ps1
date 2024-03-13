@@ -47,10 +47,10 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Please provide your credentials for Microsoft Graph in the web browser') -Level Information;
+            Write-Log -Message ('Microsoft Graph: Please provide your credentials for Microsoft Graph in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-MgGraph -Scopes $mgScopes -NoWelcome -ErrorAction Stop;
+            $null = Connect-MgGraph -Scopes $mgScopes -NoWelcome -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
@@ -80,10 +80,10 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Trying to connect to Azure') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Please provide your credentials for Entra ID in the web browser') -Level Information;
+            Write-Log -Message ('Entra ID: Please provide your credentials for Entra ID in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-AzAccount -ErrorAction Stop -Force;
+            $null = Connect-AzAccount -WarningAction SilentlyContinue -ErrorAction Stop -Force;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Debug;
@@ -110,10 +110,10 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Trying to connect to Exchange Online') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Please provide your credentials for Exchange Online in the web browser') -Level Information;
+            Write-Log -Message ('Exchange Online: Please provide your credentials for Exchange Online in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-ExchangeOnline -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop;
+            $null = Connect-ExchangeOnline -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Successfully connected to Exchange Online') -Level Debug;
@@ -130,10 +130,10 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Trying to connect to Security and Compliance') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Please provide your credentials for Security and Compliance in the web browser') -Level Information;
+            Write-Log -Message ('Security and Compliance: Please provide your credentials for Security and Compliance in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-IPPSSession -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -ErrorAction Stop;
+            $null = Connect-IPPSSession -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Successfully connected to Security and Compliance') -Level Debug;
@@ -150,10 +150,10 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Please provide your credentials for Teams in the web browser') -Level Information;
+            Write-Log -Message ('Microsoft Teams: Please provide your credentials for Teams in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-MicrosoftTeams -ErrorAction Stop;
+            $null = Connect-MicrosoftTeams -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
@@ -173,10 +173,10 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Trying to connect to SharePoint') -Level Debug;
-            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Please provide your credentials for SharePoint in the web browser or webview prompt') -Level Information;
+            Write-Log -Message ('SharePoint Online: Please provide your credentials for SharePoint in the web browser or webview prompt') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -ErrorAction Stop;
+            $null = Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Successfully connected to SharePoint') -Level Debug;

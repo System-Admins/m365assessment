@@ -73,7 +73,7 @@ function Get-HtmlReport
         Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Compressing folder '{0}' to file '{1}'" -f $tempPath, $OutputFilePath) -Level Debug;
 
         # ZIP the temporary path.
-        Compress-Archive -Path ($tempPath + "\*") -DestinationPath $OutputFilePath -Force;
+        Compress-Archive -Path ($tempPath + "/*") -DestinationPath $OutputFilePath -Force;
     }
     END
     {
@@ -81,6 +81,6 @@ function Get-HtmlReport
         Remove-Item -Path $tempPath -Recurse -Force;
 
         # Return the path to the ZIP-file.
-        return $OutputFilePath;
+        return $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputFilePath);
     }
 }

@@ -60,11 +60,31 @@ Write-Log -Category 'Module' -Message ("Script path is '{0}'" -f $scriptPath) -L
 # Get all the functions in the public section.
 $publicFunctions = $publicPs1Files.Basename;
 
-# Write to log.
-Write-Log -Category 'Module' -Message ("Exporting the functions '{0}'" -f ($publicFunctions -join ',')) -Level Debug;
-
-# Export functions.
-Export-ModuleMember -Function $publicFunctions;
-
 # Set script variable.
 $Script:scriptPath = $scriptPath;
+
+# Check if required modules are installed.
+$installedModules = Get-M365Module -Modules $Script:Modules | Where-Object { $false -eq $_.Valid };
+
+# If not all modules are installed, throw exception.
+if ($null -ne $installedModules)
+{
+    # Write to log.
+    Write-Log -Category 'Module' -Message ("Exporting the functions 'Install-M365Module'") -Level Debug;
+
+    # Expose only the function "Install-M365Module".
+    Export-ModuleMember -Function 'Install-M365Module';
+
+    # Throw warning.
+    Write-Log -Message ('Not all required modules are installed, please run "Install-M365Module"') -Level Warning -NoDateTime -NoLogLevel;
+    Write-Log -Message ('Then restart the PowerShell session and import the module again') -Level Warning -NoDateTime -NoLogLevel;
+}
+# Else all modules are installed.
+else
+{
+    # Write to log.
+    Write-Log -Category 'Module' -Message ("Exporting the functions '{0}'" -f ($publicFunctions -join ',')) -Level Debug;
+
+    # Export functions.
+    Export-ModuleMember -Function $publicFunctions;
+}

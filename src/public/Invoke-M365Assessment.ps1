@@ -13,6 +13,9 @@ function Invoke-M365Assessment
     .EXAMPLE
         # Run the assessment and only export the results that are not passed to a HTML report.
         Invoke-M365Assessment;
+    .EXAMPLE
+        # Run review and return data.
+        $reviews = Invoke-M365Assessment -ReturnReviews;
     #>
 
     [cmdletbinding()]
@@ -28,11 +31,28 @@ function Invoke-M365Assessment
             '{0}/{1}_m365assessment.zip' -f
             ([Environment]::GetFolderPath('Desktop')),
             (Get-Date).ToString('yyyyMMdd')
-        )
+        ),
+
+        # If the reviews should be returned.
+        [Parameter(Mandatory = $false)]
+        [switch]$ReturnReviews
     )
 
     BEGIN
     {
+        # Test connections.
+        $testConnections = Test-M365Connection;
+
+        # If there are connections missing.
+        if ($testConnections.Values | Where-Object { $_ -eq $false })
+        {
+            # Write to log.
+            Write-Log -Message ('Missing connection to Microsoft 365, please run "Connect-M365Tenant"') -Level Warning -NoDateTime -NoLogLevel;
+
+            # Exit script.
+            break;
+        }
+
         # Get reviews.
         $reviews = Invoke-Review;
     }
@@ -61,5 +81,15 @@ function Invoke-M365Assessment
     {
         # Open folder.
         Invoke-Item -Path $htmlZipFolderPath;
+
+        # Write to log.
+        Write-Log -Message ("Report Path: {0}" -f $htmlZipFilePath) -Level Information -NoDateTime -NoLogLevel;
+
+        # If return is requested.
+        if ($true -eq $ReturnReviews)
+        {
+            # Return the reviews.
+            return $reviews;
+        }
     }
 }
