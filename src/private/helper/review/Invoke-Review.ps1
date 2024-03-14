@@ -115,11 +115,15 @@ function Invoke-Review
             # 229fc460-ec0c-4e88-89db-0b8a883ba3e0
             $null = $reviews.Add((Invoke-ReviewFormsPhishingProtection));
 
-            # 1. Microsoft 365 Admin Center
-            # 1.3 Settings
-            # 1.3.6 Ensure the customer lockbox feature is enabled.
-            # f4cf24ca-cd8f-4ded-bfe0-6f45f3bcfed0
-            $null = $reviews.Add((Invoke-ReviewTenantCustomerLockEnabled));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'CUSTOMER_KEY' })
+            {
+                # 1. Microsoft 365 Admin Center
+                # 1.3 Settings
+                # 1.3.6 Ensure the customer lockbox feature is enabled.
+                # f4cf24ca-cd8f-4ded-bfe0-6f45f3bcfed0
+                $null = $reviews.Add((Invoke-ReviewTenantCustomerLockEnabled));
+            }
 
             # 1. Microsoft 365 Admin Center
             # 1.3 Settings
@@ -127,11 +131,15 @@ function Invoke-Review
             # 54b612c6-5306-45d4-b948-f3e75e09ab3b
             $null = $reviews.Add((Invoke-ReviewTenantThirdPartyStorage));
 
-            # 1. Microsoft 365 Admin Center
-            # 1.3 Settings
-            # 1.3.8 Ensure that Sways cannot be shared with people outside of your organization.
-            # d10b85ac-05df-4c78-91a5-5bc03f799ea2
-            $null = $reviews.Add((Invoke-ReviewTenantSwayExternalSharing));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'SWAY' })
+            {
+                # 1. Microsoft 365 Admin Center
+                # 1.3 Settings
+                # 1.3.8 Ensure that Sways cannot be shared with people outside of your organization.
+                # d10b85ac-05df-4c78-91a5-5bc03f799ea2
+                $null = $reviews.Add((Invoke-ReviewTenantSwayExternalSharing));
+            }
         }
 
         # If "Microsoft Defender" is selected.
@@ -151,17 +159,13 @@ function Invoke-Review
                 # 2.1.2 Ensure the Common Attachment Types Filter is enabled.
                 # fd660655-99e8-4cbe-93a2-9fa3c5e34f40
                 $null = $reviews.Add((Invoke-ReviewDefenderMalwareCommonAttachmentTypesFilter));
-            }
-
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.3 Ensure notifications for internal users sending malware is Enabled.
-            # 01f7327e-f8cf-4542-b12a-41b40d03415d
-            $null = $reviews.Add((Invoke-ReviewDefenderMalwareInternalUserNotifications));
-
-            # Run only if the license is available.
-            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Defender for Office 365*' })
-            {
+            
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.3 Ensure notifications for internal users sending malware is Enabled.
+                # 01f7327e-f8cf-4542-b12a-41b40d03415d
+                $null = $reviews.Add((Invoke-ReviewDefenderMalwareInternalUserNotifications));
+            
                 # 2. Microsoft 365 Defender
                 # 2.1 Email and collaboration
                 # 2.1.4 Ensure Safe Attachments policy is enabled.
@@ -173,19 +177,19 @@ function Invoke-Review
                 # 2.1.5 Ensure Safe Attachments for SharePoint, OneDrive, and Microsoft Teams is Enabled.
                 # a4fb003f-b742-4a97-8a9a-c4e5a82171a4
                 $null = $reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps));
+            
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.6 Ensure Exchange Online Spam Policies are set to notify administrators.
+                # a019303a-3b0a-4f42-999d-0d76b528ae28
+                $null = $reviews.Add((Invoke-ReviewDefenderAntiSpamNotifyAdmins));
+
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.7 Ensure that an anti-phishing policy has been created.
+                # 13954bef-f9cd-49f8-b8c8-626e87de6ba2
+                $null = $reviews.Add((Invoke-ReviewDefenderAntiPhishingPolicy));
             }
-
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.6 Ensure Exchange Online Spam Policies are set to notify administrators.
-            # a019303a-3b0a-4f42-999d-0d76b528ae28
-            $null = $reviews.Add((Invoke-ReviewDefenderAntiSpamNotifyAdmins));
-
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.7 Ensure that an anti-phishing policy has been created.
-            # 13954bef-f9cd-49f8-b8c8-626e87de6ba2
-            $null = $reviews.Add((Invoke-ReviewDefenderAntiPhishingPolicy));
 
             # 2. Microsoft 365 Defender
             # 2.1 Email and collaboration
@@ -193,11 +197,15 @@ function Invoke-Review
             # 9be729e4-0378-4c2c-afa1-92b2af71c4e9
             $null = $reviews.Add((Invoke-ReviewDefenderEmailDomainSpf));
 
-            # 2. Microsoft 365 Defender
-            # 2.1 Email and collaboration
-            # 2.1.9 Ensure that DKIM is enabled for all Exchange Online Domains.
-            # 92adb77c-a12b-4dee-8ce8-2b5f748f22ec
-            $null = $reviews.Add((Invoke-ReviewDefenderEmailDomainDkim));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Defender for Office 365*' })
+            {
+                # 2. Microsoft 365 Defender
+                # 2.1 Email and collaboration
+                # 2.1.9 Ensure that DKIM is enabled for all Exchange Online Domains.
+                # 92adb77c-a12b-4dee-8ce8-2b5f748f22ec
+                $null = $reviews.Add((Invoke-ReviewDefenderEmailDomainDkim));
+            }
 
             # 2. Microsoft 365 Defender
             # 2.1 Email and collaboration
@@ -389,12 +397,16 @@ function Invoke-Review
             # 0c1ccf40-64f3-4300-96e4-2f7f3272bf9a
             $null = $reviews.Add((Invoke-ReviewEntraAuthMethodMfaFatigue));
 
-            # 5. Microsoft Entra Admin Center
-            # 5.2 Protection
-            # 5.2.3 Authentication Methods
-            # 5.2.3.2 Ensure custom banned passwords lists are used.
-            # bb23f25a-0c03-4607-a232-ef8902a0a899
-            $null = $reviews.Add((Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Entra ID P*' })
+            {
+                # 5. Microsoft Entra Admin Center
+                # 5.2 Protection
+                # 5.2.3 Authentication Methods
+                # 5.2.3.2 Ensure custom banned passwords lists are used.
+                # bb23f25a-0c03-4607-a232-ef8902a0a899
+                $null = $reviews.Add((Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced));
+            }
 
             # 5. Microsoft Entra Admin Center
             # 5.2 Protection
@@ -615,71 +627,79 @@ function Invoke-Review
         # If "Microsoft Teams" is selected.
         if ($Service -contains 'm365teams' -or $Service.Count -eq 0)
         {
-            # 8. Microsoft Teams Admin Center
-            # 8.1 Teams
-            # 8.1.1 Ensure external file sharing in Teams is enabled for only approved cloud storage services.
-            # 36016fe3-30fe-4070-a446-441ae23cfe95
-            $null = $reviews.Add((Invoke-ReviewTeamApprovedCloudStorage));
+            # Run only if the license is available.
+            if ($licenses | Where-Object {
+                    $_.ServicePlanDisplayName -eq 'TEAMS1' -or
+                    $_.ServicePlanDisplayName -like 'TEAMSPRO*' -or
+                    $_.ServicePlanDisplayName -like 'TEAMS_*'
+                })
+            {
+                # 8. Microsoft Teams Admin Center
+                # 8.1 Teams
+                # 8.1.1 Ensure external file sharing in Teams is enabled for only approved cloud storage services.
+                # 36016fe3-30fe-4070-a446-441ae23cfe95
+                $null = $reviews.Add((Invoke-ReviewTeamApprovedCloudStorage));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.1 Teams
-            # 8.1.2 Ensure users can't send emails to a channel email address.
-            # 4623807d-6c30-4906-a33e-1e55fbbdfdec
-            $null = $reviews.Add((Invoke-ReviewTeamUsersCantSendEmailToChannel));
+                # 8. Microsoft Teams Admin Center
+                # 8.1 Teams
+                # 8.1.2 Ensure users can't send emails to a channel email address.
+                # 4623807d-6c30-4906-a33e-1e55fbbdfdec
+                $null = $reviews.Add((Invoke-ReviewTeamUsersCantSendEmailToChannel));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.2 Users
-            # 8.2.1 Ensure 'external access' is restricted in the Teams admin center.
-            # 1d4902a0-dcb6-4b1a-b77a-0662ba15a431
-            $null = $reviews.Add((Invoke-ReviewTeamExternalSharingRestricted));
+                # 8. Microsoft Teams Admin Center
+                # 8.2 Users
+                # 8.2.1 Ensure 'external access' is restricted in the Teams admin center.
+                # 1d4902a0-dcb6-4b1a-b77a-0662ba15a431
+                $null = $reviews.Add((Invoke-ReviewTeamExternalSharingRestricted));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.5 Meetings
-            # 8.5.1 Ensure anonymous users can't join a meeting.
-            # 087cd766-1d44-444d-a572-21312ddfb804
-            $null = $reviews.Add((Invoke-ReviewTeamMeetingAnonymousJoin));
+                # 8. Microsoft Teams Admin Center
+                # 8.5 Meetings
+                # 8.5.1 Ensure anonymous users can't join a meeting.
+                # 087cd766-1d44-444d-a572-21312ddfb804
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingAnonymousJoin));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.5 Meetings
-            # 8.5.2 Ensure anonymous users and dial-in callers can't start a meeting.
-            # 963797c1-0f06-4ae9-9446-7856eef4f7d7
-            $null = $reviews.Add((Invoke-ReviewTeamMeetingAnonymousStartMeeting));
+                # 8. Microsoft Teams Admin Center
+                # 8.5 Meetings
+                # 8.5.2 Ensure anonymous users and dial-in callers can't start a meeting.
+                # 963797c1-0f06-4ae9-9446-7856eef4f7d7
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingAnonymousStartMeeting));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.5 Meetings
-            # 8.5.3 Ensure only people in my org can bypass the lobby.
-            # 5252f126-4d4e-4a1c-ab56-743f8efe2b3e
-            $null = $reviews.Add((Invoke-ReviewTeamMeetingAutoAdmittedUsers));
+                # 8. Microsoft Teams Admin Center
+                # 8.5 Meetings
+                # 8.5.3 Ensure only people in my org can bypass the lobby.
+                # 5252f126-4d4e-4a1c-ab56-743f8efe2b3e
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingAutoAdmittedUsers));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.5 Meetings
-            # 8.5.4 Ensure users dialing in can't bypass the lobby.
-            # 710df2b2-b6f8-43f3-9d07-0079497f5c57
-            $null = $reviews.Add((Invoke-ReviewTeamMeetingDialInBypassLobby));
+                # 8. Microsoft Teams Admin Center
+                # 8.5 Meetings
+                # 8.5.4 Ensure users dialing in can't bypass the lobby.
+                # 710df2b2-b6f8-43f3-9d07-0079497f5c57
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingDialInBypassLobby));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.5 Meetings
-            # 8.5.5 Ensure meeting chat does not allow anonymous users.
-            # 61b9c972-bb4e-4768-8db4-89a62fc09877
-            $null = $reviews.Add((Invoke-ReviewTeamMeetingChatAnonymousUsers));
+                # 8. Microsoft Teams Admin Center
+                # 8.5 Meetings
+                # 8.5.5 Ensure meeting chat does not allow anonymous users.
+                # 61b9c972-bb4e-4768-8db4-89a62fc09877
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingChatAnonymousUsers));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.5 Meetings
-            # 8.5.6 Ensure only organizers and co-organizers can present.
-            # 8cd7d1c7-6491-433d-9d5b-68f1bf7bcfc3
-            $null = $reviews.Add((Invoke-ReviewTeamMeetingOrganizerPresent));
+                # 8. Microsoft Teams Admin Center
+                # 8.5 Meetings
+                # 8.5.6 Ensure only organizers and co-organizers can present.
+                # 8cd7d1c7-6491-433d-9d5b-68f1bf7bcfc3
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingOrganizerPresent));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.5 Meetings
-            # 8.5.7 Ensure external participants can't give or request control.
-            # 89773e80-9004-4d41-bf8b-80d4dcbb141b
-            $null = $reviews.Add((Invoke-ReviewTeamMeetingExternalControl));
+                # 8. Microsoft Teams Admin Center
+                # 8.5 Meetings
+                # 8.5.7 Ensure external participants can't give or request control.
+                # 89773e80-9004-4d41-bf8b-80d4dcbb141b
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingExternalControl));
 
-            # 8. Microsoft Teams Admin Center
-            # 8.6 Messaging
-            # 8.6.1 Ensure users can report security concerns in Teams.
-            # 3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc
-            $null = $reviews.Add((Invoke-ReviewTeamMessagingReportSecurityConcerns));
+                # 8. Microsoft Teams Admin Center
+                # 8.6 Messaging
+                # 8.6.1 Ensure users can report security concerns in Teams.
+                # 3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc
+                $null = $reviews.Add((Invoke-ReviewTeamMessagingReportSecurityConcerns));
+            }
         }
 
         # If "Microsoft Fabric" is selected.

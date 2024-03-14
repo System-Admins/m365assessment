@@ -51,7 +51,7 @@ function Invoke-ReviewEntraNumberOfGlobalAdmins
         [bool]$reviewFlag = $false;
                     
         # If review flag should be set.
-        if ($globalAdmins.Count -lt $minimumThreshold -and $globalAdmins.Count -gt $maximumThreshold)
+        if ($globalAdmins.Count -lt $minimumThreshold -or $globalAdmins.Count -gt $maximumThreshold)
         {
             # Should be reviewed.
             $reviewFlag = $true;

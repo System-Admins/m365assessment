@@ -69,7 +69,7 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         $review.Subcategory = 'Identity';
         $review.Title = 'Ensure the option to remain signed in is hidden';
         $review.Data = [PSCustomObject]@{
-            HideKeepMeSignedIn = $entraIdProperties.hideKeepMeSignedIn
+            HideKeepMeSignedIn = $hideKeepMeSignedIn;
         };
         $review.Review = $reviewFlag;
         
