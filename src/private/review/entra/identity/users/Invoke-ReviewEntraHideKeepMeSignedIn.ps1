@@ -17,18 +17,36 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
     BEGIN
     {
         # URI to the API.
-        $uri = 'https://main.iam.ad.ext.azure.com/api/LoginTenantBrandings/0';   
+        $uri = 'https://main.iam.ad.ext.azure.com/api/LoginTenantBrandings/0';
+
+        # Hide keep me signed in flag.
+        $hideKeepMeSignedIn = $false;
     }
     PROCESS
     {
-        # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Getting 'Show keep user signed' login settings") -Level Debug;
+        try
+        {
+            # Write to log.
+            Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Getting 'Show keep user signed' login settings") -Level Debug;
 
-        # Get the Entra ID property settings.
-        $entraIdProperties = Invoke-EntraIdIamApi -Uri $uri -Method 'GET' -ErrorAction SilentlyContinue;
+            # Get the Entra ID property settings.
+            $entraIdProperties = Invoke-EntraIdIamApi -Uri $uri -Method 'GET' -ErrorAction SilentlyContinue;
 
-        # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("'Show keep user signed' is set to '{0}'" -f $entraIdProperties.hideKeepMeSignedIn) -Level Debug;
+            # Write to log.
+            Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("'Show keep user signed' is set to '{0}'" -f $entraIdProperties.hideKeepMeSignedIn) -Level Debug;
+
+            # If the setting is set to true.
+            if ($true -eq $entraIdProperties.hideKeepMeSignedIn)
+            {
+                # Set flag.
+                $hideKeepMeSignedIn = $true;
+            }
+        }
+        catch
+        {
+            # Write to log.
+            Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Not able to get 'Show keep user signed', this is usually because user have never modified the setting (default setting is 'true')" -f $entraIdProperties.hideKeepMeSignedIn) -Level Debug;
+        }
     }
     END
     {
@@ -36,7 +54,7 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         [bool]$reviewFlag = $false;
                     
         # If review flag should be set.
-        if ($false -eq $entraIdProperties.hideKeepMeSignedIn -or $null -eq $entraIdProperties.hideKeepMeSignedIn)
+        if ($false -eq $hideKeepMeSignedIn)
         {
             # Should be reviewed.
             $reviewFlag = $true;
@@ -49,7 +67,7 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         $review.Id = '08798711-af3c-4fdc-8daf-947b050dca95';
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity';
-        $review.Title = "Ensure the option to remain signed in is hidden";
+        $review.Title = 'Ensure the option to remain signed in is hidden';
         $review.Data = [PSCustomObject]@{
             HideKeepMeSignedIn = $entraIdProperties.hideKeepMeSignedIn
         };

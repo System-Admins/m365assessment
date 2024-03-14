@@ -261,7 +261,7 @@ function Invoke-Review
 
             # 3. Microsoft Purview
             # 3.1 Audit
-            # 3.1.2 Ensure Microsoft 365 audit log search is Enabled.
+            # 3.1.2 Ensure user role group changes are reviewed at least weekly.
             # 6fe596b2-1ee0-46e1-9dba-316d1888d016
             $null = $reviews.Add((Invoke-ReviewPurviewUserRoleGroupChanges));
 
@@ -282,13 +282,13 @@ function Invoke-Review
                 # 3.2.2 Ensure DLP policies are enabled for Microsoft Teams.
                 # 48d970b5-a31b-41e9-9d66-eb8e02e0546d
                 $null = $reviews.Add((Invoke-ReviewPurviewDlpTeamsPolicyEnabled));
-            }
 
-            # 3. Microsoft Purview
-            # 3.3 Information Protection
-            # 3.3.1 Ensure SharePoint Online Information Protection policies are set up and used.
-            # b01a1187-5921-4b29-95fd-73e1af3c5285
-            $null = $reviews.Add((Invoke-ReviewPurviewInformationProtectionLabelPolicy));
+                # 3. Microsoft Purview
+                # 3.3 Information Protection
+                # 3.3.1 Ensure SharePoint Online Information Protection policies are set up and used.
+                # b01a1187-5921-4b29-95fd-73e1af3c5285
+                $null = $reviews.Add((Invoke-ReviewPurviewInformationProtectionLabelPolicy));
+            }
         }
 
         # If "Microsoft Entra" is selected.
@@ -403,19 +403,23 @@ function Invoke-Review
             # ee6975f8-842f-4096-a8a7-0ad093db82c0
             $null = $reviews.Add((Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD));
 
-            # 5. Microsoft Entra Admin Center
-            # 5.2 Protection
-            # 5.2.4 Password reset
-            # 5.2.4.1 Ensure 'Self service password reset enabled' is set to 'All'.
-            # 2425f84f-76cf-441b-891e-86142f14ff9e
-            $null = $reviews.Add((Invoke-ReviewEntraSsprEnabledForAll));
-
-            # 5. Microsoft Entra Admin Center
-            # 5.2 Protection
-            # 5.2.4 Password reset
-            # 5.2.4.2 Ensure the self-service password reset activity report is reviewed at least weekly.
-            # 9141c4a0-0323-4aa3-abb5-e6a0a2bedffa
-            $null = $reviews.Add((Invoke-ReviewEntraPasswordResetAudit));
+            # Run only if the license is available.
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -like 'Microsoft Entra ID P*' })
+            {
+                # 5. Microsoft Entra Admin Center
+                # 5.2 Protection
+                # 5.2.4 Password reset
+                # 5.2.4.1 Ensure 'Self service password reset enabled' is set to 'All'.
+                # 2425f84f-76cf-441b-891e-86142f14ff9e
+                $null = $reviews.Add((Invoke-ReviewEntraSsprEnabledForAll));
+            
+                # 5. Microsoft Entra Admin Center
+                # 5.2 Protection
+                # 5.2.4 Password reset
+                # 5.2.4.2 Ensure the self-service password reset activity report is reviewed at least weekly.
+                # 9141c4a0-0323-4aa3-abb5-e6a0a2bedffa
+                $null = $reviews.Add((Invoke-ReviewEntraPasswordResetAudit));
+            }
 
             # 5. Microsoft Entra Admin Center
             # 5.2 Protection
@@ -683,8 +687,8 @@ function Invoke-Review
         {
             # Run only if the license is available.
             if ($licenses | Where-Object {
-                $_.ServicePlanDisplayName -like 'Power BI Pro *' -or
-                $_.ServicePlanDisplayName -like 'Power BI Premium*'})
+                    $_.ServicePlanDisplayName -like 'Power BI Pro *' -or
+                    $_.ServicePlanDisplayName -like 'Power BI Premium*' })
             {
                 # 9. Microsoft Fabric Admin Center
                 # 9.1 Tenant settings
