@@ -1,17 +1,17 @@
-function Invoke-FabricApi
+function Invoke-MsAdminApi
 {
     <#
     .SYNOPSIS
-        Invoke Microsoft Fabric API.
+        Invoke Microsoft Admin API.
     .DESCRIPTION
-        Used to call the Microsoft Fabric API.
+        Used to call the Microsoft Admin API.
     .PARAMETER Uri
         URI to the API.
     .PARAMETER Method
         GET or POST.
     .EXAMPLE
-        # Get the Fabric property settings.
-        Invoke-FabricApi -Uri 'https://api.fabric.microsoft.com/v1/admin/tenantsettings' -Method 'GET';
+        # Get the tenant properties such as company name.
+        Invoke-MsAdminApi -Uri 'https://admin.microsoft.com/admin/api/Settings/company/profile' -Method 'GET';
     #>
     [cmdletbinding()]
     param
@@ -32,8 +32,8 @@ function Invoke-FabricApi
     
     BEGIN
     {
-        # Get access token for Microsoft Fabric API.
-        $accessToken = Get-FabricApiToken;
+        # Get access token for Microsoft Admin API.
+        $accessToken = Get-MsAdminApiToken;
 
         # Construct the headers for the request.
         $headers = @{
@@ -61,19 +61,19 @@ function Invoke-FabricApi
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Microsoft Admin' -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-Log -Category "API" -Subcategory 'Microsoft Admin' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
         }
         # Something went wrong while invoking API.
         catch
         {
             # Throw exception.
-            Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ("Could not call API, the exception is '{0}'" -f $_) -Level Error;
+            Write-Log -Category "API" -Subcategory 'Microsoft Admin' -Message ("Could not call API, the exception is '{0}'" -f $_) -Level Error;
         }
     }
     END
@@ -86,6 +86,6 @@ function Invoke-FabricApi
         }
 
         # Write to log.
-        Write-Log -Category "API" -Subcategory 'Microsoft Fabric' -Message ('Response from API is empty') -Level Debug;
+        Write-Log -Category "API" -Subcategory 'Microsoft Admin' -Message ('Response from API is empty') -Level Debug;
     }
 }

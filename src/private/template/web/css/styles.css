@@ -8,6 +8,15 @@ body {
     print-color-adjust: exact !important;
 }
 
+a {
+    text-decoration: underline;
+    color: #0e3e45;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 /* #endregion Overall */
 
 /* #region Wrapper */
@@ -21,7 +30,7 @@ body {
 }
 
 #innerWrapper {
-    max-width: 90vw;
+    max-width: 1500px;
     width: 100%;
 }
 
@@ -69,7 +78,7 @@ section {
     padding: 0 100px 0 100px;
 }
 
-section>div:before {
+#reviews section>div:before {
     display: inline-block;
     content: "";
     border-top: .1px solid #083339;
@@ -79,21 +88,25 @@ section>div:before {
     font-weight: lighter;
 }
 
+section h1,
 section h2,
 section h3 {
     margin-bottom: 10px;
     font-weight: bolder;
     color: #083339;
+    padding-top: 40px;
+}
+
+section h1 {
+    font-size: 20pt;
 }
 
 section h2 {
     font-size: 18pt;
-    padding-top: 40px;
 }
 
 section h3 {
     font-size: 14pt;
-    padding-top: 40px;
 }
 
 section table {
@@ -101,6 +114,7 @@ section table {
     min-width: 200px;
     table-layout: fixed;
     max-width: 100vw;
+    width: 100%;
 }
 
 section table th,
@@ -154,6 +168,22 @@ section p {
 
 section strong {
     font-weight: bolder;
+}
+
+.review pre {
+    font-family: monospace;
+    font-size: 10pt;
+    font-size: inherit;
+    background: #f2f2f2;
+    word-wrap: break-word;
+    box-decoration-break: clone;
+    padding: 10px;
+    border-radius: 1px;
+    border: 1px solid #acacac;
+    width: min-content;
+    line-height: normal;
+    margin-top: 10px;
+    width: auto;
 }
 
 /* #endregion Content */
@@ -228,8 +258,12 @@ h6:before {
         margin: 0;
     }
 
+    pre {
+        white-space: pre-wrap;
+    }
+
     #wrapper {
-        background-color: none !important;
+        background-color: #ffffff !important;
     }
 
     footer {
@@ -250,7 +284,7 @@ h6:before {
         page-break-after: avoid;
     }
 
-    section div:first-child {
+    #reviews section div:first-child {
         page-break-before: avoid !important;
     }
 

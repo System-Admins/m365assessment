@@ -41,11 +41,17 @@ function Get-HtmlReport
     {
         # Temporary path for the HTML report.
         $tempPath = Join-Path -Path $env:TEMP -ChildPath ((New-Guid).Guid);
+
+        # Get tenant company profile.
+        $tenantProfile = Get-TenantProfile;
     }
     PROCESS
     {
         # Copy the web template to the temporary path.
         $null = Copy-Item -Path $WebTemplatePath -Destination $tempPath -Recurse -Force;
+
+        # Get overview table in HTML.
+        $overviewTableHtml = Get-HtmlOverviewTable -Reviews $Reviews;
 
         # Get review in HTML.
         $reviewHtml = Get-HtmlReview -Reviews $Reviews -Path $MarkdownTemplatePath;
@@ -63,8 +69,10 @@ function Get-HtmlReport
         # Get content of the HTML index html.
         $indexContent = Get-Content -Path $indexFilePath;
 
-        # Replace the review content in the web template.
+        # Replace the content in the web template.
+        $indexContent = $indexContent.Replace('{{OVERVIEWTABLE}}', $overviewTableHtml);
         $indexContent = $indexContent.Replace('{{REVIEW}}', $reviewHtml);
+        $indexContent = $indexContent.Replace('{{COMPANYNAME}}', $tenantProfile.Name);
 
         # Save the content to the temporary path.
         $indexContent | Set-Content -Path $indexFilePath -Force;
