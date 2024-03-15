@@ -69,13 +69,25 @@ function Get-HtmlReport
         # Get content of the HTML index html.
         $indexContent = Get-Content -Path $indexFilePath;
 
+        # Passed / Not passed.
+        $passed = $reviews | Where-Object { $_.Review -eq $false };
+        $notPassed = $reviews | Where-Object { $_.Review -eq $true };
+
+        # Get score (%).
+        $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
+
         # Replace the content in the web template.
         $indexContent = $indexContent.Replace('{{OVERVIEWTABLE}}', $overviewTableHtml);
-        $indexContent = $indexContent.Replace('{{REVIEW}}', $reviewHtml);
+        $indexContent = $indexContent.Replace('{{REVIEWS}}', $reviewHtml);
         $indexContent = $indexContent.Replace('{{COMPANYNAME}}', $tenantProfile.Name);
+        $indexContent = $indexContent.Replace('{{SCORE}}', $score);
+        $indexContent = $indexContent.Replace('{{YEAR}}', (Get-Date).Year);
 
         # Save the content to the temporary path.
         $indexContent | Set-Content -Path $indexFilePath -Force;
+
+        # Open the HTML file.
+        Invoke-Item -Path $indexFilePath;
 
         # Write to log.
         Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Compressing folder '{0}' to file '{1}'" -f $tempPath, $OutputFilePath) -Level Debug;
