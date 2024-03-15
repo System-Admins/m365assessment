@@ -35,7 +35,7 @@ function Get-HtmlOverviewTable
           <col />
         </colgroup>
         <thead>
-        <tr>
+        <tr> 
           <th>Category</th>
           <th>Subcategory</th>
           <th>Title</th>
@@ -43,6 +43,9 @@ function Get-HtmlOverviewTable
         </thead>
         <tbody>
 '@;
+
+        # Add counter.
+        [int]$counter = 1;
 
         # Foreach review.
         foreach ($review in $Reviews)
@@ -52,9 +55,12 @@ function Get-HtmlOverviewTable
             <tr>
               <td>$($review.Category)</td>
               <td>$($review.Subcategory)</td>
-              <td><a href="#review-d106f228-2f57-4009-a4c1-8d309a97c4f3" title="$($review.Title)">$($review.Title)</a></td>
+              <td><a href="#review-$($review.Id)" title="$($review.Title)">$($counter). $($review.Title)</a></td>
             </tr>
 "@;
+
+            # Increment counter.
+            $counter++;
         }
 
         # Add to the HTML content.

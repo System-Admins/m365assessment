@@ -116,7 +116,7 @@ function Invoke-Review
             $null = $reviews.Add((Invoke-ReviewFormsPhishingProtection));
 
             # Run only if the license is available.
-            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'CUSTOMER_KEY' })
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'Microsoft Customer Key' })
             {
                 # 1. Microsoft 365 Admin Center
                 # 1.3 Settings
@@ -132,7 +132,7 @@ function Invoke-Review
             $null = $reviews.Add((Invoke-ReviewTenantThirdPartyStorage));
 
             # Run only if the license is available.
-            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'SWAY' })
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'Sway' })
             {
                 # 1. Microsoft 365 Admin Center
                 # 1.3 Settings
@@ -628,11 +628,7 @@ function Invoke-Review
         if ($Service -contains 'm365teams' -or $Service.Count -eq 0)
         {
             # Run only if the license is available.
-            if ($licenses | Where-Object {
-                    $_.ServicePlanDisplayName -eq 'TEAMS1' -or
-                    $_.ServicePlanDisplayName -like 'TEAMSPRO*' -or
-                    $_.ServicePlanDisplayName -like 'TEAMS_*'
-                })
+            if ($licenses | Where-Object {$_.ServicePlanDisplayName -eq 'Microsoft Teams'})
             {
                 # 8. Microsoft Teams Admin Center
                 # 8.1 Teams
@@ -707,7 +703,7 @@ function Invoke-Review
         {
             # Run only if the license is available.
             if ($licenses | Where-Object {
-                    $_.ServicePlanDisplayName -like 'Power BI Pro *' -or
+                    $_.ServicePlanDisplayName -like 'Power BI Pro*' -or
                     $_.ServicePlanDisplayName -like 'Power BI Premium*' })
             {
                 # 9. Microsoft Fabric Admin Center
@@ -780,7 +776,7 @@ function Invoke-Review
         $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
 
         # Write to log.
-        Write-Log -Message ('Review Assessment: {0} {1} passed | {2} {3} not passed' -f $passed.Count, $emojiCheckmark, $notPassed.Count, $emojiCrossmark) -Level Information -NoDateTime -NoLogLevel;
+        Write-Log -Message ('Review Assessment: {0} {1} passed | {2} {3} not passed | {4} total' -f $passed.Count, $emojiCheckmark, $notPassed.Count, $emojiCrossmark, $reviews.count) -Level Information -NoDateTime -NoLogLevel;
         Write-Log -Message ('Review Score: {0} out of 100' -f $score) -Level Information -NoDateTime -NoLogLevel;
         Write-Log -Category 'Review' -Message ('Finished the review process') -Level Debug;
 
