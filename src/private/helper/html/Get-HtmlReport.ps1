@@ -34,7 +34,11 @@ function Get-HtmlReport
 
         # Output path for the ZIP-file.
         [Parameter(Mandatory = $false)]
-        [string]$OutputFilePath = ('{0}/m365assessment.zip' -f ([Environment]::GetFolderPath('Desktop')))
+        [string]$OutputFilePath = ('{0}/m365assessment.zip' -f ([Environment]::GetFolderPath('Desktop'))),
+
+        # Score.
+        [Parameter(Mandatory = $true)]
+        [int]$Score
     )
 
     BEGIN
@@ -69,18 +73,11 @@ function Get-HtmlReport
         # Get content of the HTML index html.
         $indexContent = Get-Content -Path $indexFilePath;
 
-        # Passed / Not passed.
-        $passed = $reviews | Where-Object { $_.Review -eq $false };
-        $notPassed = $reviews | Where-Object { $_.Review -eq $true };
-
-        # Get score (%).
-        $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
-
         # Replace the content in the web template.
         $indexContent = $indexContent.Replace('{{OVERVIEWTABLE}}', $overviewTableHtml);
         $indexContent = $indexContent.Replace('{{REVIEWS}}', $reviewHtml);
         $indexContent = $indexContent.Replace('{{COMPANYNAME}}', $tenantProfile.Name);
-        $indexContent = $indexContent.Replace('{{SCORE}}', $score);
+        $indexContent = $indexContent.Replace('{{SCORE}}', $Score);
         $indexContent = $indexContent.Replace('{{YEAR}}', (Get-Date).Year);
 
         # Save the content to the temporary path.

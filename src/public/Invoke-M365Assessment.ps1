@@ -71,8 +71,14 @@ function Invoke-M365Assessment
             $shouldBeReviewed = $reviews | Where-Object -FilterScript { $true -eq $_.Review };
         }
 
+        # Passed / Not passed.
+        $notPassed = $reviews | Where-Object { $_.Review -eq $true };
+        
+        # Get score (%).
+        $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
+
         # Get HTML report.
-        $htmlZipFilePath = Get-HtmlReport -Reviews $shouldBeReviewed -OutputFilePath $Path;
+        $htmlZipFilePath = Get-HtmlReport -Reviews $shouldBeReviewed -OutputFilePath $Path -Score $score;
 
         # Get folder path.
         $htmlZipFolderPath = Split-Path -Path $htmlZipFilePath;
@@ -83,7 +89,7 @@ function Invoke-M365Assessment
         Invoke-Item -Path $htmlZipFolderPath;
 
         # Write to log.
-        Write-Log -Message ("Report Path: {0}" -f $htmlZipFilePath) -Level Information -NoDateTime -NoLogLevel;
+        Write-Log -Message ('Report Path: {0}' -f $htmlZipFilePath) -Level Information -NoDateTime -NoLogLevel;
 
         # If return is requested.
         if ($true -eq $ReturnReviews)
