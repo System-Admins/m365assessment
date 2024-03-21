@@ -1,4 +1,4 @@
-function Install-M365Module
+function Install-M365Dependency
 {
     <#
     .SYNOPSIS
@@ -11,13 +11,13 @@ function Install-M365Module
         Modules to install.
     .EXAMPLE
         # Install required modules.
-        Install-M365Module;
+        Install-M365Dependency;
     .EXAMPLE
         # Reinstall required modules.
-        Install-M365Module -Reinstall;
+        Install-M365Dependency -Reinstall;
     .EXAMPLE
         # Install required modules with specific versions.
-        Install-M365Module -Modules ([PSCustomObject]@{
+        Install-M365Dependency -Modules ([PSCustomObject]@{
             'Microsoft.Graph.Authentication'                    = '1.2.0';
             'Microsoft.Graph.Groups'                            = '1.0.0';
             'Microsoft.Graph.Users'                             = '3.0.0';

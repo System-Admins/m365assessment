@@ -12,7 +12,7 @@ function Import-M365Module
         Import-M365Module;
     .EXAMPLE
         # Import required modules with specific versions.
-        Install-M365Module -Modules ([PSCustomObject]@{
+        Install-M365Dependency -Modules ([PSCustomObject]@{
             'Microsoft.Graph.Authentication'                    = '1.2.0';
             'Microsoft.Graph.Groups'                            = '1.0.0';
             'Microsoft.Graph.Users'                             = '3.0.0';
