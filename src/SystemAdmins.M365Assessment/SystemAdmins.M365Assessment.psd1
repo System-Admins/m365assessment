@@ -85,16 +85,16 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @();
+            Tags = @("assessment", "security", "m365", "review", "tenant");
 
             # A URL to the license for this module.
             # LicenseUri = '';
 
             # A URL to the main website for this project.
-            # ProjectUri = '';
+            ProjectUri = 'https://github.com/System-Admins/m365assessment';
 
             # A URL to an icon representing this module.
-            # IconUri = '';
+            IconUri = 'https://www.systemadmins.com/wp-content/uploads/2022/04/SA-logo.svg';
 
             # ReleaseNotes of this module
             # ReleaseNotes = '';
