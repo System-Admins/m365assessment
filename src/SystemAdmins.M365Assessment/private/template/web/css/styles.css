@@ -1,0 +1,340 @@
+/* #region Overall */
+html,
+body {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+a {
+    text-decoration: underline;
+    color: #0e3e45;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* #endregion Overall */
+
+/* #region Wrapper */
+#wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+}
+
+#innerWrapper {
+    max-width: 1500px;
+    width: 100%;
+}
+
+/* #endregion Wrapper */
+
+/* #region Header */
+header {
+    height: 100px;
+    background-color: #d6fde6;
+    vertical-align: middle;
+    padding: 0 100px 0 100px;
+}
+
+#logo {
+    float: left;
+    height: 100%;
+    width: 30%;
+    display: flex;
+}
+
+#logo img {
+    display: block;
+    width: 50%;
+}
+
+#siteTitle {
+    float: left;
+    height: 100%;
+    width: 70%;
+    display: flex;
+    line-height: 100px;
+    justify-content: right;
+}
+
+/* #endregion Header */
+
+/* #region Content */
+#frontpage {
+    display: none;
+}
+
+section {
+    height: 100%;
+    background-color: #ffffff;
+    padding: 0 100px 0 100px;
+}
+
+#reviews section>div:before {
+    display: inline-block;
+    content: "";
+    border-top: .1px solid #083339;
+    width: 100%;
+    margin-top: 80px;
+    transform: translateY(-1rem);
+    font-weight: lighter;
+}
+
+section h1,
+section h2,
+section h3 {
+    margin-bottom: 10px;
+    font-weight: bolder;
+    color: #083339;
+    padding-top: 40px;
+}
+
+section h1 {
+    font-size: 20pt;
+}
+
+section h2 {
+    font-size: 18pt;
+}
+
+section h3 {
+    font-size: 14pt;
+}
+
+section table {
+    margin-top: 10px;
+    min-width: 200px;
+    table-layout: fixed;
+    max-width: 100vw;
+    width: 100%;
+}
+
+section table th,
+section table td {
+    padding: 15px 15px 15px 15px;
+    border: 1px solid #ffffff;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+}
+
+section table td {
+    vertical-align: center;
+}
+
+section table th {
+    background-color: #004C50;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+}
+
+section table tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+section table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+section ol,
+section ul {
+    padding-left: 20px;
+    line-height: 20pt;
+}
+
+section ol {
+    list-style: decimal outside;
+}
+
+section ul {
+    list-style-type: square;
+}
+
+section ul li::marker {
+    color: #004C50;
+}
+
+section p {
+    line-height: 20pt;
+}
+
+section strong {
+    font-weight: bolder;
+}
+
+.review pre {
+    font-family: monospace;
+    font-size: 10pt;
+    font-size: inherit;
+    background: #f2f2f2;
+    word-wrap: break-word;
+    box-decoration-break: clone;
+    padding: 10px;
+    border-radius: 1px;
+    border: 1px solid #acacac;
+    width: min-content;
+    line-height: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: auto;
+}
+
+/* #endregion Content */
+
+/* #region Footer*/
+footer {
+    min-height: 100px;
+    background-color: #d6fde6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* #endregion Footer */
+
+/* #region Numbering */
+body {
+    counter-reset: h1counter h2counter h3counter h4counter h5counter h6counter;
+}
+
+h1 {
+    counter-reset: h2counter;
+}
+
+h2 {
+    counter-reset: h3counter;
+}
+
+h3 {
+    counter-reset: h4counter;
+}
+
+h4 {
+    counter-reset: h5counter;
+}
+
+h5 {
+    counter-reset: h6counter;
+}
+
+h2:before {
+    counter-increment: h2counter;
+    content: counter(h2counter) ".\0000a0\0000a0";
+}
+
+h3:before {
+    counter-increment: h3counter;
+    content: counter(h2counter) "." counter(h3counter) ".\0000a0\0000a0";
+}
+
+h4:before {
+    counter-increment: h4counter;
+    content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) ".\0000a0\0000a0";
+}
+
+h5:before {
+    counter-increment: h5counter;
+    content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter) ".\0000a0\0000a0";
+}
+
+h6:before {
+    counter-increment: h6counter;
+    content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) "." counter(h5counter) "." counter(h6counter) ".\0000a0\0000a0";
+}
+
+/* #endregion Numbering */
+
+/* #region Print */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    pre {
+        white-space: pre-wrap;
+    }
+
+    #wrapper {
+        background-color: #ffffff !important;
+    }
+
+    footer {
+        display: none;
+    }
+
+    li,
+    ul,
+    ol,
+    table,
+    figure,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        page-break-inside: avoid;
+        page-break-after: avoid;
+    }
+
+    #reviews section div:first-child {
+        page-break-before: avoid !important;
+    }
+
+    section div {
+        page-break-before: always;
+    }
+
+    header {
+        display: none;
+    }
+
+    #frontpage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #frontpage {
+        height: 100vh;
+        background-color: #d6fde6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #documentTitle {
+        justify-content: left;
+        align-items: center;
+        width: 100%;
+    }
+
+    #documentHeadline {
+        font-size: 50pt;
+        font-weight: bolder;
+        line-height: 50pt;
+    }
+
+    #documentTagline {
+        font-size: 20pt;
+        margin-top: 20px;
+    }
+
+    section>div:before {
+        display: none;
+    }
+
+    section table {
+        font-size: 50%;
+    }
+}
+
+/* #endregion Print */

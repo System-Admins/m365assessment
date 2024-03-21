@@ -1,2 +1,87 @@
-# m365assessment
-PowerShell repository for Microsoft 365 assessment
+# Introduction
+Welcome to the Microsoft 365 assessment module!
+
+This tool is designed to provide a comprehensive evaluation of your Microsoft 365 environment, ensuring alignment with industry-leading standards such as CIS (Center for Internet Security) benchmarks, Microsoft secure score and other best practices prevalent in the industry.
+
+## :ledger: Index
+
+- [About](#beginner-about)
+- [Usage](#zap-usage)
+  - [Installation](#electric_plug-installation)
+  - [Commands](#package-commands)
+- [FAQ](#question-faq)
+
+##  :beginner: About
+In today's digital landscape, organizations rely heavily on Microsoft 365 to facilitate their daily operations, collaboration, and communication needs. However, ensuring that your Microsoft 365 configuration adheres to best practices and security standards can be a daunting task. This is where this module comes into play.
+
+**Key Features:**
+
+1. **Automated Assessment:** Our module conducts an automated assessment of your Microsoft 365 environment, scanning through various configurations, settings, and policies to evaluate compliance with established best practices.
+2. **Benchmark Compliance: **Leveraging the guidelines provided by the Center for Internet Security (CIS) and others, our module assesses your Microsoft 365 setup against industry-recognized benchmarks, helping you identify areas of improvement and potential security risks.
+3. **Comprehensive Reporting:** Upon completion of the assessment, our module generates detailed reports outlining findings, highlighting areas of compliance, non-compliance, and recommended actions to enhance the security and efficiency of your Microsoft 365 environment.
+4. **Remediation:** Step-by-step will be provide how to remediate potential findings gathered by the module.
+
+An example of report generated [can be found here](example/report/Contoso - Microsoft 365 Assessment.pdf).
+
+## :zap: Usage
+To get started with the Microsoft 365 assessment module, simply follow the instructions outlined in the documentation provided in this repository. You'll find detailed guidance on installation, configuration, and usage, enabling you to seamlessly integrate the module into your existing workflows.
+
+###  :electric_plug: Installation
+
+Prior installing the module the following pre-requisites must be fulfilled:
+
+- [ ] **PowerShell 7** installed, [see this for more information](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4).
+- [ ] You must be a [**Global administrator** in Microsoft 365](https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/assign-admin-roles?view=o365-worldwide#assign-a-user-to-an-admin-role-from-active-users).
+- [ ] Able to execute PowerShell on your local machine
+
+###  :package: Commands
+1. To install the module run the following in a PowerShell 7 session:
+
+   ```powershell
+   Install-Module -Name SystemAdmins.M365Assessment -Scope CurrentUser -Force
+   ```
+
+2. To install all dependencies, run the following:
+
+   ```powershell
+   Install-M365Dependency
+   ```
+
+   > **Note:** After installing the dependencies, you need to close the PowerShell session and open a new. This is due to Microsoft not handling the assemblies correctly if multiple modules is installed. Hopefully this is sorted in the future by Microsoft.
+
+3. After you have launched a new PowerShell 7 session, run the following to connect to the Microsoft 365 tenant.
+
+   ```powershell
+   Connect-M365Tenant
+   ```
+
+   > **Note:** This will prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session.
+
+4. Now that you have successfully connected to the Microsoft 365 tenant, invoke the assessment.
+
+   ```powershell
+   Invoke-M365Assessment
+   ```
+
+
+5. This will output an HTML report zipped in a file called "***yyyyMMdd*_m365assessment.zip**" on the users desktop.
+
+6. When you are finished with running the assessment you can run the following to logout from the Microsoft 365 in the PowerShell 7 session.
+
+   ```powershell
+   Disconnect-M365Tenant
+   ```
+
+
+## :question: FAQ
+- **Are the module modifying anything in my Microsoft 365 tenant?**
+
+  No, it only reads data and don't modify anything
+
+- **Why can't I use a service principal (Entra ID app) to connect to the different services for Microsoft 365 used by the module?**
+
+  Because the module uses undocumented APIs to get data needed for the assessment that are not supported without user_impersonation. Hopefully Microsoft will include all the information using Microsoft Graph or other tools in the future.
+
+- **Why is the free?**
+
+  Why shouldn't it be.
