@@ -103,18 +103,31 @@ Link to a small video (in GIF-format) with the module in action, can be found [h
 - **What other PowerShell module is SystemAdmins.M365Assessment module using?**
 
   Microsoft.Graph.Authentication
+  
   Microsoft.Graph.Groups
+  
   Microsoft.Graph.Users
+  
   Microsoft.Graph.Identity.DirectoryManagement
+  
   Microsoft.Graph.Identity.SignIns
+  
   Microsoft.Graph.Identity.Governance
+  
   Microsoft.Graph.Beta.Identity.DirectoryManagement
+  
   Microsoft.Graph.Beta.Reports
+  
   Microsoft.Graph.Reports
+  
   Az.Accounts
+  
   Az.Resources
+  
   ExchangeOnlineManagement
+  
   PnP.PowerShell
+  
   MicrosoftTeams
   
 - **Why is it free?**
