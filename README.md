@@ -85,6 +85,8 @@ Before installing the module, the following prerequisites must be fulfilled:
 
 ## :camera: ​Demo
 
+Link to a small video (in GIF-format) with the module in action, can be found [here](example/usage/SystemAdmins.M365Assessment.gif) (if the GIF don't load below).
+
 ![Demo](example/usage/SystemAdmins.M365Assessment.gif)
 
 ## :question: FAQ
