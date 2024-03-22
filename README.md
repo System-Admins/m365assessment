@@ -9,6 +9,7 @@ This tool is designed to provide a comprehensive evaluation of your Microsoft 36
 - [Usage](#zap-usage)
   - [Installation](#electric_plug-installation)
   - [Commands](#package-commands)
+- [Demo](#camera-demo)
 - [FAQ](#question-faq)
 
 ##  :beginner: About
