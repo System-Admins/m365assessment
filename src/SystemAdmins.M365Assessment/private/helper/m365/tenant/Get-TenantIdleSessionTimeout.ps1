@@ -41,7 +41,7 @@ function Get-TenantIdleSessionTimeout
 
             # Write to log.
             Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Found idle session policy '{0}' with timeout {1} minutes" -f $activityBasedTimeoutPolicy.DisplayName, $totalMinutes.TotalMinutes) -Level Debug;
-            
+
             # Add to array.
             $idleSessionPolicies += [PSCustomObject]@{
                 Id                    = $activityBasedTimeoutPolicy.Id;

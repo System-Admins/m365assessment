@@ -19,13 +19,13 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
 
     BEGIN
     {
-        
+
     }
     PROCESS
     {
         # Write to log.
         Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ('Getting if users can register apps') -Level Debug;
-        
+
         # Get auth policy.
         $authorizationPolicy = Get-MgPolicyAuthorizationPolicy;
 
@@ -36,17 +36,17 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($true -eq $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateApps)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '3caa1bff-bce3-4744-8898-00b0ebc49ff7';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -56,10 +56,10 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
             AllowedToCreateApps = $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateApps;
         };
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

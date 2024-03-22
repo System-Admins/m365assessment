@@ -52,17 +52,17 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $hideKeepMeSignedIn)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '08798711-af3c-4fdc-8daf-947b050dca95';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -72,10 +72,10 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
             HideKeepMeSignedIn = $hideKeepMeSignedIn;
         };
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

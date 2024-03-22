@@ -10,9 +10,10 @@ function Get-LicenseTenant
     #>
 
     [cmdletbinding()]
+    [OutputType([System.Object[]])]
     param
     (
-        
+
     )
     BEGIN
     {

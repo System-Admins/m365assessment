@@ -38,7 +38,7 @@ function Invoke-ReviewSpoExternalSharingRestricted
             # Setting is valid.
             $valid = $true;
         }
-        
+
         # If the external sharing is not restricted.
         if ($false -eq $valid)
         {
@@ -50,17 +50,17 @@ function Invoke-ReviewSpoExternalSharingRestricted
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'f30646cc-e1f1-42b5-a3a5-4d46db01e822';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -68,11 +68,11 @@ function Invoke-ReviewSpoExternalSharingRestricted
         $review.Title = 'Ensure external content sharing is restricted';
         $review.Data = $tenantSettings | Select-Object -Property SharingCapability;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

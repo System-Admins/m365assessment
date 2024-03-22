@@ -35,17 +35,17 @@ function Invoke-ReviewSpoEntraIdB2B
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $tenantSettings.EnableAzureADB2BIntegration)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '68e99561-878a-4bcd-bce1-d69a6c0e2282';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -53,11 +53,11 @@ function Invoke-ReviewSpoEntraIdB2B
         $review.Title = 'Ensure SharePoint and OneDrive integration with Azure AD B2B is enabled';
         $review.Data = $tenantSettings | Select-Object -Property EnableAzureADB2BIntegration;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

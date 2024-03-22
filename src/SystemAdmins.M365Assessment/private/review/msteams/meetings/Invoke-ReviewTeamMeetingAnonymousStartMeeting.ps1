@@ -44,17 +44,17 @@ function Invoke-ReviewTeamMeetingAnonymousStartMeeting
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '963797c1-0f06-4ae9-9446-7856eef4f7d7';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -62,11 +62,11 @@ function Invoke-ReviewTeamMeetingAnonymousStartMeeting
         $review.Title = "Ensure anonymous users and dial-in callers can't start a meeting";
         $review.Data = $meetingPolicy | Select-Object -Property AllowAnonymousUsersToStartMeeting;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
-        return $review; 
-    } 
+        return $review;
+    }
 }

@@ -23,11 +23,11 @@ function Get-HtmlReport
         # Reviews to get the HTML code.
         [Parameter(Mandatory = $true)]
         [Review[]]$Reviews,
-        
+
         # Path to the web template.
         [Parameter(Mandatory = $false)]
         [string]$WebTemplatePath = ('{0}/private/template/web' -f $Script:scriptPath),
-        
+
         # Path to the markdown templates.
         [Parameter(Mandatory = $false)]
         [string]$MarkdownTemplatePath = ('{0}/private/template/markdown' -f $Script:scriptPath),

@@ -48,17 +48,17 @@ function Invoke-ReviewExoMailboxAuditEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($mailboxesAuditDisabled.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '2b849f34-8991-4a13-a6f1-9f7d0ea4bcef';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -66,10 +66,10 @@ function Invoke-ReviewExoMailboxAuditEnabled
         $review.Title = 'Ensure mailbox auditing for users is Enabled';
         $review.Data = $mailboxesAuditDisabled | Select-Object -Property Name, Alias, UserPrincipalName, PrimarySmtpAddress, AuditEnabled;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

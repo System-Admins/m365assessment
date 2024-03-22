@@ -26,17 +26,17 @@ function Invoke-ReviewTenantCustomerLockEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If the review flag should be set.
         if ($false -eq $settings.CustomerLockBoxEnabled)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'f4cf24ca-cd8f-4ded-bfe0-6f45f3bcfed0';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -49,7 +49,7 @@ function Invoke-ReviewTenantCustomerLockEnabled
 
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

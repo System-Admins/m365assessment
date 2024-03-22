@@ -12,8 +12,8 @@ function Get-DnsDmarcRecord
         Get-DnsDmarcRecord -Domain 'example.com';
     #>
 
-    [cmdletbinding()]	
-        
+    [cmdletbinding()]
+
     param
     (
         # Domain to lookup.

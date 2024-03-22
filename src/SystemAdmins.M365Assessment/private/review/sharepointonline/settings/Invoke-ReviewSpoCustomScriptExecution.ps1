@@ -55,17 +55,17 @@ function Invoke-ReviewSpoCustomScriptExecution
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($sitesWithCustomScriptExecution.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '6339c889-76d7-450b-855d-b9e22869c94f';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -73,11 +73,11 @@ function Invoke-ReviewSpoCustomScriptExecution
         $review.Title = 'Ensure custom script execution is restricted on site collections';
         $review.Data = $sitesWithCustomScriptExecution | Select-Object -Property Url, DenyAddAndCustomizePages;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

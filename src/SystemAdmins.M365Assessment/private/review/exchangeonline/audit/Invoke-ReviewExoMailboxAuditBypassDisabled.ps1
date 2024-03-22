@@ -48,17 +48,17 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($mailboxesAuditBypassEnabled.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'a2c3a619-df82-4e0b-ac98-47ff51ea8c2a';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -66,10 +66,10 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
         $review.Title = "Ensure 'AuditBypassEnabled' is not enabled on mailboxes";
         $review.Data = $mailboxesAuditBypassEnabled | Select-Object -Property Identity, AuditBypassEnabled;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

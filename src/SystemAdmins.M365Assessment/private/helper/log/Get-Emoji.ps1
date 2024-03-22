@@ -14,14 +14,14 @@ function Get-Emoji
     [cmdletbinding()]
     param
     (
-    
+
         # Message to write to log.
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [ValidateNotNullOrEmpty()]
         [ValidateSet('Checkmark', 'Crossmark', 'Warning')]
         [string]$Type
     )
-    
+
     BEGIN
     {
     }

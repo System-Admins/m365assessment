@@ -18,7 +18,7 @@ function Invoke-ReviewEntraSsprEnabledForAll
     {
         # URI.
         $uri = 'https://main.iam.ad.ext.azure.com/api/PasswordReset/PasswordResetPolicies?getPasswordResetEnabledGroup=true';
-        
+
         # Valid configuration.
         [bool]$valid = $true;
 
@@ -73,17 +73,17 @@ function Invoke-ReviewEntraSsprEnabledForAll
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '2425f84f-76cf-441b-891e-86142f14ff9e';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -93,10 +93,10 @@ function Invoke-ReviewEntraSsprEnabledForAll
             EnablementType = $displayName;
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

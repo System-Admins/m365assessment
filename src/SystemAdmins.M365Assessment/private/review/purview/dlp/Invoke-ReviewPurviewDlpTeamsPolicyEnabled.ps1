@@ -21,7 +21,7 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
     {
         # Write to log.
         Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Getting DLP policies") -Level Debug;
-        
+
         # Get DLP policies.
         $dlpPolicies = Get-DlpCompliancePolicy -WarningAction SilentlyContinue;
     }
@@ -37,17 +37,17 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($enabledPolicies.Count -eq 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '48d970b5-a31b-41e9-9d66-eb8e02e0546d';
         $review.Category = 'Microsoft Purview';
@@ -55,10 +55,10 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
         $review.Title = 'Ensure DLP policies are enabled for Microsoft Teams';
         $review.Data = $dlpPolicies | Select-Object -Property Type, Name, DisplayName, Enabled, Workload;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

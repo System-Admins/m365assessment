@@ -14,7 +14,7 @@ function Install-ModulePnpPowerShellFix
     param
     (
     )
-    
+
     BEGIN
     {
         # Write to log.
@@ -47,7 +47,7 @@ function Install-ModulePnpPowerShellFix
     {
         # Write to log.
         Write-Log -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Importing module "Microsoft.Graph.Authentication" and "PnP.PowerShell" again' -Level Debug;
-        
+
         # Import modules again.
         Import-Module -Name Microsoft.Graph.Authentication -Force;
         Import-Module -Name PnP.PowerShell -Force;

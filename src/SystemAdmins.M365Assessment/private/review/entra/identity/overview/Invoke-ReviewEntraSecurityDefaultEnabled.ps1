@@ -35,17 +35,17 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($true -eq $securityDefaults.IsEnabled)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'bf8c7733-8ec0-4c86-9c4e-28bf4812a57a';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -55,10 +55,10 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
             Enabled = $securityDefaults.IsEnabled;
         };
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

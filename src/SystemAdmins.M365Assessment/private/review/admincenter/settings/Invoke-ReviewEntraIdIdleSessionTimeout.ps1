@@ -68,18 +68,18 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
-        if ($null -ne $idleSessionPolicy -or 
+        if ($null -ne $idleSessionPolicy -or
             $null -eq $conditionalAccessPolicies)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                    
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                            
+
         # Add to object.
         $review.Id = '645b1886-5437-43e5-8b8a-84c033173ff3';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -90,7 +90,7 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
 
         # Print result.
         $review.PrintResult();
-                            
+
         # Return object.
         return $review;
     }

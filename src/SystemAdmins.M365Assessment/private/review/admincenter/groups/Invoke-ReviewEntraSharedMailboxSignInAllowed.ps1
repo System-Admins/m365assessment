@@ -20,7 +20,7 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
     {
         # Object array to store shared mailbox review.
         $reviewSharedMailbox = New-Object System.Collections.ArrayList;
-        
+
         # Write to log.
         Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message 'Getting shared mailboxes' -Level Debug;
 
@@ -56,7 +56,7 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
             {
                 # Boolean for cloud only.
                 [bool]$cloudOnly = $false;
-                
+
                 # If the user principal name do not match the shared mailbox.
                 if ($user.UserPrincipalName -ne $sharedMailbox.UserPrincipalName)
                 {
@@ -117,17 +117,17 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If there is any accounts.
         if ($reviewSharedMailbox.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'dc6727fe-333d-46ad-9ad6-f9b0ae23d03b';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -138,7 +138,7 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
 
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

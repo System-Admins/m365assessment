@@ -1,4 +1,4 @@
-function Invoke-FabricApi
+﻿function Invoke-FabricApi
 {
     <#
     .SYNOPSIS
@@ -29,7 +29,7 @@ function Invoke-FabricApi
         [Parameter(Mandatory = $false)]
         $Body
     )
-    
+
     BEGIN
     {
         # Get access token for Microsoft Fabric API.

@@ -17,6 +17,7 @@ function Test-M365Connection
         Test-M365Connection;
     #>
     [cmdletbinding()]
+    [OutputType([System.Collections.Hashtable])]
     param
     (
     )
@@ -51,8 +52,10 @@ function Test-M365Connection
         }
         catch
         {
+            # Write to log.
+            Write-Log -Category 'Connection' -Subcategory 'Microsoft Graph' -Message ('Not connected') -Level Debug;
         }
-        
+
         # Try to connect to Azure.
         try
         {
@@ -62,6 +65,8 @@ function Test-M365Connection
         }
         catch
         {
+            # Write to log.
+            Write-Log -Category 'Connection' -Subcategory 'Azure' -Message ('Not connected') -Level Debug;
         }
 
         # Try to connect to Exchange Online.
@@ -73,7 +78,8 @@ function Test-M365Connection
         }
         catch
         {
-            <#Do this if a terminating exception happens#>
+            # Write to log.
+            Write-Log -Category 'Connection' -Subcategory 'Exchange Online' -Message ('Not connected') -Level Debug;
         }
 
         # Try to connect to Microsoft Teams.
@@ -85,6 +91,8 @@ function Test-M365Connection
         }
         catch
         {
+            # Write to log.
+            Write-Log -Category 'Connection' -Subcategory 'Microsoft Teams' -Message ('Not connected') -Level Debug;
         }
 
         # Try to connect to SharePoint.
@@ -96,6 +104,8 @@ function Test-M365Connection
         }
         catch
         {
+            # Write to log.
+            Write-Log -Category 'Connection' -Subcategory 'SharePoint Online' -Message ('Not connected') -Level Debug;
         }
     }
     END

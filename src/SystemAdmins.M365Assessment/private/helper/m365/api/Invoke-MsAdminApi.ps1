@@ -1,4 +1,4 @@
-function Invoke-MsAdminApi
+﻿function Invoke-MsAdminApi
 {
     <#
     .SYNOPSIS
@@ -29,7 +29,7 @@ function Invoke-MsAdminApi
         [Parameter(Mandatory = $false)]
         $Body
     )
-    
+
     BEGIN
     {
         # Get access token for Microsoft Admin API.

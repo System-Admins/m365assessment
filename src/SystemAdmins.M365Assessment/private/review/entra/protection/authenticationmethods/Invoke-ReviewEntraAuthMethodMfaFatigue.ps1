@@ -24,7 +24,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
 
         # Get authentication method policy.
         $authenticationMethodPolicy = Get-MgPolicyAuthenticationMethodPolicy;
-        
+
         # Valid configuration.
         [bool]$valid = $false;
     }
@@ -52,7 +52,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
 
             # Get feature settings for "Show application name in push and passwordless notifications".
             $displayAppInformationRequiredState = $authenticationMethodConfiguration.AdditionalProperties.featureSettings.displayAppInformationRequiredState;
-            
+
             # If display app information required state is "disabled".
             if ($displayAppInformationRequiredState.state -eq 'disabled')
             {
@@ -110,17 +110,17 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '0c1ccf40-64f3-4300-96e4-2f7f3272bf9a';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -133,10 +133,10 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             displayLocation = $microsoftAuthenticatorAuthMethod.AdditionalProperties.featureSettings.displayLocationInformationRequiredState.state;
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

@@ -21,7 +21,7 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
     {
         # Write to log.
         Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Getting DLP policies") -Level Debug;
-        
+
         # Get DLP policies.
         $dlpPolicies = Get-DlpCompliancePolicy;
     }
@@ -37,17 +37,17 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($enabledPolicies.Count -eq 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'b9caf88c-0c9c-42a8-b6be-14953a8b76c3';
         $review.Category = 'Microsoft Purview';
@@ -55,10 +55,10 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
         $review.Title = 'Ensure DLP policies are enabled';
         $review.Data = $dlpPolicies | Select-Object -Property Type, Name, DisplayName, Enabled, Workload;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

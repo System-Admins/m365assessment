@@ -21,7 +21,7 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
 
         # URI.
         $uri = 'https://main.iam.ad.ext.azure.com/api/AuthenticationMethods/PasswordPolicy';
-        
+
         # Valid configuration.
         [bool]$valid = $true;
     }
@@ -48,17 +48,17 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'ee6975f8-842f-4096-a8a7-0ad093db82c0';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -69,10 +69,10 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
             enableBannedPasswordCheckOnPremises = $passwordPolicy.enableBannedPasswordCheckOnPremises;
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

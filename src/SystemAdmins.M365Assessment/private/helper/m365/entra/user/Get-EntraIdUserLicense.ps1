@@ -16,6 +16,7 @@ function Get-EntraIdUserLicense
         $userLicenses = Get-EntraIdUserLicense -UserPrincipalName 'user@domain';
     #>
     [cmdletbinding()]
+    [OutputType([System.Collections.ArrayList])]
     param
     (
         # UserPrincipalName for the user.
@@ -29,7 +30,7 @@ function Get-EntraIdUserLicense
 
         # Write to log.
         Write-Log -Category 'Entra' -Subcategory 'License' -Message ('Getting all users') -Level Debug;
-            
+
         # Get all users.
         $users = Get-MgUser -All -Select Id, UserPrincipalName, DisplayName, AssignedLicenses;
 
@@ -107,7 +108,7 @@ function Get-EntraIdUserLicense
                     }
                 }
             }
-            
+
         }
     }
     END

@@ -65,17 +65,17 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($policies.Count -eq 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'b01a1187-5921-4b29-95fd-73e1af3c5285';
         $review.Category = 'Microsoft Purview';
@@ -83,10 +83,10 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
         $review.Title = 'Ensure SharePoint Online Information Protection policies are set up and used';
         $review.Data = $policies | Select-Object -Property Guid, Name, Enabled, Mode, Comment, Workload;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

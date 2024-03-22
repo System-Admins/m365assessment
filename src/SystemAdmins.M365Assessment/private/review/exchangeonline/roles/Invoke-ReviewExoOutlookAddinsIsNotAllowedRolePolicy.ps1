@@ -68,7 +68,7 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
             {
                 # Write to log.
                 Write-Log -Category 'Exchange Online' -Subcategory 'Roles' -Message ("Role assignment policy '{0}' allows users to install outlook add-ins" -f $roleAssignmentPolicy.Name) -Level Debug;
-        
+
                 # Add to list.
                 $null = $roleAssignmentPolicies.Add($roleAssignmentPolicy);
             }
@@ -78,17 +78,17 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($roleAssignmentPolicies.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '36ee88d3-0ab8-41ea-90e7-fd9b14ed6a03';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -96,11 +96,11 @@ function Invoke-ReviewExoOutlookAddinsIsNotAllowedRolePolicy
         $review.Title = "Ensure users installing Outlook add-ins is not allowed";
         $review.Data = $roleAssignmentPolicies | Select-Object -Property Name, @{Name='AssignedRoles';Expression={$_.AssignedRoles -join ', '}};
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

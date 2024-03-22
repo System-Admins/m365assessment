@@ -12,8 +12,8 @@ function Get-DnsSpfRecord
         Get-DnsSpfRecord -Domain 'example.com';
     #>
 
-    [cmdletbinding()]	
-        
+    [cmdletbinding()]
+
     param
     (
         # Domain to lookup.

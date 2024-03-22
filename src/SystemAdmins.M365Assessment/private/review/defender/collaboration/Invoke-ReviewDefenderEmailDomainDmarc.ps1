@@ -42,7 +42,7 @@ function Invoke-ReviewDefenderEmailDomainDmarc
                 # Skip.
                 continue;
             }
-            
+
             # Boolean if DMARC is configured correct.
             $valid = $false;
 
@@ -54,7 +54,7 @@ function Invoke-ReviewDefenderEmailDomainDmarc
             {
                 # Get the DMARC records.
                 $dmarcRecords = Get-DnsDmarcRecord -Domain $domain.Id;
-                
+
                 # If DMARC record is found.
                 if ($dmarcRecords.Count -gt 0)
                 {
@@ -78,17 +78,17 @@ function Invoke-ReviewDefenderEmailDomainDmarc
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($dmarcSettings | Where-Object { $_.Valid -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = '7f46d070-097f-4a6b-aad1-118b5b707f41';
         $review.Category = 'Microsoft 365 Defender';
@@ -99,7 +99,7 @@ function Invoke-ReviewDefenderEmailDomainDmarc
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

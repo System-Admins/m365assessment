@@ -89,17 +89,17 @@ function Invoke-ReviewDefenderAntiPhishingPolicy
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($settings | Where-Object { $_.Valid -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = '13954bef-f9cd-49f8-b8c8-626e87de6ba2';
         $review.Category = 'Microsoft 365 Defender';
@@ -110,7 +110,7 @@ function Invoke-ReviewDefenderAntiPhishingPolicy
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

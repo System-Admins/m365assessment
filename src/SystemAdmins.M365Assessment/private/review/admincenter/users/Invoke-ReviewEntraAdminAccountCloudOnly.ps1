@@ -107,7 +107,7 @@ function Invoke-ReviewEntraAdminAccountCloudOnly
                 {
                     # Set license to be invalid.
                     $licenseValid = $false;
-                } 
+                }
             }
 
             # If the recommendations is not fulfilled and account is enabled.
@@ -147,7 +147,7 @@ function Invoke-ReviewEntraAdminAccountCloudOnly
             # Should be reviewed.
             $reviewFlag = $true;
         }
-        
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
 

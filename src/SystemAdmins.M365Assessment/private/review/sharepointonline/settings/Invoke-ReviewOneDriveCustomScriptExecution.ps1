@@ -55,17 +55,17 @@ function Invoke-ReviewOneDriveCustomScriptExecution
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($sitesWithCustomScriptExecution.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '2f538008-8944-4d45-9b79-4cd771851622';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -73,11 +73,11 @@ function Invoke-ReviewOneDriveCustomScriptExecution
         $review.Title = 'Ensure custom script execution is restricted on personal sites';
         $review.Data = $sitesWithCustomScriptExecution | Select-Object -Property Url, DenyAddAndCustomizePages;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

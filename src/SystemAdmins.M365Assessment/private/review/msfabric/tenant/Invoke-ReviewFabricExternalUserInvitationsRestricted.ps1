@@ -55,17 +55,17 @@ function Invoke-ReviewFabricExternalUserInvitationsRestricted
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                            
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                    
+
         # Add to object.
         $review.Id = 'da8daeae-fc77-4bff-9733-19e8fe73b87b';
         $review.Category = 'Microsoft Fabric Admin Center';
@@ -75,11 +75,11 @@ function Invoke-ReviewFabricExternalUserInvitationsRestricted
             Restricted = $valid
         };
         $review.Review = $reviewFlag;
-                                     
+
         # Print result.
         $review.PrintResult();
-                                                    
+
         # Return object.
         return $review;
-    } 
+    }
 }

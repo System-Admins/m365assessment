@@ -52,7 +52,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
                 # Skip.
                 continue;
             }
-            
+
             # Boolean to check if DKIM is configured correctly.
             $valid = $true;
 
@@ -153,17 +153,17 @@ function Invoke-ReviewDefenderEmailDomainDkim
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($results | Where-Object { $_.Valid -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = '92adb77c-a12b-4dee-8ce8-2b5f748f22ec';
         $review.Category = 'Microsoft 365 Defender';
@@ -174,7 +174,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

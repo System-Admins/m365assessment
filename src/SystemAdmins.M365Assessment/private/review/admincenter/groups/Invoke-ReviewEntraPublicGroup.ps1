@@ -54,17 +54,17 @@ function Invoke-ReviewEntraPublicGroup
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($publicVisibilityGroups.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = '90295b64-2528-4c22-aa96-a606633bc705';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -76,7 +76,7 @@ function Invoke-ReviewEntraPublicGroup
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

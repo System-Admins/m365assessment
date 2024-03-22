@@ -36,7 +36,7 @@ function Install-M365Dependency
         [Parameter(Mandatory = $false)]
         [PSCustomObject]$Modules = $Script:Modules
     )
-    
+
     BEGIN
     {
         # If we should reinstall the modules.
@@ -47,7 +47,7 @@ function Install-M365Dependency
             {
                 # Get module name.
                 $moduleName = $module.Name;
-    
+
                 # Try to uninstall.
                 try
                 {

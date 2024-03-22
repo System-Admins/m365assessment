@@ -21,7 +21,7 @@ class Review
             # Get cross mark.
             $emoji = Get-Emoji -Type Checkmark;
         }
-        
+
         # Write to log.
         Write-Log -Message ('{0} [{1}][{2}] {3}' -f $emoji, $this.Category, $this.Subcategory, $this.Title) `
             -Level Information `

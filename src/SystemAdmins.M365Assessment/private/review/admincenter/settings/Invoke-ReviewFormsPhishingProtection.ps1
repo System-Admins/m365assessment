@@ -29,17 +29,17 @@ function Invoke-ReviewFormsPhishingProtection
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If the review flag should be set.
         if ($false -eq $settings.InOrgFormsPhishingScanEnabled)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '229fc460-ec0c-4e88-89db-0b8a883ba3e0';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -52,7 +52,7 @@ function Invoke-ReviewFormsPhishingProtection
 
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

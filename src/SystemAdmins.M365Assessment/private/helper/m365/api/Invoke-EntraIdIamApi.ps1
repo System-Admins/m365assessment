@@ -1,4 +1,4 @@
-function Invoke-EntraIdIamApi
+﻿function Invoke-EntraIdIamApi
 {
     <#
     .SYNOPSIS
@@ -30,7 +30,7 @@ function Invoke-EntraIdIamApi
         [Parameter(Mandatory = $false)]
         $Body
     )
-    
+
     BEGIN
     {
         # Get access token for Entra ID IAM API.

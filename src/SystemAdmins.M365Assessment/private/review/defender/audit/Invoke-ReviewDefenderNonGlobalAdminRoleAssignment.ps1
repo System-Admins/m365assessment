@@ -41,17 +41,17 @@ function Invoke-ReviewDefenderNonGlobalAdminRoleAssignment
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($auditLogs.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '8104752c-9e07-4a61-99a1-7161a792d76e';
         $review.Category = 'Microsoft 365 Defender';
@@ -59,10 +59,10 @@ function Invoke-ReviewDefenderNonGlobalAdminRoleAssignment
         $review.Title = 'Ensure non-global administrator role group assignments are reviewed at least weekly';
         $review.Data = $auditLogs;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

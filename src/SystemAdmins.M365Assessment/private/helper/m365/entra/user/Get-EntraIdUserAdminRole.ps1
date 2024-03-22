@@ -12,8 +12,9 @@ function Get-EntraIdUserAdminRole
         Get-EntraIdUserAdminRole;
     #>
     [cmdletbinding()]
+    [OutputType([System.Collections.ArrayList])]
     param
-    ( 
+    (
     )
 
     BEGIN

@@ -21,7 +21,7 @@ function Invoke-ReviewSpoReauthOtpRestricted
     {
         # Write to log.
         Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Debug;
-        
+
         # Get tenant settings.
         $tenantSettings = Invoke-PnPSPRestMethod -Method Get -Url '/_api/SPOInternalUseOnly.Tenant';
 
@@ -46,17 +46,17 @@ function Invoke-ReviewSpoReauthOtpRestricted
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '82712a94-8427-4871-8d09-f2b94e8e1bf1';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -64,11 +64,11 @@ function Invoke-ReviewSpoReauthOtpRestricted
         $review.Title = 'Ensure reauthentication with verification code is restricted';
         $review.Data = $tenantSettings | Select-Object -Property EmailAttestationEnabled, EmailAttestationReAuthDays;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

@@ -14,7 +14,7 @@ function Uninstall-ModuleAll
     (
         [switch]$OnlyUnload
     )
-    
+
     BEGIN
     {
         # Write to log.

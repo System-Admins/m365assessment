@@ -19,7 +19,7 @@ function Invoke-ReviewExoCalendarExternalSharing
     {
         # Write to log.
         Write-Log -Category 'Exchange Online' -Subcategory 'Policy' -Message 'Getting all sharing policies' -Level Debug;
-        
+
         # Get all sharing policies.
         $sharingPolicies = Get-SharingPolicy;
 
@@ -64,17 +64,17 @@ function Invoke-ReviewExoCalendarExternalSharing
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($calendarSharingPolicies.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                    
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                            
+
         # Add to object.
         $review.Id = '489b0b3d-cf78-46a5-8366-84908dc05d5a';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -85,7 +85,7 @@ function Invoke-ReviewExoCalendarExternalSharing
 
         # Print result.
         $review.PrintResult();
-                            
+
         # Return object.
         return $review;
     }

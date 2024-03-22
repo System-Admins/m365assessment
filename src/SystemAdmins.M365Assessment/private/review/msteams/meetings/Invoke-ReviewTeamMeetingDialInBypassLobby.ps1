@@ -44,17 +44,17 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '710df2b2-b6f8-43f3-9d07-0079497f5c57';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -62,11 +62,11 @@ function Invoke-ReviewTeamMeetingDialInBypassLobby
         $review.Title = "Ensure users dialing in can't bypass the lobby";
         $review.Data = $meetingPolicy | Select-Object -Property AllowPSTNUsersToBypassLobby;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

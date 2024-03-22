@@ -12,7 +12,7 @@ function Get-ScriptPath
     param
     (
     )
-    
+
     BEGIN
     {
         # Variable for script path.

@@ -17,7 +17,7 @@ function Invoke-ReviewEntraApplicationAdminConsentWorkflowEnabled
     BEGIN
     {
         # Get admin consent setting.
-        $adminConsentSetting = Get-EntraIdApplicationDirectorySettings;
+        $adminConsentSetting = Get-EntraIdApplicationDirectorySetting;
 
         # Boolean if enabled.
         $enabled = $false;
@@ -35,17 +35,17 @@ function Invoke-ReviewEntraApplicationAdminConsentWorkflowEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $enabled)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                             
+
         # Add to object.
         $review.Id = '7bd57849-e98c-48c0-bd98-5c337fb7bc32';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -55,10 +55,10 @@ function Invoke-ReviewEntraApplicationAdminConsentWorkflowEnabled
             Enabled = $enabled;
         };
         $review.Review = $reviewFlag;
-              
+
         # Print result.
         $review.PrintResult();
-                             
+
         # Return object.
         return $review;
     }

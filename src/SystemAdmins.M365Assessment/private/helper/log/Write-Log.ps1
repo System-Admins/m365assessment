@@ -1,3 +1,4 @@
+
 function Write-Log
 {
     <#
@@ -17,25 +18,25 @@ function Write-Log
         (Optional) If the log message should not be appended to the log file.
     .PARAMETER NoLogLevel
         (Optional) If the log level should not be logged.
-    .PARAMETER NoConsole
-        (Optional) If the log message should not be output to the console.
+    .PARAMETER NoLogFile
+        (Optional) If the log message should not be added to a file.
     .EXAMPLE
         # Write a information message to the console.
-        Write-Log -Message 'This is an information message'
+        Write-MyLog -Message 'This is an information message'
     .EXAMPLE
         # Write a debug message to a log file and console.
-        Write-Log -Message 'This is an debug message' -Path 'C:\Temp\log.txt' -Level Debug
+        Write-MyLog -Message 'This is a debug message' -Path 'C:\Temp\log.txt' -Level Debug
     .EXAMPLE
-        # Write a error message to a log file but not to the console.
-        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level Error -NoConsole
+        # Write an error message to a log file but not to the console.
+        Write-MyLog -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level Error -NoConsole
     .EXAMPLE
-        # Write a information message to a log file but not to the console and do not append to the log file.
-        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
+        # Write an information message to a log file but not to the console and do not append to the log file.
+        Write-MyLog -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
     #>
     [cmdletbinding()]
     param
     (
-    
+
         # Message to write to log.
         [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $true)]
         [ValidateNotNullOrEmpty()]
@@ -48,16 +49,16 @@ function Write-Log
         # If subcategory should be included.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [string]$Subcategory,
-    
+
         # (Optional) Path to log file.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [string]$Path,
-        
+
         # (Optional) Log level.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [ValidateSet('Error', 'Warning', 'Information', 'Debug')]
         [string]$Level = 'Information',
-        
+
         # (Optional) If date and time should not be added to the log message.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [switch]$NoDateTime,
@@ -70,15 +71,11 @@ function Write-Log
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [switch]$NoLogLevel,
 
-        # (Optional) If the log message should not be output to the console.
-        [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
-        [switch]$NoConsole,
-
         # (Optional) If the log message should not be added to a file.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
         [switch]$NoLogFile
     )
-    
+
     BEGIN
     {
         # Store original preferences.
@@ -88,7 +85,7 @@ function Write-Log
         [bool]$outputToFile = $false;
     }
     PROCESS
-    { 
+    {
         # If log file path is specified.
         if (!([string]::IsNullOrEmpty($Path)))
         {
@@ -98,7 +95,7 @@ function Write-Log
                 # Do not output to file.
                 $outputToFile = $true;
             }
-            
+
             # If log file don't exist.
             if (!(Test-Path -Path $Path -PathType Leaf))
             {
@@ -125,7 +122,7 @@ function Write-Log
                     $null = Clear-Content -Path $Path -Force;
                 }
             }
-        }        
+        }
 
         # Construct log message.
         [string]$logMessage = '';
@@ -170,8 +167,8 @@ function Write-Log
             # Add message to log message.
             $logMessage = ('{0}' -f $Message);
         }
-        
-  
+
+
         switch ($Level)
         {
             'Error'
@@ -209,7 +206,6 @@ function Write-Log
                 # Add append parameter.
                 $params.Add('Append', $true);
             }
-            
 
             # Write log message to file.
             $null = $logMessage | Out-File @params;

@@ -72,17 +72,17 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabled
     {
          # Bool for review flag.
          [bool]$reviewFlag = $false;
-                    
+
          # If review flag should be set.
          if ($policies | Where-Object { $_.Valid -eq $false })
          {
              # Should be reviewed.
              $reviewFlag = $true;
          }
-                        
+
          # Create new review object to return.
          [Review]$review = [Review]::new();
-                
+
          # Add to object.
          $review.Id = '383ea8f2-48e1-4a1f-bcc7-626fbeb0f331';
          $review.Category = 'Microsoft 365 Defender';
@@ -90,10 +90,10 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabled
          $review.Title = 'Ensure Safe Attachments policy is enabled';
          $review.Data = $policies;
          $review.Review = $reviewFlag;
- 
+
          # Print result.
          $review.PrintResult();
-                
+
          # Return object.
          return $review;
     }

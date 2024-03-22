@@ -18,7 +18,7 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
     {
         # URI.
         $uri = 'https://main.iam.ad.ext.azure.com/api/AuthenticationMethods/PasswordPolicy';
-        
+
         # Valid configuration.
         [bool]$valid = $true;
     }
@@ -52,17 +52,17 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'bb23f25a-0c03-4607-a232-ef8902a0a899';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -72,10 +72,10 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
             Enabled   = $passwordPolicy.enforceCustomBannedPasswords;
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }
