@@ -25,13 +25,13 @@ function Write-Log
         Write-MyLog -Message 'This is an information message'
     .EXAMPLE
         # Write a debug message to a log file and console.
-        Write-MyLog -Message 'This is a debug message' -Path 'C:\Temp\log.txt' -Level Debug
+        Write-Log -Message 'This is a debug message' -Path 'C:\Temp\log.txt' -Level Debug
     .EXAMPLE
         # Write an error message to a log file but not to the console.
-        Write-MyLog -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level Error -NoConsole
+        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level Error -NoConsole
     .EXAMPLE
         # Write an information message to a log file but not to the console and do not append to the log file.
-        Write-MyLog -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
+        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
     #>
     [cmdletbinding()]
     param

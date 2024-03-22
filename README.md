@@ -100,6 +100,23 @@ Link to a small video (in GIF-format) with the module in action, can be found [h
 
   Because the module uses undocumented APIs to get data needed for the assessment that are not supported without user_impersonation. Hopefully Microsoft will include all the information using Microsoft Graph or other tools in the future.
 
-- **Why is the free?**
+- **What other PowerShell module is SystemAdmins.M365Assessment module using?**
+
+  Microsoft.Graph.Authentication
+  Microsoft.Graph.Groups
+  Microsoft.Graph.Users
+  Microsoft.Graph.Identity.DirectoryManagement
+  Microsoft.Graph.Identity.SignIns
+  Microsoft.Graph.Identity.Governance
+  Microsoft.Graph.Beta.Identity.DirectoryManagement
+  Microsoft.Graph.Beta.Reports
+  Microsoft.Graph.Reports
+  Az.Accounts
+  Az.Resources
+  ExchangeOnlineManagement
+  PnP.PowerShell
+  MicrosoftTeams
+  
+- **Why is it free?**
 
   Why shouldn't it be.
