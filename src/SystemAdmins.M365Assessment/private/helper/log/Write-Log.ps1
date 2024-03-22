@@ -22,7 +22,7 @@ function Write-Log
         (Optional) If the log message should not be added to a file.
     .EXAMPLE
         # Write a information message to the console.
-        Write-Log -Message 'This is an information message'
+        Write-MyLog -Message 'This is an information message'
     .EXAMPLE
         # Write a debug message to a log file and console.
         Write-Log -Message 'This is a debug message' -Path 'C:\Temp\log.txt' -Level Debug
