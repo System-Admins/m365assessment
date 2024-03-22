@@ -49,17 +49,17 @@ function Invoke-ReviewTenantUserOwnedAppsService
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $restricted)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                    
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                            
+
         # Add to object.
         $review.Id = '59a56832-8e8f-42ef-b03c-3a147059fe6f';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -70,7 +70,7 @@ function Invoke-ReviewTenantUserOwnedAppsService
 
         # Print result.
         $review.PrintResult();
-                            
+
         # Return object.
         return $review;
     }

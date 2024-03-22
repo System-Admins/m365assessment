@@ -1,4 +1,4 @@
-function Get-Office365ManagementApiToken
+﻿function Get-Office365ManagementApiToken
 {
     <#
     .SYNOPSIS

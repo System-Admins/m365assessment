@@ -26,7 +26,7 @@ function Invoke-ReviewFabricGuestAccessRestricted
     {
         # Write to log.
         Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ('Getting tenant settings') -Level Debug;
-        
+
         # Get tenant settings.
         $tenantSettings = (Invoke-FabricApi -Uri $uri -Method 'GET').tenantsettings;
 
@@ -52,17 +52,17 @@ function Invoke-ReviewFabricGuestAccessRestricted
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '4d179407-ca60-4a37-981f-99584ea2d6ea';
         $review.Category = 'Microsoft Fabric Admin Center';
@@ -72,11 +72,11 @@ function Invoke-ReviewFabricGuestAccessRestricted
             Restricted = $valid
         };
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

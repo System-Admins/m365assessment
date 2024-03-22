@@ -1,4 +1,4 @@
-function Invoke-ReviewFabricSensitivityLabels
+function Invoke-ReviewFabricSensitivityLabel
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewFabricSensitivityLabels
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewFabricSensitivityLabels;
+        Invoke-ReviewFabricSensitivityLabel;
     #>
 
     [cmdletbinding()]
@@ -55,17 +55,17 @@ function Invoke-ReviewFabricSensitivityLabels
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                            
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                    
+
         # Add to object.
         $review.Id = '6aa91139-4667-4d38-887b-a22905da5bcc';
         $review.Category = 'Microsoft Fabric Admin Center';
@@ -75,11 +75,11 @@ function Invoke-ReviewFabricSensitivityLabels
             Enabled = $valid
         };
         $review.Review = $reviewFlag;
-                                     
+
         # Print result.
         $review.PrintResult();
-                                                    
+
         # Return object.
         return $review;
-    } 
+    }
 }

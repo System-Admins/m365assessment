@@ -55,17 +55,17 @@ function Invoke-ReviewFabricInteractPython
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                            
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                    
+
         # Add to object.
         $review.Id = '134ffbee-2092-42a7-9309-7b9b04c14b4b';
         $review.Category = 'Microsoft Fabric Admin Center';
@@ -75,11 +75,11 @@ function Invoke-ReviewFabricInteractPython
             Disabled = $valid
         };
         $review.Review = $reviewFlag;
-                                     
+
         # Print result.
         $review.PrintResult();
-                                                    
+
         # Return object.
         return $review;
-    } 
+    }
 }

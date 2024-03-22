@@ -1,5 +1,5 @@
 # Introduction
-Welcome to the Microsoft 365 assessment module!
+Welcome to the Microsoft 365 assessment PowerShell module!
 
 This tool is designed to provide a comprehensive evaluation of your Microsoft 365 environment, ensuring alignment with industry-leading standards such as CIS (Center for Internet Security) benchmarks, Microsoft secure score and other best practices prevalent in the industry.
 
@@ -12,23 +12,26 @@ This tool is designed to provide a comprehensive evaluation of your Microsoft 36
 - [FAQ](#question-faq)
 
 ##  :beginner: About
-In today's digital landscape, organizations rely heavily on Microsoft 365 to facilitate their daily operations, collaboration, and communication needs. However, ensuring that your Microsoft 365 configuration adheres to best practices and security standards can be a daunting task. This is where this module comes into play.
+In today's digital landscape, organizations rely heavily on Microsoft 365 to facilitate their daily operations, collaboration, and communication needs. However, ensuring that your Microsoft 365 configuration adheres to best practices and security standards can be a daunting task. This is where this PowerShell module comes into play.
 
 **Key Features:**
 
 1. **Automated Assessment:** Our module conducts an automated assessment of your Microsoft 365 environment, scanning through various configurations, settings, and policies to evaluate compliance with established best practices.
-2. **Benchmark Compliance: **Leveraging the guidelines provided by the Center for Internet Security (CIS) and others, our module assesses your Microsoft 365 setup against industry-recognized benchmarks, helping you identify areas of improvement and potential security risks.
-3. **Comprehensive Reporting:** Upon completion of the assessment, our module generates detailed reports outlining findings, highlighting areas of compliance, non-compliance, and recommended actions to enhance the security and efficiency of your Microsoft 365 environment.
-4. **Remediation:** Step-by-step will be provide how to remediate potential findings gathered by the module.
 
-An example of report generated [can be found here](example/report/Contoso - Microsoft 365 Assessment.pdf).
+2. **Benchmark Compliance:** Leveraging the guidelines provided by the Center for Internet Security (CIS) and others, our module assesses your Microsoft 365 setup against industry-recognized benchmarks, helping you identify areas of improvement and potential security risks.
+
+3. **Comprehensive Reporting:** Upon completion of the assessment, our module generates detailed reports outlining findings, highlighting areas of compliance, non-compliance, and recommended actions to enhance the security and efficiency of your Microsoft 365 environment.
+
+4. **Remediation:** Step-by-step instructions will be provided on how to remediate potential findings gathered by the module.
+
+An example of report generated [can be found here](https://github.com/System-Admins/m365assessment/blob/features/1.0.1/example/report/Contoso%20-%20Microsoft%20365%20Assessment.pdf).
 
 ## :zap: Usage
 To get started with the Microsoft 365 assessment module, simply follow the instructions outlined in the documentation provided in this repository. You'll find detailed guidance on installation, configuration, and usage, enabling you to seamlessly integrate the module into your existing workflows.
 
 ###  :electric_plug: Installation
 
-Prior installing the module the following pre-requisites must be fulfilled:
+Before installing the module, the following prerequisites must be fulfilled:
 
 - [ ] **PowerShell 7** installed, [see this for more information](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4).
 - [ ] You must be a [**Global administrator** in Microsoft 365](https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/assign-admin-roles?view=o365-worldwide#assign-a-user-to-an-admin-role-from-active-users).

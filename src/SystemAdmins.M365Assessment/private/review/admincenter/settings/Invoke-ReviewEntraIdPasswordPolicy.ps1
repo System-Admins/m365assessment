@@ -59,17 +59,17 @@ function Invoke-ReviewEntraIdPasswordPolicy
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If there is any password policies with password never expire.
         if ($passwordPolicies | Where-Object { $_.PasswordNeverExpire -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '7ccac596-ee68-4f28-abe7-713c2b75a39e';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -80,7 +80,7 @@ function Invoke-ReviewEntraIdPasswordPolicy
 
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

@@ -1,4 +1,4 @@
-function Invoke-EntraIdAccessReviewApi
+﻿function Invoke-EntraIdAccessReviewApi
 {
     <#
     .SYNOPSIS
@@ -33,7 +33,7 @@ function Invoke-EntraIdAccessReviewApi
         [Parameter(Mandatory = $false)]
         $Body
     )
-    
+
     BEGIN
     {
         # Get access token for Entra ID Access Review API.

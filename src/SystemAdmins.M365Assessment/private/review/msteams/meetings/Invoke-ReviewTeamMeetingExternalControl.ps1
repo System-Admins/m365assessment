@@ -44,17 +44,17 @@ function Invoke-ReviewTeamMeetingExternalControl
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '89773e80-9004-4d41-bf8b-80d4dcbb141b';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -62,11 +62,11 @@ function Invoke-ReviewTeamMeetingExternalControl
         $review.Title = "Ensure external participants can't give or request control";
         $review.Data = $meetingPolicy | Select-Object -Property AllowExternalParticipantGiveRequestControl;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

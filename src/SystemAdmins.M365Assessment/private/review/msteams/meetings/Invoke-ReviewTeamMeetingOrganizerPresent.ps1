@@ -44,17 +44,17 @@ function Invoke-ReviewTeamMeetingOrganizerPresent
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '8cd7d1c7-6491-433d-9d5b-68f1bf7bcfc3';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -62,11 +62,11 @@ function Invoke-ReviewTeamMeetingOrganizerPresent
         $review.Title = "Ensure only organizers and co-organizers can present";
         $review.Data = $meetingPolicy | Select-Object -Property DesignatedPresenterRoleMode;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

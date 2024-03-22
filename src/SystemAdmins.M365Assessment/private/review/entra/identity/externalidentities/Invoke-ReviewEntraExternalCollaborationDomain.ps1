@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraExternalCollaborationDomains
+function Invoke-ReviewEntraExternalCollaborationDomain
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraExternalCollaborationDomains
    .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraExternalCollaborationDomains;
+        Invoke-ReviewEntraExternalCollaborationDomain;
     #>
 
     [cmdletbinding()]
@@ -36,17 +36,17 @@ function Invoke-ReviewEntraExternalCollaborationDomains
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                     
+
         # Add to object.
         $review.Id = '54848e5b-7bb0-4a70-aeb1-63a1e54562d6';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -57,7 +57,7 @@ function Invoke-ReviewEntraExternalCollaborationDomains
 
         # Print result.
         $review.PrintResult();
-                                     
+
         # Return object.
         return $review;
     }

@@ -1,4 +1,4 @@
-function Get-EntraIdApplicationUserConsentSettings
+function Get-EntraIdApplicationUserConsentSetting
 {
     <#
     .SYNOPSIS
@@ -9,10 +9,11 @@ function Get-EntraIdApplicationUserConsentSettings
         Requires the following modules:
         - Microsoft.Graph.Identity.SignIns
     .EXAMPLE
-        Get-EntraIdApplicationUserConsentSettings;
+        Get-EntraIdApplicationUserConsentSetting;
     #>
 
     [cmdletbinding()]
+    [OutputType([string])]
     param
     (
     )

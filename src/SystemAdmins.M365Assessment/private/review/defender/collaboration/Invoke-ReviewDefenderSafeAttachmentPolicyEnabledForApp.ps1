@@ -1,4 +1,4 @@
-function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps
+function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps;
+        Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp;
     #>
 
     [cmdletbinding()]
@@ -59,17 +59,17 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($settings | Where-Object { $_.Valid -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = 'a4fb003f-b742-4a97-8a9a-c4e5a82171a4';
         $review.Category = 'Microsoft 365 Defender';
@@ -80,7 +80,7 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

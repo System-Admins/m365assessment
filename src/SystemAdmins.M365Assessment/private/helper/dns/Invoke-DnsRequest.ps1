@@ -17,8 +17,8 @@ function Invoke-DnsRequest
         Invoke-DnsRequest -Domain 'example.com' -Type 'A';
     #>
 
-    [cmdletbinding()]	
-		
+    [cmdletbinding()]
+
     param
     (
         # Domain to lookup.

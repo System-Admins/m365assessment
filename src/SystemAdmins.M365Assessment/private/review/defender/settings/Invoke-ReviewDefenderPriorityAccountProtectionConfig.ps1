@@ -119,7 +119,7 @@ function Invoke-ReviewDefenderPriorityAccountProtectionConfig
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $settings.PriorityAccountProtectionEnabled -or
             $false -eq $settings.PriorityAccountUsersExist -or
@@ -128,10 +128,10 @@ function Invoke-ReviewDefenderPriorityAccountProtectionConfig
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                      
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                              
+
         # Add to object.
         $review.Id = '749ee441-71ea-4261-86da-1f1081c65bb3';
         $review.Category = 'Microsoft 365 Defender';
@@ -139,10 +139,10 @@ function Invoke-ReviewDefenderPriorityAccountProtectionConfig
         $review.Title = 'Ensure Priority account protection is enabled and configured';
         $review.Data = $settings;
         $review.Review = $reviewFlag;
-               
+
         # Print result.
         $review.PrintResult();
-                              
+
         # Return object.
         return $review;
     }

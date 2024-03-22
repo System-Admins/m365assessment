@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraAccessReviewGuestUsers
+function Invoke-ReviewEntraAccessReviewGuestUser
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraAccessReviewGuestUsers
     .DESCRIPTION
         Returns review object..
     .EXAMPLE
-        Invoke-ReviewEntraAccessReviewGuestUsers;
+        Invoke-ReviewEntraAccessReviewGuestUser;
     #>
 
     [cmdletbinding()]
@@ -29,7 +29,7 @@ function Invoke-ReviewEntraAccessReviewGuestUsers
     {
         # Invoke the API.
         $accessReviews = Invoke-EntraIdAccessReviewApi -Uri $uri -Method 'GET';
-        
+
         # Foreach access review.
         foreach ($accessReview in $accessReviews.value)
         {
@@ -139,17 +139,17 @@ function Invoke-ReviewEntraAccessReviewGuestUsers
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '03a57762-4613-47fc-835d-5a5c3d0dbe61';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -157,10 +157,10 @@ function Invoke-ReviewEntraAccessReviewGuestUsers
         $review.Title = "Ensure 'Access reviews' for Guest Users are configured";
         $review.Data = $valid;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraAccessReviewPrivilegedRoles
+function Invoke-ReviewEntraAccessReviewPrivilegedRole
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraAccessReviewPrivilegedRoles;
+        Invoke-ReviewEntraAccessReviewPrivilegedRole;
     #>
 
     [cmdletbinding()]
@@ -32,14 +32,14 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
     {
         # Invoke the API.
         $accessReviews = Invoke-EntraIdAccessReviewApi -Uri $uri -Method 'GET';
-        
+
         # Foreach access review.
         foreach ($accessReview in $accessReviews.value)
         {
             # If the role is not in the predefined list.
             if ($roles -notcontains ($accessReview.decisionsCriteria)[0].roleDisplayName)
             {
-                
+
                 # Skip this access review.
                 continue;
             }
@@ -59,17 +59,17 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($missingAccessReviews.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'e8c91221-63d2-4797-8a86-7ef53c30a9d6';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -79,10 +79,10 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRoles
             NotConfigured = $missingAccessReviews -join ",";
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

@@ -12,7 +12,7 @@ function Get-SpoTenantUrl
     param
     (
     )
-    
+
     BEGIN
     {
         # Get domains.

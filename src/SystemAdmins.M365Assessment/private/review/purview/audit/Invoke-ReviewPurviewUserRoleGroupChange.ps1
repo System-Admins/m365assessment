@@ -1,4 +1,4 @@
-function Invoke-ReviewPurviewUserRoleGroupChanges
+function Invoke-ReviewPurviewUserRoleGroupChange
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewPurviewUserRoleGroupChanges
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewPurviewUserRoleGroupChanges;
+        Invoke-ReviewPurviewUserRoleGroupChange;
     #>
 
     [cmdletbinding()]
@@ -19,7 +19,7 @@ function Invoke-ReviewPurviewUserRoleGroupChanges
 
     BEGIN
     {
-        
+
     }
     PROCESS
     {
@@ -45,17 +45,17 @@ function Invoke-ReviewPurviewUserRoleGroupChanges
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($auditLogs.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '6fe596b2-1ee0-46e1-9dba-316d1888d016';
         $review.Category = 'Microsoft Purview';
@@ -63,10 +63,10 @@ function Invoke-ReviewPurviewUserRoleGroupChanges
         $review.Title = 'Ensure user role group changes are reviewed at least weekly';
         $review.Data = $auditLogs;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

@@ -1,4 +1,4 @@
-function Invoke-Office365ManagementApi
+﻿function Invoke-Office365ManagementApi
 {
     <#
     .SYNOPSIS
@@ -30,7 +30,7 @@ function Invoke-Office365ManagementApi
         [Parameter(Mandatory = $false)]
         $Body
     )
-    
+
     BEGIN
     {
         # Get access token for Office 365 Management API.

@@ -11,7 +11,7 @@ function Invoke-ReviewEntraPasswordResetAudit
     .EXAMPLE
         Invoke-ReviewEntraPasswordResetAudit;
     #>
-    
+
     [cmdletbinding()]
     param
     (
@@ -35,17 +35,17 @@ function Invoke-ReviewEntraPasswordResetAudit
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($auditReport.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '9141c4a0-0323-4aa3-abb5-e6a0a2bedffa';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -53,10 +53,10 @@ function Invoke-ReviewEntraPasswordResetAudit
         $review.Title = 'Ensure the self-service password reset activity report is reviewed at least weekly';
         $review.Data = $auditReport;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

@@ -21,7 +21,7 @@ function Invoke-ReviewExoStorageProvidersRestricted
     {
         # Write to log.
         Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Getting OWA policies' -Level Debug;
-        
+
         # Get OWA policies.
         $owaPolicies = Get-OwaMailboxPolicy;
 
@@ -38,7 +38,7 @@ function Invoke-ReviewExoStorageProvidersRestricted
             {
                 # Write to log.
                 Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message ("OWA policy '{0}' allows additional storage providers" -f $owaPolicy.Name) -Level Debug;
-        
+
                 # Add OWA policy to list.
                 $null = $owaPoliciesNotRestricted.Add($owaPolicy);
             }
@@ -48,17 +48,17 @@ function Invoke-ReviewExoStorageProvidersRestricted
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($owaPoliciesNotRestricted.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'd576ebed-fe29-44a7-9fdf-bb8b3c484894';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -66,11 +66,11 @@ function Invoke-ReviewExoStorageProvidersRestricted
         $review.Title = "Ensure additional storage providers are restricted in Outlook on the web";
         $review.Data = $owaPolicies | Select-Object -Property Name, AdditionalStorageProvidersAvailable;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

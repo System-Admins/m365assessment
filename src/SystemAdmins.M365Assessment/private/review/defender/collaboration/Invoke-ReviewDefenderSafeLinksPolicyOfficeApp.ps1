@@ -1,4 +1,4 @@
-function Invoke-ReviewDefenderSafeLinksPolicyOfficeApps
+function Invoke-ReviewDefenderSafeLinksPolicyOfficeApp
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApps
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewDefenderSafeLinksPolicyOfficeApps;
+        Invoke-ReviewDefenderSafeLinksPolicyOfficeApp;
     #>
 
     [cmdletbinding()]
@@ -38,7 +38,7 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApps
 
             # If the SafeLinks is disabled for email.
             if ($safeLinksPolicy.EnableSafeLinksForEmail -eq $false)
-            {   
+            {
                 # Set the boolean to false.
                 $valid = $false;
             }
@@ -134,17 +134,17 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApps
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($policies | Where-Object { $_.Valid -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = 'b29a3b32-4042-4ce6-86f6-eb85b183b4b5';
         $review.Category = 'Microsoft 365 Defender';
@@ -155,7 +155,7 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApps
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

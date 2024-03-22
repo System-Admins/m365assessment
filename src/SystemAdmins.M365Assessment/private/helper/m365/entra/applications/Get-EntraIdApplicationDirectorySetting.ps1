@@ -1,4 +1,4 @@
-function Get-EntraIdApplicationDirectorySettings
+function Get-EntraIdApplicationDirectorySetting
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Get-EntraIdApplicationDirectorySettings
         Requires the following modules:
         - Microsoft.Graph.Beta.Identity.DirectoryManagement
     .EXAMPLE
-        Get-EntraIdApplicationDirectorySettings;
+        Get-EntraIdApplicationDirectorySetting;
     #>
 
     [cmdletbinding()]

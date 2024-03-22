@@ -13,7 +13,7 @@ function Get-LicenseTranslation
     [cmdletbinding()]
     param
     (
-        
+
     )
     BEGIN
     {

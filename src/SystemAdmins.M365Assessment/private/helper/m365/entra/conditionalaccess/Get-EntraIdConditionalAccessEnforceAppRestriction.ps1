@@ -59,7 +59,7 @@ function Get-EntraIdConditionalAccessEnforceAppRestriction
                 # Set condition.
                 $policyAppliedToAllUsers = $false;
             }
-    
+
             # Else if the policy is excluded from all users.
             if ($conditionalAccessPolicy.Conditions.Users.ExcludeUsers -eq 'All')
             {

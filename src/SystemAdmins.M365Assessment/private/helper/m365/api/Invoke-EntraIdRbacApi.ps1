@@ -1,4 +1,4 @@
-function Invoke-EntraIdRbacApi
+﻿function Invoke-EntraIdRbacApi
 {
     <#
     .SYNOPSIS
@@ -33,7 +33,7 @@ function Invoke-EntraIdRbacApi
         [Parameter(Mandatory = $false)]
         $Body
     )
-    
+
     BEGIN
     {
         # Get access token for Entra ID.

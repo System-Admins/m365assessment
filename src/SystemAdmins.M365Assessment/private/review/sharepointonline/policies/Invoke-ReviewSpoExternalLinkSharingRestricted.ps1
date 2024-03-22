@@ -49,17 +49,17 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'c4b93e39-d8a1-459e-835e-e4545418c633';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -70,11 +70,11 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
             OneDriveLinkSharing   = $odfbTenantSettings.DefaultSharingLinkType;
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

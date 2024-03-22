@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraNumberOfGlobalAdmins
+function Invoke-ReviewEntraNumberOfGlobalAdmin
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraNumberOfGlobalAdmins
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraNumberOfGlobalAdmins;
+        Invoke-ReviewEntraNumberOfGlobalAdmin;
     #>
 
     [cmdletbinding()]
@@ -49,17 +49,17 @@ function Invoke-ReviewEntraNumberOfGlobalAdmins
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($globalAdmins.Count -lt $minimumThreshold -or $globalAdmins.Count -gt $maximumThreshold)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-        
+
         # Add to object.
         $review.Id = 'd106f228-2f57-4009-a4c1-8d309a97c4f3';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -70,7 +70,7 @@ function Invoke-ReviewEntraNumberOfGlobalAdmins
 
         # Print result.
         $review.PrintResult();
-        
+
         # Return object.
         return $review;
     }

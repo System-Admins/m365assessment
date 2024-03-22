@@ -54,17 +54,17 @@ function Invoke-ReviewTeamApprovedCloudStorage
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '36016fe3-30fe-4070-a446-441ae23cfe95';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -72,11 +72,11 @@ function Invoke-ReviewTeamApprovedCloudStorage
         $review.Title = 'Ensure external file sharing in Teams is enabled for only approved cloud storage services';
         $review.Data = $authorizedCloudProviders;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

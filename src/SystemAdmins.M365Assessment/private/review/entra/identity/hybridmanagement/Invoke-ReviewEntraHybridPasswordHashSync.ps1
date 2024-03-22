@@ -42,17 +42,17 @@ function Invoke-ReviewEntraHybridPasswordHashSync
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'ac82d275-9102-4df6-bf3c-ca012a74a306';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -63,10 +63,10 @@ function Invoke-ReviewEntraHybridPasswordHashSync
             passwordSyncEnabled = $adConnectPasswordSyncStatus;
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

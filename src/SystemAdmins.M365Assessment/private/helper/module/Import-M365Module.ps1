@@ -27,7 +27,7 @@ function Import-M365Module
         [Parameter(Mandatory = $false)]
         [PSCustomObject]$Modules = $Script:Modules
     )
-    
+
     BEGIN
     {
     }

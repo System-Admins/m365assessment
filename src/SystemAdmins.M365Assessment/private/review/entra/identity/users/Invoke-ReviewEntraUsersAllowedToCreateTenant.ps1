@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraUsersAllowedToCreateTenants
+function Invoke-ReviewEntraUsersAllowedToCreateTenant
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenants
         Requires the following modules:
         - Microsoft.Graph.Identity.SignIns
     .EXAMPLE
-        Invoke-ReviewEntraUsersAllowedToCreateTenants;
+        Invoke-ReviewEntraUsersAllowedToCreateTenant;
     #>
 
     [cmdletbinding()]
@@ -19,7 +19,7 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenants
 
     BEGIN
     {
-        
+
     }
     PROCESS
     {
@@ -36,17 +36,17 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenants
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($true -eq $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateTenants)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'bf785c94-b3b4-4b1b-bf90-55031fdba42c';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -56,10 +56,10 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenants
             AllowedToCreateTenants = $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateTenants;
         };
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

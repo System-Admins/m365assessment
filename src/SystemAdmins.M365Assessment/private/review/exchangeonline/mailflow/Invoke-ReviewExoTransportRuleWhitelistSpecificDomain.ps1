@@ -1,4 +1,4 @@
-function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
+function Invoke-ReviewExoTransportRuleWhitelistSpecificDomain
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewExoTransportRuleWhitelistSpecificDomains;
+        Invoke-ReviewExoTransportRuleWhitelistSpecificDomain;
     #>
 
     [cmdletbinding()]
@@ -55,7 +55,7 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
             {
                 # Write to log.
                 Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Transport rule '{0}' have a whitelisted domain" -f $transportRule.Name) -Level Debug;
-        
+
                 # Add to list.
                 $null = $transportRulesWithWhitelistSpecificDomains.Add($transportRule);
             }
@@ -65,17 +65,17 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($transportRulesWithWhitelistSpecificDomains.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '8bf19b9f-7c76-4cb6-8d9a-2a327db4d7d3';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -83,11 +83,11 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomains
         $review.Title = "Ensure mail transport rules do not whitelist specific domains";
         $review.Data = $transportRulesWithWhitelistSpecificDomains | Select-Object -Property Name, Priority, Enabled, Identity, SenderDomainIs, Setscl;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

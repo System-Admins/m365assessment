@@ -44,17 +44,17 @@ function Invoke-ReviewEntraBlockLinkedInConnection
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $blockLinkedInConnection)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '23d22457-f5e2-4f55-9aba-e483e8cbb11d';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -64,10 +64,10 @@ function Invoke-ReviewEntraBlockLinkedInConnection
             BlockLinkedInConnection = $blockLinkedInConnection
         };
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

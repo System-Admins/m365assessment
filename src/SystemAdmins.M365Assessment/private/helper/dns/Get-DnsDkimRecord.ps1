@@ -13,8 +13,8 @@ function Get-DnsDkimRecord
         Get-DnsDkimRecord -Domain 'example.com';
     #>
 
-    [cmdletbinding()]	
-        
+    [cmdletbinding()]
+
     param
     (
         # Domain to lookup.

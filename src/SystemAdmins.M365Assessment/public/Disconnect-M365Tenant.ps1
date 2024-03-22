@@ -46,7 +46,7 @@ function Disconnect-M365Tenant
 
         # Try to disconnect SharePoint.
         try
-        {   
+        {
             # Disconnect from SharePoint Online.
             Write-Log -Category 'Logout' -Subcategory 'SharePoint Online' -Message ('Disconnecting from SharePoint Online') -Level Debug;
             $null = Disconnect-PnPOnline -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;

@@ -44,17 +44,17 @@ function Invoke-ReviewTeamMeetingAnonymousJoin
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '087cd766-1d44-444d-a572-21312ddfb804';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -62,11 +62,11 @@ function Invoke-ReviewTeamMeetingAnonymousJoin
         $review.Title = "Ensure anonymous users can't join a meeting";
         $review.Data = $meetingPolicy | Select-Object -Property AllowAnonymousUsersToJoinMeeting;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

@@ -50,17 +50,17 @@ function Invoke-ReviewEntraGuestDynamicGroup
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($results.Count -eq 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'a15e2ff5-2a03-495d-a4f2-4935742395d5';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -68,10 +68,10 @@ function Invoke-ReviewEntraGuestDynamicGroup
         $review.Title = 'Ensure a dynamic group for guest users is created';
         $review.Data = $results | Select-Object Id, DisplayName, MembershipRule, MembershipRuleProcessingState;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

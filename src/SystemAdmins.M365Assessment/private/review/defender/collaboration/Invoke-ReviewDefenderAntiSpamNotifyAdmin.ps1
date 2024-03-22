@@ -1,4 +1,4 @@
-function Invoke-ReviewDefenderAntiSpamNotifyAdmins
+function Invoke-ReviewDefenderAntiSpamNotifyAdmin
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmins
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewDefenderAntiSpamNotifyAdmins;
+        Invoke-ReviewDefenderAntiSpamNotifyAdmin;
     #>
 
     [cmdletbinding()]
@@ -88,17 +88,17 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmins
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($settings | Where-Object { $_.Valid -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = 'a019303a-3b0a-4f42-999d-0d76b528ae28';
         $review.Category = 'Microsoft 365 Defender';
@@ -109,7 +109,7 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmins
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

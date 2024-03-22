@@ -1,4 +1,4 @@
-function Invoke-ReviewExoMailForwardRules
+function Invoke-ReviewExoMailForwardRule
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewExoMailForwardRules
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewExoMailForwardRules;
+        Invoke-ReviewExoMailForwardRule;
     #>
 
     [cmdletbinding()]
@@ -21,7 +21,7 @@ function Invoke-ReviewExoMailForwardRules
     {
         # Write to log.
         Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message 'Getting all mailboxes' -Level Debug;
-        
+
         # Get all mailboxes.
         $mailboxes = Get-Mailbox -ResultSize Unlimited;
 
@@ -49,7 +49,7 @@ function Invoke-ReviewExoMailForwardRules
                 {
                     # Write to log.
                     Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Mail forward is enabled for mailbox '{0}' in inbox rule '{1}'" -f $mailbox.PrimarySmtpAddress, $inboxRule.Name) -Level Debug;
-        
+
                     # Return object.
                     $mailboxesWithForwardRule += [PSCustomObject]@{
                         Id                    = $mailbox.Id;
@@ -70,17 +70,17 @@ function Invoke-ReviewExoMailForwardRules
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($mailboxesWithForwardRule.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'b2798cfb-c5cc-41d4-9309-d1bd932a4a91';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -88,11 +88,11 @@ function Invoke-ReviewExoMailForwardRules
         $review.Title = 'Ensure mail forwarding rules are reviewed at least weekly';
         $review.Data = $mailboxesWithForwardRule;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

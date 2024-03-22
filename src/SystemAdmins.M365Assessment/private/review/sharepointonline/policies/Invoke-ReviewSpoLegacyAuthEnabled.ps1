@@ -35,17 +35,17 @@ function Invoke-ReviewSpoLegacyAuthEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($true -eq $tenantSettings.LegacyAuthProtocolsEnabled)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'a8f1139f-9e08-4da9-bfea-1ddd811e6d68';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -53,10 +53,10 @@ function Invoke-ReviewSpoLegacyAuthEnabled
         $review.Title = "Ensure modern authentication for SharePoint applications is required";
         $review.Data = $tenantSettings | Select-Object -Property LegacyAuthProtocolsEnabled;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

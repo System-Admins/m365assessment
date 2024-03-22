@@ -1,4 +1,4 @@
-function Invoke-ReviewExoIdentifiedExternalSenders
+function Invoke-ReviewExoIdentifiedExternalSender
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewExoIdentifiedExternalSenders
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewExoIdentifiedExternalSenders;
+        Invoke-ReviewExoIdentifiedExternalSender;
     #>
 
     [cmdletbinding()]
@@ -34,17 +34,17 @@ function Invoke-ReviewExoIdentifiedExternalSenders
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($externalsInOutlookNotEnabled.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'a73f7dd0-6c32-44d1-ae18-197b775e28bb';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -52,11 +52,11 @@ function Invoke-ReviewExoIdentifiedExternalSenders
         $review.Title = "Ensure email from external senders is identified";
         $review.Data = $externalsInOutlookNotEnabled;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

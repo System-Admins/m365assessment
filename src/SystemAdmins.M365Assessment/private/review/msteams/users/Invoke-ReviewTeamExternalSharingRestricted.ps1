@@ -71,17 +71,17 @@ function Invoke-ReviewTeamExternalSharingRestricted
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '1d4902a0-dcb6-4b1a-b77a-0662ba15a431';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -89,11 +89,11 @@ function Invoke-ReviewTeamExternalSharingRestricted
         $review.Title = "Ensure 'external access' is restricted in the Teams admin center";
         $review.Data = $settings;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

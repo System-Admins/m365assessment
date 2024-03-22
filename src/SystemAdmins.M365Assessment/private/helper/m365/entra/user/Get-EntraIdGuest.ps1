@@ -14,7 +14,7 @@ function Get-EntraIdGuest
     #>
     [cmdletbinding()]
     param
-    ( 
+    (
     )
 
     BEGIN

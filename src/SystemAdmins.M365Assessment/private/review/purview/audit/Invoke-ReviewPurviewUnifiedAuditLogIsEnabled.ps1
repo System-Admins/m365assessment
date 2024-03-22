@@ -19,7 +19,7 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
 
     BEGIN
     {
-        
+
     }
     PROCESS
     {
@@ -36,17 +36,17 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $adminAuditLogConfig.UnifiedAuditLogIngestionEnabled)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '55299518-ad01-4532-aa35-422fd962c881';
         $review.Category = 'Microsoft Purview';
@@ -56,10 +56,10 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
             'Enabled' = $adminAuditLogConfig.UnifiedAuditLogIngestionEnabled;
         };
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

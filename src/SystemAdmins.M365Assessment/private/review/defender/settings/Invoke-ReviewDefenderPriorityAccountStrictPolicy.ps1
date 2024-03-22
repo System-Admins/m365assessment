@@ -22,7 +22,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
     {
         # Write to log.
         Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policies' -Level Debug;
-        
+
         # Get protection policy rules.
         $eopProtectionPolicyRule = Get-EOPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
         $atpProtectionPolicyRule = Get-ATPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
@@ -70,7 +70,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
 
             # Get group members.
             $groupMembers = Get-EntraIdGroupMemberTransitive -Id $group.Id;
-            
+
             # Foreach group member.
             foreach ($groupMember in $groupMembers)
             {
@@ -94,7 +94,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
 
             # Get group members.
             $groupMembers = Get-EntraIdGroupMemberTransitive -Id $group.Id;
-            
+
             # Foreach group member.
             foreach ($groupMember in $groupMembers)
             {
@@ -122,17 +122,17 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         {
             # Get group.
             $group = Get-MgGroup -Filter ("Mail eq '{0}'" -f $group);
-        
+
             # If group is null.
             if ($null -eq $group)
             {
                 # Skip.
                 continue;
             }
-        
+
             # Get group members.
             $groupMembers = Get-EntraIdGroupMemberTransitive -Id $group.Id;
-                    
+
             # Foreach group member.
             foreach ($groupMember in $groupMembers)
             {
@@ -140,23 +140,23 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
                 $null = $atpUsersInclude.Add($groupMember.userPrincipalName);
             }
         }
-        
+
         # Foreach (exclude) atp group.
         foreach ($group in $atpProtectionPolicyRule.ExceptIfSentToMemberOf)
         {
             # Get group.
             $group = Get-MgGroup -Filter ("Mail eq '{0}'" -f $group);
-        
+
             # If group is null.
             if ($null -eq $group)
             {
                 # Skip.
                 continue;
             }
-        
+
             # Get group members.
             $groupMembers = Get-EntraIdGroupMemberTransitive -Id $group.Id;
-                    
+
             # Foreach group member.
             foreach ($groupMember in $groupMembers)
             {
@@ -220,17 +220,17 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($priorityUsersNotInStrictPolicy.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                              
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                      
+
         # Add to object.
         $review.Id = '9780f1b2-e2ea-4f6e-9bd9-7eb551b5d1e7';
         $review.Category = 'Microsoft 365 Defender';
@@ -238,10 +238,10 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         $review.Title = "Ensure Priority accounts have 'Strict protection' presets applied";
         $review.Data = $priorityUsersNotInStrictPolicy;
         $review.Review = $reviewFlag;
-                       
+
         # Print result.
         $review.PrintResult();
-                                      
+
         # Return object.
         return $review;
     }

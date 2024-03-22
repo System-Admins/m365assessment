@@ -73,12 +73,12 @@ function Invoke-M365Assessment
 
         # Passed / Not passed.
         $notPassed = $reviews | Where-Object { $_.Review -eq $true };
-        
+
         # Get score (%).
         $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
 
         # Write to log.
-        Write-Log -Message ('Generating report, this take a few seconds') -Level Information -NoDateTime -NoLogLevel;
+        Write-Log -Message ('Generating report, please wait for a few seconds') -Level Information -NoDateTime -NoLogLevel;
 
         # Get HTML report.
         $htmlZipFilePath = Get-HtmlReport -Reviews $shouldBeReviewed -OutputFilePath $Path -Score $score;
@@ -92,7 +92,7 @@ function Invoke-M365Assessment
         Invoke-Item -Path $htmlZipFolderPath;
 
         # Write to log.
-        Write-Log -Message ("You can find the report here '{0}'" -f $htmlZipFilePath) -Level Information -NoDateTime -NoLogLevel;
+        Write-Log -Message ("You can find the report at '{0}'" -f $htmlZipFilePath) -Level Information -NoDateTime -NoLogLevel;
 
         # If return is requested.
         if ($true -eq $ReturnReviews)

@@ -9,13 +9,14 @@ function Get-M365Module
         Get-M365Module
     #>
     [cmdletbinding()]
+    [OutputType([System.Collections.ArrayList])]
     param
     (
-        # Modules to check.    
+        # Modules to check.
         [Parameter(Mandatory = $false)]
         [PSCustomObject]$Modules = $Script:Modules
     )
-    
+
     BEGIN
     {
         # Get all installed modules.

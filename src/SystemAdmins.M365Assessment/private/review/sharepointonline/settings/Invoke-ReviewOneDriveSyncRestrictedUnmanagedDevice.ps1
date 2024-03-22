@@ -1,4 +1,4 @@
-function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices
+function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices
         Requires the following modules:
         - Pnp.PowerShell
     .EXAMPLE
-        Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices;
+        Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice;
     #>
 
     [cmdletbinding()]
@@ -44,17 +44,17 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices
     {
          # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'd1412fb3-33a5-4b8f-a7c1-9a491b121d21';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -62,11 +62,11 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices
         $review.Title = 'Ensure OneDrive sync is restricted for unmanaged devices';
         $review.Data = $tenantSettings | Select-Object @{Name='AllowedDomainListForSyncClient';Expression={$_.AllowedDomainListForSyncClient -join ', '}};
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

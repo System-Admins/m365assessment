@@ -13,6 +13,7 @@ function Get-HtmlOverviewTable
     #>
 
     [cmdletbinding()]
+    [OutputType([string])]
     param
     (
         [Parameter(Mandatory = $true)]
@@ -35,7 +36,7 @@ function Get-HtmlOverviewTable
           <col />
         </colgroup>
         <thead>
-        <tr> 
+        <tr>
           <th>Category</th>
           <th>Subcategory</th>
           <th>Title</th>

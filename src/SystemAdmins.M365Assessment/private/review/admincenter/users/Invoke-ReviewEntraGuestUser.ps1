@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraGuestUsers
+function Invoke-ReviewEntraGuestUser
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraGuestUsers
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraGuestUsers;
+        Invoke-ReviewEntraGuestUser;
     #>
 
     [cmdletbinding()]
@@ -18,7 +18,7 @@ function Invoke-ReviewEntraGuestUsers
     {
         # Object array to store guest accounts.
         $reviewAccounts = New-Object System.Collections.ArrayList;
-        
+
         # Get all guest accounts.
         $guestUsers = Get-EntraIdGuest;
 
@@ -54,17 +54,17 @@ function Invoke-ReviewEntraGuestUsers
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($reviewAccounts.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-        
+
         # Add to object.
         $review.Id = '7fe4d30e-42bd-44d4-8066-0b732dcbda4c';
         $review.Category = 'Microsoft 365 Admin Center';
@@ -75,7 +75,7 @@ function Invoke-ReviewEntraGuestUsers
 
         # Print result.
         $review.PrintResult();
-        
+
         # Return object.
         return $review;
     }

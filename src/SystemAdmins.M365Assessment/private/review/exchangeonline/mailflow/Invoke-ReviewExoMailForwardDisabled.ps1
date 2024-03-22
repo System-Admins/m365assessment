@@ -63,7 +63,7 @@ function Invoke-ReviewExoMailForwardDisabled
             {
                 # Write to log.
                 Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Outbound spam filter policy '{0}' have enabled mailforwarding" -f $outboundSpamFilterPolicy.Name) -Level Debug;
-        
+
                 # Add to list.
                 $outboundSpamFilterPoliciesWithForward += $outboundSpamFilterPolicy;
             }
@@ -73,17 +73,17 @@ function Invoke-ReviewExoMailForwardDisabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($transportRulesWithForward.Count -gt 0 -or $outboundSpamFilterPoliciesWithForward.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '45887263-5f2f-4306-946d-8f36acfb3691';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -94,11 +94,11 @@ function Invoke-ReviewExoMailForwardDisabled
             OutboundSpamFilterPolicies = ($outboundSpamFilterPoliciesWithForward).Name -join ', ';
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

@@ -1,4 +1,4 @@
-function Invoke-ReviewEntraPimUsedToManageRoles
+function Invoke-ReviewEntraPimUsedToManageRole
 {
     <#
     .SYNOPSIS
@@ -6,7 +6,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
     .DESCRIPTION
         Returns review object.
     .EXAMPLE
-        Invoke-ReviewEntraPimUsedToManageRoles;
+        Invoke-ReviewEntraPimUsedToManageRole;
     #>
 
     [cmdletbinding()]
@@ -76,7 +76,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
                 {
                     # Assignment.
                     [string]$assignmentType = '';
-            
+
                     # If the role eligibility schedule instance is eligible.
                     if ($null -ne $roleEligibilityScheduleInstance.EndDateTime)
                     {
@@ -111,7 +111,7 @@ function Invoke-ReviewEntraPimUsedToManageRoles
                 {
                     # Assignment.
                     [string]$assignmentType = '';
-            
+
                     # If the role assignment schedule instance is eligible.
                     if ($null -ne $roleAssignmentScheduleInstance.EndDateTime)
                     {
@@ -175,17 +175,17 @@ function Invoke-ReviewEntraPimUsedToManageRoles
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($incorrectlyConfigured.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = '99dcdd37-60f6-450e-be03-13a85fcc5776';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -193,10 +193,10 @@ function Invoke-ReviewEntraPimUsedToManageRoles
         $review.Title = "Ensure 'Privileged Identity Management' is used to manage roles";
         $review.Data = $roles | Select-Object roleID, roleName, eligibleCount, activeCount;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
     }

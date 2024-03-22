@@ -45,17 +45,17 @@ function Invoke-ReviewSpoGuestAccessExpire
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'af231488-4ca8-4496-8d10-09b65110d1ee';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -63,11 +63,11 @@ function Invoke-ReviewSpoGuestAccessExpire
         $review.Title = 'Ensure guest access to a site or OneDrive will expire automatically';
         $review.Data = $tenantSettings | Select-Object -Property ExternalUserExpireInDays;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

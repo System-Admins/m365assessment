@@ -73,17 +73,17 @@ function Invoke-ReviewDefenderEmailDomainSpf
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ( $spfSettings | Where-Object { $_.Valid -eq $false })
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                       
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-               
+
         # Add to object.
         $review.Id = '9be729e4-0378-4c2c-afa1-92b2af71c4e9';
         $review.Category = 'Microsoft 365 Defender';
@@ -94,7 +94,7 @@ function Invoke-ReviewDefenderEmailDomainSpf
 
         # Print result.
         $review.PrintResult();
-               
+
         # Return object.
         return $review;
     }

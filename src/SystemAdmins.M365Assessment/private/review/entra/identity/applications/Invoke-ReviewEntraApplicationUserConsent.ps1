@@ -20,9 +20,9 @@ function Invoke-ReviewEntraApplicationUserConsent
     BEGIN
     {
         # Get user consent setting.
-        $userConsentSetting = Get-EntraIdApplicationUserConsentSettings; 
+        $userConsentSetting = Get-EntraIdApplicationUserConsentSetting;
 
-        # Boolean if valid. 
+        # Boolean if valid.
         [bool]$valid = $false;
     }
     PROCESS
@@ -38,17 +38,17 @@ function Invoke-ReviewEntraApplicationUserConsent
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                             
+
         # Add to object.
         $review.Id = 'ca409d22-6638-48ff-ad7c-4a61e3488b94';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -58,10 +58,10 @@ function Invoke-ReviewEntraApplicationUserConsent
             UserConsentSetting = $userConsentSetting;
         };
         $review.Review = $reviewFlag;
-              
+
         # Print result.
         $review.PrintResult();
-                             
+
         # Return object.
         return $review;
     }

@@ -44,17 +44,17 @@ function Invoke-ReviewTeamUsersCantSendEmailToChannel
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                             
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                                     
+
         # Add to object.
         $review.Id = '4623807d-6c30-4906-a33e-1e55fbbdfdec';
         $review.Category = 'Microsoft Teams Admin Center';
@@ -62,11 +62,11 @@ function Invoke-ReviewTeamUsersCantSendEmailToChannel
         $review.Title = "Ensure users can't send emails to a channel email address";
         $review.Data = $teamsClientConfig | Select-Object -Property AllowEmailIntoChannel;
         $review.Review = $reviewFlag;
-                                      
+
         # Print result.
         $review.PrintResult();
-                                                     
+
         # Return object.
         return $review;
-    } 
+    }
 }

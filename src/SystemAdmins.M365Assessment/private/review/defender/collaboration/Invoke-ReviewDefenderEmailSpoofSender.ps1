@@ -1,4 +1,4 @@
-function Invoke-ReviewDefenderEmailSpoofSenders
+function Invoke-ReviewDefenderEmailSpoofSender
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewDefenderEmailSpoofSenders
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewDefenderEmailSpoofSenders;
+        Invoke-ReviewDefenderEmailSpoofSender;
     #>
 
     [cmdletbinding()]
@@ -19,7 +19,7 @@ function Invoke-ReviewDefenderEmailSpoofSenders
 
     BEGIN
     {
- 
+
     }
     PROCESS
     {
@@ -33,17 +33,17 @@ function Invoke-ReviewDefenderEmailSpoofSenders
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($spoofedSenders.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = 'c7d90aa7-bcb3-403c-96f4-bc828e6246ff';
         $review.Category = 'Microsoft 365 Defender';
@@ -51,10 +51,10 @@ function Invoke-ReviewDefenderEmailSpoofSenders
         $review.Title = 'Ensure the spoofed domains report is reviewed weekly';
         $review.Data = $spoofedSenders;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

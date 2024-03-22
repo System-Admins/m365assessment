@@ -1,4 +1,4 @@
-function Invoke-ReviewEmailRestrictedSenders
+function Invoke-ReviewEmailRestrictedSender
 {
     <#
     .SYNOPSIS
@@ -9,7 +9,7 @@ function Invoke-ReviewEmailRestrictedSenders
         Requires the following modules:
         - ExchangeOnlineManagement
     .EXAMPLE
-        Invoke-ReviewEmailRestrictedSenders;
+        Invoke-ReviewEmailRestrictedSender;
     #>
 
     [cmdletbinding()]
@@ -19,7 +19,7 @@ function Invoke-ReviewEmailRestrictedSenders
 
     BEGIN
     {
- 
+
     }
     PROCESS
     {
@@ -33,17 +33,17 @@ function Invoke-ReviewEmailRestrictedSenders
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($restrictedSenders.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '86bab3de-8bac-442f-8495-496bd1ed75b9';
         $review.Category = 'Microsoft 365 Defender';
@@ -51,10 +51,10 @@ function Invoke-ReviewEmailRestrictedSenders
         $review.Title = "Ensure the 'Restricted entities' report is reviewed weekly";
         $review.Data = $restrictedSenders;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

@@ -14,11 +14,11 @@ function Get-DnsOnmicrosoftDomain
         Get-DnsOnmicrosoftDomain;
     #>
 
-    [cmdletbinding()]	
-        
+    [cmdletbinding()]
+
     param
     (
-        
+
     )
 
     BEGIN

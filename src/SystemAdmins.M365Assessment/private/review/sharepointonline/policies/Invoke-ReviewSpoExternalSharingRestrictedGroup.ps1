@@ -21,7 +21,7 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
     {
         # Write to log.
         Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Debug;
-        
+
         # Get tenant settings.
         $tenantSettings = Invoke-PnPSPRestMethod -Method Get -Url '/_api/SPOInternalUseOnly.Tenant';
 
@@ -46,17 +46,17 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $valid)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'd62a22ba-144b-44e6-8592-9e3692742a89';
         $review.Category = 'Microsoft SharePoint Admin Center';
@@ -64,11 +64,11 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
         $review.Title = 'Ensure external sharing is restricted by security group';
         $review.Data = $tenantSettings | Select-Object -Property WhoCanShareAllowListInTenant, WhoCanShareAllowListInTenantByPrincipalIdentity;
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

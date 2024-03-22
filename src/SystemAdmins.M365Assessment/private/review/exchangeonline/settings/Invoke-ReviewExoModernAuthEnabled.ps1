@@ -37,17 +37,17 @@ function Invoke-ReviewExoModernAuthEnabled
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $modernAuthSettings)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                                                     
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                                             
+
         # Add to object.
         $review.Id = 'bd574cc3-88f8-4ce5-9b0c-5c9982c2de10';
         $review.Category = 'Microsoft Exchange Admin Center';
@@ -57,11 +57,11 @@ function Invoke-ReviewExoModernAuthEnabled
             Enabled = $modernAuthSettings;
         };
         $review.Review = $reviewFlag;
-                              
+
         # Print result.
         $review.PrintResult();
-                                             
+
         # Return object.
         return $review;
-    } 
+    }
 }

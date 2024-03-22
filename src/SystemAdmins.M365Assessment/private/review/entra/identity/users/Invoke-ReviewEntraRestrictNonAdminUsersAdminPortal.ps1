@@ -17,7 +17,7 @@ function Invoke-ReviewEntraRestrictNonAdminUsersAdminPortal
     BEGIN
     {
         # URI to the API.
-        $uri = 'https://main.iam.ad.ext.azure.com/api/Directories/Properties';   
+        $uri = 'https://main.iam.ad.ext.azure.com/api/Directories/Properties';
     }
     PROCESS
     {
@@ -34,17 +34,17 @@ function Invoke-ReviewEntraRestrictNonAdminUsersAdminPortal
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($false -eq $entraIdProperties.restrictNonAdminUsers)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '591c821b-52ca-48f3-806e-56a98d25c041';
         $review.Category = 'Microsoft Entra Admin Center';
@@ -54,10 +54,10 @@ function Invoke-ReviewEntraRestrictNonAdminUsersAdminPortal
             RestrictNonAdminUsers = $entraIdProperties.restrictNonAdminUsers
         };
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

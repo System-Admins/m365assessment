@@ -47,17 +47,17 @@ function Invoke-ReviewDefenderAccountProvisioningActivity
     {
         # Bool for review flag.
         [bool]$reviewFlag = $false;
-                    
+
         # If review flag should be set.
         if ($auditLogs.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
         }
-                               
+
         # Create new review object to return.
         [Review]$review = [Review]::new();
-                       
+
         # Add to object.
         $review.Id = '3483e87b-6069-4355-928f-dc9be4e31902';
         $review.Category = 'Microsoft 365 Defender';
@@ -65,10 +65,10 @@ function Invoke-ReviewDefenderAccountProvisioningActivity
         $review.Title = 'Ensure the Account Provisioning Activity report is reviewed at least weekly';
         $review.Data = $auditLogs;
         $review.Review = $reviewFlag;
-        
+
         # Print result.
         $review.PrintResult();
-                       
+
         # Return object.
         return $review;
     }

@@ -17,7 +17,7 @@ function Set-HtmlReview
         [Parameter(Mandatory = $true)]
         [Review]$Review
     )
-    
+
     BEGIN
     {
         # If the file does not exist, throw an error.

@@ -18,6 +18,7 @@ function Invoke-Review
     #>
 
     [cmdletbinding()]
+    [OutputType([System.Collections.ArrayList])]
     param
     (
         # What services to review.
@@ -57,17 +58,17 @@ function Invoke-Review
             # 289efa41-e17f-43e7-a6b8-9ff8868d3511
             $null = $reviews.Add((Invoke-ReviewEntraAdminAccountCloudOnly));
 
-            # 1. Microsoft 365 Admin Center 
+            # 1. Microsoft 365 Admin Center
             # 1.1 Users
             # 1.1.3 Ensure that between two and four global admins are designated.
             # d106f228-2f57-4009-a4c1-8d309a97c4f3
-            $null = $reviews.Add((Invoke-ReviewEntraNumberOfGlobalAdmins));
+            $null = $reviews.Add((Invoke-ReviewEntraNumberOfGlobalAdmin));
 
             # 1. Microsoft 365 Admin Center
             # 1.1 Users
             # 1.1.4 Ensure Guest Users are reviewed and approved.
             # 7fe4d30e-42bd-44d4-8066-0b732dcbda4c
-            $null = $reviews.Add((Invoke-ReviewEntraGuestUsers));
+            $null = $reviews.Add((Invoke-ReviewEntraGuestUser));
 
             # 1. Microsoft 365 Admin Center
             # 1.2 Teams and groups
@@ -152,20 +153,20 @@ function Invoke-Review
                 # 2.1 Email and collaboration
                 # 2.1.1 Ensure Safe Links for Office Applications is Enabled.
                 # b29a3b32-4042-4ce6-86f6-eb85b183b4b5
-                $null = $reviews.Add((Invoke-ReviewDefenderSafeLinksPolicyOfficeApps));
+                $null = $reviews.Add((Invoke-ReviewDefenderSafeLinksPolicyOfficeApp));
 
                 # 2. Microsoft 365 Defender
                 # 2.1 Email and collaboration
                 # 2.1.2 Ensure the Common Attachment Types Filter is enabled.
                 # fd660655-99e8-4cbe-93a2-9fa3c5e34f40
                 $null = $reviews.Add((Invoke-ReviewDefenderMalwareCommonAttachmentTypesFilter));
-            
+
                 # 2. Microsoft 365 Defender
                 # 2.1 Email and collaboration
                 # 2.1.3 Ensure notifications for internal users sending malware is Enabled.
                 # 01f7327e-f8cf-4542-b12a-41b40d03415d
-                $null = $reviews.Add((Invoke-ReviewDefenderMalwareInternalUserNotifications));
-            
+                $null = $reviews.Add((Invoke-ReviewDefenderMalwareInternalUserNotification));
+
                 # 2. Microsoft 365 Defender
                 # 2.1 Email and collaboration
                 # 2.1.4 Ensure Safe Attachments policy is enabled.
@@ -176,13 +177,13 @@ function Invoke-Review
                 # 2.1 Email and collaboration
                 # 2.1.5 Ensure Safe Attachments for SharePoint, OneDrive, and Microsoft Teams is Enabled.
                 # a4fb003f-b742-4a97-8a9a-c4e5a82171a4
-                $null = $reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApps));
-            
+                $null = $reviews.Add((Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp));
+
                 # 2. Microsoft 365 Defender
                 # 2.1 Email and collaboration
                 # 2.1.6 Ensure Exchange Online Spam Policies are set to notify administrators.
                 # a019303a-3b0a-4f42-999d-0d76b528ae28
-                $null = $reviews.Add((Invoke-ReviewDefenderAntiSpamNotifyAdmins));
+                $null = $reviews.Add((Invoke-ReviewDefenderAntiSpamNotifyAdmin));
 
                 # 2. Microsoft 365 Defender
                 # 2.1 Email and collaboration
@@ -217,13 +218,13 @@ function Invoke-Review
             # 2.1 Email and collaboration
             # 2.1.11 Ensure the spoofed domains report is reviewed weekly.
             # c7d90aa7-bcb3-403c-96f4-bc828e6246ff
-            $null = $reviews.Add((Invoke-ReviewDefenderEmailSpoofSenders));
+            $null = $reviews.Add((Invoke-ReviewDefenderEmailSpoofSender));
 
             # 2. Microsoft 365 Defender
             # 2.1 Email and collaboration
             # 2.1.12 Ensure the 'Restricted entities' report is reviewed weekly.
             # 86bab3de-8bac-442f-8495-496bd1ed75b9
-            $null = $reviews.Add((Invoke-ReviewEmailRestrictedSenders));
+            $null = $reviews.Add((Invoke-ReviewEmailRestrictedSender));
 
             # Run only if the license is available.
             if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'Microsoft Defender for Office 365 (Plan 2)' })
@@ -271,7 +272,7 @@ function Invoke-Review
             # 3.1 Audit
             # 3.1.2 Ensure user role group changes are reviewed at least weekly.
             # 6fe596b2-1ee0-46e1-9dba-316d1888d016
-            $null = $reviews.Add((Invoke-ReviewPurviewUserRoleGroupChanges));
+            $null = $reviews.Add((Invoke-ReviewPurviewUserRoleGroupChange));
 
             # Run only if the license is available.
             if ($licenses | Where-Object {
@@ -321,7 +322,7 @@ function Invoke-Review
             # 5.1.2 Users
             # 5.1.2.3 Ensure 'Restrict non-admin users from creating tenants' is set to 'Yes'.
             # bf785c94-b3b4-4b1b-bf90-55031fdba42c
-            $null = $reviews.Add((Invoke-ReviewEntraUsersAllowedToCreateTenants));
+            $null = $reviews.Add((Invoke-ReviewEntraUsersAllowedToCreateTenant));
 
             # 5. Microsoft Entra Admin Center
             # 5.1 Identity
@@ -381,7 +382,7 @@ function Invoke-Review
             # 5.1.5 External Identities
             # 5.1.6.1 Ensure that collaboration invitations are sent to allowed domains only.
             # 54848e5b-7bb0-4a70-aeb1-63a1e54562d6
-            $null = $reviews.Add((Invoke-ReviewEntraExternalCollaborationDomains));
+            $null = $reviews.Add((Invoke-ReviewEntraExternalCollaborationDomain));
 
             # 5. Microsoft Entra Admin Center
             # 5.1 Identity
@@ -424,7 +425,7 @@ function Invoke-Review
                 # 5.2.4.1 Ensure 'Self service password reset enabled' is set to 'All'.
                 # 2425f84f-76cf-441b-891e-86142f14ff9e
                 $null = $reviews.Add((Invoke-ReviewEntraSsprEnabledForAll));
-            
+
                 # 5. Microsoft Entra Admin Center
                 # 5.2 Protection
                 # 5.2.4 Password reset
@@ -450,19 +451,19 @@ function Invoke-Review
                 # 5.3 Identity Governance
                 # 5.3.1 Ensure 'Privileged Identity Management' is used to manage roles.
                 # 99dcdd37-60f6-450e-be03-13a85fcc5776
-                $null = $reviews.Add((Invoke-ReviewEntraPimUsedToManageRoles));
+                $null = $reviews.Add((Invoke-ReviewEntraPimUsedToManageRole));
 
                 # 5. Microsoft Entra Admin Center
                 # 5.3 Identity Governance
                 # 5.3.2 Ensure 'Access reviews' for Guest Users are configured.
                 # 03a57762-4613-47fc-835d-5a5c3d0dbe61
-                $null = $reviews.Add((Invoke-ReviewEntraAccessReviewGuestUsers));
+                $null = $reviews.Add((Invoke-ReviewEntraAccessReviewGuestUser));
 
                 # 5. Microsoft Entra Admin Center
                 # 5.3 Identity Governance
                 # 5.3.3 Ensure 'Access reviews' for high privileged Azure AD roles are configured.
                 # e8c91221-63d2-4797-8a86-7ef53c30a9d6
-                $null = $reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRoles));
+                $null = $reviews.Add((Invoke-ReviewEntraAccessReviewPrivilegedRole));
             }
         }
 
@@ -497,13 +498,13 @@ function Invoke-Review
             # 6.2 Mail flow
             # 6.2.2 Ensure mail transport rules do not whitelist specific domains.
             # 8bf19b9f-7c76-4cb6-8d9a-2a327db4d7d3
-            $null = $reviews.Add((Invoke-ReviewExoTransportRuleWhitelistSpecificDomains));
+            $null = $reviews.Add((Invoke-ReviewExoTransportRuleWhitelistSpecificDomain));
 
             # 6. Microsoft Exchange Admin Center
             # 6.2 Mail flow
             # 6.2.3 Ensure email from external senders is identified.
             # a73f7dd0-6c32-44d1-ae18-197b775e28bb
-            $null = $reviews.Add((Invoke-ReviewExoIdentifiedExternalSenders));
+            $null = $reviews.Add((Invoke-ReviewExoIdentifiedExternalSender));
 
             # 6. Microsoft Exchange Admin Center
             # 6.3 Roles
@@ -515,7 +516,7 @@ function Invoke-Review
             # 6.4 Reports
             # 6.4.1 Ensure mail forwarding rules are reviewed at least weekly.
             # b2798cfb-c5cc-41d4-9309-d1bd932a4a91
-            $null = $reviews.Add((Invoke-ReviewExoMailForwardRules));
+            $null = $reviews.Add((Invoke-ReviewExoMailForwardRule));
 
             # 6. Microsoft Exchange Admin Center
             # 6.5 Settings
@@ -527,7 +528,7 @@ function Invoke-Review
             # 6.5 Settings
             # 6.5.2 Ensure MailTips are enabled for end users.
             # bed51aa7-e6de-4542-96fc-ffe9d699763c
-            $null = $reviews.Add((Invoke-ReviewExoMailTips));
+            $null = $reviews.Add((Invoke-ReviewExoMailTip));
 
             # 6. Microsoft Exchange Admin Center
             # 6.5 Settings
@@ -609,7 +610,7 @@ function Invoke-Review
             # 7.3 Settings
             # 7.3.2 Ensure OneDrive sync is restricted for unmanaged devices.
             # d1412fb3-33a5-4b8f-a7c1-9a491b121d21
-            $null = $reviews.Add((Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevices));
+            $null = $reviews.Add((Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice));
 
             # 7. Microsoft SharePoint Admin Center
             # 7.3 Settings
@@ -664,7 +665,7 @@ function Invoke-Review
                 # 8.5 Meetings
                 # 8.5.3 Ensure only people in my org can bypass the lobby.
                 # 5252f126-4d4e-4a1c-ab56-743f8efe2b3e
-                $null = $reviews.Add((Invoke-ReviewTeamMeetingAutoAdmittedUsers));
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingAutoAdmittedUser));
 
                 # 8. Microsoft Teams Admin Center
                 # 8.5 Meetings
@@ -676,7 +677,7 @@ function Invoke-Review
                 # 8.5 Meetings
                 # 8.5.5 Ensure meeting chat does not allow anonymous users.
                 # 61b9c972-bb4e-4768-8db4-89a62fc09877
-                $null = $reviews.Add((Invoke-ReviewTeamMeetingChatAnonymousUsers));
+                $null = $reviews.Add((Invoke-ReviewTeamMeetingChatAnonymousUser));
 
                 # 8. Microsoft Teams Admin Center
                 # 8.5 Meetings
@@ -694,7 +695,7 @@ function Invoke-Review
                 # 8.6 Messaging
                 # 8.6.1 Ensure users can report security concerns in Teams.
                 # 3a107b4e-9bef-4480-b5c0-4aedd7a4a0bc
-                $null = $reviews.Add((Invoke-ReviewTeamMessagingReportSecurityConcerns));
+                $null = $reviews.Add((Invoke-ReviewTeamMessagingReportSecurityConcern));
             }
         }
 
@@ -740,7 +741,7 @@ function Invoke-Review
                 # 9.1 Tenant settings
                 # 9.1.6 Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'.
                 # 6aa91139-4667-4d38-887b-a22905da5bcc
-                $null = $reviews.Add((Invoke-ReviewFabricSensitivityLabels));
+                $null = $reviews.Add((Invoke-ReviewFabricSensitivityLabel));
 
                 # 9. Microsoft Fabric Admin Center
                 # 9.1 Tenant settings
