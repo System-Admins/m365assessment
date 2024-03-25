@@ -72,10 +72,10 @@ function Invoke-M365Assessment
         }
 
         # Passed / Not passed.
-        $notPassed = $reviews | Where-Object { $_.Review -eq $true };
+        $passed = $reviews | Where-Object { $_.Review -eq $false };
 
         # Get score (%).
-        $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
+        $score = [math]::Round(($passed.Count / $reviews.Count) * 100);
 
         # Write to log.
         Write-Log -Message ('Generating report, please wait for a few seconds') -Level Information -NoDateTime -NoLogLevel;

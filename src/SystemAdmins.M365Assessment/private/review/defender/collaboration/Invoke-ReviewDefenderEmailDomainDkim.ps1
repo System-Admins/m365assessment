@@ -102,6 +102,13 @@ function Invoke-ReviewDefenderEmailDomainDkim
         # Foreach domain.
         foreach ($domain in $domains)
         {
+            # If this is the initial domain.
+            if ($domain.Domain -eq $initialDomain)
+            {
+                # Skip.
+                continue;
+            }
+
             # Boolean if DKIM is configured correct.
             $valid = $false;
             $enabled = $false;

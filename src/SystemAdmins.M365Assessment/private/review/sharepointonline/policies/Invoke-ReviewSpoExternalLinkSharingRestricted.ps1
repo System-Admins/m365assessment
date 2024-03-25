@@ -36,7 +36,7 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
     {
         # If the external link sharing is direct.
         if ($spotenantSettings.DefaultSharingLinkType -eq 'Direct' -and
-            $odfbtenantSettings.DefaultSharingLinkType -eq 'Direct')
+            $odfbtenantSettings.DefaultSharingLinkType -eq 'None')
         {
             # Setting is valid.
             $valid = $true;

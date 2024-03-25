@@ -26,7 +26,7 @@ function Invoke-ReviewEntraApplicationUsageReport
         Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ('Getting application usage report') -Level Debug;
 
         # Get application sign-in report.
-        $applicationSignInSummary = Get-MgBetaReportAzureAdApplicationSignInSummary -Period 'D30';
+        $applicationSignInSummary = Get-MgBetaReportAzureAdApplicationSignInSummary -Period 'D7';
     }
     END
     {
