@@ -37,6 +37,7 @@ Before installing the module, the following prerequisites must be fulfilled:
 - [ ] **PowerShell 7** installed, [see this for more information](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.4).
 - [ ] You must be a [**Global administrator** in Microsoft 365](https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/assign-admin-roles?view=o365-worldwide#assign-a-user-to-an-admin-role-from-active-users).
 - [ ] Able to execute PowerShell on your local machine.
+- [ ] SharePoint Online license assigned to your user (this is required by Pnp.PowerShell).
 
 ###  :package: Commands
 1. To install the module run the following in a PowerShell 7 session:
@@ -65,7 +66,7 @@ Before installing the module, the following prerequisites must be fulfilled:
    Connect-M365Tenant
    ```
 
-   > **Note:** This may prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session.
+   > **Note:** This may prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session. You also need to consent to the Pnp.PowerShell module accessing your tenant.
 
 5. After a successful connection to the Microsoft 365 tenant, run the assessment.
 
@@ -103,33 +104,33 @@ Link to a small video (in GIF-format) with the module in action, can be found [h
 - **What other PowerShell module is SystemAdmins.M365Assessment module using?**
 
   Microsoft.Graph.Authentication
-  
+
   Microsoft.Graph.Groups
-  
+
   Microsoft.Graph.Users
-  
+
   Microsoft.Graph.Identity.DirectoryManagement
-  
+
   Microsoft.Graph.Identity.SignIns
-  
+
   Microsoft.Graph.Identity.Governance
-  
+
   Microsoft.Graph.Beta.Identity.DirectoryManagement
-  
+
   Microsoft.Graph.Beta.Reports
-  
+
   Microsoft.Graph.Reports
-  
+
   Az.Accounts
-  
+
   Az.Resources
-  
+
   ExchangeOnlineManagement
-  
+
   PnP.PowerShell
-  
+
   MicrosoftTeams
-  
+
 - **Why is it free?**
 
   Why shouldn't it be.
