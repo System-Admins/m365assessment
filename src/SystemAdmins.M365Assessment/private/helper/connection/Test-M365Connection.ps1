@@ -86,7 +86,7 @@ function Test-M365Connection
         try
         {
             # Test connection to Microsoft Teams.
-            $null = Get-TeamsProtectionPolicy -ErrorAction Stop;
+            $null = Get-Team -ErrorAction Stop -ProgressAction SilentlyContinue;
             $connections.Teams = $true;
         }
         catch
