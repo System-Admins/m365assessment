@@ -64,7 +64,14 @@ function Invoke-ReviewDefenderEmailDomainDkim
             }
 
             # Get DKIM record.
-            $dkimRecords = Get-DnsDkimRecord -Domain $domain.Domain;
+            $dkimRecords = Get-DnsDkimRecord -Domain $domain.Domain -ErrorAction SilentlyContinue;
+
+            # If DKIM record is not found.
+            if($null -eq $dkimRecords)
+            {
+                # Continue.
+                continue;
+            }
 
             # If DKIM record is not found.
             if ($dkimRecords.Count -lt 2)
@@ -162,7 +169,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
         [bool]$reviewFlag = $false;
 
         # If review flag should be set.
-        if ($results | Where-Object { $_.Valid -eq $false })
+        if (($results | Where-Object { $_.Valid -eq $false }) -or $null -eq $results)
         {
             # Should be reviewed.
             $reviewFlag = $true;

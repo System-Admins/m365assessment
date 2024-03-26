@@ -57,10 +57,11 @@ function Invoke-DnsRequest
             # Invoke the request.
             $response = Invoke-RestMethod -Method Get -Uri $uri -ErrorAction Stop;
 
+            # If the response status is not 0.
             if ($response.Status -ne 0)
             {
-                # Throw exception.
-                Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup failed for '{0}', exception is '{1}'" -f $domain, $_) -Level Error;
+                # Write to log.
+                Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup failed for '{0}'" -f $domain, $_) -Level Debug;
             }
 
             # Write to log.
@@ -76,7 +77,7 @@ function Invoke-DnsRequest
     END
     {
         # If the response have an answer for the DNS request.
-        if ($null -ne $response)
+        if ($null -ne $response.Answer)
         {
             # Return the response.
             return $response.Answer;

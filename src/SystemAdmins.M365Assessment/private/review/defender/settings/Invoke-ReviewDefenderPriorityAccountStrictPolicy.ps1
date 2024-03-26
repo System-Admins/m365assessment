@@ -24,8 +24,8 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policies' -Level Debug;
 
         # Get protection policy rules.
-        $eopProtectionPolicyRule = Get-EOPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
-        $atpProtectionPolicyRule = Get-ATPProtectionPolicyRule -Identity 'Strict Preset Security Policy';
+        $eopProtectionPolicyRule = Get-EOPProtectionPolicyRule -Identity 'Strict Preset Security Policy' -ErrorAction SilentlyContinue;
+        $atpProtectionPolicyRule = Get-ATPProtectionPolicyRule -Identity 'Strict Preset Security Policy' -ErrorAction SilentlyContinue;
 
         # Include / Exclude user lists object array to store who is member of the strict policies.
         $eopUsersInclude = New-Object System.Collections.ArrayList;
@@ -41,6 +41,16 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
     }
     PROCESS
     {
+        # If EOP or ATP protection policy rule is null.
+        if ($null -eq $eopProtectionPolicyRule -or $null -eq $atpProtectionPolicyRule)
+        {
+            # Write to log.
+            Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policy not found' -Level Debug;
+
+            # Continue.
+            continue;
+        }
+
         # Foreach (include) eop user.
         foreach ($sentTo in $eopProtectionPolicyRule.SentTo)
         {
@@ -222,7 +232,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         [bool]$reviewFlag = $false;
 
         # If review flag should be set.
-        if ($priorityUsersNotInStrictPolicy.Count -gt 0)
+        if ($priorityUsersNotInStrictPolicy.Count -gt 0 -or $null -eq $priorityUsersNotInStrictPolicy)
         {
             # Should be reviewed.
             $reviewFlag = $true;

@@ -37,7 +37,7 @@ function Invoke-ReviewExoMailForwardRule
             Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Getting inbox rules for '{0}'" -f $mailbox.PrimarySmtpAddress) -Level Debug;
 
             # Get all inbox rules.
-            $inboxRules = Get-InboxRule -Mailbox $mailbox.Identity -ErrorAction SilentlyContinue;
+            $inboxRules = Get-InboxRule -Mailbox $mailbox.Identity -WarningAction SilentlyContinue -ErrorAction SilentlyContinue;
 
             # Foreach inbox rule.
             foreach ($inboxRule in $inboxRules)
