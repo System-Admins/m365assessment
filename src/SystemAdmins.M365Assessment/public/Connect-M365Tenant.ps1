@@ -50,8 +50,11 @@ function Connect-M365Tenant
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
             Write-Log -Message ('Microsoft Graph: Please provide your credentials for Microsoft Graph in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
+            # Force disconnect (else it will use SSO).
+            Disconnect-Graph -ErrorAction SilentlyContinue;
+
             # Launch interactive login.
-            $null = Connect-MgGraph -Scopes $mgScopes -NoWelcome -WarningAction SilentlyContinue -ErrorAction Stop;
+            $null = Connect-MgGraph -Scopes $mgScopes -NoWelcome -WarningAction SilentlyContinue -ContextScope Process -ErrorAction Stop;
 
             # Throw exception.
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
@@ -73,8 +76,17 @@ function Connect-M365Tenant
             Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Could not get Microsoft Graph context') -Level Error;
         }
 
-        # This is run due to issues with the Microsoft Graph module.
-        $null = Get-MgUser -Top 1;
+        # Try to get content from Microsoft Graph.
+        try
+        {
+            # This is run due to issues with the Microsoft Graph module.
+            $null = Get-MgUser -Top 1 -ErrorAction SilentlyContinue;
+        }
+        catch
+        {
+            # Throw exception.
+            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not get content from Microsoft Graph (try to restart the PowerShell session), exception is '{0}'" -f $_) -Level Error;
+        }
 
         # Try to connect to Azure.
         try

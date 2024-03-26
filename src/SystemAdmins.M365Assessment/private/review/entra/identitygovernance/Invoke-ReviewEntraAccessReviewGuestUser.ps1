@@ -50,7 +50,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
             foreach ($accessReviewer in $accessReviewers.policy.decisionMakerCriteria)
             {
                 # Get user from Entra ID.
-                $user = Get-MgUser -UserId $accessReviewer.userId -Property UserType;
+                $user = Get-MgUser -UserId $accessReviewer.userId -Property UserType -ErrorAction SilentlyContinue;
 
                 # If user is a guest.
                 if ($user.UserType -eq 'Guest')

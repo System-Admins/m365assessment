@@ -26,8 +26,8 @@ function Invoke-ReviewDefenderEmailSpoofSender
         # Write to log.
         Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting spoofed domains report' -Level Debug;
 
-        # Get spoofed senders.
-        $spoofedSenders = Get-SpoofIntelligenceInsight;
+        # Get spoofed senders (last 7 days).
+        $spoofedSenders = Get-SpoofIntelligenceInsight | Where-Object { $_.LastSeen -gt (Get-Date).AddDays(-7) };
     }
     END
     {

@@ -27,7 +27,7 @@ function Invoke-ReviewPurviewUserRoleGroupChange
         Write-Log -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'Getting user role group changes' -Level Debug;
 
         # Search between the following dates.
-        $startDate = ((Get-Date).AddDays(-14)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
+        $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
         $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
 
         # Operations to monitor.
@@ -61,7 +61,7 @@ function Invoke-ReviewPurviewUserRoleGroupChange
         $review.Category = 'Microsoft Purview';
         $review.Subcategory = 'Audit';
         $review.Title = 'Ensure user role group changes are reviewed at least weekly';
-        $review.Data = $auditLogs;
+        $review.Data = $auditLogs | Select-Object RecordType, CreationDate, UserIds, Operations, Identity;
         $review.Review = $reviewFlag;
 
         # Print result.

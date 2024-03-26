@@ -25,7 +25,7 @@ function Get-DnsDmarcRecord
     BEGIN
     {
         # Get TXT records for domain.
-        $txtRecords = Invoke-DnsRequest -Domain $Domain -Type 'TXT';
+        $txtRecords = Invoke-DnsRequest -Domain $Domain -Type 'TXT' -ErrorAction SilentlyContinue;
 
         # Object array to store DMARC records.
         $dmarcRecords = New-Object System.Collections.ArrayList;

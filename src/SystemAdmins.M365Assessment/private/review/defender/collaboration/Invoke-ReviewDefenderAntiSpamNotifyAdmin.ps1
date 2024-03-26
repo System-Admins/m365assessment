@@ -57,13 +57,6 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmin
                 $valid = $false;
             }
 
-            # If the policy is not enabled.
-            if ($false -eq $outboundSpamFilterPolicy.Enabled)
-            {
-                # Set the boolean to false.
-                $valid = $false;
-            }
-
             # If not valid.
             if ($valid -eq $false)
             {

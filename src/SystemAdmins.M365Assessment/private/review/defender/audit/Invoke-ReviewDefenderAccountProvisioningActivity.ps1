@@ -63,7 +63,7 @@ function Invoke-ReviewDefenderAccountProvisioningActivity
         $review.Category = 'Microsoft 365 Defender';
         $review.Subcategory = 'Audit';
         $review.Title = 'Ensure the Account Provisioning Activity report is reviewed at least weekly';
-        $review.Data = $auditLogs;
+        $review.Data = $auditLogs | Select-Object RecordType, CreationDate, UserIds, Operations, Identity;
         $review.Review = $reviewFlag;
 
         # Print result.

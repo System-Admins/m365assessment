@@ -25,6 +25,9 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice
         # Get tenant settings.
         $tenantSettings = Invoke-PnPSPRestMethod -Method Get -Url '/_api/SPOInternalUseOnly.Tenant';
 
+        # Get hybrid AD connect status.
+        $hybridAdConnectStatus = Get-EntraIdHybridAdConnectStatus;
+
         # Setting is valid.
         [bool]$valid = $false;
     }
@@ -46,7 +49,7 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice
         [bool]$reviewFlag = $false;
 
         # If review flag should be set.
-        if ($false -eq $valid)
+        if ($false -eq $valid -and $hybridAdConnectStatus.dirSyncEnabled -eq $true)
         {
             # Should be reviewed.
             $reviewFlag = $true;

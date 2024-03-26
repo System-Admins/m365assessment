@@ -32,14 +32,14 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
     PROCESS
     {
         # If security group is set.
-        if ($null -ne $tenantSettings.WhoCanShareAllowListInTenant -and
-            $null -ne $tenantSettings.WhoCanShareAllowListInTenantByPrincipalIdentity)
+        if ($null -ne $tenantSettings.GuestSharingGroupAllowListInTenant -and
+            $null -ne $tenantSettings.GuestSharingGroupAllowListInTenantByPrincipalIdentity)
         {
             # Setting is valid.
             $valid = $true;
 
             # Write to log.
-            Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External sharing is restricted by security group '{0}'" -f $tenantSettings.WhoCanShareAllowListInTenantByPrincipalIdentity) -Level Debug;
+            Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External sharing is restricted by security group '{0}'" -f $tenantSettings.GuestSharingGroupAllowListInTenantByPrincipalIdentity) -Level Debug;
         }
     }
     END
@@ -62,7 +62,7 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
         $review.Category = 'Microsoft SharePoint Admin Center';
         $review.Subcategory = 'Policies';
         $review.Title = 'Ensure external sharing is restricted by security group';
-        $review.Data = $tenantSettings | Select-Object -Property WhoCanShareAllowListInTenant, WhoCanShareAllowListInTenantByPrincipalIdentity;
+        $review.Data = $tenantSettings | Select-Object -Property GuestSharingGroupAllowListInTenant, GuestSharingGroupAllowListInTenantByPrincipalIdentity;
         $review.Review = $reviewFlag;
 
         # Print result.

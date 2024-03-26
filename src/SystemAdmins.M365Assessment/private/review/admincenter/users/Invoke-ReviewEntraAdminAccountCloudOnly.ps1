@@ -115,10 +115,10 @@ function Invoke-ReviewEntraAdminAccountCloudOnly
                 $adminAccount.AccountEnabled -eq $true)
             {
                 # Get all roles for the admin account.
-                $roles = ($adminAccount.Roles | Select-Object -ExpandProperty RoleDisplayName -Unique) -join ',';
+                $roles = ($adminAccount.Roles | Select-Object -ExpandProperty RoleDisplayName -Unique) -join ', ';
 
                 # Get all licenses.
-                $licenses = ($userLicenses | Where-Object { $_.UserPrincipalName -eq $adminAccount.UserPrincipalName } | Select-Object -ExpandProperty LicenseName -Unique);
+                $licenses = ($userLicenses | Where-Object { $_.UserPrincipalName -eq $adminAccount.UserPrincipalName } | Select-Object -ExpandProperty LicenseName -Unique) -join ', ';
 
                 # Write to log.
                 Write-Log -Category 'Entra' -Subcategory 'User' -Message ("Admin account '{0}' is not cloud-only or has invalid licenses" -f $adminAccount.UserPrincipalName) -Level Debug;

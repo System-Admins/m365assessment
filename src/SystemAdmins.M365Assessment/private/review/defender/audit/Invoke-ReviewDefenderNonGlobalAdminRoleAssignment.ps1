@@ -20,7 +20,7 @@ function Invoke-ReviewDefenderNonGlobalAdminRoleAssignment
     BEGIN
     {
         # Search between the following dates.
-        $startDate = ((Get-Date).AddDays(-14)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
+        $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
         $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
 
         # Operations to monitor.
@@ -57,7 +57,7 @@ function Invoke-ReviewDefenderNonGlobalAdminRoleAssignment
         $review.Category = 'Microsoft 365 Defender';
         $review.Subcategory = 'Audit';
         $review.Title = 'Ensure non-global administrator role group assignments are reviewed at least weekly';
-        $review.Data = $auditLogs;
+        $review.Data = $auditLogs | Select-Object RecordType, CreationDate, UserIds, Operations, Identity;
         $review.Review = $reviewFlag;
 
         # Print result.

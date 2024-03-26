@@ -774,7 +774,7 @@ function Invoke-Review
         $notPassed = $reviews | Where-Object { $_.Review -eq $true };
 
         # Get score (%).
-        $score = [math]::Round(($notPassed.Count / $reviews.Count) * 100);
+        $score = [math]::Round(($passed.Count / $reviews.Count) * 100);
 
         # Write to log.
         Write-Log -Message ('Review Assessment: {0} {1} passed | {2} {3} not passed | {4} total' -f $passed.Count, $emojiCheckmark, $notPassed.Count, $emojiCrossmark, $reviews.count) -Level Information -NoDateTime -NoLogLevel;

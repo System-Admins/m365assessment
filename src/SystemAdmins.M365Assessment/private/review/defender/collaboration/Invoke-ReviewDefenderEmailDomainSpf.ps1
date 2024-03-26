@@ -40,7 +40,7 @@ function Invoke-ReviewDefenderEmailDomainSpf
             if ($domain.SupportedServices -contains 'Email')
             {
                 # Get the SPF record.
-                $spfRecord = Get-DnsSpfRecord -Domain $domain.Id;
+                $spfRecord = Get-DnsSpfRecord -Domain $domain.Id -ErrorAction SilentlyContinue;
 
                 # If SPF record contain the correct value.
                 if ($spfRecord.Record -like '*include:spf.protection.outlook.com*')

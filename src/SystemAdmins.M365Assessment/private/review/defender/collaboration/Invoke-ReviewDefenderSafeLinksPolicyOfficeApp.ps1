@@ -136,7 +136,11 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApp
         [bool]$reviewFlag = $false;
 
         # If review flag should be set.
-        if ($policies | Where-Object { $_.Valid -eq $false })
+        if ($policies | Where-Object {
+            ($_.Valid -eq $false -and `
+            $_.Name -ne 'Built-In Protection Policy') `
+            -or $policies.Count -eq 0
+        })
         {
             # Should be reviewed.
             $reviewFlag = $true;
