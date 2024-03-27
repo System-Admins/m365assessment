@@ -67,7 +67,7 @@ function Get-HtmlReport
         if (!(Test-Path -Path $indexFilePath -PathType Leaf))
         {
             # Throw exception.
-            Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("HTML file '{0}' does not exist" -f $indexFilePath) -Level Error;
+            throw ("HTML file '{0}' does not exist" -f $indexFilePath);
         }
 
         # Get content of the HTML index html.

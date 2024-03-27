@@ -30,7 +30,7 @@
         if ($null -eq $azContext)
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Office 365 Management' -Message 'Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet' -Level Error;
+            throw ('Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet');
         }
 
         # Write to log.
@@ -51,7 +51,7 @@
         if ($null -eq $jwtToken.AccessToken)
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Office 365 Management' -Message ('Something went wrong getting access token') -Level Error;
+            throw ('Something went wrong getting access token');
         }
 
         # Save the token.

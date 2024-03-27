@@ -35,7 +35,7 @@ function Get-FabricApiToken
         if ($null -eq $azToken.Token)
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Something went wrong getting the access token') -Level Error;
+            throw ('Something went wrong getting the access token');
         }
 
         # Save the token.

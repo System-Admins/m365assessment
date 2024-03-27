@@ -66,7 +66,7 @@ function Import-M365Module
                 if ($_.Exception.Message -notlike '*Assembly with same name is already loaded*')
                 {
                     # Throw exception.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Something went wrong while importing PowerShell module, exception is '{0}'" -f $_) -Level Error;
+                    throw ("Something went wrong while importing PowerShell module, exception is '{0}'" -f $_);
                 }
                 # If the error message is 'Assembly with same name is already loaded'.
                 else

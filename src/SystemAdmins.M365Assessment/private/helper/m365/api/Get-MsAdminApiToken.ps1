@@ -32,7 +32,7 @@ function Get-MsAdminApiToken
         if ($null -eq $azContext)
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Admin API' -Message 'Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet' -Level Error;
+            throw ('Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet');
         }
 
         # Try to get access token.
@@ -51,14 +51,14 @@ function Get-MsAdminApiToken
         catch
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Admin API' -Message ("Something went wrong getting access token for Microsoft Admin API, exception is '{0}'" -f $_) -Level Error;
+            throw ("Something went wrong getting access token for Microsoft Admin API, exception is '{0}'" -f $_);
         }
 
         # If the access token is null.
         if ($null -eq $accessToken)
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Admin API' -Message ('Access token for Microsoft Admin API is not valid') -Level Error;
+            throw ('Access token for Microsoft Admin API is not valid');
         }
     }
     END

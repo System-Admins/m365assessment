@@ -77,7 +77,7 @@
         catch
         {
             # Throw exception.
-            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ("Could not call IAM API, the exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not call IAM API, the exception is '{0}'" -f $_);
         }
     }
     END

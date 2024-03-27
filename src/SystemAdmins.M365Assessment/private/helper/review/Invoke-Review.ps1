@@ -40,6 +40,11 @@ function Invoke-Review
     {
         # Write to log.
         Write-Log -Category 'Review' -Message ('Starting the review process') -Level Debug;
+        Write-Log -Message ('Running assessment, this might take some time depending on the size of the Microsoft 365 tenant') `
+            -Level Information `
+            -NoDateTime `
+            -NoLogLevel `
+            -NoLogFile;
 
         # Object array storing all the reviews.
         $reviews = New-Object System.Collections.ArrayList;
@@ -629,7 +634,7 @@ function Invoke-Review
         if ($Service -contains 'm365teams' -or $Service.Count -eq 0)
         {
             # Run only if the license is available.
-            if ($licenses | Where-Object {$_.ServicePlanDisplayName -eq 'Microsoft Teams'})
+            if ($licenses | Where-Object { $_.ServicePlanDisplayName -eq 'Microsoft Teams' })
             {
                 # 8. Microsoft Teams Admin Center
                 # 8.1 Teams
@@ -707,59 +712,72 @@ function Invoke-Review
                     $_.ServicePlanDisplayName -like 'Power BI Pro*' -or
                     $_.ServicePlanDisplayName -like 'Power BI Premium*' })
             {
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.1 Ensure guest user access is restricted.
-                # 4d179407-ca60-4a37-981f-99584ea2d6ea
-                $null = $reviews.Add((Invoke-ReviewFabricGuestAccessRestricted));
+                # Test if user (current context) have the required license.
+                if (Test-FabricApiLicense)
+                {
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.1 Ensure guest user access is restricted.
+                    # 4d179407-ca60-4a37-981f-99584ea2d6ea
+                    $null = $reviews.Add((Invoke-ReviewFabricGuestAccessRestricted));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.2 Ensure external user invitations are restricted.
-                # da8daeae-fc77-4bff-9733-19e8fe73b87b
-                $null = $reviews.Add((Invoke-ReviewFabricExternalUserInvitationsRestricted));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.2 Ensure external user invitations are restricted.
+                    # da8daeae-fc77-4bff-9733-19e8fe73b87b
+                    $null = $reviews.Add((Invoke-ReviewFabricExternalUserInvitationsRestricted));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.3 Ensure guest access to content is restricted.
-                # 24e5ca61-a473-4fcc-b4ef-aad5235e573f
-                $null = $reviews.Add((Invoke-ReviewFabricContentGuestAccessRestricted));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.3 Ensure guest access to content is restricted.
+                    # 24e5ca61-a473-4fcc-b4ef-aad5235e573f
+                    $null = $reviews.Add((Invoke-ReviewFabricContentGuestAccessRestricted));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.4 Ensure 'Publish to web' is restricted.
-                # fdd450f1-fb71-4450-a9e2-c82e916e86ab
-                $null = $reviews.Add((Invoke-ReviewFabricPublishToWebRestricted));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.4 Ensure 'Publish to web' is restricted.
+                    # fdd450f1-fb71-4450-a9e2-c82e916e86ab
+                    $null = $reviews.Add((Invoke-ReviewFabricPublishToWebRestricted));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.5 Ensure 'Interact with and share R and Python' visuals is 'Disabled'.
-                # 134ffbee-2092-42a7-9309-7b9b04c14b4b
-                $null = $reviews.Add((Invoke-ReviewFabricInteractPython));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.5 Ensure 'Interact with and share R and Python' visuals is 'Disabled'.
+                    # 134ffbee-2092-42a7-9309-7b9b04c14b4b
+                    $null = $reviews.Add((Invoke-ReviewFabricInteractPython));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.6 Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'.
-                # 6aa91139-4667-4d38-887b-a22905da5bcc
-                $null = $reviews.Add((Invoke-ReviewFabricSensitivityLabel));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.6 Ensure 'Allow users to apply sensitivity labels for content' is 'Enabled'.
+                    # 6aa91139-4667-4d38-887b-a22905da5bcc
+                    $null = $reviews.Add((Invoke-ReviewFabricSensitivityLabel));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.7 Ensure shareable links are restricted.
-                # e9ec0d44-00a5-4305-9d15-a225f00a8364
-                $null = $reviews.Add((Invoke-ReviewFabricLinksSharing));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.7 Ensure shareable links are restricted.
+                    # e9ec0d44-00a5-4305-9d15-a225f00a8364
+                    $null = $reviews.Add((Invoke-ReviewFabricLinksSharing));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.8 Ensure enabling of external data sharing is restricted.
-                # 832a0d52-55b7-4a27-a6c7-a90e04bdaa7a
-                $null = $reviews.Add((Invoke-ReviewFabricExternalDataSharingRestricted));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.8 Ensure enabling of external data sharing is restricted.
+                    # 832a0d52-55b7-4a27-a6c7-a90e04bdaa7a
+                    $null = $reviews.Add((Invoke-ReviewFabricExternalDataSharingRestricted));
 
-                # 9. Microsoft Fabric Admin Center
-                # 9.1 Tenant settings
-                # 9.1.9 Ensure 'Block ResourceKey Authentication' is 'Enabled'.
-                # bbcbdabf-221c-412e-92d5-67367053ff27
-                $null = $reviews.Add((Invoke-ReviewFabricBlockResourceKeyAuth));
+                    # 9. Microsoft Fabric Admin Center
+                    # 9.1 Tenant settings
+                    # 9.1.9 Ensure 'Block ResourceKey Authentication' is 'Enabled'.
+                    # bbcbdabf-221c-412e-92d5-67367053ff27
+                    $null = $reviews.Add((Invoke-ReviewFabricBlockResourceKeyAuth));
+                }
+                # Else the user dont have the required license.
+                else
+                {
+                    Write-Log -Message 'Skipping Microsoft Fabric test due to missing Microsoft Fabric license, required to access the API' `
+                        -Level Warning `
+                        -NoDateTime `
+                        -NoLogLevel `
+                        -NoLogFile;
+                }
             }
         }
     }

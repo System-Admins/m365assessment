@@ -32,7 +32,7 @@ function Get-EntraIdIamApiToken
         if ($null -eq $azContext)
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Entra ID' -Message 'Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet' -Level Error;
+            throw 'Could not get Azure context, a connection need to be established using the "Connect-AzAccount" cmdlet';
         }
 
         # Try to get access token.
@@ -59,14 +59,14 @@ function Get-EntraIdIamApiToken
         catch
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Entra ID' -Message ("Something went wrong getting access token for Entra ID IAM API, exception is '{0}'" -f $_) -Level Error;
+            throw ("Something went wrong getting access token for Entra ID IAM API, exception is '{0}'" -f $_);
         }
 
         # If the access token is null.
         if ($null -eq $jwtToken.AccessToken)
         {
             # Throw exception.
-            Write-Log -Category 'API' -Subcategory 'Entra ID' -Message ('Access token for Entra ID IAM API is not valid') -Level Error;
+            throw ('Access token for Entra ID IAM API is not valid');
         }
 
         # Save the token.

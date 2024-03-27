@@ -31,7 +31,7 @@ function Invoke-ReviewTenantUserOwnedAppsService
         if ($null -eq $settings)
         {
             # Throw exception.
-            Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("Something went wrong getting user owned apps and services settings") -Level Error;
+            throw ("Something went wrong getting user owned apps and services settings");
         }
 
         # If "Let users access the Office store" and "Let users start trials on behalf of your organization" is disabled.

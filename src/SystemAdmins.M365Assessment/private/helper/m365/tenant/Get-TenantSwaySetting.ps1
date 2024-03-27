@@ -29,7 +29,7 @@ function Get-TenantSwaySetting
         if ($null -eq $response)
         {
             # Throw exception.
-            Write-Log -Category "Microsoft Sway" -Subcategory "Settings" -Message ("Something went wrong getting organization Microsoft Sway settings") -Level Error;
+            throw ("Something went wrong getting organization Microsoft Sway settings");
         }
     }
     END

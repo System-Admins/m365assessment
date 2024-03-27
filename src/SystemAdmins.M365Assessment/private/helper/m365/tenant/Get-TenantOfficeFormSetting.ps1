@@ -29,7 +29,7 @@ function Get-TenantOfficeFormSetting
         if ($null -eq $settings)
         {
             # Throw exception.
-            Write-Log -Category 'Microsoft Forms' -Subcategory 'Policy' -Message ("Something went wrong getting organization Microsoft Form settings") -Level Error;
+            throw ("Something went wrong getting organization Microsoft Form settings")
         }
     }
     END

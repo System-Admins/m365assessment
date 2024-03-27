@@ -24,7 +24,7 @@ function Set-HtmlReview
         if (-not (Test-Path -Path $Path -PathType Leaf))
         {
             # Throw exception.
-            Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Markdown file '{0}' does not exist" -f $Path) -Level Error;
+            throw ("Markdown file '{0}' does not exist" -f $Path);
         }
     }
     PROCESS
