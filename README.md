@@ -27,6 +27,15 @@ In today's digital landscape, organizations rely heavily on Microsoft 365 to fac
 
 An example of report generated [can be found here](https://github.com/System-Admins/m365assessment/blob/main/example/report/Contoso%20-%20Microsoft%20365%20Assessment.pdf).
 
+It reviews the following areas in Microsoft 365 tenant:
+- Microsoft Admin Center
+- SharePoint
+- Exchange
+- Fabric
+- Purview
+- Defender
+- Teams
+
 ## :zap: Usage
 To get started with the Microsoft 365 assessment module, simply follow the instructions outlined in the documentation provided in this repository. You'll find detailed guidance on installation, configuration, and usage, enabling you to seamlessly integrate the module into your existing workflows.
 
