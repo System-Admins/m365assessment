@@ -27,7 +27,7 @@ In today's digital landscape, organizations rely heavily on Microsoft 365 to fac
 
 An example of report generated [can be found here](https://github.com/System-Admins/m365assessment/blob/main/example/report/Contoso%20-%20Microsoft%20365%20Assessment.pdf).
 
-It currently test more than 100 settings the following areas in Microsoft 365 tenant:
+The assessment currently evaluates over 100 distinct settings across various critical areas within Microsoft 365:
 - Microsoft Admin Center (Sway etc.)
 - Entra
 - SharePoint
