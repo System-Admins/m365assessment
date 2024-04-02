@@ -76,7 +76,7 @@ if ($null -ne $installedModules)
     Export-ModuleMember -Function 'Install-M365Dependency';
 
     # Throw warning.
-    Write-Log -Message ('Not all required modules are installed, please run "Install-M365Dependency"') -Level Warning -NoDateTime -NoLogLevel;
+    Write-Log -Message ('Not all required modules are installed, please run "Install-M365Dependency" or "Install-M365Depedency -Reinstall" to get latest versions of the dependency') -Level Warning -NoDateTime -NoLogLevel;
     Write-Log -Message ('Then restart the PowerShell session and import the module again') -Level Warning -NoDateTime -NoLogLevel;
 }
 # Else all modules are installed.

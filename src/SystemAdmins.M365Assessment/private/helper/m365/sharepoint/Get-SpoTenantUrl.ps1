@@ -15,19 +15,13 @@ function Get-SpoTenantUrl
 
     BEGIN
     {
-        # API url.
-        $apiUrl = 'https://admin.microsoft.com/admin/api/navigation';
-
-        # Invoke API.
-        $navigation = Invoke-MsAdminApi -Uri $apiUrl -Method 'GET';
+        # Get initial domain.
+        $initialDomain = Get-MgDomain -All | Where-Object {$_.IsInitial -eq $true};
     }
     PROCESS
     {
-        # Get SharePoint admin url.
-        $adminUrl = ($navigation.AdminConsoles.submenu | Where-Object { $_.text -eq 'SharePoint' }).sref;
-
         # Get the tenant name.
-        $tenantName = (($adminUrl.Split('/')[2]).Split('.')[0]).Split('-')[0];
+        $tenantName = ($initialDomain.Id).Split('.')[0];
 
         # Construct URLs.
         $spoUrl = ('https://{0}.sharepoint.com' -f $tenantName);
