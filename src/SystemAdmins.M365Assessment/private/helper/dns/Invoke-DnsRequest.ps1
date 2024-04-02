@@ -71,7 +71,7 @@ function Invoke-DnsRequest
         catch
         {
             # Throw exception.
-            Write-Log -Category 'DNS' -Subcategory $Type -Message ("Something went wrong while invoking DNS request for '{0}', exception is '{1}'" -f $domain, $_) -Level Error;
+            throw ("Something went wrong while invoking DNS request for '{0}', exception is '{1}'" -f $domain, $_);
         }
     }
     END

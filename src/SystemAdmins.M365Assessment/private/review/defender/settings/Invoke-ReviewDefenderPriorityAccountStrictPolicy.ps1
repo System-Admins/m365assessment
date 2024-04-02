@@ -45,10 +45,10 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         if ($null -eq $eopProtectionPolicyRule -or $null -eq $atpProtectionPolicyRule)
         {
             # Write to log.
-            Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policy not found' -Level Debug;
+            Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message "'Strict Preset Security Policy' not found" -Level Debug;
 
             # Continue.
-            continue;
+            return;
         }
 
         # Foreach (include) eop user.

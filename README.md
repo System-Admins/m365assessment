@@ -38,6 +38,7 @@ Before installing the module, the following prerequisites must be fulfilled:
 - [ ] You must be a [**Global administrator** in Microsoft 365](https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/assign-admin-roles?view=o365-worldwide#assign-a-user-to-an-admin-role-from-active-users).
 - [ ] Able to execute PowerShell on your local machine.
 - [ ] SharePoint Online license assigned to your user (this is required by Pnp.PowerShell).
+- [ ] Microsoft Fabric license assigned to your user (this is required by the Fabric API).
 
 ###  :package: Commands
 1. To install the module run the following in a PowerShell 7 session:

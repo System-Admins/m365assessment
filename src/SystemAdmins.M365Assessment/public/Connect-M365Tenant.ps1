@@ -63,7 +63,7 @@ function Connect-M365Tenant
         catch
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not connect to Microsoft Graph, exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not connect to Microsoft Graph, exception is '{0}'" -f $_);
         }
 
         # Get Microsoft Graph context.
@@ -73,7 +73,7 @@ function Connect-M365Tenant
         if ($null -eq $mgContext)
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Could not get Microsoft Graph context') -Level Error;
+            throw ('Could not get Microsoft Graph context');
         }
 
         # Try to get content from Microsoft Graph.
@@ -85,7 +85,7 @@ function Connect-M365Tenant
         catch
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ("Could not get content from Microsoft Graph (try to restart the PowerShell session), exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not get content from Microsoft Graph (try to restart the PowerShell session), exception is '{0}'" -f $_);
         }
 
         # Try to connect to Azure.
@@ -105,7 +105,7 @@ function Connect-M365Tenant
         catch
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ("Could not connect to Entra ID, exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not connect to Entra ID, exception is '{0}'" -f $_);
         }
 
         # Get the current context.
@@ -115,7 +115,7 @@ function Connect-M365Tenant
         if ($null -eq $azContext)
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Could not get Azure context') -Level Error;
+            throw ('Could not get Azure context');
         }
 
         # Try to connect to Exchange Online.
@@ -135,7 +135,7 @@ function Connect-M365Tenant
         catch
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ("Could not connect to Exchange Online, exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not connect to Exchange Online, exception is '{0}'" -f $_);
         }
 
         # Try to connect to Security and Compliance.
@@ -155,7 +155,7 @@ function Connect-M365Tenant
         catch
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ("Could not connect to Security and Compliance, exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not connect to Security and Compliance, exception is '{0}'" -f $_);
         }
 
         # Try to connect to Microsoft Teams.
@@ -175,7 +175,7 @@ function Connect-M365Tenant
         catch
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ("Could not connect to Teams, exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not connect to Teams, exception is '{0}'" -f $_);
         }
 
         # Get SharePoint URLs.
@@ -198,7 +198,7 @@ function Connect-M365Tenant
         catch
         {
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ("Could not connect to SharePoint, exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not connect to SharePoint, exception is '{0}'" -f $_);
         }
     }
     END

@@ -151,7 +151,7 @@ function Install-M365Dependency
                 catch
                 {
                     # Throw exception.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Something went wrong while installing PowerShell module, exception is '{0}'" -f $_) -Level Error;
+                    throw ("Something went wrong while installing PowerShell module, exception is '{0}'" -f $_);
                 }
             }
             # Module is installed.

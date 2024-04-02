@@ -53,6 +53,19 @@ function Invoke-M365Assessment
             break;
         }
 
+        # Test if user is global admin.
+        $isGlobalAdmin = Test-GlobalAdmin;
+
+        # If user is not global admin.
+        if ($false -eq $isGlobalAdmin)
+        {
+            # Write to log.
+            Write-Log -Message ('You need to be a global administrator to run the assessment') -Level Warning -NoDateTime -NoLogLevel;
+
+            # Exit script.
+            break;
+        }
+
         # Get reviews.
         $reviews = Invoke-Review;
     }

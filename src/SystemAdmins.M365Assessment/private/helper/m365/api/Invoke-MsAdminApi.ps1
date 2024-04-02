@@ -73,7 +73,7 @@
         catch
         {
             # Throw exception.
-            Write-Log -Category "API" -Subcategory 'Microsoft Admin' -Message ("Could not call API, the exception is '{0}'" -f $_) -Level Error;
+            throw ("Could not call API, the exception is '{0}'" -f $_);
         }
     }
     END
