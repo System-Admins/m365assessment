@@ -67,7 +67,7 @@ Before installing the module, the following prerequisites must be fulfilled:
    Connect-M365Tenant
    ```
 
-   > **Note:** This may prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session. You also need to consent to the Pnp.PowerShell module accessing your tenant.
+   > **Note:** This may prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session. You also need to consent to the "Pnp.PowerShell" and "Microsoft Graph" module accessing your tenant. If a browser dont open, or it hangs, cancel the operation and rerun the "Connect-M365Tenant" cmdlet again.
 
 5. After a successful connection to the Microsoft 365 tenant, run the assessment.
 
