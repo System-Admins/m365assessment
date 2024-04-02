@@ -27,6 +27,16 @@ In today's digital landscape, organizations rely heavily on Microsoft 365 to fac
 
 An example of report generated [can be found here](https://github.com/System-Admins/m365assessment/blob/main/example/report/Contoso%20-%20Microsoft%20365%20Assessment.pdf).
 
+The assessment currently evaluates over 100 distinct settings across various critical areas within Microsoft 365:
+- Microsoft Admin Center (Sway etc.)
+- Entra
+- SharePoint
+- Exchange
+- Fabric
+- Purview
+- Defender
+- Teams
+
 ## :zap: Usage
 To get started with the Microsoft 365 assessment module, simply follow the instructions outlined in the documentation provided in this repository. You'll find detailed guidance on installation, configuration, and usage, enabling you to seamlessly integrate the module into your existing workflows.
 
@@ -67,7 +77,7 @@ Before installing the module, the following prerequisites must be fulfilled:
    Connect-M365Tenant
    ```
 
-   > **Note:** This may prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session. You also need to consent to the Pnp.PowerShell module accessing your tenant.
+   > **Note:** This may prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session. You also need to consent to the "Pnp.PowerShell" and "Microsoft Graph" module accessing your tenant. If a browser dont open, or it hangs, cancel the operation and rerun the "Connect-M365Tenant" cmdlet again.
 
 5. After a successful connection to the Microsoft 365 tenant, run the assessment.
 
