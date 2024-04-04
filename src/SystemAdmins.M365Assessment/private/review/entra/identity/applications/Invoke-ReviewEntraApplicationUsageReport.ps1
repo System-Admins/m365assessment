@@ -19,14 +19,23 @@ function Invoke-ReviewEntraApplicationUsageReport
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ('Getting application usage report') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ('Getting application usage report') -Level Verbose;
 
         # Get application sign-in report.
         $applicationSignInSummary = Get-MgBetaReportAzureAdApplicationSignInSummary -Period 'D7';
+
+        # If application sign-in summary is not empty.
+        if ($applicationSignInSummary.Count -gt 0)
+        {
+            # Sort by failed sign-in count.
+            $applicationSignInSummary = $applicationSignInSummary | Sort-Object -Property FailedSignInCount -Descending;
+        }
     }
     END
     {
@@ -53,6 +62,9 @@ function Invoke-ReviewEntraApplicationUsageReport
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

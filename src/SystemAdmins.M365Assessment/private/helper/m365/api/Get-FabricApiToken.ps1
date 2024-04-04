@@ -26,7 +26,7 @@ function Get-FabricApiToken
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Getting access token') -Level Debug;
+        Write-CustomLog -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Getting access token') -Level Verbose;
 
         # Get Azure token for Microsoft Fabric.
         $azToken = Get-AzAccessToken -ResourceUrl $uri;

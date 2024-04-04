@@ -19,11 +19,14 @@ function Invoke-ReviewOneDriveSharingCapability
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Get SharePoint URLs.
         $spoUrls = Get-SpoTenantUrl;
 
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting OneDrive tenant configuration') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting OneDrive tenant configuration') -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Get-PnPTenantSite -Identity $spoUrls.OneDrive;
@@ -43,7 +46,7 @@ function Invoke-ReviewOneDriveSharingCapability
         else
         {
             # Write to log.
-            Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('OneDrive sharing is not restricted') -Level Debug;
+            Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('OneDrive sharing is not restricted') -Level Verbose;
         }
     }
     END
@@ -71,6 +74,9 @@ function Invoke-ReviewOneDriveSharingCapability
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

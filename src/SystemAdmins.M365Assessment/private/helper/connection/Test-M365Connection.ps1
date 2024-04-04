@@ -53,7 +53,7 @@ function Test-M365Connection
         catch
         {
             # Write to log.
-            Write-Log -Category 'Connection' -Subcategory 'Microsoft Graph' -Message ('Not connected') -Level Debug;
+            Write-CustomLog -Category 'Connection' -Subcategory 'Microsoft Graph' -Message ('Not connected') -Level Verbose;
         }
 
         # Try to connect to Azure.
@@ -66,7 +66,7 @@ function Test-M365Connection
         catch
         {
             # Write to log.
-            Write-Log -Category 'Connection' -Subcategory 'Azure' -Message ('Not connected') -Level Debug;
+            Write-CustomLog -Category 'Connection' -Subcategory 'Azure' -Message ('Not connected') -Level Verbose;
         }
 
         # Try to connect to Exchange Online.
@@ -79,7 +79,7 @@ function Test-M365Connection
         catch
         {
             # Write to log.
-            Write-Log -Category 'Connection' -Subcategory 'Exchange Online' -Message ('Not connected') -Level Debug;
+            Write-CustomLog -Category 'Connection' -Subcategory 'Exchange Online' -Message ('Not connected') -Level Verbose;
         }
 
         # Try to connect to Microsoft Teams.
@@ -92,7 +92,7 @@ function Test-M365Connection
         catch
         {
             # Write to log.
-            Write-Log -Category 'Connection' -Subcategory 'Microsoft Teams' -Message ('Not connected') -Level Debug;
+            Write-CustomLog -Category 'Connection' -Subcategory 'Microsoft Teams' -Message ('Not connected') -Level Verbose;
         }
 
         # Try to connect to SharePoint.
@@ -105,7 +105,7 @@ function Test-M365Connection
         catch
         {
             # Write to log.
-            Write-Log -Category 'Connection' -Subcategory 'SharePoint Online' -Message ('Not connected') -Level Debug;
+            Write-CustomLog -Category 'Connection' -Subcategory 'SharePoint Online' -Message ('Not connected') -Level Verbose;
         }
     }
     END

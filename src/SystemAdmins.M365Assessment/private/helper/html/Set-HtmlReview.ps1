@@ -33,12 +33,12 @@ function Set-HtmlReview
         $htmlContent = (ConvertFrom-Markdown -Path $Path).Html;
 
         # Write to log.
-        Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Replacing ID with '{0}'" -f $Review.Id) -Level Debug;
-        Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Replacing CATEGORY with '{0}'" -f $Review.Category) -Level Debug;
-        Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Replacing SUBCATEGORY with '{0}'" -f $Review.Subcategory) -Level Debug;
-        Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Replacing TITLE with '{0}'" -f $Review.Title) -Level Debug;
-        Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Replacing REVIEW with '{0}'" -f $Review.Review) -Level Debug;
-        Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Replacing DATE with '{0}'" -f (Get-Date).ToString('yyyy-MM-dd')) -Level Debug;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing ID with '{0}'" -f $Review.Id) -Level Verbose;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing CATEGORY with '{0}'" -f $Review.Category) -Level Verbose;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing SUBCATEGORY with '{0}'" -f $Review.Subcategory) -Level Verbose;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing TITLE with '{0}'" -f $Review.Title) -Level Verbose;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing REVIEW with '{0}'" -f $Review.Review) -Level Verbose;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing DATE with '{0}'" -f (Get-Date).ToString('yyyy-MM-dd')) -Level Verbose;
 
         # Update the content of the file.
         $htmlContent = $htmlContent.Replace('{{ID}}', $Review.Id);

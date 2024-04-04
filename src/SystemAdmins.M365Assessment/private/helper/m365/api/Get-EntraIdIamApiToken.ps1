@@ -39,7 +39,7 @@ function Get-EntraIdIamApiToken
         try
         {
             # Write to log.
-            Write-Log -Category 'API' -Subcategory 'Entra ID' -Message ('Getting access token for Entra ID IAM API') -Level Debug;
+            Write-CustomLog -Category 'API' -Subcategory 'Entra ID' -Message ('Getting access token for Entra ID IAM API') -Level Verbose;
 
             # Construct (JTW) access token.
             $jwtToken = [Microsoft.Azure.Commands.Common.Authentication.AzureSession]::Instance.AuthenticationFactory.Authenticate(
@@ -53,7 +53,7 @@ function Get-EntraIdIamApiToken
             );
 
             # Write to log.
-            Write-Log -Category 'API' -Subcategory 'Entra ID' -Message ('Successfully got access token for Entra ID IAM API') -Level Debug;
+            Write-CustomLog -Category 'API' -Subcategory 'Entra ID' -Message ('Successfully got access token for Entra ID IAM API') -Level Verbose;
         }
         # Something went wrong getting token.
         catch

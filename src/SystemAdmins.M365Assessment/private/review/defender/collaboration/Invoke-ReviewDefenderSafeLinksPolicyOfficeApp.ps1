@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApp
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting SafeLinks policies' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting SafeLinks policies' -Level Verbose;
 
         # Get all SafeLinks policies.
         $safeLinksPolicies = Get-SafeLinksPolicy;
@@ -103,13 +106,13 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApp
             if ($valid -eq $true)
             {
                 # Write to log.
-                Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message "SafeLinks policy '{0}' is configured correct" -Level Debug;
+                Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message "SafeLinks policy '{0}' is configured correct" -Level Verbose;
             }
             # Else the policy is not configured correctly.
             else
             {
                 # Write to log.
-                Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message "SafeLinks policy '{0}' is not configured correct" -Level Debug;
+                Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message "SafeLinks policy '{0}' is not configured correct" -Level Verbose;
             }
 
             # Add to object array.
@@ -137,10 +140,9 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApp
 
         # If review flag should be set.
         if ($policies | Where-Object {
-            ($_.Valid -eq $false -and `
-            $_.Name -ne 'Built-In Protection Policy') `
-            -or $policies.Count -eq 0
-        })
+                ($_.Valid -eq $false -and $_.Name -ne 'Built-In Protection Policy') -or `
+                $policies.Count -eq 0
+            })
         {
             # Should be reviewed.
             $reviewFlag = $true;
@@ -159,6 +161,9 @@ function Invoke-ReviewDefenderSafeLinksPolicyOfficeApp
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

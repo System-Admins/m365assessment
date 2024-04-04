@@ -19,8 +19,11 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Settings' -Message ('Getting SharePoint tenant configuration') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Settings' -Message ('Getting SharePoint tenant configuration') -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Invoke-PnPSPRestMethod -Method Get -Url '/_api/SPOInternalUseOnly.Tenant';
@@ -40,7 +43,7 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice
             $valid = $true;
 
             # Write to log.
-            Write-Log -Category 'SharePoint Online' -Subcategory 'Settings' -Message ("OneDrive sync is restricted for unmanaged devices") -Level Debug;
+            Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Settings' -Message ("OneDrive sync is restricted for unmanaged devices") -Level Verbose;
         }
     }
     END
@@ -68,6 +71,9 @@ function Invoke-ReviewOneDriveSyncRestrictedUnmanagedDevice
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

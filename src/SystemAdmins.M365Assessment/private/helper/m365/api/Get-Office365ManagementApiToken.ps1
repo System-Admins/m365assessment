@@ -34,7 +34,7 @@
         }
 
         # Write to log.
-        Write-Log -Category 'API' -Subcategory 'Office 365 Management' -Message ('Getting access token') -Level Debug;
+        Write-CustomLog -Category 'API' -Subcategory 'Office 365 Management' -Message ('Getting access token') -Level Verbose;
 
         # Construct (JTW) access token.
         $jwtToken = [Microsoft.Azure.Commands.Common.Authentication.AzureSession]::Instance.AuthenticationFactory.Authenticate(

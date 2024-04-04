@@ -19,8 +19,11 @@ function Invoke-ReviewExoMailForwardDisabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting transport rules' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting transport rules' -Level Verbose;
 
         # Get all transport rules.
         $transportRules = Get-TransportRule -ResultSize Unlimited;
@@ -29,7 +32,7 @@ function Invoke-ReviewExoMailForwardDisabled
         $transportRulesWithForward = New-Object System.Collections.ArrayList;
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting outbound spam filter policies' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting outbound spam filter policies' -Level Verbose;
 
         # Get all out-bound anti-spam policies.
         $outboundSpamFilterPolicies = Get-HostedOutboundSpamFilterPolicy;
@@ -48,7 +51,7 @@ function Invoke-ReviewExoMailForwardDisabled
                 $null -ne $transportRule.Actions.BlindCopyTo)
             {
                 # Write to log.
-                Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Transport rule '{0}' have enabled mailforwarding" -f $transportRule.Name) -Level Debug;
+                Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Transport rule '{0}' have enabled mailforwarding" -f $transportRule.Name) -Level Verbose;
 
                 # Add to list.
                 $transportRulesWithForward += $transportRule;
@@ -62,7 +65,7 @@ function Invoke-ReviewExoMailForwardDisabled
             if ($outboundSpamFilterPolicy.AutoForwardingMode -ne 'Off')
             {
                 # Write to log.
-                Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Outbound spam filter policy '{0}' have enabled mailforwarding" -f $outboundSpamFilterPolicy.Name) -Level Debug;
+                Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Outbound spam filter policy '{0}' have enabled mailforwarding" -f $outboundSpamFilterPolicy.Name) -Level Verbose;
 
                 # Add to list.
                 $outboundSpamFilterPoliciesWithForward += $outboundSpamFilterPolicy;
@@ -97,6 +100,9 @@ function Invoke-ReviewExoMailForwardDisabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

@@ -41,12 +41,12 @@ function Test-GlobalAdmin
         if ($isGlobalAdmin)
         {
             # Write to log.
-            Write-Log -Category 'User' -Message ("User '{0}' is global administrator" -f $mgContext.Account) -Level Debug;
+            Write-CustomLog -Category 'User' -Message ("User '{0}' is global administrator" -f $mgContext.Account) -Level Verbose;
         }
         else
         {
             # Write to log.
-            Write-Log -Category 'User' -Message ("User '{0}' is not a global administrator" -f $mgContext.Account) -Level Debug;
+            Write-CustomLog -Category 'User' -Message ("User '{0}' is not a global administrator" -f $mgContext.Account) -Level Verbose;
         }
     }
     END

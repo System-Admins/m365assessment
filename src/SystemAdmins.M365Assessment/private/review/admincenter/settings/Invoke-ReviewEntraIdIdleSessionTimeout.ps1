@@ -16,6 +16,9 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Get idle session timeout.
         $idleSessionPolicies = Get-TenantIdleSessionTimeout;
 
@@ -43,13 +46,13 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
         }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ('Idle session policy allows session for more than 3 hours') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Policy' -Message ('Idle session policy allows session for more than 3 hours') -Level Verbose;
 
         # If there is no conditional access policies enforcing this.
         if ($null -eq $conditionalAccessPolicies)
         {
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Policy' -Message 'No conditional access policies enforcing app restrictions found' -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Policy' -Message 'No conditional access policies enforcing app restrictions found' -Level Verbose;
         }
 
         # Foreach conditional access policy.
@@ -90,6 +93,9 @@ function Invoke-ReviewEntraIdIdleSessionTimeout
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

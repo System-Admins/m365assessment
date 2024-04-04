@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderAntiPhishingPolicy
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting anti-phishing e-mail policies' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting anti-phishing e-mail policies' -Level Verbose;
 
         # Get anti-phishing e-mail policies.
         $antiPhishPolicies = Get-AntiPhishPolicy -WarningAction SilentlyContinue;
@@ -88,13 +91,13 @@ function Invoke-ReviewDefenderAntiPhishingPolicy
     END
     {
         # Bool for review flag.
-        [bool]$reviewFlag = $false;
+        [bool]$reviewFlag = $true;
 
         # If review flag should be set.
-        if ($settings | Where-Object { $_.Valid -eq $false })
+        if ($settings | Where-Object { $_.Valid -eq $true })
         {
             # Should be reviewed.
-            $reviewFlag = $true;
+            $reviewFlag = $false;
         }
 
         # Create new review object to return.
@@ -110,6 +113,9 @@ function Invoke-ReviewDefenderAntiPhishingPolicy
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

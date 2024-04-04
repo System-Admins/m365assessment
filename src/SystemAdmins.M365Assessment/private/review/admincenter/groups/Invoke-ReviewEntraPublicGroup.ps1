@@ -18,6 +18,9 @@ function Invoke-ReviewEntraPublicGroup
     )
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Object array to store groups with public visibility.
         $publicVisibilityGroups = New-Object System.Collections.ArrayList;
 
@@ -37,7 +40,7 @@ function Invoke-ReviewEntraPublicGroup
             }
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Group' -Message ("Public group '{0}' have public visibility" -f $group.DisplayName) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Group' -Message ("Public group '{0}' have public visibility" -f $group.DisplayName) -Level Verbose;
 
             # Add group to public visibility groups.
             $publicVisibilityGroups += [PSCustomObject]@{
@@ -76,6 +79,9 @@ function Invoke-ReviewEntraPublicGroup
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

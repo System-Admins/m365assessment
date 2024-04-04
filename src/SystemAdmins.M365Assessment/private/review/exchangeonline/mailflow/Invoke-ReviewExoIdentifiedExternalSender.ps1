@@ -19,8 +19,11 @@ function Invoke-ReviewExoIdentifiedExternalSender
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting identify external sender settings' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting identify external sender settings' -Level Verbose;
 
         # Get configuration of external sender identification.
         $externalsInOutlook = Get-ExternalInOutlook;
@@ -55,6 +58,9 @@ function Invoke-ReviewExoIdentifiedExternalSender
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

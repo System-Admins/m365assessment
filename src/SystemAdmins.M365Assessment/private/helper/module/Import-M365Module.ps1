@@ -44,7 +44,7 @@ function Import-M365Module
             try
             {
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Importing PowerShell module with version '{0}'" -f $moduleVersion) -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ("Importing PowerShell module with version '{0}'" -f $moduleVersion) -Level Verbose;
 
                 # If specific version is set.
                 if ('latest' -ne $moduleVersion)
@@ -72,7 +72,7 @@ function Import-M365Module
                 else
                 {
                     # Write to log.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Module '{0}' assembly with same name is already loaded" -f $moduleName) -Level Debug;
+                    Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ("Module '{0}' assembly with same name is already loaded" -f $moduleName) -Level Verbose;
                 }
             }
         }

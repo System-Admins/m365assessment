@@ -18,7 +18,7 @@ function Uninstall-ModuleAll
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Module' -Message 'Getting all installed modules' -Level Debug;
+        Write-CustomLog -Category 'Module' -Message 'Getting all installed modules' -Level Verbose;
 
         # Get all installed modules.
         $installedModules = Get-InstalledModule;
@@ -26,13 +26,13 @@ function Uninstall-ModuleAll
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Module' -Message ('Found {0} installed modules' -f $installedModules.Count) -Level Debug;
+        Write-CustomLog -Category 'Module' -Message ('Found {0} installed modules' -f $installedModules.Count) -Level Verbose;
 
         # Foreach module installed.
         foreach ($installedModule in $installedModules)
         {
             # Write to log.
-            Write-Log -Category 'Module' -Subcategory $installedModule.Name -Message 'Getting all versions' -Level Debug;
+            Write-CustomLog -Category 'Module' -Subcategory $installedModule.Name -Message 'Getting all versions' -Level Verbose;
 
             # Get all versions.
             $moduleVersions = Get-InstalledModule -Name $installedModule.Name -AllVersions;
@@ -41,7 +41,7 @@ function Uninstall-ModuleAll
             if ($false -eq $OnlyUnload)
             {
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $installedModule.Name -Message ('Uninstalling {0} versions of the module' -f $moduleVersions.Count) -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $installedModule.Name -Message ('Uninstalling {0} versions of the module' -f $moduleVersions.Count) -Level Verbose;
 
                 # Uninstall all versions of module.
                 Uninstall-Module -Name $installedModule.Name -AllVersions -Force -Confirm:$false -WarningAction SilentlyContinue -ErrorAction SilentlyContinue;
@@ -51,6 +51,6 @@ function Uninstall-ModuleAll
     END
     {
         # Write to log.
-        Write-Log -Category 'Module' -Message 'Finished removing all user installed modules' -Level Debug;
+        Write-CustomLog -Category 'Module' -Message 'Finished removing all user installed modules' -Level Verbose;
     }
 }

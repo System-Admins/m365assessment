@@ -19,8 +19,11 @@ function Invoke-ReviewSpoExternalSharingRestricted
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Get-PnPTenant;
@@ -31,8 +34,8 @@ function Invoke-ReviewSpoExternalSharingRestricted
     PROCESS
     {
         # If the external sharing is restricted.
-        if ($tenantSettings.SharingCapability -eq 'ExternalUserSharingOnly' -and
-            $tenantSettings.SharingCapability -eq 'ExistingExternalUserSharingOnly' -and
+        if ($tenantSettings.SharingCapability -eq 'ExternalUserSharingOnly' -or
+            $tenantSettings.SharingCapability -eq 'ExistingExternalUserSharingOnly' -or
             $tenantSettings.SharingCapability -eq 'Disabled')
         {
             # Setting is valid.
@@ -43,7 +46,7 @@ function Invoke-ReviewSpoExternalSharingRestricted
         if ($false -eq $valid)
         {
             # Write to log.
-            Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Sharing is not restricted') -Level Debug;
+            Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Sharing is not restricted') -Level Verbose;
         }
     }
     END
@@ -71,6 +74,9 @@ function Invoke-ReviewSpoExternalSharingRestricted
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

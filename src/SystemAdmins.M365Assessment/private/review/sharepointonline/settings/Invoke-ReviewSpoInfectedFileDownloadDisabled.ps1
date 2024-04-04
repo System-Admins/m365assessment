@@ -19,18 +19,19 @@ function Invoke-ReviewSpoInfectedFileDownloadDisabled
 
     BEGIN
     {
-
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Settings' -Message ('Getting SharePoint tenant configuration') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Settings' -Message ('Getting SharePoint tenant configuration') -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Invoke-PnPSPRestMethod -Method Get -Url '/_api/SPOInternalUseOnly.Tenant';
 
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Settings' -Message ("Infected file download is '{0}'" -f $tenantSettings.DisallowInfectedFileDownload) -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Settings' -Message ("Infected file download is '{0}'" -f $tenantSettings.DisallowInfectedFileDownload) -Level Verbose;
     }
     END
     {
@@ -57,6 +58,9 @@ function Invoke-ReviewSpoInfectedFileDownloadDisabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

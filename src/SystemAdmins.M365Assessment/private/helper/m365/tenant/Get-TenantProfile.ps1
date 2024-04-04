@@ -20,7 +20,7 @@ function Get-TenantProfile
     PROCESS
     {
         # Write to log.
-        Write-Log -Category "Tenant" -Subcategory "Profile" -Message ("Getting Microsoft 365 tenant profile") -Level Debug;
+        Write-CustomLog -Category "Tenant" -Subcategory "Profile" -Message ("Getting Microsoft 365 tenant profile") -Level Verbose;
 
         # Get company profile.
         $companyProfile = Invoke-MsAdminApi -Uri $Uri;

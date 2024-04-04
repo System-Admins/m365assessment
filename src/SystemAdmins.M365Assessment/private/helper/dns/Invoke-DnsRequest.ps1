@@ -35,7 +35,7 @@ function Invoke-DnsRequest
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'DNS' -Subcategory $Type -Message ("Resolving record of type '{0}' for domain '{1}'" -f $Type, $Domain) -Level Debug;
+        Write-CustomLog -Category 'DNS' -Subcategory $Type -Message ("Resolving record of type '{0}' for domain '{1}'" -f $Type, $Domain) -Level Verbose;
 
         # Base URL to query.
         $baseUrl = 'https://dns.google.com/resolve';
@@ -52,7 +52,7 @@ function Invoke-DnsRequest
         try
         {
             # Write to log.
-            Write-Log -Category 'DNS' -Subcategory $Type -Message ("Calling API endpoint '{0}'" -f $uri) -Level Debug;
+            Write-CustomLog -Category 'DNS' -Subcategory $Type -Message ("Calling API endpoint '{0}'" -f $uri) -Level Verbose;
 
             # Invoke the request.
             $response = Invoke-RestMethod -Method Get -Uri $uri -ErrorAction Stop;
@@ -61,11 +61,11 @@ function Invoke-DnsRequest
             if ($response.Status -ne 0)
             {
                 # Write to log.
-                Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup failed for '{0}'" -f $domain, $_) -Level Debug;
+                Write-CustomLog -Category 'DNS' -Subcategory $Type -Message ("DNS lookup failed for '{0}'" -f $domain, $_) -Level Verbose;
             }
 
             # Write to log.
-            Write-Log -Category 'DNS' -Subcategory $Type -Message ("DNS lookup succeeded for '{0}'" -f $domain) -Level Debug;
+            Write-CustomLog -Category 'DNS' -Subcategory $Type -Message ("DNS lookup succeeded for '{0}'" -f $domain) -Level Verbose;
         }
         # Something went wrong invoking the DNS request.
         catch

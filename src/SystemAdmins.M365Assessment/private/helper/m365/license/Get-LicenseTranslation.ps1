@@ -26,7 +26,7 @@ function Get-LicenseTranslation
         try
         {
             # Write to log.
-            Write-Log -Category 'License' -Subcategory 'Translation' -Message ("Downloading license translation from '{0}'" -f $translationTableUrl) -Level Debug;
+            Write-CustomLog -Category 'License' -Subcategory 'Translation' -Message ("Downloading license translation from '{0}'" -f $translationTableUrl) -Level Verbose;
 
             # Get translation table.
             $translationTableCsv = Invoke-RestMethod -Method Get -Uri $translationTableUrl -ContentType 'application/csv; charset=utf-8' -ErrorAction Stop;

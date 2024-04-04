@@ -22,14 +22,17 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
     }
     PROCESS
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Getting security defaults") -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Getting security defaults") -Level Verbose;
 
         # Get security defaults.
         $securityDefaults = Get-MgPolicyIdentitySecurityDefaultEnforcementPolicy;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Security defaults is set to '{0}'" -f $securityDefaults.IsEnabled) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Security defaults is set to '{0}'" -f $securityDefaults.IsEnabled) -Level Verbose;
     }
     END
     {
@@ -58,6 +61,9 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

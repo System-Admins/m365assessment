@@ -87,7 +87,7 @@ function Get-HtmlReport
         Invoke-Item -Path $indexFilePath;
 
         # Write to log.
-        Write-Log -Category 'Report' -Subcategory 'HTML' -Message ("Compressing folder '{0}' to file '{1}'" -f $tempPath, $OutputFilePath) -Level Debug;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Compressing folder '{0}' to file '{1}'" -f $tempPath, $OutputFilePath) -Level Verbose;
 
         # ZIP the temporary path.
         Compress-Archive -Path ($tempPath + "/*") -DestinationPath $OutputFilePath -Force;

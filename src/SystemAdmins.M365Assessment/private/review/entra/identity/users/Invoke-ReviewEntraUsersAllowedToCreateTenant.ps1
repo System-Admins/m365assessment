@@ -19,18 +19,19 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenant
 
     BEGIN
     {
-
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ('Getting if users can create tenants') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ('Getting if users can create tenants') -Level Verbose;
 
         # Get auth policy.
         $authorizationPolicy = Get-MgPolicyAuthorizationPolicy;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Users can create tenants is set to '{0}'" -f $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateTenants) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Users can create tenants is set to '{0}'" -f $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateTenants) -Level Verbose;
     }
     END
     {
@@ -59,6 +60,9 @@ function Invoke-ReviewEntraUsersAllowedToCreateTenant
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

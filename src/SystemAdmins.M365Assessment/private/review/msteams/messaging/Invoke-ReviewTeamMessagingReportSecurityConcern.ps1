@@ -19,14 +19,17 @@ function Invoke-ReviewTeamMessagingReportSecurityConcern
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Getting meeting policies') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Getting meeting policies') -Level Verbose;
 
         # Get messaging policy.
         $messagingPolicy = Get-CsTeamsMessagingPolicy -Identity Global;
 
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Getting report submission policies') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Getting report submission policies') -Level Verbose;
 
         # Get report submission policy.
         $reportSubmissionPolicy = Get-ReportSubmissionPolicy;
@@ -57,7 +60,7 @@ function Invoke-ReviewTeamMessagingReportSecurityConcern
             $valid = $false;
 
             # Write to log.
-            Write-Log -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Report submission settings are not configured correctly') -Level Debug;
+            Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Messaging' -Message ('Report submission settings are not configured correctly') -Level Verbose;
         }
 
         # Create object.
@@ -99,6 +102,9 @@ function Invoke-ReviewTeamMessagingReportSecurityConcern
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

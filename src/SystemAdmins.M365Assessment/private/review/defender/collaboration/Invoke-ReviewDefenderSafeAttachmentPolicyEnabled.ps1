@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting safe attachment policies' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting safe attachment policies' -Level Verbose;
 
         # Get safe attachment policies.
         $safeAttachmentPolicies = Get-SafeAttachmentPolicy;
@@ -54,7 +57,7 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabled
             if ($valid -eq $false)
             {
                 # Write to log.
-                Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ('Safe attachment policy {0} is not correctly configured' -f $safeAttachmentPolicy.Name) -Level Debug;
+                Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ('Safe attachment policy {0} is not correctly configured' -f $safeAttachmentPolicy.Name) -Level Verbose;
             }
 
             # Add to object array.
@@ -70,31 +73,34 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabled
     }
     END
     {
-         # Bool for review flag.
-         [bool]$reviewFlag = $false;
+        # Bool for review flag.
+        [bool]$reviewFlag = $false;
 
-         # If review flag should be set.
-         if ($policies | Where-Object { $_.Valid -eq $false })
-         {
-             # Should be reviewed.
-             $reviewFlag = $true;
-         }
+        # If review flag should be set.
+        if ($policies | Where-Object { $_.Valid -eq $false })
+        {
+            # Should be reviewed.
+            $reviewFlag = $true;
+        }
 
-         # Create new review object to return.
-         [Review]$review = [Review]::new();
+        # Create new review object to return.
+        [Review]$review = [Review]::new();
 
-         # Add to object.
-         $review.Id = '383ea8f2-48e1-4a1f-bcc7-626fbeb0f331';
-         $review.Category = 'Microsoft 365 Defender';
-         $review.Subcategory = 'Email and collaboration';
-         $review.Title = 'Ensure Safe Attachments policy is enabled';
-         $review.Data = $policies;
-         $review.Review = $reviewFlag;
+        # Add to object.
+        $review.Id = '383ea8f2-48e1-4a1f-bcc7-626fbeb0f331';
+        $review.Category = 'Microsoft 365 Defender';
+        $review.Subcategory = 'Email and collaboration';
+        $review.Title = 'Ensure Safe Attachments policy is enabled';
+        $review.Data = $policies;
+        $review.Review = $reviewFlag;
 
-         # Print result.
-         $review.PrintResult();
+        # Print result.
+        $review.PrintResult();
 
-         # Return object.
-         return $review;
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
+
+        # Return object.
+        return $review;
     }
 }

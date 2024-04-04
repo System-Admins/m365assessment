@@ -16,6 +16,9 @@ function Invoke-ReviewEntraAdminAccountCloudOnly
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Object array to store the admin accounts.
         $adminAccounts = New-Object System.Collections.ArrayList;
 
@@ -121,7 +124,7 @@ function Invoke-ReviewEntraAdminAccountCloudOnly
                 $licenses = ($userLicenses | Where-Object { $_.UserPrincipalName -eq $adminAccount.UserPrincipalName } | Select-Object -ExpandProperty LicenseName -Unique) -join ', ';
 
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'User' -Message ("Admin account '{0}' is not cloud-only or has invalid licenses" -f $adminAccount.UserPrincipalName) -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ("Admin account '{0}' is not cloud-only or has invalid licenses" -f $adminAccount.UserPrincipalName) -Level Verbose;
 
                 # Add to object array.
                 $reviewAdminAccounts += [PSCustomObject]@{
@@ -161,6 +164,9 @@ function Invoke-ReviewEntraAdminAccountCloudOnly
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

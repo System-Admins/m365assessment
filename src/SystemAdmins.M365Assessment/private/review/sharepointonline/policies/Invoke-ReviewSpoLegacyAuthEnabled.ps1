@@ -19,17 +19,19 @@ function Invoke-ReviewSpoLegacyAuthEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Getting SharePoint tenant configuration") -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Getting SharePoint tenant configuration") -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Get-PnPTenant;
 
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Legacy authentication protocols is '{0}'" -f $tenantSettings.LegacyAuthProtocolsEnabled) -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Legacy authentication protocols is '{0}'" -f $tenantSettings.LegacyAuthProtocolsEnabled) -Level Verbose;
     }
     END
     {
@@ -56,6 +58,9 @@ function Invoke-ReviewSpoLegacyAuthEnabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

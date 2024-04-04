@@ -16,6 +16,9 @@ function Invoke-ReviewEntraAccessReviewGuestUser
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Get directory id.
         $directoryId = (Get-AzContext).Tenant.Id;
 
@@ -56,7 +59,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
                 if ($user.UserType -eq 'Guest')
                 {
                     # Write to log.
-                    Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('User "{0}" is a guest' -f $accessReviewer.userId) -Level Debug;
+                    Write-CustomLog -Category 'Entra' -Subcategory 'Identity Governance' -Message ('User "{0}" is a guest' -f $accessReviewer.userId) -Level Verbose;
 
                     # Set guest only to true.
                     $reviewersNotGuest = $false;
@@ -70,7 +73,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
                 if ($decisionCriteria.guestUsersOnly -eq $true)
                 {
                     # Write to log.
-                    Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Scope is set to "Guests Only"') -Level Debug;
+                    Write-CustomLog -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Scope is set to "Guests Only"') -Level Verbose;
 
                     # Set guest only to true.
                     $guestOnly = $true;
@@ -81,7 +84,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
             if ($accessReview.settings.recurrenceSettings.recurrenceType -ne 'monthly' -and $accessReview.settings.recurrenceSettings.recurrenceType -ne 'Weekly')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Review schedule recurrence is not monthly or weekly') -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Review schedule recurrence is not monthly or weekly') -Level Verbose;
 
                 # Set review schedule to false.
                 $reviewSchedule = $false;
@@ -91,7 +94,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
             if ($accessReview.settings.recurrenceSettings.recurrenceEndType -ne 'never')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Review schedule end time is not set to "Never"') -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Review schedule end time is not set to "Never"') -Level Verbose;
 
                 # Set review schedule to false.
                 $reviewSchedule = $false;
@@ -101,7 +104,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
             if ($accessReview.settings.autoApplyReviewResultsEnabled -eq $false)
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Auto apply results to resource is not set') -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Auto apply results to resource is not set') -Level Verbose;
 
                 # Set review schedule to false.
                 $reviewSchedule = $false;
@@ -111,7 +114,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
             if ($accessReview.settings.autoReviewSettings.notReviewedResult -ne 'Deny')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ("If reviewers don't respond is not automatically set to remove access") -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Identity Governance' -Message ("If reviewers don't respond is not automatically set to remove access") -Level Verbose;
 
                 # Set auto apply to false.
                 $reviewerRemoveNoRespond = $false;
@@ -125,7 +128,7 @@ function Invoke-ReviewEntraAccessReviewGuestUser
                 $reviewerRemoveNoRespond -eq $true)
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Access reviews for Guest Users are configured correct') -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Identity Governance' -Message ('Access reviews for Guest Users are configured correct') -Level Verbose;
 
                 # Set valid to true.
                 $valid = $true;
@@ -160,6 +163,9 @@ function Invoke-ReviewEntraAccessReviewGuestUser
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

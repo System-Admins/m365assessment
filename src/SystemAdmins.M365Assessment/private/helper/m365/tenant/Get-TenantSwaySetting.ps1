@@ -20,7 +20,7 @@ function Get-TenantSwaySetting
     PROCESS
     {
         # Write to log.
-        Write-Log -Category "Microsoft Sway" -Subcategory "Settings" -Message ("Getting Microsoft Sway settings") -Level Debug;
+        Write-CustomLog -Category "Microsoft Sway" -Subcategory "Settings" -Message ("Getting Microsoft Sway settings") -Level Verbose;
 
         # Invoke the API.
         $response = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';

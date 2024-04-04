@@ -25,7 +25,7 @@ function Connect-M365Tenant
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Login' -Message ('Starting login process to Microsoft') -Level Debug;
+        Write-CustomLog -Category 'Login' -Message ('Starting login process to Microsoft') -Level Verbose;
 
         # Microsoft Graph scopes.
         $mgScopes = @(
@@ -47,8 +47,8 @@ function Connect-M365Tenant
         try
         {
             # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Debug;
-            Write-Log -Message ('Microsoft Graph: Please provide your credentials for Microsoft Graph in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Verbose;
+            Write-CustomLog -Message ('Microsoft Graph: Please provide your credentials for Microsoft Graph in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Force disconnect (else it will use SSO).
             Disconnect-Graph -ErrorAction SilentlyContinue;
@@ -57,7 +57,7 @@ function Connect-M365Tenant
             $null = Connect-MgGraph -Scopes $mgScopes -NoWelcome -WarningAction SilentlyContinue -ContextScope Process -ErrorAction Stop;
 
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Debug;
+            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Successfully connected to Microsoft Graph') -Level Verbose;
         }
         # Something went wrong.
         catch
@@ -92,14 +92,14 @@ function Connect-M365Tenant
         try
         {
             # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Trying to connect to Azure') -Level Debug;
-            Write-Log -Message ('Entra ID: Please provide your credentials for Entra ID in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Category 'Login' -Subcategory 'Azure' -Message ('Trying to connect to Azure') -Level Verbose;
+            Write-CustomLog -Message ('Entra ID: Please provide your credentials for Entra ID in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-AzAccount -WarningAction SilentlyContinue -ErrorAction Stop -Force;
 
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Debug;
+            Write-CustomLog -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Verbose;
         }
         # Something went wrong.
         catch
@@ -122,14 +122,14 @@ function Connect-M365Tenant
         try
         {
             # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Trying to connect to Exchange Online') -Level Debug;
-            Write-Log -Message ('Exchange Online: Please provide your credentials for Exchange Online in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Category 'Login' -Subcategory 'Exchange Online' -Message ('Trying to connect to Exchange Online') -Level Verbose;
+            Write-CustomLog -Message ('Exchange Online: Please provide your credentials for Exchange Online in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-ExchangeOnline -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Exchange Online' -Message ('Successfully connected to Exchange Online') -Level Debug;
+            Write-CustomLog -Category 'Login' -Subcategory 'Exchange Online' -Message ('Successfully connected to Exchange Online') -Level Verbose;
         }
         # Something went wrong.
         catch
@@ -142,14 +142,14 @@ function Connect-M365Tenant
         try
         {
             # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Trying to connect to Security and Compliance') -Level Debug;
-            Write-Log -Message ('Security and Compliance: Please provide your credentials for Security and Compliance in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Trying to connect to Security and Compliance') -Level Verbose;
+            Write-CustomLog -Message ('Security and Compliance: Please provide your credentials for Security and Compliance in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-IPPSSession -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Successfully connected to Security and Compliance') -Level Debug;
+            Write-CustomLog -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Successfully connected to Security and Compliance') -Level Verbose;
         }
         # Something went wrong.
         catch
@@ -162,14 +162,14 @@ function Connect-M365Tenant
         try
         {
             # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Debug;
-            Write-Log -Message ('Microsoft Teams: Please provide your credentials for Teams in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Verbose;
+            Write-CustomLog -Message ('Microsoft Teams: Please provide your credentials for Teams in the web browser') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-MicrosoftTeams -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Debug;
+            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Verbose;
         }
         # Something went wrong.
         catch
@@ -185,14 +185,14 @@ function Connect-M365Tenant
         try
         {
             # Write to log.
-            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Trying to connect to SharePoint') -Level Debug;
-            Write-Log -Message ('SharePoint Online: Please provide your credentials for SharePoint in the web browser or webview prompt') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Trying to connect to SharePoint') -Level Verbose;
+            Write-CustomLog -Message ('SharePoint Online: Please provide your credentials for SharePoint in the web browser or webview prompt') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
-            Write-Log -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Successfully connected to SharePoint') -Level Debug;
+            Write-CustomLog -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Successfully connected to SharePoint') -Level Verbose;
         }
         # Something went wrong.
         catch
@@ -204,6 +204,6 @@ function Connect-M365Tenant
     END
     {
         # Write to log.
-        Write-Log -Category 'Login' -Message ('Completed login process to Microsoft') -Level Debug;
+        Write-CustomLog -Category 'Login' -Message ('Completed login process to Microsoft') -Level Verbose;
     }
 }

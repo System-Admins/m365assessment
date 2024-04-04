@@ -19,11 +19,14 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Get SPO urls.
         $spoUrls = Get-SpoTenantUrl;
 
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint and OneDrive tenant configuration') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint and OneDrive tenant configuration') -Level Verbose;
 
         # Get tenant settings.
         $spoTenantSettings = Get-PnPTenant;
@@ -43,7 +46,7 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
         }
 
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External link sharing is set to '{0}' in SharePoint and '{1}' in OneDrive" -f $spoTenantSettings.DefaultSharingLinkType, $odfbTenantSettings.DefaultSharingLinkType) -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External link sharing is set to '{0}' in SharePoint and '{1}' in OneDrive" -f $spoTenantSettings.DefaultSharingLinkType, $odfbTenantSettings.DefaultSharingLinkType) -Level Verbose;
     }
     END
     {
@@ -73,6 +76,9 @@ function Invoke-ReviewSpoExternalLinkSharingRestricted
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

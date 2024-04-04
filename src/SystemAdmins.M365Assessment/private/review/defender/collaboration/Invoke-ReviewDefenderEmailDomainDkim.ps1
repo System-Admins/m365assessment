@@ -20,8 +20,11 @@ function Invoke-ReviewDefenderEmailDomainDkim
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all DKIM configuration' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all DKIM configuration' -Level Verbose;
 
         # Get all DKIM configuration.
         $dkimSigningConfig = Get-DkimSigningConfig;
@@ -33,7 +36,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
         $results = New-Object System.Collections.ArrayList;
 
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all domains' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all domains' -Level Verbose;
 
         # Get all domains in Microsoft 365 tenant.
         $domains = Get-MgDomain -All;
@@ -130,7 +133,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
                 if ($dkimSigningSetting.Valid -eq $true)
                 {
                     # Write to log.
-                    Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("Domain '{0}' have a valid DKIM configuration") -Level Debug;
+                    Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("Domain '{0}' have a valid DKIM configuration") -Level Verbose;
 
                     # SPF is configured correct.
                     $valid = $true;
@@ -139,7 +142,7 @@ function Invoke-ReviewDefenderEmailDomainDkim
                 else
                 {
                     # Write to log.
-                    Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("Domain '{0}' does not have a valid DKIM configuration") -Level Debug;
+                    Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("Domain '{0}' does not have a valid DKIM configuration") -Level Verbose;
                 }
 
                 # If DKIM is enabled.
@@ -188,6 +191,9 @@ function Invoke-ReviewDefenderEmailDomainDkim
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

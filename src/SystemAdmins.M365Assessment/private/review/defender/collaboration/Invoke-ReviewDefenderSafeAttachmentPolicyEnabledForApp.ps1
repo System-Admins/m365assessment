@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting safe attachment global settings' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting safe attachment global settings' -Level Verbose;
 
         # Get safe attachment global settings.
         $atpPolicyForO365 = Get-AtpPolicyForO365;
@@ -39,12 +42,12 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp
             $valid = $false;
 
             # Write to log.
-            Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Safe attachment global settings is not configured correctly' -Level Debug;
+            Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Safe attachment global settings is not configured correctly' -Level Verbose;
         }
         else
         {
             # Write to log.
-            Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Safe attachment global settings is configured correctly' -Level Debug;
+            Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Safe attachment global settings is configured correctly' -Level Verbose;
         }
 
         # Create object.
@@ -80,6 +83,9 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

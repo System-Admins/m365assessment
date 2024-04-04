@@ -39,13 +39,13 @@ function Get-MsAdminApiToken
         try
         {
             # Write to log.
-            Write-Log -Category 'API' -Subcategory 'Admin API' -Message ('Getting access token for Microsoft Admin API') -Level Debug;
+            Write-CustomLog -Category 'API' -Subcategory 'Admin API' -Message ('Getting access token for Microsoft Admin API') -Level Verbose;
 
             # Get access token.
             $accessToken = (Get-AzAccessToken -ResourceUrl $resourceUrl).Token;
 
             # Write to log.
-            Write-Log -Category 'API' -Subcategory 'Admin API' -Message ('Successfully got access token for Microsoft Admin API') -Level Debug;
+            Write-CustomLog -Category 'API' -Subcategory 'Admin API' -Message ('Successfully got access token for Microsoft Admin API') -Level Verbose;
         }
         # Something went wrong getting token.
         catch

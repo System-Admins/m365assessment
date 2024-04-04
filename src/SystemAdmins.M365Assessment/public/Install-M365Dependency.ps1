@@ -13,8 +13,8 @@ function Install-M365Dependency
         # Install required modules.
         Install-M365Dependency;
     .EXAMPLE
-        # Reinstall required modules.
-        Install-M365Dependency -Reinstall;
+        # Dont reinstall required modules.
+        Install-M365Dependency -Reinstall $false;
     .EXAMPLE
         # Install required modules with specific versions.
         Install-M365Dependency -Modules ([PSCustomObject]@{
@@ -30,7 +30,7 @@ function Install-M365Dependency
     (
         # If the modules should be reinstalled.
         [Parameter(Mandatory = $false)]
-        [switch]$Reinstall,
+        [bool]$Reinstall = $true,
 
         # Modules to install.
         [Parameter(Mandatory = $false)]
@@ -52,7 +52,7 @@ function Install-M365Dependency
                 try
                 {
                     # Write to log.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Uninstalling PowerShell module') -Level Debug;
+                    Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Uninstalling PowerShell module') -Level Verbose;
 
                     # Remove module from session.
                     $null = Remove-Module -Name $moduleName -Force -ErrorAction SilentlyContinue -WarningAction SilentlyContinue;
@@ -64,7 +64,7 @@ function Install-M365Dependency
                 catch
                 {
                     # Write warning.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Something went wrong uninstalling PowerShell module') -Level Warning;
+                    Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Something went wrong uninstalling PowerShell module') -Level Warning;
                 }
             }
         }
@@ -75,7 +75,7 @@ function Install-M365Dependency
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Module' -Message ('Trusting PowerShell repository PSGallery') -Level Debug;
+        Write-CustomLog -Category 'Module' -Message ('Trusting PowerShell repository PSGallery') -Level Verbose;
 
         # Trust the PSGallery.
         $null = Set-PSRepository -InstallationPolicy Trusted -Name PSGallery;
@@ -114,7 +114,7 @@ function Install-M365Dependency
                     if ('latest' -eq $moduleVersion)
                     {
                         # Write to log.
-                        Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Trying to install PowerShell module') -Level Debug;
+                        Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Trying to install PowerShell module') -Level Verbose;
 
                         # Install module.
                         $null = Install-Module -Name $moduleName `
@@ -130,7 +130,7 @@ function Install-M365Dependency
                     else
                     {
                         # Write to log.
-                        Write-Log -Category 'Module' -Subcategory $moduleName -Message ("Trying to install PowerShell module using version '{0}'" -f $moduleVersion) -Level Debug;
+                        Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ("Trying to install PowerShell module using version '{0}'" -f $moduleVersion) -Level Verbose;
 
                         # Install module with specific version.
                         $null = Install-Module -Name $moduleName `
@@ -145,7 +145,7 @@ function Install-M365Dependency
                     }
 
                     # Write to log.
-                    Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Successfully installed PowerShell module') -Level Debug;
+                    Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Successfully installed PowerShell module') -Level Verbose;
                 }
                 # Something went wrong installing the module
                 catch
@@ -158,7 +158,7 @@ function Install-M365Dependency
             else
             {
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $moduleName -Message ('PowerShell module is already installed') -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('PowerShell module is already installed') -Level Verbose;
             }
         }
     }

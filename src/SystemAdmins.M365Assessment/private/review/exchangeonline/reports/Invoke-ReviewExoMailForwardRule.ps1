@@ -19,8 +19,11 @@ function Invoke-ReviewExoMailForwardRule
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message 'Getting all mailboxes' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Reports' -Message 'Getting all mailboxes' -Level Verbose;
 
         # Get all mailboxes.
         $mailboxes = Get-Mailbox -ResultSize Unlimited;
@@ -34,7 +37,7 @@ function Invoke-ReviewExoMailForwardRule
         foreach ($mailbox in $mailboxes)
         {
             # Write to log.
-            Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Getting inbox rules for '{0}'" -f $mailbox.PrimarySmtpAddress) -Level Debug;
+            Write-CustomLog -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Getting inbox rules for '{0}'" -f $mailbox.PrimarySmtpAddress) -Level Verbose;
 
             # Get all inbox rules.
             $inboxRules = Get-InboxRule -Mailbox $mailbox.Identity -WarningAction SilentlyContinue -ErrorAction SilentlyContinue;
@@ -48,14 +51,14 @@ function Invoke-ReviewExoMailForwardRule
                     $null -ne $inboxRule.ForwardAsAttachmentTo)
                 {
                     # Write to log.
-                    Write-Log -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Mail forward is enabled for mailbox '{0}' in inbox rule '{1}'" -f $mailbox.PrimarySmtpAddress, $inboxRule.Name) -Level Debug;
+                    Write-CustomLog -Category 'Exchange Online' -Subcategory 'Reports' -Message ("Mail forward is enabled for mailbox '{0}' in inbox rule '{1}'" -f $mailbox.PrimarySmtpAddress, $inboxRule.Name) -Level Verbose;
 
                     # Return object.
                     $mailboxesWithForwardRule += [PSCustomObject]@{
                         Id                    = $mailbox.Id;
                         PrimarySmtpAddress    = $mailbox.PrimarySmtpAddress;
                         Alias                 = $mailbox.Alias;
-                        RuleId                = $inboxRule.Id;
+                        RuleIdentity          = $inboxRule.Identity;
                         RuleName              = $inboxRule.Name;
                         RuleEnabled           = $inboxRule.Enabled;
                         ForwardTo             = $inboxRule.ForwardTo;
@@ -86,11 +89,14 @@ function Invoke-ReviewExoMailForwardRule
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Reports';
         $review.Title = 'Ensure mail forwarding rules are reviewed at least weekly';
-        $review.Data = $mailboxesWithForwardRule;
+        $review.Data = $mailboxesWithForwardRule | Select-Object -First 20;
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

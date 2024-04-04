@@ -22,13 +22,13 @@ function Get-EntraIdHybridAdConnectStatus
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Hybrid' -Message 'Getting hybrid AD connect status' -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Hybrid' -Message 'Getting hybrid AD connect status' -Level Verbose;
 
         # Invoke the request.
         $status = Invoke-EntraIdIamApi -Uri $uri -Method Get;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Hybrid' -Message ("Hybrid AD connect status is '{0}'" -f $status.dirSyncEnabled) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Hybrid' -Message ("Hybrid AD connect status is '{0}'" -f $status.dirSyncEnabled) -Level Verbose;
     }
     END
     {

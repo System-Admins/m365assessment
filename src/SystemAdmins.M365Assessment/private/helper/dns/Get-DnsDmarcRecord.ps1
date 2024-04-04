@@ -25,7 +25,7 @@ function Get-DnsDmarcRecord
     BEGIN
     {
         # Get TXT records for domain.
-        $txtRecords = Invoke-DnsRequest -Domain $Domain -Type 'TXT' -ErrorAction SilentlyContinue;
+        $txtRecords = Invoke-DnsRequest -Domain ('_dmarc.' + $Domain) -Type 'TXT' -ErrorAction SilentlyContinue;
 
         # Object array to store DMARC records.
         $dmarcRecords = New-Object System.Collections.ArrayList;
@@ -39,12 +39,12 @@ function Get-DnsDmarcRecord
             if ($txtRecord.data -like 'v=DMARC1*')
             {
                 # Write to log.
-                Write-Log -Category "DNS" -Subcategory 'DMARC' -Message ("DMARC data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Debug;
+                Write-CustomLog -Category 'DNS' -Subcategory 'DMARC' -Message ("DMARC data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Verbose;
 
                 # Add to object array.
                 $dmarcRecords += [PSCustomObject]@{
                     Domain = $Domain;
-                    Record    = $txtRecord.data;
+                    Record = $txtRecord.data;
                 };
             }
         }

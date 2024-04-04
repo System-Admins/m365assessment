@@ -29,7 +29,7 @@ function Get-EntraIdUserLicense
         $userLicenses = New-Object System.Collections.ArrayList;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'License' -Message ('Getting all users') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'License' -Message ('Getting all users') -Level Verbose;
 
         # Get all users.
         $users = Get-MgUser -All -Select Id, UserPrincipalName, DisplayName, AssignedLicenses;
@@ -54,7 +54,7 @@ function Get-EntraIdUserLicense
             }
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'License' -Message ("Getting license information for user '{0}'" -f $user.UserPrincipalName) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'License' -Message ("Getting license information for user '{0}'" -f $user.UserPrincipalName) -Level Verbose;
 
             # Get user license details.
             $licenseDetails = Get-MgUserLicenseDetail -UserId $user.Id -All -PageSize 500;
@@ -89,7 +89,7 @@ function Get-EntraIdUserLicense
                         if ($null -ne $license)
                         {
                             # Write to log.
-                            Write-Log -Category 'Entra' -Subcategory 'License' -Message ("User '{0}' have the service plan '{1}'" -f $user.UserPrincipalName, $license.Service_Plans_Included_Friendly_Names) -Level Debug;
+                            Write-CustomLog -Category 'Entra' -Subcategory 'License' -Message ("User '{0}' have the service plan '{1}'" -f $user.UserPrincipalName, $license.Service_Plans_Included_Friendly_Names) -Level Verbose;
 
                             # Add object to array.
                             $userLicenses += [PSCustomObject]@{
@@ -121,6 +121,6 @@ function Get-EntraIdUserLicense
         }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'License' -Message ('No licenses are assigned to any users') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'License' -Message ('No licenses are assigned to any users') -Level Verbose;
     }
 }

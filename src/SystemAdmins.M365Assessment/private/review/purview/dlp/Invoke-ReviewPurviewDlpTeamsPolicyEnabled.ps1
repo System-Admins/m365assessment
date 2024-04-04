@@ -19,8 +19,11 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Getting DLP policies") -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Getting DLP policies") -Level Verbose;
 
         # Get DLP policies.
         $dlpPolicies = Get-DlpCompliancePolicy -WarningAction SilentlyContinue;
@@ -31,7 +34,7 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
         $enabledPolicies = $dlpPolicies | Where-Object {$_.Mode -eq 'Enable' -and $_.Workload -like '*Teams*'};
 
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Found {0} enabled Microsoft Teams DLP policies" -f $enabledPolicies.Count) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Found {0} enabled Microsoft Teams DLP policies" -f $enabledPolicies.Count) -Level Verbose;
     }
     END
     {
@@ -53,11 +56,14 @@ function Invoke-ReviewPurviewDlpTeamsPolicyEnabled
         $review.Category = 'Microsoft Purview';
         $review.Subcategory = 'Data Loss Prevention';
         $review.Title = 'Ensure DLP policies are enabled for Microsoft Teams';
-        $review.Data = $dlpPolicies | Select-Object -Property Type, Name, DisplayName, Enabled, Workload;
+        $review.Data = $dlpPolicies | Select-Object -Property Type, Name, DisplayName, Mode, Enabled, Workload;
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

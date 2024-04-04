@@ -20,8 +20,11 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policies' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policies' -Level Verbose;
 
         # Get protection policy rules.
         $eopProtectionPolicyRule = Get-EOPProtectionPolicyRule -Identity 'Strict Preset Security Policy' -ErrorAction SilentlyContinue;
@@ -45,7 +48,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         if ($null -eq $eopProtectionPolicyRule -or $null -eq $atpProtectionPolicyRule)
         {
             # Write to log.
-            Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message "'Strict Preset Security Policy' not found" -Level Debug;
+            Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Settings' -Message "'Strict Preset Security Policy' not found" -Level Verbose;
 
             # Continue.
             return;
@@ -219,7 +222,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
             if ($false -eq $protectedByStrictPolicy)
             {
                 # Write to log.
-                Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message ("Priority user '{0}' is not protected by the strict policy" -f $priorityUser) -Level Debug;
+                Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Settings' -Message ("Priority user '{0}' is not protected by the strict policy" -f $priorityUser) -Level Verbose;
 
                 # Add user to the list.
                 $null = $priorityUsersNotInStrictPolicy.Add($priorityUser);
@@ -251,6 +254,9 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

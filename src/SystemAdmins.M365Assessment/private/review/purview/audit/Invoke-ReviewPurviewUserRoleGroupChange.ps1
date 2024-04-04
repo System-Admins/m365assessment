@@ -19,12 +19,13 @@ function Invoke-ReviewPurviewUserRoleGroupChange
 
     BEGIN
     {
-
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'Getting user role group changes' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'Getting user role group changes' -Level Verbose;
 
         # Search between the following dates.
         $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
@@ -36,7 +37,7 @@ function Invoke-ReviewPurviewUserRoleGroupChange
         );
 
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Audit' -Message ("Getting user role group changes within start date '{0}' and end date '{1}'" -f $startDate, $endDate) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Audit' -Message ("Getting user role group changes within start date '{0}' and end date '{1}'" -f $startDate, $endDate) -Level Verbose;
 
         # Search in the audit log.
         $auditLogs = Search-UnifiedAuditLog -StartDate $startDate -EndDate $endDate -Operations $operations;
@@ -66,6 +67,9 @@ function Invoke-ReviewPurviewUserRoleGroupChange
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

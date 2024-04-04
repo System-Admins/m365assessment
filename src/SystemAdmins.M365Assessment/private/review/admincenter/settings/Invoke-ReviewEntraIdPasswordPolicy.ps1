@@ -19,12 +19,14 @@ function Invoke-ReviewEntraIdPasswordPolicy
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Object array to store the password policies.
         $passwordPolicies = New-Object System.Collections.ArrayList;
 
-
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Domains' -Message ("Getting all domains") -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Domains' -Message ("Getting all domains") -Level Verbose;
 
         # Get all domains.
         $domains = Get-MgDomain -All;
@@ -45,7 +47,7 @@ function Invoke-ReviewEntraIdPasswordPolicy
             }
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Password Policy' -Message ("Password never expire is set to {0} for domain '{1}'" -f $passwordNeverExpire, $domain.id) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Password Policy' -Message ("Password never expire is set to {0} for domain '{1}'" -f $passwordNeverExpire, $domain.id) -Level Verbose;
 
             # Add to object array.
             $passwordPolicies += [PSCustomObject]@{
@@ -80,6 +82,9 @@ function Invoke-ReviewEntraIdPasswordPolicy
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

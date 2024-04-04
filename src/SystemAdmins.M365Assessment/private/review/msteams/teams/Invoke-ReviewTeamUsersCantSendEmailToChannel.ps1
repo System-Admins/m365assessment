@@ -19,8 +19,11 @@ function Invoke-ReviewTeamUsersCantSendEmailToChannel
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Teams' -Message ('Getting client configuration') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Teams' -Message ('Getting client configuration') -Level Verbose;
 
         # Get Teams client configuration.
         $teamsClientConfig = Get-CsTeamsClientConfiguration -Identity Global;
@@ -34,7 +37,7 @@ function Invoke-ReviewTeamUsersCantSendEmailToChannel
         if ($teamsClientConfig.AllowEmailIntoChannel -eq $false)
         {
             # Write to log.
-            Write-Log -Category 'Microsoft Teams' -Subcategory 'Teams' -Message ('Users are not allowed to send emails to a channel') -Level Debug;
+            Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Teams' -Message ('Users are not allowed to send emails to a channel') -Level Verbose;
 
             # Set valid flag to true.
             $valid = $true;
@@ -65,6 +68,9 @@ function Invoke-ReviewTeamUsersCantSendEmailToChannel
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

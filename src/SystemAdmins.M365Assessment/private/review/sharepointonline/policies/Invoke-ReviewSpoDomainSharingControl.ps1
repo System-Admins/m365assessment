@@ -19,8 +19,11 @@ function Invoke-ReviewSpoDomainSharingControl
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Get-PnPTenant;
@@ -38,7 +41,7 @@ function Invoke-ReviewSpoDomainSharingControl
         }
 
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External sharing mode is set to '{0}'" -f $tenantSettings.SharingDomainRestrictionMode) -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External sharing mode is set to '{0}'" -f $tenantSettings.SharingDomainRestrictionMode) -Level Verbose;
     }
     END
     {
@@ -65,6 +68,9 @@ function Invoke-ReviewSpoDomainSharingControl
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

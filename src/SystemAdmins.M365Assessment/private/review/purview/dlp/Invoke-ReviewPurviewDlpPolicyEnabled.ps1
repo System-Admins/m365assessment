@@ -19,8 +19,11 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Getting DLP policies") -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Getting DLP policies") -Level Verbose;
 
         # Get DLP policies.
         $dlpPolicies = Get-DlpCompliancePolicy;
@@ -31,7 +34,7 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
         $enabledPolicies = $dlpPolicies | Where-Object { $_.Enabled -eq $true -and $_.Name -ne 'Default policy for Teams' };
 
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Found {0} enabled DLP policies" -f $enabledPolicies.Count) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Data Loss Prevention' -Message ("Found {0} enabled DLP policies" -f $enabledPolicies.Count) -Level Verbose;
     }
     END
     {
@@ -58,6 +61,9 @@ function Invoke-ReviewPurviewDlpPolicyEnabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

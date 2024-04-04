@@ -65,13 +65,13 @@
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Subcategory 'Office 365 Management'  -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-CustomLog -Category "API" -Subcategory 'Office 365 Management'  -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Subcategory 'Office 365 Management' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-CustomLog -Category "API" -Subcategory 'Office 365 Management' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
         }
         # Something went wrong while invoking API.
         catch
@@ -90,6 +90,6 @@
         }
 
         # Write to log.
-        Write-Log -Category "API" -Subcategory 'Office 365 Management' -Message ('Response from API is empty') -Level Debug;
+        Write-CustomLog -Category "API" -Subcategory 'Office 365 Management' -Message ('Response from API is empty') -Level Verbose;
     }
 }

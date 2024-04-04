@@ -19,8 +19,11 @@ function Invoke-ReviewTeamMeetingAnonymousStartMeeting
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Verbose;
 
         # Get meeting policy.
         $meetingPolicy = Get-CsTeamsMeetingPolicy -Identity Global;
@@ -38,7 +41,7 @@ function Invoke-ReviewTeamMeetingAnonymousStartMeeting
         }
 
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Anonymous users and dial-in callers start a meeting is set to '{0}'" -f $meetingPolicy.AllowAnonymousUsersToStartMeeting) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Anonymous users and dial-in callers start a meeting is set to '{0}'" -f $meetingPolicy.AllowAnonymousUsersToStartMeeting) -Level Verbose;
     }
     END
     {
@@ -65,6 +68,9 @@ function Invoke-ReviewTeamMeetingAnonymousStartMeeting
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;
