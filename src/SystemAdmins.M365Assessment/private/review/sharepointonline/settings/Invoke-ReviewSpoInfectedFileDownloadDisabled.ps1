@@ -20,7 +20,7 @@ function Invoke-ReviewSpoInfectedFileDownloadDisabled
     BEGIN
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
     }
     PROCESS
     {
@@ -60,7 +60,7 @@ function Invoke-ReviewSpoInfectedFileDownloadDisabled
         $review.PrintResult();
 
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

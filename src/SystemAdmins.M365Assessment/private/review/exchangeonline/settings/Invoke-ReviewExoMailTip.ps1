@@ -20,7 +20,7 @@ function Invoke-ReviewExoMailTip
     BEGIN
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Write to log.
         Write-CustomLog -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Getting organization configuration' -Level Verbose;
@@ -104,7 +104,7 @@ function Invoke-ReviewExoMailTip
         $review.PrintResult();
 
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

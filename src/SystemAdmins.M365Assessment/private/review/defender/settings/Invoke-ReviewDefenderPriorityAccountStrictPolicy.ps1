@@ -21,7 +21,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
     BEGIN
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Write to log.
         Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Strict Preset Security Policies' -Level Verbose;
@@ -256,7 +256,7 @@ function Invoke-ReviewDefenderPriorityAccountStrictPolicy
         $review.PrintResult();
 
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -Completed;
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

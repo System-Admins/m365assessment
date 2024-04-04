@@ -23,7 +23,7 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
     PROCESS
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Write to log.
         Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Getting security defaults") -Level Verbose;
@@ -63,7 +63,7 @@ function Invoke-ReviewEntraSecurityDefaultEnabled
         $review.PrintResult();
 
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

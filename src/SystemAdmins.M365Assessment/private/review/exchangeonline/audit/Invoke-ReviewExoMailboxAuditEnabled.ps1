@@ -20,7 +20,7 @@ function Invoke-ReviewExoMailboxAuditEnabled
     BEGIN
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Write to log.
         Write-CustomLog -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting all mailboxes' -Level Verbose;
@@ -74,7 +74,7 @@ function Invoke-ReviewExoMailboxAuditEnabled
         $review.PrintResult();
 
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

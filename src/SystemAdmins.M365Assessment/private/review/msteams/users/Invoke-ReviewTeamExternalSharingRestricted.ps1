@@ -20,7 +20,7 @@ function Invoke-ReviewTeamExternalSharingRestricted
     BEGIN
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Write to log.
         Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('Getting federation configuration') -Level Verbose;
@@ -97,7 +97,7 @@ function Invoke-ReviewTeamExternalSharingRestricted
         $review.PrintResult();
 
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

@@ -20,7 +20,7 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
     BEGIN
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Get module for Exchange Online (not compliance).
         $eopModule = Get-ConnectionInformation | Where-Object {$_.IsEopSession -eq $false};
@@ -82,7 +82,7 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
         $review.PrintResult();
 
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

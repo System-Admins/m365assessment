@@ -20,7 +20,7 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp
     BEGIN
     {
         # Write progress.
-        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Write to log.
         Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting safe attachment global settings' -Level Verbose;
@@ -83,6 +83,9 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabledForApp
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;
