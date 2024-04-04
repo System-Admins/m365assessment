@@ -39,8 +39,8 @@ function Invoke-Review
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Review' -Message ('Starting the review process') -Level Debug;
-        Write-Log -Message ('Running assessment, this might take some time depending on the size of the Microsoft 365 tenant') `
+        Write-CustomLog -Category 'Review' -Message ('Starting the review process') -Level Verbose;
+        Write-CustomLog -Message ('Running assessment, this might take some time depending on the size of the Microsoft 365 tenant') `
             -Level Information `
             -NoDateTime `
             -NoLogLevel `
@@ -772,7 +772,7 @@ function Invoke-Review
                 # Else the user dont have the required license.
                 else
                 {
-                    Write-Log -Message 'Skipping Microsoft Fabric test due to missing Microsoft Fabric license, required to access the API' `
+                    Write-CustomLog -Message 'Skipping Microsoft Fabric test due to missing Microsoft Fabric license, required to access the API' `
                         -Level Warning `
                         -NoDateTime `
                         -NoLogLevel `
@@ -795,9 +795,9 @@ function Invoke-Review
         $score = [math]::Round(($passed.Count / $reviews.Count) * 100);
 
         # Write to log.
-        Write-Log -Message ('Review Assessment: {0} {1} passed | {2} {3} not passed | {4} total' -f $passed.Count, $emojiCheckmark, $notPassed.Count, $emojiCrossmark, $reviews.count) -Level Information -NoDateTime -NoLogLevel;
-        Write-Log -Message ('Review Score: {0} out of 100' -f $score) -Level Information -NoDateTime -NoLogLevel;
-        Write-Log -Category 'Review' -Message ('Finished the review process') -Level Debug;
+        Write-CustomLog -Message ('Review Assessment: {0} {1} passed | {2} {3} not passed | {4} total' -f $passed.Count, $emojiCheckmark, $notPassed.Count, $emojiCrossmark, $reviews.count) -Level Information -NoDateTime -NoLogLevel;
+        Write-CustomLog -Message ('Review Score: {0} out of 100' -f $score) -Level Information -NoDateTime -NoLogLevel;
+        Write-CustomLog -Category 'Review' -Message ('Finished the review process') -Level Verbose;
 
         # Return the reviews.
         return $reviews;

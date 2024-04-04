@@ -16,6 +16,9 @@ function Invoke-ReviewEntraHybridPasswordHashSync
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Get the hybrid AD connect status.
         $adConnectStatus = Get-EntraIdHybridAdConnectStatus;
 
@@ -66,6 +69,9 @@ function Invoke-ReviewEntraHybridPasswordHashSync
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

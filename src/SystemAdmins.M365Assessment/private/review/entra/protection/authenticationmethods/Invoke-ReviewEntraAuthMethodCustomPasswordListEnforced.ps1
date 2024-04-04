@@ -16,6 +16,9 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # URI.
         $uri = 'https://main.iam.ad.ext.azure.com/api/AuthenticationMethods/PasswordPolicy';
 
@@ -25,7 +28,7 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ('Getting password policies') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message ('Getting password policies') -Level Verbose;
 
         # Invoke Entra ID API.
         $passwordPolicy = Invoke-EntraIdIamApi -Uri $uri -Method Get;
@@ -45,8 +48,8 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
         }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ("Policy for custom banned passwords is '{0}'" -f $passwordPolicy.enforceCustomBannedPasswords) -Level Debug;
-        Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ('Found {0} passwords that is banned' -f $passwordPolicy.customBannedPasswords.Count) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message ("Policy for custom banned passwords is '{0}'" -f $passwordPolicy.enforceCustomBannedPasswords) -Level Verbose;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message ('Found {0} passwords that is banned' -f $passwordPolicy.customBannedPasswords.Count) -Level Verbose;
     }
     END
     {
@@ -75,6 +78,9 @@ function Invoke-ReviewEntraAuthMethodCustomPasswordListEnforced
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

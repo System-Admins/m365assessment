@@ -23,7 +23,7 @@ function Get-TenantIdleSessionTimeout
         $idleSessionPolicies = New-Object System.Collections.ArrayList;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message 'Getting all activity based timeout policies' -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Policy' -Message 'Getting all activity based timeout policies' -Level Verbose;
 
         # Get idle session timeout policy.
         $activityBasedTimeoutPolicies = Get-MgPolicyActivityBasedTimeoutPolicy -All;
@@ -40,7 +40,7 @@ function Get-TenantIdleSessionTimeout
             [timespan]$totalMinutes = $applicationPolicies.WebSessionIdleTimeout;
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ("Found idle session policy '{0}' with timeout {1} minutes" -f $activityBasedTimeoutPolicy.DisplayName, $totalMinutes.TotalMinutes) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Policy' -Message ("Found idle session policy '{0}' with timeout {1} minutes" -f $activityBasedTimeoutPolicy.DisplayName, $totalMinutes.TotalMinutes) -Level Verbose;
 
             # Add to array.
             $idleSessionPolicies += [PSCustomObject]@{
@@ -52,7 +52,7 @@ function Get-TenantIdleSessionTimeout
         }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Policy' -Message ('Found {0} activity based timeout policies' -f $idleSessionPolicies.Count) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Policy' -Message ('Found {0} activity based timeout policies' -f $idleSessionPolicies.Count) -Level Verbose;
     }
     END
     {

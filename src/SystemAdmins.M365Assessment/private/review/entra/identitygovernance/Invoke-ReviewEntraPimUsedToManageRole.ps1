@@ -16,6 +16,9 @@ function Invoke-ReviewEntraPimUsedToManageRole
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Get all role definitions.
         $directoryRoleDefinitions = Get-MgRoleManagementDirectoryRoleDefinition -All;
 
@@ -54,7 +57,7 @@ function Invoke-ReviewEntraPimUsedToManageRole
         );
 
         # Object array for roles eligible and active assignments.
-        $roles = @();
+        $roles = New-Object System.Collections.ArrayList;
 
         # Object array to store the roles that is configured incorrectly.
         $incorrectlyConfigured = New-Object System.Collections.ArrayList;
@@ -191,11 +194,14 @@ function Invoke-ReviewEntraPimUsedToManageRole
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Identity Governance';
         $review.Title = "Ensure 'Privileged Identity Management' is used to manage roles";
-        $review.Data = $roles | Select-Object roleID, roleName, eligibleCount, activeCount;
+        $review.Data = $roles | Where-Object {$_.activeCount -ne 0 -and $_.eligibleCount -ne 0} | Select-Object roleID, roleName, eligibleCount, activeCount;
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

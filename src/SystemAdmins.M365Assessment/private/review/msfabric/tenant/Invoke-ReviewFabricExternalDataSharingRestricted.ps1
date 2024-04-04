@@ -16,6 +16,9 @@ function Invoke-ReviewFabricExternalDataSharingRestricted
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # URI to the API.
         $uri = 'https://api.fabric.microsoft.com/v1/admin/tenantsettings';
 
@@ -25,7 +28,7 @@ function Invoke-ReviewFabricExternalDataSharingRestricted
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ('Getting tenant settings') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ('Getting tenant settings') -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = (Invoke-FabricApi -Uri $uri -Method 'GET').tenantsettings;
@@ -48,7 +51,7 @@ function Invoke-ReviewFabricExternalDataSharingRestricted
             }
 
             # Write to log.
-            Write-Log -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ("External data sharing is restricted '{0}'" -f $valid) -Level Debug;
+            Write-CustomLog -Category 'Microsoft Fabric' -Subcategory 'Tenant' -Message ("External data sharing is restricted '{0}'" -f $valid) -Level Verbose;
         }
     }
     END
@@ -78,6 +81,9 @@ function Invoke-ReviewFabricExternalDataSharingRestricted
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

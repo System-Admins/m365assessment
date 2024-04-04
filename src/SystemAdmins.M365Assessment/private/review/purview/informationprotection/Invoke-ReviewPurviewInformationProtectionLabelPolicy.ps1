@@ -19,8 +19,11 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Information Protection' -Message ("Getting label policies") -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Information Protection' -Message ("Getting label policies") -Level Verbose;
 
         # Get all label policies.
         $labelPolicies = Get-LabelPolicy -WarningAction SilentlyContinue;
@@ -54,7 +57,7 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
             if($true -eq $valid)
             {
                 # Write to log.
-                Write-Log -Category 'Microsoft Purview' -Subcategory 'Information Protection' -Message ("Label policy '{0}' is valid" -f $labelPolicy.Name) -Level Debug;
+                Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Information Protection' -Message ("Label policy '{0}' is valid" -f $labelPolicy.Name) -Level Verbose;
 
                 # Add the policy to the list.
                 $null = $policies.Add($labelPolicy);
@@ -86,6 +89,9 @@ function Invoke-ReviewPurviewInformationProtectionLabelPolicy
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

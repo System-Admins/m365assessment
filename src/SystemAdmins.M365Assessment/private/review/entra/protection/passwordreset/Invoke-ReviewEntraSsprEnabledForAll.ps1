@@ -16,6 +16,9 @@ function Invoke-ReviewEntraSsprEnabledForAll
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # URI.
         $uri = 'https://main.iam.ad.ext.azure.com/api/PasswordReset/PasswordResetPolicies?getPasswordResetEnabledGroup=true';
 
@@ -44,7 +47,7 @@ function Invoke-ReviewEntraSsprEnabledForAll
             2
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'All'") -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'All'") -Level Verbose;
 
                 # Set display name.
                 $displayName = 'All';
@@ -53,7 +56,7 @@ function Invoke-ReviewEntraSsprEnabledForAll
             0
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'None'") -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'None'") -Level Verbose;
 
                 # Set display name.
                 $displayName = 'None';
@@ -62,7 +65,7 @@ function Invoke-ReviewEntraSsprEnabledForAll
             1
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'Selected'") -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ("SSPR target is set to 'Selected'") -Level Verbose;
 
                 # Set display name.
                 $displayName = 'Selected';
@@ -96,6 +99,9 @@ function Invoke-ReviewEntraSsprEnabledForAll
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

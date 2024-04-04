@@ -19,8 +19,11 @@ function Invoke-ReviewExoAuditEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting organization configuration' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting organization configuration' -Level Verbose;
 
         # Get organization config.
         $organizationConfig = Get-OrganizationConfig;
@@ -38,7 +41,7 @@ function Invoke-ReviewExoAuditEnabled
         }
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Audit feature is set to '{0}'" -f $enabled) -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Audit feature is set to '{0}'" -f $enabled) -Level Verbose;
     }
     END
     {
@@ -67,6 +70,9 @@ function Invoke-ReviewExoAuditEnabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

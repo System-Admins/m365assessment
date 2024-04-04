@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderEmailDomainDmarc
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all domains' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all domains' -Level Verbose;
 
         # Get all domains in Microsoft 365 tenant.
         $domains = Get-MgDomain -All;
@@ -61,17 +64,17 @@ function Invoke-ReviewDefenderEmailDomainDmarc
                     # Set boolean to true.
                     $valid = $true;
                 }
-            }
 
-            # Add domain DMARC settings to object array.
-            $dmarcSettings += [PSCustomObject]@{
-                Domain             = $domain.Id;
-                Valid              = $valid;
-                IsDefault          = $domain.IsDefault;
-                IsVerified         = $domain.IsVerified;
-                AuthenticationType = $domain.AuthenticationType;
-                Record             = $dmarcRecords.Record;
-            };
+                # Add domain DMARC settings to object array.
+                $dmarcSettings += [PSCustomObject]@{
+                    Domain             = $domain.Id;
+                    Valid              = $valid;
+                    IsDefault          = $domain.IsDefault;
+                    IsVerified         = $domain.IsVerified;
+                    AuthenticationType = $domain.AuthenticationType;
+                    Record             = $dmarcRecords.Record;
+                };
+            }
         }
     }
     END
@@ -99,6 +102,9 @@ function Invoke-ReviewDefenderEmailDomainDmarc
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -Completed;
 
         # Return object.
         return $review;

@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmin
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting outbound e-mail spam policies' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting outbound e-mail spam policies' -Level Verbose;
 
         # Get outbound e-mail spam policies.
         $outboundSpamFilterPolicies = Get-HostedOutboundSpamFilterPolicy;
@@ -61,7 +64,7 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmin
             if ($valid -eq $false)
             {
                 # Write to log.
-                Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ('Outbound e-mail spam policy {0} is not set to notify administrators' -f $outboundSpamFilterPolicy.Name) -Level Debug;
+                Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ('Outbound e-mail spam policy {0} is not set to notify administrators' -f $outboundSpamFilterPolicy.Name) -Level Verbose;
             }
 
             # Create object.
@@ -80,13 +83,13 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmin
     END
     {
         # Bool for review flag.
-        [bool]$reviewFlag = $false;
+        [bool]$reviewFlag = $true;
 
         # If review flag should be set.
-        if ($settings | Where-Object { $_.Valid -eq $false })
+        if ($settings | Where-Object { $_.Valid -eq $true })
         {
             # Should be reviewed.
-            $reviewFlag = $true;
+            $reviewFlag = $false;
         }
 
         # Create new review object to return.
@@ -102,6 +105,9 @@ function Invoke-ReviewDefenderAntiSpamNotifyAdmin
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

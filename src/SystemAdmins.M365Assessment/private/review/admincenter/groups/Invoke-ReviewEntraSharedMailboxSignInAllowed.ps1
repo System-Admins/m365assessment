@@ -18,11 +18,14 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
     )
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Object array to store shared mailbox review.
         $reviewSharedMailbox = New-Object System.Collections.ArrayList;
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message 'Getting shared mailboxes' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mailbox' -Message 'Getting shared mailboxes' -Level Verbose;
 
         # Get all shared mailboxes.
         $sharedMailboxes = Get-Mailbox -RecipientTypeDetails SharedMailbox -ResultSize Unlimited;
@@ -41,7 +44,7 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
         );
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'User' -Message 'Getting all users' -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message 'Getting all users' -Level Verbose;
 
         # Get all users.
         $users = Get-MgUser -All -Property $property;
@@ -92,7 +95,7 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
                 }
 
                 # Write to log.
-                Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ("Shared mailbox '{0}' is allowed to login" -f $sharedMailbox.PrimarySmtpAddress) -Level Debug;
+                Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ("Shared mailbox '{0}' is allowed to login" -f $sharedMailbox.PrimarySmtpAddress) -Level Verbose;
 
                 # Add to object array.
                 $reviewSharedMailbox += [PSCustomObject]@{
@@ -111,7 +114,7 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
         }
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mailbox' -Message ('There are {0} shared mailboxes where sign-in is allowed' -f $reviewSharedMailbox.Count) -Level Verbose;
     }
     END
     {
@@ -133,11 +136,14 @@ function Invoke-ReviewEntraSharedMailboxSignInAllowed
         $review.Category = 'Microsoft 365 Admin Center';
         $review.Subcategory = 'Teams and groups';
         $review.Title = 'Ensure sign-in to shared mailboxes is blocked';
-        $review.Data = $reviewSharedMailbox;
+        $review.Data = $reviewSharedMailbox | Select-Object -First 20;
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

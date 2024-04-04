@@ -16,6 +16,9 @@ function Invoke-ReviewEntraGuestUser
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Object array to store guest accounts.
         $reviewAccounts = New-Object System.Collections.ArrayList;
 
@@ -34,7 +37,7 @@ function Invoke-ReviewEntraGuestUser
             $roles = ($usersWithAdminRole | Where-Object { $_.UserPrincipalName -eq $guestUser.UserPrincipalName }).RoleDisplayName;
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'User' -Message ("Found guest user '{0}'" -f $guestUser.UserPrincipalName) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ("Found guest user '{0}'" -f $guestUser.UserPrincipalName) -Level Verbose;
 
             # Add to object array.
             $reviewAccounts += [PSCustomObject]@{
@@ -70,11 +73,14 @@ function Invoke-ReviewEntraGuestUser
         $review.Category = 'Microsoft 365 Admin Center';
         $review.Subcategory = 'Users';
         $review.Title = 'Ensure Guest Users are reviewed';
-        $review.Data = $reviewAccounts;
+        $review.Data = $reviewAccounts | Select-Object -First 20;
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

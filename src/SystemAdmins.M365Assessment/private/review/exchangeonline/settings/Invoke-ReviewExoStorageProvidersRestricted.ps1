@@ -19,8 +19,11 @@ function Invoke-ReviewExoStorageProvidersRestricted
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Getting OWA policies' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Getting OWA policies' -Level Verbose;
 
         # Get OWA policies.
         $owaPolicies = Get-OwaMailboxPolicy;
@@ -34,10 +37,10 @@ function Invoke-ReviewExoStorageProvidersRestricted
         foreach ($owaPolicy in $owaPolicies)
         {
             # If additional storage providers are not restricted.
-            if ($owaPolicy.AdditionalStorageProvidersAvailable -eq $false)
+            if ($owaPolicy.AdditionalStorageProvidersAvailable -eq $true)
             {
                 # Write to log.
-                Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message ("OWA policy '{0}' allows additional storage providers" -f $owaPolicy.Name) -Level Debug;
+                Write-CustomLog -Category 'Exchange Online' -Subcategory 'Settings' -Message ("OWA policy '{0}' allows additional storage providers" -f $owaPolicy.Name) -Level Verbose;
 
                 # Add OWA policy to list.
                 $null = $owaPoliciesNotRestricted.Add($owaPolicy);
@@ -69,6 +72,9 @@ function Invoke-ReviewExoStorageProvidersRestricted
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

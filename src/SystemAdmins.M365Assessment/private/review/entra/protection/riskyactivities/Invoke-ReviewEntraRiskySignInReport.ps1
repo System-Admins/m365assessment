@@ -16,29 +16,40 @@ function Invoke-ReviewEntraRiskySignInReport
 
     BEGIN
     {
-        # URI.
-        $uri = 'https://main.iam.ad.ext.azure.com/api/Security/RiskyUsers';
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
 
-        # Body.
-        $body = @{
-            riskStates  = @(1, 4);
-            riskLevels  = @(2, 1);
-            riskDetails = New-Object System.Collections.ArrayList;
-            userStatus  = @($false);
-            sort        = @{
-                field        = 'riskLastUpdatedDateTime';
-                defaultOrder = $true;
-            };
-            pageSize    = 50;
-        } | ConvertTo-Json;
+        # Dates.
+        $startDate = (Get-Date).AddDays(-7);
+        $endDate = (Get-Date).AddHours(-1);
+
+        # URI.
+        $uri = ('https://graph.microsoft.com/beta/auditLogs/signIns?api-version=beta&$filter=(createdDateTime%20ge%20{0}%20and%20createdDateTime%20lt%20{1}%20and%20(riskState%20eq%20%27atRisk%27%20or%20riskState%20eq%20%27confirmedCompromised%27)%20and%20(signInEventTypes/any(t:%20t%20eq%20%27interactiveUser%27)%20or%20signInEventTypes/any(t:%20t%20eq%20%27nonInteractiveUser%27)))&$top=50&$orderby=createdDateTime%20desc' -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'));
+
     }
     PROCESS
     {
-        # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ('Getting risky users report') -Level Debug;
+        # Try to invoke API.
+        try
+        {
+            # Write to log.
+            Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Getting risky sign-in report') -Level Verbose;
 
-        # Invoke Entra ID API.
-        $riskyUsers = Invoke-EntraIdIamApi -Uri $uri -Body $body -Method POST;
+            # Invoke Microsoft Graph API.
+            $riskySignIns = Invoke-MgGraphRequest -Uri $uri -Method Get -ErrorAction Stop;
+
+            # Write to log.
+            Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Successfully got risky sign-in report') -Level Verbose;
+        }
+        # Something went wrong.
+        catch
+        {
+            # Write to log.
+            Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Failed to get risky sign-in report') -Level Verbose;
+
+            # Return.
+            return;
+        }
     }
     END
     {
@@ -46,7 +57,7 @@ function Invoke-ReviewEntraRiskySignInReport
         [bool]$reviewFlag = $false;
 
         # If review flag should be set.
-        if ($riskyUsers.items.Count -gt 0)
+        if ($riskySignIns.value.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
@@ -60,11 +71,14 @@ function Invoke-ReviewEntraRiskySignInReport
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Protection';
         $review.Title = "Ensure the Azure AD 'Risky sign-ins' report is reviewed at least weekly";
-        $review.Data = $riskyUsers.items;
+        $review.Data = $riskySignIns.value | Select-Object createdDateTime, userPrincipalName, ipAddress, @{Name = 'location'; Expression = { ('{0}, {1}, {2}' -f $_.location.city, $_.location.state, $_.location.countryOrRegion) } }, riskState, riskLevelDuringSignIn;
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

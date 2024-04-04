@@ -16,6 +16,9 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # URI to the API.
         $uri = 'https://main.iam.ad.ext.azure.com/api/LoginTenantBrandings/0';
 
@@ -27,13 +30,13 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         try
         {
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Getting 'Show keep user signed' login settings") -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Getting 'Show keep user signed' login settings") -Level Verbose;
 
             # Get the Entra ID property settings.
             $entraIdProperties = Invoke-EntraIdIamApi -Uri $uri -Method 'GET' -ErrorAction SilentlyContinue;
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("'Show keep user signed' is set to '{0}'" -f $entraIdProperties.hideKeepMeSignedIn) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("'Show keep user signed' is set to '{0}'" -f $entraIdProperties.hideKeepMeSignedIn) -Level Verbose;
 
             # If the setting is set to true.
             if ($true -eq $entraIdProperties.hideKeepMeSignedIn)
@@ -45,7 +48,7 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
         catch
         {
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Not able to get 'Show keep user signed', this is usually because user have never modified the setting (default setting is 'true')" -f $entraIdProperties.hideKeepMeSignedIn) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Not able to get 'Show keep user signed', this is usually because user have never modified the setting (default setting is 'true')" -f $entraIdProperties.hideKeepMeSignedIn) -Level Verbose;
         }
     }
     END
@@ -75,6 +78,9 @@ function Invoke-ReviewEntraHideKeepMeSignedIn
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

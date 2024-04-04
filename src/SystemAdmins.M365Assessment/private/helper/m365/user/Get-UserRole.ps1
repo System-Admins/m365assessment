@@ -26,7 +26,7 @@ function Get-UserRole
         try
         {
             # Write to log.
-            Write-Log -Category 'User' -Message "Getting all 'member of' for logged in user" -Level Debug;
+            Write-CustomLog -Category 'User' -Message "Getting all 'member of' for logged in user" -Level Verbose;
 
             # Invoke Microsoft Graph API.
             $response = Invoke-MgGraphRequest -Uri $uri -Method Get -ErrorAction Stop;
@@ -34,7 +34,7 @@ function Get-UserRole
         catch
         {
             # Write to log.
-            Write-Log -Category 'User' -Message "Failed to get 'member of' for logged in user" -Level Debug;
+            Write-CustomLog -Category 'User' -Message "Failed to get 'member of' for logged in user" -Level Verbose;
 
             # Throw error.
             throw ($_);

@@ -19,8 +19,11 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ('Getting SharePoint tenant configuration') -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Invoke-PnPSPRestMethod -Method Get -Url '/_api/SPOInternalUseOnly.Tenant';
@@ -39,7 +42,7 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
             $valid = $true;
 
             # Write to log.
-            Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External sharing is restricted by security group '{0}'" -f $tenantSettings.GuestSharingGroupAllowListInTenantByPrincipalIdentity) -Level Debug;
+            Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("External sharing is restricted by security group '{0}'" -f $tenantSettings.GuestSharingGroupAllowListInTenantByPrincipalIdentity) -Level Verbose;
         }
     }
     END
@@ -67,6 +70,9 @@ function Invoke-ReviewSpoExternalSharingRestrictedGroup
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

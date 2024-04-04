@@ -19,8 +19,11 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomain
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting transport rules' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message 'Getting transport rules' -Level Verbose;
 
         # Get all transport rules.
         $transportRules = Get-TransportRule -ResultSize Unlimited;
@@ -54,7 +57,7 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomain
             if ($valid -eq $false)
             {
                 # Write to log.
-                Write-Log -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Transport rule '{0}' have a whitelisted domain" -f $transportRule.Name) -Level Debug;
+                Write-CustomLog -Category 'Exchange Online' -Subcategory 'Mail Flow' -Message ("Transport rule '{0}' have a whitelisted domain" -f $transportRule.Name) -Level Verbose;
 
                 # Add to list.
                 $null = $transportRulesWithWhitelistSpecificDomains.Add($transportRule);
@@ -81,11 +84,14 @@ function Invoke-ReviewExoTransportRuleWhitelistSpecificDomain
         $review.Category = 'Microsoft Exchange Admin Center';
         $review.Subcategory = 'Mail Flow';
         $review.Title = "Ensure mail transport rules do not whitelist specific domains";
-        $review.Data = $transportRulesWithWhitelistSpecificDomains | Select-Object -Property Name, Priority, Enabled, Identity, SenderDomainIs, Setscl;
+        $review.Data = $transportRulesWithWhitelistSpecificDomains | Select-Object -Property Name, Priority, State, Identity, SenderDomainIs, Setscl;
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

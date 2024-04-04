@@ -19,8 +19,11 @@ function Invoke-ReviewExoMailboxAuditEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting all mailboxes' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting all mailboxes' -Level Verbose;
 
         # Get all mailboxes.
         $mailboxes = Get-Mailbox -ResultSize Unlimited;
@@ -42,7 +45,7 @@ function Invoke-ReviewExoMailboxAuditEnabled
         }
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Found {0} with audit disabled" -f $mailboxesAuditDisabled.Count) -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Found {0} with audit disabled" -f $mailboxesAuditDisabled.Count) -Level Verbose;
     }
     END
     {
@@ -69,6 +72,9 @@ function Invoke-ReviewExoMailboxAuditEnabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

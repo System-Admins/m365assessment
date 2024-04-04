@@ -67,13 +67,13 @@
         try
         {
             # Write to log.
-            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Trying to call RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-CustomLog -Category "API" -Subcategory 'Entra ID' -Message ('Trying to call RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Successfully called RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-CustomLog -Category "API" -Subcategory 'Entra ID' -Message ('Successfully called RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
         }
         # Something went wrong while invoking API.
         catch
@@ -92,6 +92,6 @@
         }
 
         # Write to log.
-        Write-Log -Category "API" -Subcategory 'Entra ID' -Message ('Response from RBAC API is empty') -Level Debug;
+        Write-CustomLog -Category "API" -Subcategory 'Entra ID' -Message ('Response from RBAC API is empty') -Level Verbose;
     }
 }

@@ -44,13 +44,13 @@
         try
         {
             # Write to log.
-            Write-Log -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-CustomLog -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Trying to call API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
 
             # Invoke API.
             $null = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-Log -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Debug;
+            Write-CustomLog -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Successfully called API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
 
             # Set valid license to true.
             $validLicense = $true;
@@ -68,7 +68,7 @@
                 $validLicense = $false;
 
                 # Write to log.
-                Write-Log -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('User is not licensed for the API') -Level Debug;
+                Write-CustomLog -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('User is not licensed for the API') -Level Verbose;
             }
         }
     }

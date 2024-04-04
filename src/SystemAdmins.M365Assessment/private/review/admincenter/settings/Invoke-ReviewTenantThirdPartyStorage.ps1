@@ -16,6 +16,8 @@ function Invoke-ReviewTenantThirdPartyStorage
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
     }
     PROCESS
     {
@@ -23,7 +25,7 @@ function Invoke-ReviewTenantThirdPartyStorage
         $settings = Get-TenantOfficeOnlineSetting;
 
         # Write to log.
-        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("Allow third-party storage services is set to '{0}'" -f $settings.thirdPartyStorageEnabled) -Level Debug;
+        Write-CustomLog -Category 'Tenant' -Subcategory 'Policy' -Message ("Allow third-party storage services is set to '{0}'" -f $settings.thirdPartyStorageEnabled) -Level Verbose;
     }
     END
     {
@@ -52,6 +54,9 @@ function Invoke-ReviewTenantThirdPartyStorage
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

@@ -16,8 +16,11 @@ function Invoke-ReviewTenantUserOwnedAppsService
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message 'Getting user owned apps and services settings' -Level Debug;
+        Write-CustomLog -Category 'Tenant' -Subcategory 'Policy' -Message 'Getting user owned apps and services settings' -Level Verbose;
 
         # Get User owned apps and services settings.
         $settings = Get-TenantStorePolicy;
@@ -42,8 +45,8 @@ function Invoke-ReviewTenantUserOwnedAppsService
         }
 
         # Write to log.
-        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("'Let users access the Office store' status is set to '{0}'" -f $settings.accessOfficeStore) -Level Debug;
-        Write-Log -Category 'Tenant' -Subcategory 'Policy' -Message ("'Let users start trials on behalf of your organization' status is set to '{0}'" -f $settings.accessOfficeStore) -Level Debug;
+        Write-CustomLog -Category 'Tenant' -Subcategory 'Policy' -Message ("'Let users access the Office store' status is set to '{0}'" -f $settings.accessOfficeStore) -Level Verbose;
+        Write-CustomLog -Category 'Tenant' -Subcategory 'Policy' -Message ("'Let users start trials on behalf of your organization' status is set to '{0}'" -f $settings.accessOfficeStore) -Level Verbose;
     }
     END
     {
@@ -70,6 +73,9 @@ function Invoke-ReviewTenantUserOwnedAppsService
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

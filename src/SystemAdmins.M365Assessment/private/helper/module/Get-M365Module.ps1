@@ -52,12 +52,12 @@ function Get-M365Module
                 $installedVersion = $installedModule.Version;
 
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Module is installed') -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Module is installed') -Level Verbose;
             }
             else
             {
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Module is not installed') -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Module is not installed') -Level Verbose;
             }
 
             # If target version is latest.
@@ -80,13 +80,13 @@ function Get-M365Module
                 $valid = $true;
 
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Module is installed in correct version') -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Module is installed in correct version') -Level Verbose;
             }
             # Else if installed version and target version is not the same.
             elseif ($null -ne $installedModule -and $installedVersion -ne $targetVersion)
             {
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $moduleName -Message ('Module is installed in incorrect version') -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $moduleName -Message ('Module is installed in incorrect version') -Level Verbose;
             }
 
             # Add to object array.
@@ -113,7 +113,7 @@ function Get-M365Module
             foreach ($missingModule in $missingModules)
             {
                 # Write to log.
-                Write-Log -Category 'Module' -Subcategory $missingModule.Name -Message ('Module not installed or correct version') -Level Debug;
+                Write-CustomLog -Category 'Module' -Subcategory $missingModule.Name -Message ('Module not installed or correct version') -Level Verbose;
             }
         }
 

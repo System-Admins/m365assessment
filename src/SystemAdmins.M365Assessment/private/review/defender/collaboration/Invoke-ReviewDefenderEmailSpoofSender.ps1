@@ -19,15 +19,23 @@ function Invoke-ReviewDefenderEmailSpoofSender
 
     BEGIN
     {
-
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting spoofed domains report' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting spoofed domains report' -Level Verbose;
 
         # Get spoofed senders (last 7 days).
         $spoofedSenders = Get-SpoofIntelligenceInsight | Where-Object { $_.LastSeen -gt (Get-Date).AddDays(-7) };
+
+        # If there is any spoofed senders.
+        if ($spoofedSenders.Count -gt 0)
+        {
+            # Sort by message count.
+            $spoofedSenders = $spoofedSenders | Sort-Object -Property MessageCount -Descending;
+        }
     }
     END
     {
@@ -54,6 +62,9 @@ function Invoke-ReviewDefenderEmailSpoofSender
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

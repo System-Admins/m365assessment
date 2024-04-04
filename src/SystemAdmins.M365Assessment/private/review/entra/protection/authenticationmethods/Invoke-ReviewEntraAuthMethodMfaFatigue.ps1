@@ -19,8 +19,11 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ('Getting authentication methods') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message ('Getting authentication methods') -Level Verbose;
 
         # Get authentication method policy.
         $authenticationMethodPolicy = Get-MgPolicyAuthenticationMethodPolicy;
@@ -44,7 +47,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if ($authenticationMethodConfiguration.state -eq 'disabled')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Microsoft Authenticator authentication method is disabled' -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Microsoft Authenticator authentication method is disabled' -Level Verbose;
 
                 # Skip to next item.
                 continue;
@@ -57,7 +60,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if ($displayAppInformationRequiredState.state -eq 'disabled')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show application name in push and passwordless notifications, is not enabled' -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show application name in push and passwordless notifications, is not enabled' -Level Verbose;
 
                 # Skip to next item.
                 continue;
@@ -67,7 +70,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if (($displayAppInformationRequiredState.includeTarget).Values -notcontains 'all_users')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show application name in push and passwordless notifications, is not deployed to all users' -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show application name in push and passwordless notifications, is not deployed to all users' -Level Verbose;
 
                 # Skip to next item.
                 continue;
@@ -80,7 +83,7 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if ($displayLocationInformationRequiredState.state -eq 'disabled')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show geographic location in push and passwordless notifications, is not enabled' -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show geographic location in push and passwordless notifications, is not enabled' -Level Verbose;
 
                 # Skip to next item.
                 continue;
@@ -90,14 +93,14 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
             if (($displayLocationInformationRequiredState.includeTarget).Values -notcontains 'all_users')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show geographic location in push and passwordless notifications, is not deployed to all users' -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message 'Show geographic location in push and passwordless notifications, is not deployed to all users' -Level Verbose;
 
                 # Skip to next item.
                 continue;
             }
 
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'Authentication Methods' -Message ("The authentication method policy '{0}' is valid" -f $authenticationMethodConfiguration.Id) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'Authentication Methods' -Message ("The authentication method policy '{0}' is valid" -f $authenticationMethodConfiguration.Id) -Level Verbose;
 
             # Set valid configuration.
             $valid = $true;
@@ -136,6 +139,9 @@ function Invoke-ReviewEntraAuthMethodMfaFatigue
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

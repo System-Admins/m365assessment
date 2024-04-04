@@ -19,17 +19,19 @@ function Invoke-ReviewSpoGuestResharingRestricted
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Getting SharePoint tenant configuration") -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Getting SharePoint tenant configuration") -Level Verbose;
 
         # Get tenant settings.
         $tenantSettings = Get-PnPTenant;
 
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Prevent external users from resharing is '{0}'" -f $tenantSettings.PreventExternalUsersFromResharing) -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Policies' -Message ("Prevent external users from resharing is '{0}'" -f $tenantSettings.PreventExternalUsersFromResharing) -Level Verbose;
     }
     END
     {
@@ -56,6 +58,9 @@ function Invoke-ReviewSpoGuestResharingRestricted
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

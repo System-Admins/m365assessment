@@ -16,6 +16,9 @@ function Invoke-ReviewEntraNumberOfGlobalAdmin
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Get all users with admin roles.
         $usersWithAdminRole = Get-EntraIdUserAdminRole;
 
@@ -35,7 +38,7 @@ function Invoke-ReviewEntraNumberOfGlobalAdmin
             if ($userWithAdminRole.RoleDisplayName -eq 'Global Administrator')
             {
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'User' -Message ("User '{0}' have the role '{1}'" -f $userWithAdminRole.UserPrincipalName, $userWithAdminRole.RoleDisplayName) -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ("User '{0}' have the role '{1}'" -f $userWithAdminRole.UserPrincipalName, $userWithAdminRole.RoleDisplayName) -Level Verbose;
 
                 # Add to object array.
                 $null = $globalAdmins.Add($userWithAdminRole);
@@ -43,7 +46,7 @@ function Invoke-ReviewEntraNumberOfGlobalAdmin
         }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'User' -Message ('Found {0} with the role Global Administrator' -f $globalAdmins.Count) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ('Found {0} with the role Global Administrator' -f $globalAdmins.Count) -Level Verbose;
     }
     END
     {
@@ -70,6 +73,9 @@ function Invoke-ReviewEntraNumberOfGlobalAdmin
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

@@ -16,6 +16,9 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Get the hybrid AD connect status.
         $adConnectStatus = Get-EntraIdHybridAdConnectStatus;
 
@@ -40,7 +43,7 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
                 $valid = $false;
 
                 # Write to log.
-                Write-Log -Category 'Entra' -Subcategory 'Protection' -Message 'Password protection is not enforced on premises' -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message 'Password protection is not enforced on premises' -Level Verbose;
             }
         }
     }
@@ -72,6 +75,9 @@ function Invoke-ReviewEntraAuthMethodPasswordProtectionOnPremAD
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

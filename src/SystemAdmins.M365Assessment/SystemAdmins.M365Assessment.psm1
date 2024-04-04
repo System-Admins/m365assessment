@@ -55,7 +55,7 @@ foreach ($ps1File in $ps1Files)
 }
 
 # Write to log.
-Write-Log -Category 'Module' -Message ("Script path is '{0}'" -f $scriptPath) -Level Debug;
+Write-CustomLog -Category 'Module' -Message ("Script path is '{0}'" -f $scriptPath) -Level Verbose;
 
 # Get all the functions in the public section.
 $publicFunctions = $publicPs1Files.Basename;
@@ -70,20 +70,21 @@ $installedModules = Get-M365Module -Modules $Script:Modules | Where-Object { $fa
 if ($null -ne $installedModules)
 {
     # Write to log.
-    Write-Log -Category 'Module' -Message ("Exporting the functions 'Install-M365Dependency'") -Level Debug;
+    Write-CustomLog -Category 'Module' -Message ("Exporting the functions 'Install-M365Dependency'") -Level Verbose;
 
     # Expose only the function "Install-M365Dependency".
     Export-ModuleMember -Function 'Install-M365Dependency';
 
     # Throw warning.
-    Write-Log -Message ('Not all required modules are installed, please run "Install-M365Dependency" or "Install-M365Depedency -Reinstall" to get latest versions of the dependency') -Level Warning -NoDateTime -NoLogLevel;
-    Write-Log -Message ('Then restart the PowerShell session and import the module again') -Level Warning -NoDateTime -NoLogLevel;
+    Write-CustomLog -Message ('Not all required modules are installed, please run "Install-M365Dependency"') -Level Warning -NoDateTime -NoLogLevel;
+    Write-CustomLog -Message ('Modules that need to be (re)installed is "{0}"' -f (($installedModules).Name) -join '", "') -Level Warning -NoDateTime -NoLogLevel;
+    Write-CustomLog -Message ('Then restart the PowerShell session and import the module again') -Level Warning -NoDateTime -NoLogLevel;
 }
 # Else all modules are installed.
 else
 {
     # Write to log.
-    Write-Log -Category 'Module' -Message ("Exporting the functions '{0}'" -f ($publicFunctions -join ',')) -Level Debug;
+    Write-CustomLog -Category 'Module' -Message ("Exporting the functions '{0}'" -f ($publicFunctions -join ',')) -Level Verbose;
 
     # Export functions.
     Export-ModuleMember -Function $publicFunctions;

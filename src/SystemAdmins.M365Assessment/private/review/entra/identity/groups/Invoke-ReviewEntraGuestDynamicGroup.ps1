@@ -19,8 +19,11 @@ function Invoke-ReviewEntraGuestDynamicGroup
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Getting all dynamic created groups") -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Getting all dynamic created groups") -Level Verbose;
 
         # Get all dynamic groups.
         $groups = Get-MgGroup -Filter "groupTypes/any(c:c eq 'DynamicMembership')" -All;
@@ -31,7 +34,7 @@ function Invoke-ReviewEntraGuestDynamicGroup
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Found {0} dynamic created groups" -f $groups.Count) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Found {0} dynamic created groups" -f $groups.Count) -Level Verbose;
 
         # Foreach dynamic group.
         foreach ($group in $groups)
@@ -39,7 +42,7 @@ function Invoke-ReviewEntraGuestDynamicGroup
             # If group contains guest users.
             if ($group.MembershipRule -eq '(user.userType -eq "Guest")')
             {
-                Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Dynamic group '{0}' have matching membership rule '{1}'" -f $group.DisplayName, $group.MembershipRule) -Level Debug;
+                Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Dynamic group '{0}' have matching membership rule '{1}'" -f $group.DisplayName, $group.MembershipRule) -Level Verbose;
 
                 # Add group to results.
                 $null = $results.Add($group);
@@ -71,6 +74,9 @@ function Invoke-ReviewEntraGuestDynamicGroup
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

@@ -19,18 +19,19 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
 
     BEGIN
     {
-
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ('Getting if users can register apps') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ('Getting if users can register apps') -Level Verbose;
 
         # Get auth policy.
         $authorizationPolicy = Get-MgPolicyAuthorizationPolicy;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Register apps per user is set to '{0}'" -f $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateApps) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Register apps per user is set to '{0}'" -f $authorizationPolicy.DefaultUserRolePermissions.AllowedToCreateApps) -Level Verbose;
     }
     END
     {
@@ -59,6 +60,9 @@ function Invoke-ReviewEntraUsersCanRegisterAppsEnabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

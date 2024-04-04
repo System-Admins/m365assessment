@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting safe attachment policies' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting safe attachment policies' -Level Verbose;
 
         # Get safe attachment policies.
         $safeAttachmentPolicies = Get-SafeAttachmentPolicy;
@@ -54,7 +57,7 @@ function Invoke-ReviewDefenderSafeAttachmentPolicyEnabled
             if ($valid -eq $false)
             {
                 # Write to log.
-                Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ('Safe attachment policy {0} is not correctly configured' -f $safeAttachmentPolicy.Name) -Level Debug;
+                Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ('Safe attachment policy {0} is not correctly configured' -f $safeAttachmentPolicy.Name) -Level Verbose;
             }
 
             # Add to object array.

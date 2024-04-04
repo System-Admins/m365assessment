@@ -20,7 +20,7 @@ function Get-EntraIdApplicationDirectorySetting
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Application' -Message 'Getting directory settings' -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Application' -Message 'Getting directory settings' -Level Verbose;
 
         # Get directory settings.
         $directorySettings = Get-MgBetaDirectorySetting -All;

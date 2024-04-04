@@ -39,7 +39,7 @@ function Get-DnsSpfRecord
             if ($txtRecord.data -like 'v=spf1*')
             {
                 # Write to log.
-                Write-Log -Category 'DNS' -Subcategory 'SPF' -Message ("SPF data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Debug;
+                Write-CustomLog -Category 'DNS' -Subcategory 'SPF' -Message ("SPF data for '{0}' is '{1}'" -f $Domain, $txtRecord.data) -Level Verbose;
 
                 # Add to object array.
                 $spfRecords += [PSCustomObject]@{

@@ -19,8 +19,11 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting mailbox audit bypass associations' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Audit' -Message 'Getting mailbox audit bypass associations' -Level Verbose;
 
         # Get all mailboxes.
         $mailboxes = Get-MailboxAuditBypassAssociation -ResultSize Unlimited -WarningAction SilentlyContinue;
@@ -42,7 +45,7 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
         }
 
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Found {0} mailboxes with audit bypass enabled" -f $mailboxesAuditBypassEnabled) -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Audit' -Message ("Found {0} mailboxes with audit bypass enabled" -f $mailboxesAuditBypassEnabled) -Level Verbose;
     }
     END
     {
@@ -69,6 +72,9 @@ function Invoke-ReviewExoMailboxAuditBypassDisabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

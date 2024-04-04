@@ -19,8 +19,11 @@ function Invoke-ReviewTeamMeetingExternalControl
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Verbose;
 
         # Get meeting policy.
         $meetingPolicy = Get-CsTeamsMeetingPolicy -Identity Global;
@@ -38,7 +41,7 @@ function Invoke-ReviewTeamMeetingExternalControl
         }
 
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("External participants give or request control is set to '{0}'" -f $meetingPolicy.AllowExternalParticipantGiveRequestControl) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("External participants give or request control is set to '{0}'" -f $meetingPolicy.AllowExternalParticipantGiveRequestControl) -Level Verbose;
     }
     END
     {
@@ -65,6 +68,9 @@ function Invoke-ReviewTeamMeetingExternalControl
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

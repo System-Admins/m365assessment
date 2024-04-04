@@ -20,7 +20,7 @@ function Get-TenantCalendarSharingSetting
     PROCESS
     {
         # Write to log.
-        Write-Log -Category "Organization" -Message "Getting calendar sharing settings" -Level Debug;
+        Write-CustomLog -Category "Organization" -Message "Getting calendar sharing settings" -Level Verbose;
 
         # Invoke the API.
         $response = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';

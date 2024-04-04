@@ -78,7 +78,7 @@ section {
     padding: 0 100px 0 100px;
 }
 
-#reviews section>div:before {
+#reviews div:before {
     display: inline-block;
     content: "";
     border-top: .1px solid #083339;

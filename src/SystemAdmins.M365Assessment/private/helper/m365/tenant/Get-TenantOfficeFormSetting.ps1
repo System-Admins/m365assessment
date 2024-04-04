@@ -20,7 +20,7 @@ function Get-TenantOfficeFormSetting
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Microsoft Forms' -Subcategory 'Policy' -Message ('Getting tenant settings') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Forms' -Subcategory 'Policy' -Message ('Getting tenant settings') -Level Verbose;
 
         # Invoke the API.
         $settings = Invoke-Office365ManagementApi -Uri $uri -Method 'GET';

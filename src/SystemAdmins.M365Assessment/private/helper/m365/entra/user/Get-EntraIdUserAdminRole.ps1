@@ -23,13 +23,13 @@ function Get-EntraIdUserAdminRole
         $usersWithAdminRoles = New-Object System.Collections.ArrayList;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'User' -Message ('Getting all users') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ('Getting all users') -Level Verbose;
 
         # Get all users.
         $users = Get-MgUser -Property 'Id', 'DisplayName', 'UserPrincipalName', 'OnPremisesSyncEnabled', 'AccountEnabled' -All;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'User' -Message ('Getting all directory roles') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ('Getting all directory roles') -Level Verbose;
 
         # Get all roles.
         $roles = Get-MgDirectoryRole -All;
@@ -40,7 +40,7 @@ function Get-EntraIdUserAdminRole
         foreach ($role in $roles)
         {
             # Write to log.
-            Write-Log -Category 'Entra' -Subcategory 'User' -Message ("Getting members of role '{0}'" -f $role.DisplayName) -Level Debug;
+            Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ("Getting members of role '{0}'" -f $role.DisplayName) -Level Verbose;
 
             # Get role members.
             $roleMembers = Get-MgDirectoryRoleMember -DirectoryRoleId $role.Id;
@@ -72,7 +72,7 @@ function Get-EntraIdUserAdminRole
                     }
 
                     # Write to log.
-                    Write-Log -Category 'Entra' -Subcategory 'User' -Message ("User '{0}' have the role '{1}'" -f $user.UserPrincipalName, $role.DisplayName) -Level Debug;
+                    Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ("User '{0}' have the role '{1}'" -f $user.UserPrincipalName, $role.DisplayName) -Level Verbose;
 
                     # Add user to list.
                     $usersWithAdminRoles += [PSCustomObject]@{

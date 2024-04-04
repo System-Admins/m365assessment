@@ -44,7 +44,7 @@ function Get-EntraIdUserRole
             $roleDisplayName = ($item.AdditionalProperties).displayName;
 
             # Write to log.
-            Write-Log -Category 'Authentication' -Message ("Account '{0}' have the role '{1}' ({2})" -f $mgContext.account, $roleDisplayName, $roleTemplateId) -Level Debug;
+            Write-CustomLog -Category 'Authentication' -Message ("Account '{0}' have the role '{1}' ({2})" -f $mgContext.account, $roleDisplayName, $roleTemplateId) -Level Verbose;
 
             # Add to list.
             $roles += [PSCustomObject]@{

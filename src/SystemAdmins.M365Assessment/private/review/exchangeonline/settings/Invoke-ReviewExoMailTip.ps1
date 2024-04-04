@@ -19,8 +19,11 @@ function Invoke-ReviewExoMailTip
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Getting organization configuration' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Getting organization configuration' -Level Verbose;
 
         # Get all organization settings.
         $organizationSettings = Get-OrganizationConfig;
@@ -62,7 +65,7 @@ function Invoke-ReviewExoMailTip
         if ($valid -eq $false)
         {
             # Write to log.
-            Write-Log -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Mail tips settings are not valid' -Level Debug;
+            Write-CustomLog -Category 'Exchange Online' -Subcategory 'Settings' -Message 'Mail tips settings are not valid' -Level Verbose;
         }
 
         # Create object.
@@ -99,6 +102,9 @@ function Invoke-ReviewExoMailTip
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

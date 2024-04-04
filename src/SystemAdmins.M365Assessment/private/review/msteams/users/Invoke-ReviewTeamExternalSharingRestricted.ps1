@@ -19,8 +19,11 @@ function Invoke-ReviewTeamExternalSharingRestricted
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('Getting federation configuration') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('Getting federation configuration') -Level Verbose;
 
         # Get tenant federation configuration.
         $tenantFederationConfig = Get-CsTenantFederationConfiguration;
@@ -50,13 +53,13 @@ function Invoke-ReviewTeamExternalSharingRestricted
         if ($valid)
         {
             # Write to log.
-            Write-Log -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('External access is restricted') -Level Debug;
+            Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('External access is restricted') -Level Verbose;
         }
         # Else not valid.
         else
         {
             # Write to log.
-            Write-Log -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('External access is not restricted') -Level Debug;
+            Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Users' -Message ('External access is not restricted') -Level Verbose;
         }
 
         # Create object.
@@ -92,6 +95,9 @@ function Invoke-ReviewTeamExternalSharingRestricted
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

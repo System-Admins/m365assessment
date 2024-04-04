@@ -1,5 +1,5 @@
 
-function Write-Log
+function Write-CustomLog
 {
     <#
     .SYNOPSIS
@@ -25,13 +25,13 @@ function Write-Log
         Write-MyLog -Message 'This is an information message'
     .EXAMPLE
         # Write a debug message to a log file and console.
-        Write-Log -Message 'This is a debug message' -Path 'C:\Temp\log.txt' -Level Debug
+        Write-CustomLog -Message 'This is a debug message' -Path 'C:\Temp\log.txt' -Level Verbose
     .EXAMPLE
         # Write an error message to a log file but not to the console.
-        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level Error -NoConsole
+        Write-CustomLog -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level Error -NoConsole
     .EXAMPLE
         # Write an information message to a log file but not to the console and do not append to the log file.
-        Write-Log -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
+        Write-CustomLog -Message 'This is an error message' -Path 'C:\Temp\log.txt' -Level 'Information' -NoConsole -NoAppend
     #>
     [cmdletbinding()]
     param
@@ -56,7 +56,7 @@ function Write-Log
 
         # (Optional) Log level.
         [Parameter(Mandatory = $false, ValueFromPipelineByPropertyName = $true)]
-        [ValidateSet('Error', 'Warning', 'Information', 'Debug')]
+        [ValidateSet('Error', 'Warning', 'Information', 'Debug', 'Verbose')]
         [string]$Level = 'Information',
 
         # (Optional) If date and time should not be added to the log message.
@@ -169,6 +169,7 @@ function Write-Log
         }
 
 
+        # Based on the level.
         switch ($Level)
         {
             'Error'
@@ -187,6 +188,10 @@ function Write-Log
             'Debug'
             {
                 Write-Debug -Message $logMessage;
+            }
+            'Verbose'
+            {
+                Write-Verbose -Message $logMessage;
             }
         }
 

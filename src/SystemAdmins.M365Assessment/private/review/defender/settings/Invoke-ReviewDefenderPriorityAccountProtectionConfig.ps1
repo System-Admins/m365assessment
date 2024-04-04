@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderPriorityAccountProtectionConfig
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Getting email tenant settings' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Settings' -Message 'Getting email tenant settings' -Level Verbose;
 
         # Get the current email tenant settings.
         $emailTenantSettings = Get-EmailTenantSettings;
@@ -142,6 +145,9 @@ function Invoke-ReviewDefenderPriorityAccountProtectionConfig
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

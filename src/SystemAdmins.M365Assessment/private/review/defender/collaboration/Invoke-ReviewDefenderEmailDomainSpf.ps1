@@ -19,8 +19,11 @@ function Invoke-ReviewDefenderEmailDomainSpf
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all domains' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message 'Getting all domains' -Level Verbose;
 
         # Get all domains in Microsoft 365 tenant.
         $domains = Get-MgDomain -All;
@@ -42,11 +45,18 @@ function Invoke-ReviewDefenderEmailDomainSpf
                 # Get the SPF record.
                 $spfRecord = Get-DnsSpfRecord -Domain $domain.Id -ErrorAction SilentlyContinue;
 
+                # If no SPF record.
+                if ($null -eq $spfRecord)
+                {
+                    # Continue to next domain.
+                    continue;
+                }
+
                 # If SPF record contain the correct value.
                 if ($spfRecord.Record -like '*include:spf.protection.outlook.com*')
                 {
                     # Write to log.
-                    Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("SPF is configured correct for domain '{0}'" -f $domain.Id) -Level Debug;
+                    Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("SPF is configured correct for domain '{0}'" -f $domain.Id) -Level Verbose;
 
                     # SPF is configured correct.
                     $valid = $true;
@@ -54,19 +64,19 @@ function Invoke-ReviewDefenderEmailDomainSpf
                 else
                 {
                     # Write to log.
-                    Write-Log -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("SPF is not configured correct for domain '{0}'" -f $domain.Id) -Level Debug;
+                    Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Policy' -Message ("SPF is not configured correct for domain '{0}'" -f $domain.Id) -Level Verbose;
                 }
-            }
 
-            # Add domain SPF settings to object array.
-            $spfSettings += [PSCustomObject]@{
-                Domain             = $domain.Id;
-                Valid              = $valid;
-                IsDefault          = $domain.IsDefault;
-                IsVerified         = $domain.IsVerified;
-                AuthenticationType = $domain.AuthenticationType;
-                Record             = $spfRecord.Record;
-            };
+                # Add domain SPF settings to object array.
+                $spfSettings += [PSCustomObject]@{
+                    Domain             = $domain.Id;
+                    Valid              = $valid;
+                    IsDefault          = $domain.IsDefault;
+                    IsVerified         = $domain.IsVerified;
+                    AuthenticationType = $domain.AuthenticationType;
+                    Record             = $spfRecord.Record;
+                };
+            }
         }
     }
     END
@@ -89,7 +99,7 @@ function Invoke-ReviewDefenderEmailDomainSpf
         $review.Category = 'Microsoft 365 Defender';
         $review.Subcategory = 'Email and collaboration';
         $review.Title = 'Ensure that SPF records are published for all Exchange Domains';
-        $review.Data = $spfSettings;
+        $review.Data = $spfSettings | Where-Object { $_.Valid -eq $false };
         $review.Review = $reviewFlag;
 
         # Print result.

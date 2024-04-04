@@ -17,8 +17,11 @@ function Invoke-ReviewExoCalendarExternalSharing
     )
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Exchange Online' -Subcategory 'Policy' -Message 'Getting all sharing policies' -Level Debug;
+        Write-CustomLog -Category 'Exchange Online' -Subcategory 'Policy' -Message 'Getting all sharing policies' -Level Verbose;
 
         # Get all sharing policies.
         $sharingPolicies = Get-SharingPolicy;
@@ -35,7 +38,7 @@ function Invoke-ReviewExoCalendarExternalSharing
             if ($false -eq $sharingPolicy.Enabled)
             {
                 # Write to log.
-                Write-Log -Category 'Exchange Online' -Subcategory 'Policy' -Message ("Sharing policy '{0}' is disabled" -f $sharingPolicy.Name) -Level Debug;
+                Write-CustomLog -Category 'Exchange Online' -Subcategory 'Policy' -Message ("Sharing policy '{0}' is disabled" -f $sharingPolicy.Name) -Level Verbose;
 
                 # Continue to next policy.
                 continue;
@@ -49,7 +52,7 @@ function Invoke-ReviewExoCalendarExternalSharing
             }
 
             # Write to log.
-            Write-Log -Category 'Exchange Online' -Subcategory 'Policy' -Message ("External calendar sharing is enabled in the sharing policy '{0}'" -f $sharingPolicy.Name) -Level Debug;
+            Write-CustomLog -Category 'Exchange Online' -Subcategory 'Policy' -Message ("External calendar sharing is enabled in the sharing policy '{0}'" -f $sharingPolicy.Name) -Level Verbose;
 
             # Add to array.
             $calendarSharingPolicies += [PSCustomObject]@{
@@ -85,6 +88,9 @@ function Invoke-ReviewExoCalendarExternalSharing
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

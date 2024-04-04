@@ -19,8 +19,11 @@ function Invoke-ReviewTeamMeetingChatAnonymousUser
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ('Getting meeting policies') -Level Verbose;
 
         # Get meeting policy.
         $meetingPolicy = Get-CsTeamsMeetingPolicy -Identity Global;
@@ -38,7 +41,7 @@ function Invoke-ReviewTeamMeetingChatAnonymousUser
         }
 
         # Write to log.
-        Write-Log -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Meetings anonymous chat is set to '{0}'" -f $meetingPolicy.MeetingChatEnabledType) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Teams' -Subcategory 'Meetings' -Message ("Meetings anonymous chat is set to '{0}'" -f $meetingPolicy.MeetingChatEnabledType) -Level Verbose;
     }
     END
     {
@@ -65,6 +68,9 @@ function Invoke-ReviewTeamMeetingChatAnonymousUser
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

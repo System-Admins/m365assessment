@@ -47,7 +47,7 @@ function Invoke-M365Assessment
         if ($testConnections.Values | Where-Object { $_ -eq $false })
         {
             # Write to log.
-            Write-Log -Message ('Missing connection to Microsoft 365, please run "Connect-M365Tenant"') -Level Warning -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('Missing connection to Microsoft 365, please run "Connect-M365Tenant"') -Level Warning -NoDateTime -NoLogLevel;
 
             # Exit script.
             break;
@@ -60,7 +60,7 @@ function Invoke-M365Assessment
         if ($false -eq $isGlobalAdmin)
         {
             # Write to log.
-            Write-Log -Message ('You need to be a global administrator to run the assessment') -Level Warning -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('You need to be a global administrator to run the assessment') -Level Warning -NoDateTime -NoLogLevel;
 
             # Exit script.
             break;
@@ -91,7 +91,7 @@ function Invoke-M365Assessment
         $score = [math]::Round(($passed.Count / $reviews.Count) * 100);
 
         # Write to log.
-        Write-Log -Message ('Generating report, please wait for a few seconds') -Level Information -NoDateTime -NoLogLevel;
+        Write-CustomLog -Message ('Generating report, please wait for a few seconds') -Level Information -NoDateTime -NoLogLevel;
 
         # Get HTML report.
         $htmlZipFilePath = Get-HtmlReport -Reviews $shouldBeReviewed -OutputFilePath $Path -Score $score;
@@ -105,7 +105,7 @@ function Invoke-M365Assessment
         Invoke-Item -Path $htmlZipFolderPath;
 
         # Write to log.
-        Write-Log -Message ("You can find the report at '{0}'" -f $htmlZipFilePath) -Level Information -NoDateTime -NoLogLevel;
+        Write-CustomLog -Message ("You can find the report at '{0}'" -f $htmlZipFilePath) -Level Information -NoDateTime -NoLogLevel;
 
         # If return is requested.
         if ($true -eq $ReturnReviews)

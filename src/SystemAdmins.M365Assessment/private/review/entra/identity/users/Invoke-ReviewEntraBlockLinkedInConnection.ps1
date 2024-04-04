@@ -16,6 +16,9 @@ function Invoke-ReviewEntraBlockLinkedInConnection
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # URI to the API.
         $uri = 'https://main.iam.ad.ext.azure.com/api/Directories/Properties';
 
@@ -25,7 +28,7 @@ function Invoke-ReviewEntraBlockLinkedInConnection
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("Getting 'LinkedIn account connections' settings") -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("Getting 'LinkedIn account connections' settings") -Level Verbose;
 
         # Get the Entra ID property settings.
         $entraIdProperties = Invoke-EntraIdIamApi -Uri $uri -Method 'GET';
@@ -38,7 +41,7 @@ function Invoke-ReviewEntraBlockLinkedInConnection
         }
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Identity' -Message ("'LinkedIn account connections' is set to '{0}'" -f $blockLinkedInConnection) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Identity' -Message ("'LinkedIn account connections' is set to '{0}'" -f $blockLinkedInConnection) -Level Verbose;
     }
     END
     {
@@ -67,6 +70,9 @@ function Invoke-ReviewEntraBlockLinkedInConnection
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

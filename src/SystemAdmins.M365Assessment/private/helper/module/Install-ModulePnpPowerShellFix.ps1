@@ -18,7 +18,7 @@ function Install-ModulePnpPowerShellFix
     BEGIN
     {
         # Write to log.
-        Write-Log -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Removing modules "Microsoft.Graph.Authentication" and "PnP.PowerShell" from current session' -Level Debug;
+        Write-CustomLog -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Removing modules "Microsoft.Graph.Authentication" and "PnP.PowerShell" from current session' -Level Verbose;
 
         # Remove modules from current session.
         Remove-Module -Name Microsoft.Graph.Authentication -Force -ErrorAction SilentlyContinue;
@@ -27,7 +27,7 @@ function Install-ModulePnpPowerShellFix
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Copying DLLs from "Microsoft.Graph.Authentication" to "PnP.PowerShell"' -Level Debug;
+        Write-CustomLog -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Copying DLLs from "Microsoft.Graph.Authentication" to "PnP.PowerShell"' -Level Verbose;
 
         # Get modules.
         $moduleMgGraphAuthentication = Get-Module -Name Microsoft.Graph.Authentication -ListAvailable;
@@ -46,7 +46,7 @@ function Install-ModulePnpPowerShellFix
     END
     {
         # Write to log.
-        Write-Log -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Importing module "Microsoft.Graph.Authentication" and "PnP.PowerShell" again' -Level Debug;
+        Write-CustomLog -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Importing module "Microsoft.Graph.Authentication" and "PnP.PowerShell" again' -Level Verbose;
 
         # Import modules again.
         Import-Module -Name Microsoft.Graph.Authentication -Force;

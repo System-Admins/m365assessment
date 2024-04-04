@@ -19,8 +19,11 @@ function Invoke-ReviewSpoCustomScriptExecution
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Write to log.
-        Write-Log -Category 'SharePoint Online' -Subcategory 'Settings' -Message ('Getting all SharePoint sites') -Level Debug;
+        Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Settings' -Message ('Getting all SharePoint sites') -Level Verbose;
 
         # Get all SharePoint sites.
         $sites = Get-PnPTenantSite;
@@ -44,7 +47,7 @@ function Invoke-ReviewSpoCustomScriptExecution
             if ($site.DenyAddAndCustomizePages -eq $false)
             {
                 # Write to log.
-                Write-Log -Category 'SharePoint Online' -Subcategory 'Settings' -Message ("The SharePoint site '{0}' is set to allow custom script execution" -f $site.Url) -Level Debug;
+                Write-CustomLog -Category 'SharePoint Online' -Subcategory 'Settings' -Message ("The SharePoint site '{0}' is set to allow custom script execution" -f $site.Url) -Level Verbose;
 
                 # Add site to list.
                 $null = $sitesWithCustomScriptExecution.Add($site);
@@ -76,6 +79,9 @@ function Invoke-ReviewSpoCustomScriptExecution
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

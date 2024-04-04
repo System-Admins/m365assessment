@@ -16,6 +16,9 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRole
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Get directory id.
         $directoryId = (Get-AzContext).Tenant.Id;
 
@@ -76,12 +79,15 @@ function Invoke-ReviewEntraAccessReviewPrivilegedRole
         $review.Subcategory = 'Identity Governance';
         $review.Title = "Ensure 'Access reviews' for high privileged Azure AD roles are configured";
         $review.Data = [PSCustomObject]@{
-            NotConfigured = $missingAccessReviews -join ",";
+            NotConfigured = $missingAccessReviews -join ", ";
         };
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand -Completed;
 
         # Return object.
         return $review;

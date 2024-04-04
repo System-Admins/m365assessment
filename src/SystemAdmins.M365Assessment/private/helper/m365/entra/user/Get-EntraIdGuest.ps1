@@ -34,13 +34,13 @@ function Get-EntraIdGuest
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'User' -Message ('Getting all guest users') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ('Getting all guest users') -Level Verbose;
 
         # Get all users
         $guestUsers = Get-MgUser -All -Filter { userType eq 'Guest' } -Property $property;
 
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'User' -Message ('Found {0} guest users' -f $guestUsers.Count) -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'User' -Message ('Found {0} guest users' -f $guestUsers.Count) -Level Verbose;
     }
     END
     {

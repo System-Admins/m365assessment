@@ -19,6 +19,9 @@ function Invoke-ReviewDefenderAccountProvisioningActivity
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Search between the following dates.
         $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:sz');
         $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:sz');
@@ -38,7 +41,7 @@ function Invoke-ReviewDefenderAccountProvisioningActivity
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Microsoft Defender' -Subcategory 'Audit' -Message ("Getting account provisioning activity with start date '{0}' and end date '{1}'" -f $startDate, $endDate) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Defender' -Subcategory 'Audit' -Message ("Getting account provisioning activity with start date '{0}' and end date '{1}'" -f $startDate, $endDate) -Level Verbose;
 
         # Search in the audit log.
         $auditLogs = Search-UnifiedAuditLog -StartDate $startDate -EndDate $endDate -Operations $operations;
@@ -68,6 +71,9 @@ function Invoke-ReviewDefenderAccountProvisioningActivity
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

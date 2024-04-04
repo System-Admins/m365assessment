@@ -19,18 +19,39 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
 
+        # Get module for Exchange Online (not compliance).
+        $eopModule = Get-ConnectionInformation | Where-Object {$_.IsEopSession -eq $false};
+
+        # If the module is not found.
+        if ($null -eq $eopModule)
+        {
+            # Write to log.
+            Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'No Exchange Online module found' -Level Error;
+
+            # Return.
+            return;
+        }
+
+        # Get module name such as "tmpEXO_xxsjbomi.0bi".
+        $eopModuleName = ($eopModule.ModuleName.Split("\"))[-1];
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'Getting unified audit log configuration' -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'Getting unified audit log configuration' -Level Verbose;
 
-        # Get the unified audit log configuration.
-        $adminAuditLogConfig = Get-AdminAuditLogConfig;
+        # Construct command.
+        $command = ("{0}\Get-AdminAuditLogConfig" -f $eopModuleName);
+
+        # Get the unified audit log configuration (using the Exchange Online PowerShell session and not compliance module).
+        # See the important note at "https://learn.microsoft.com/en-us/purview/audit-log-enable-disable?tabs=microsoft-purview-portal#verify-the-auditing-status-for-your-organization" for more information.
+        $adminAuditLogConfig = Invoke-Expression -Command $command;
 
         # Write to log.
-        Write-Log -Category 'Microsoft Purview' -Subcategory 'Audit' -Message ("Unified audit log enable status is '{0}'" -f $adminAuditLogConfig.UnifiedAuditLogIngestionEnabled) -Level Debug;
+        Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Audit' -Message ("Unified audit log enable status is '{0}'" -f $adminAuditLogConfig.UnifiedAuditLogIngestionEnabled) -Level Verbose;
     }
     END
     {
@@ -59,6 +80,9 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

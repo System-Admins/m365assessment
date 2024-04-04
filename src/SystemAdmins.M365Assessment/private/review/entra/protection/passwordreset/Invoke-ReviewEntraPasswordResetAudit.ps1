@@ -19,14 +19,17 @@ function Invoke-ReviewEntraPasswordResetAudit
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Dates.
-        $startDate = (Get-Date).AddMonths(-1);
+        $startDate = (Get-Date).AddDays(-7);
         $endDate = Get-Date;
     }
     PROCESS
     {
         # Write to log.
-        Write-Log -Category 'Entra' -Subcategory 'Protection' -Message ('Getting self-service password reset activity report from the last month') -Level Debug;
+        Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Getting self-service password reset activity report from the last week') -Level Verbose;
 
         # Get audits.
         $auditReport = Get-MgAuditLogDirectoryAudit -Filter ("activityDateTime ge {0} and activityDateTime le {1} and loggedByService eq 'SSPR'" -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'));
@@ -51,11 +54,14 @@ function Invoke-ReviewEntraPasswordResetAudit
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Protection';
         $review.Title = 'Ensure the self-service password reset activity report is reviewed at least weekly';
-        $review.Data = $auditReport;
+        $review.Data = $auditReport | Select-Object ActivityDateTime, ActivityDisplayName, CorrelationId, Id, Result, ResultReason, @{Name = 'UserPrincipalName'; Expression = { $_.TargetResources.UserPrincipalName } };
         $review.Review = $reviewFlag;
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

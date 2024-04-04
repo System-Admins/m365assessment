@@ -16,6 +16,9 @@ function Invoke-ReviewEntraExternalCollaborationDomain
 
     BEGIN
     {
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name;
+
         # Get the B2B policy.
         $policy = Get-EntraIdB2BPolicy;
 
@@ -57,6 +60,9 @@ function Invoke-ReviewEntraExternalCollaborationDomain
 
         # Print result.
         $review.PrintResult();
+
+        # Write progress.
+        Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;
