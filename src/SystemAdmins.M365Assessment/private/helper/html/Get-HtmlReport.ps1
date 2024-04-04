@@ -44,7 +44,7 @@ function Get-HtmlReport
     BEGIN
     {
         # Temporary path for the HTML report.
-        $tempPath = Join-Path -Path $env:TEMP -ChildPath ((New-Guid).Guid);
+        $tempPath = Join-Path -Path ([io.path]::GetTempPath()) -ChildPath ((New-Guid).Guid);
 
         # Get tenant company profile.
         $tenantProfile = Get-TenantProfile;

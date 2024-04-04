@@ -32,7 +32,7 @@ function Invoke-ReviewEntraPasswordResetAudit
         Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Getting self-service password reset activity report from the last week') -Level Verbose;
 
         # Get audits.
-        $auditReport = Get-MgAuditLogDirectoryAudit -Filter ("activityDateTime ge {0} and activityDateTime le {1} and loggedByService eq 'SSPR'" -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'));
+        $auditReport = Get-MgAuditLogDirectoryAudit -Filter ("activityDateTime ge {0} and activityDateTime le {1} and loggedByService eq 'SSPR'" -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture));
     }
     END
     {

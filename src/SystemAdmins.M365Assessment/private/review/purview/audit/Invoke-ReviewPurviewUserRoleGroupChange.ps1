@@ -28,8 +28,8 @@ function Invoke-ReviewPurviewUserRoleGroupChange
         Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Audit' -Message 'Getting user role group changes' -Level Verbose;
 
         # Search between the following dates.
-        $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
-        $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
+        $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss', [CultureInfo]::InvariantCulture);
+        $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss', [CultureInfo]::InvariantCulture);
 
         # Operations to monitor.
         $operations = @(

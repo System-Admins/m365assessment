@@ -38,7 +38,7 @@ function Set-HtmlReview
         Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing SUBCATEGORY with '{0}'" -f $Review.Subcategory) -Level Verbose;
         Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing TITLE with '{0}'" -f $Review.Title) -Level Verbose;
         Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing REVIEW with '{0}'" -f $Review.Review) -Level Verbose;
-        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing DATE with '{0}'" -f (Get-Date).ToString('yyyy-MM-dd')) -Level Verbose;
+        Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Replacing DATE with '{0}'" -f (Get-Date).ToString('yyyy-MM-dd', [CultureInfo]::InvariantCulture)) -Level Verbose;
 
         # Update the content of the file.
         $htmlContent = $htmlContent.Replace('{{ID}}', $Review.Id);
@@ -46,7 +46,7 @@ function Set-HtmlReview
         $htmlContent = $htmlContent.Replace('{{SUBCATEGORY}}', $Review.Subcategory);
         $htmlContent = $htmlContent.Replace('{{TITLE}}', $Review.Title);
         $htmlContent = $htmlContent.Replace('{{REVIEW}}', $Review.Review);
-        $htmlContent = $htmlContent.Replace('{{DATE}}', (Get-Date).ToString('yyyy-MM-dd'));
+        $htmlContent = $htmlContent.Replace('{{DATE}}', (Get-Date).ToString('yyyy-MM-dd', [CultureInfo]::InvariantCulture));
 
         # Convert review data to HTML.
         $reviewData = $Review.Data | ConvertTo-Html -Fragment;
