@@ -48,7 +48,7 @@ function Invoke-ReviewPurviewUnifiedAuditLogIsEnabled
 
         # Get the unified audit log configuration (using the Exchange Online PowerShell session and not compliance module).
         # See the important note at "https://learn.microsoft.com/en-us/purview/audit-log-enable-disable?tabs=microsoft-purview-portal#verify-the-auditing-status-for-your-organization" for more information.
-        $adminAuditLogConfig = Invoke-Expression -Command $command;
+        $adminAuditLogConfig = & $command;
 
         # Write to log.
         Write-CustomLog -Category 'Microsoft Purview' -Subcategory 'Audit' -Message ("Unified audit log enable status is '{0}'" -f $adminAuditLogConfig.UnifiedAuditLogIngestionEnabled) -Level Verbose;
