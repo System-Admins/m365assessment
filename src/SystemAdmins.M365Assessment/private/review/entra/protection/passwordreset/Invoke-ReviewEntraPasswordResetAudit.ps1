@@ -25,14 +25,33 @@ function Invoke-ReviewEntraPasswordResetAudit
         # Dates.
         $startDate = (Get-Date).AddDays(-7);
         $endDate = Get-Date;
+
+        # Uri.
+        $uri = ("https://graph.microsoft.com/v1.0/auditLogs/directoryAudits?`$filter=(activityDateTime ge {0} and activityDateTime le {1} and loggedByService eq 'SSPR')&`$top=50&`$orderby=activityDateTime desc" -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture));
     }
     PROCESS
     {
-        # Write to log.
-        Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Getting self-service password reset activity report from the last week') -Level Verbose;
+        # Try to get the report.
+        try
+        {
+            # Write to log.
+            Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Getting self-service password reset activity report from the last week') -Level Verbose;
 
-        # Get audits.
-        $auditReport = Get-MgAuditLogDirectoryAudit -Filter ("activityDateTime ge {0} and activityDateTime le {1} and loggedByService eq 'SSPR'" -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture));
+            # Invoke Microsoft Graph API.
+            $auditReport = Invoke-MgGraphRequest -Uri $uri -Method Get -ErrorAction Stop -OutputType PSObject;
+
+            # Write to log.
+            Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Successfully got self-service password reset activity report') -Level Verbose;
+        }
+        # Something went wrong.
+        catch
+        {
+            # Write to log.
+            Write-CustomLog -Category 'Entra' -Subcategory 'Protection' -Message ('Failed to get self-service password reset activity report') -Level Verbose;
+
+            # Return.
+            return;
+        }
     }
     END
     {
@@ -40,7 +59,7 @@ function Invoke-ReviewEntraPasswordResetAudit
         [bool]$reviewFlag = $false;
 
         # If review flag should be set.
-        if ($auditReport.Count -gt 0)
+        if ($auditReport.value.Count -gt 0)
         {
             # Should be reviewed.
             $reviewFlag = $true;
@@ -54,7 +73,7 @@ function Invoke-ReviewEntraPasswordResetAudit
         $review.Category = 'Microsoft Entra Admin Center';
         $review.Subcategory = 'Protection';
         $review.Title = 'Ensure the self-service password reset activity report is reviewed at least weekly';
-        $review.Data = $auditReport | Select-Object ActivityDateTime, ActivityDisplayName, CorrelationId, Id, Result, ResultReason, @{Name = 'UserPrincipalName'; Expression = { $_.TargetResources.UserPrincipalName } };
+        $review.Data = $auditReport.value | Select-Object ActivityDateTime, LoggedByService, Category, ActivityDisplayName, Result, ResultReason, @{Name = 'UserPrincipalName'; Expression = { $_.targetResources.UserPrincipalName } };
         $review.Review = $reviewFlag;
 
         # Print result.
