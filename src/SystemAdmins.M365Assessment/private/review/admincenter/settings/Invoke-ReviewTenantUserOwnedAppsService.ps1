@@ -74,9 +74,6 @@ function Invoke-ReviewTenantUserOwnedAppsService
         # Print result.
         $review.PrintResult();
 
-        # Write progress.
-        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
-
         # Return object.
         return $review;
     }

@@ -23,8 +23,8 @@ function Invoke-ReviewDefenderNonGlobalAdminRoleAssignment
         Write-Progress -Activity $MyInvocation.MyCommand -Status 'Running' -CurrentOperation $MyInvocation.MyCommand.Name -PercentComplete -1 -SecondsRemaining -1;
 
         # Search between the following dates.
-        $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
-        $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss');
+        $startDate = ((Get-Date).AddDays(-7)).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss', [CultureInfo]::InvariantCulture);
+        $endDate = (Get-Date).ToUniversalTime().ToString('yyyy/MM/dd HH:mm:ss', [CultureInfo]::InvariantCulture);
 
         # Operations to monitor.
         $operations = @(
@@ -65,9 +65,6 @@ function Invoke-ReviewDefenderNonGlobalAdminRoleAssignment
 
         # Print result.
         $review.PrintResult();
-
-        # Write progress.
-        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

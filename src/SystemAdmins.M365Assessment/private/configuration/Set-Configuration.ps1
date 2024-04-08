@@ -15,3 +15,6 @@ $script:Modules = [PSCustomObject]@{
     'PnP.PowerShell'                                    = 'latest';
     'MicrosoftTeams'                                    = 'latest';
 };
+
+# Temp path.
+$script:TempPath = [io.path]::GetTempPath();

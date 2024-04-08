@@ -24,7 +24,7 @@ function Invoke-ReviewEntraRiskySignInReport
         $endDate = (Get-Date).AddHours(-1);
 
         # URI.
-        $uri = ('https://graph.microsoft.com/beta/auditLogs/signIns?api-version=beta&$filter=(createdDateTime%20ge%20{0}%20and%20createdDateTime%20lt%20{1}%20and%20(riskState%20eq%20%27atRisk%27%20or%20riskState%20eq%20%27confirmedCompromised%27)%20and%20(signInEventTypes/any(t:%20t%20eq%20%27interactiveUser%27)%20or%20signInEventTypes/any(t:%20t%20eq%20%27nonInteractiveUser%27)))&$top=50&$orderby=createdDateTime%20desc' -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ'));
+        $uri = ('https://graph.microsoft.com/beta/auditLogs/signIns?api-version=beta&$filter=(createdDateTime%20ge%20{0}%20and%20createdDateTime%20lt%20{1}%20and%20(riskState%20eq%20%27atRisk%27%20or%20riskState%20eq%20%27confirmedCompromised%27)%20and%20(signInEventTypes/any(t:%20t%20eq%20%27interactiveUser%27)%20or%20signInEventTypes/any(t:%20t%20eq%20%27nonInteractiveUser%27)))&$top=50&$orderby=createdDateTime%20desc' -f $startDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture), $endDate.ToString('yyyy-MM-ddTHH:mm:ss.fffZ', [CultureInfo]::InvariantCulture));
 
     }
     PROCESS
@@ -76,9 +76,6 @@ function Invoke-ReviewEntraRiskySignInReport
 
         # Print result.
         $review.PrintResult();
-
-        # Write progress.
-        #Write-Progress -Activity $MyInvocation.MyCommand -Status 'Completed' -CurrentOperation $MyInvocation.MyCommand.Name -Completed;
 
         # Return object.
         return $review;

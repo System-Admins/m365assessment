@@ -44,7 +44,7 @@ function Get-HtmlReport
     BEGIN
     {
         # Temporary path for the HTML report.
-        $tempPath = Join-Path -Path $env:TEMP -ChildPath ((New-Guid).Guid);
+        $tempPath = Join-Path -Path ($script:TempPath) -ChildPath ((New-Guid).Guid);
 
         # Get tenant company profile.
         $tenantProfile = Get-TenantProfile;
@@ -90,7 +90,7 @@ function Get-HtmlReport
         Write-CustomLog -Category 'Report' -Subcategory 'HTML' -Message ("Compressing folder '{0}' to file '{1}'" -f $tempPath, $OutputFilePath) -Level Verbose;
 
         # ZIP the temporary path.
-        Compress-Archive -Path ($tempPath + "/*") -DestinationPath $OutputFilePath -Force;
+        Compress-Archive -Path ($tempPath + '/*') -DestinationPath $OutputFilePath -Force;
     }
     END
     {

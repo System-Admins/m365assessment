@@ -30,7 +30,7 @@ function Invoke-M365Assessment
         [string]$Path = (
             '{0}/{1}_m365assessment.zip' -f
             ([Environment]::GetFolderPath('Desktop')),
-            (Get-Date).ToString('yyyyMMdd')
+            (Get-Date).ToString('yyyyMMdd', [CultureInfo]::InvariantCulture)
         ),
 
         # If the reviews should be returned.
