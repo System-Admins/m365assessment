@@ -42,7 +42,7 @@ function Get-MsAdminApiToken
             Write-CustomLog -Category 'API' -Subcategory 'Admin API' -Message ('Getting access token for Microsoft Admin API') -Level Verbose;
 
             # Get access token.
-            $accessToken = (Get-AzAccessToken -ResourceUrl $resourceUrl).Token;
+            $accessToken = (Get-AzAccessToken -AsSecureString -WarningAction SilentlyContinue -ResourceUrl $resourceUrl).Token | ConvertFrom-SecureString;
 
             # Write to log.
             Write-CustomLog -Category 'API' -Subcategory 'Admin API' -Message ('Successfully got access token for Microsoft Admin API') -Level Verbose;

@@ -37,12 +37,12 @@
     BEGIN
     {
         # Get access token for Entra ID.
-        $accessToken = (Get-AzAccessToken -ResourceUrl 'https://api.azrbac.mspim.azure.com').Token;
+        $accessToken = (Get-AzAccessToken -AsSecureString -ResourceUrl 'https://api.azrbac.mspim.azure.com' -WarningAction SilentlyContinue).Token | ConvertFrom-SecureString;
 
         # Construct the headers for the request.
         $headers = @{
             'Content-Type'           = 'application/json; charset=UTF-8';
-            'Authorization'          =  ('Bearer {0}' -f $accessToken);
+            'Authorization'          = ('Bearer {0}' -f $accessToken);
             'x-ms-client-request-id' = [guid]::NewGuid();
             'x-ms-correlation-id'    = [guid]::NewGuid();
         };
@@ -67,13 +67,13 @@
         try
         {
             # Write to log.
-            Write-CustomLog -Category "API" -Subcategory 'Entra ID' -Message ('Trying to call RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
+            Write-CustomLog -Category 'API' -Subcategory 'Entra ID' -Message ('Trying to call RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
 
             # Invoke API.
             $response = Invoke-RestMethod @param -ErrorAction Stop;
 
             # Write to log.
-            Write-CustomLog -Category "API" -Subcategory 'Entra ID' -Message ('Successfully called RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
+            Write-CustomLog -Category 'API' -Subcategory 'Entra ID' -Message ('Successfully called RBAC API with the method "{0}" and the URL "{1}"' -f $Method, $Uri) -Level Verbose;
         }
         # Something went wrong while invoking API.
         catch
@@ -92,6 +92,6 @@
         }
 
         # Write to log.
-        Write-CustomLog -Category "API" -Subcategory 'Entra ID' -Message ('Response from RBAC API is empty') -Level Verbose;
+        Write-CustomLog -Category 'API' -Subcategory 'Entra ID' -Message ('Response from RBAC API is empty') -Level Verbose;
     }
 }

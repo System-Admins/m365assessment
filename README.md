@@ -77,7 +77,7 @@ Before installing the module, the following prerequisites must be fulfilled:
    Connect-M365Tenant
    ```
 
-   > **Note:** This may prompt you up to 7 times for username/password, please make sure to follow the instructions in the PowerShell session. You also need to consent to the "Pnp.PowerShell" and "Microsoft Graph" module accessing your tenant. If a browser dont open, or it hangs, cancel the operation and rerun the "Connect-M365Tenant" cmdlet again.
+   > **Note:** This may prompt you up to 9 times for username/password, please make sure to follow the instructions in the PowerShell session. You also need to consent to the "Pnp.PowerShell" and "Microsoft Graph" module accessing your tenant. If a browser dont open, or it hangs, cancel the operation and rerun the "Connect-M365Tenant" cmdlet again.
 
 5. After a successful connection to the Microsoft 365 tenant, run the assessment.
 
@@ -115,6 +115,8 @@ Link to a small video (in GIF-format) with the module in action, can be found [h
 - **What other PowerShell module is SystemAdmins.M365Assessment module using?**
 
   Microsoft.Graph.Authentication
+
+  Microsoft.Graph.Applications
 
   Microsoft.Graph.Groups
 

@@ -60,7 +60,7 @@ function Test-M365Connection
         try
         {
             # Test connection to Azure.
-            $null = Get-AzAccessToken -ErrorAction Stop;
+            $null = Get-AzAccessToken -AsSecureString -WarningAction SilentlyContinue -ErrorAction Stop | ConvertFrom-SecureString;
             $connections.Azure = $true;
         }
         catch
