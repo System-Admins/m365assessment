@@ -33,6 +33,7 @@ function Get-SpoTenantUrl
             Url      = $spoUrl;
             AdminUrl = $spoAdminUrl;
             OneDrive = $oneDriveUrl;
+            tenantUrl = $initialDomain.Id;
         };
     }
     END

@@ -30,8 +30,8 @@ function Install-ModulePnpPowerShellFix
         Write-CustomLog -Category 'Module' -Subcategory "Pnp.PowerShell" -Message 'Copying DLLs from "Microsoft.Graph.Authentication" to "PnP.PowerShell"' -Level Verbose;
 
         # Get modules.
-        $moduleMgGraphAuthentication = Get-Module -Name Microsoft.Graph.Authentication -ListAvailable;
-        $modulePnpPowerShell = Get-Module -Name PnP.PowerShell -ListAvailable;
+        $moduleMgGraphAuthentication = Get-Module -Name Microsoft.Graph.Authentication -ListAvailable | Select-Object -First 1;
+        $modulePnpPowerShell = Get-Module -Name PnP.PowerShell -ListAvailable | Select-Object -First 1;
 
         # Path for DLLs.
         $sourceCoreDll = Join-Path -Path $moduleMgGraphAuthentication.ModuleBase -ChildPath 'Dependencies/Core/Microsoft.Graph.Core.dll';

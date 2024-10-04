@@ -1,6 +1,7 @@
 # Modules used by the this module.
 $script:Modules = [PSCustomObject]@{
     'Microsoft.Graph.Authentication'                    = 'latest';
+    'Microsoft.Graph.Applications'                      = 'latest';
     'Microsoft.Graph.Groups'                            = 'latest';
     'Microsoft.Graph.Users'                             = 'latest';
     'Microsoft.Graph.Identity.DirectoryManagement'      = 'latest';
@@ -18,3 +19,6 @@ $script:Modules = [PSCustomObject]@{
 
 # Temp path.
 $script:TempPath = [io.path]::GetTempPath();
+
+# PnP PowerShell settings.
+$script:PnPPowerShellApplicationName = 'SystemAdmins.M365Assessment.PnPPowerShell';

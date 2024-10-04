@@ -119,6 +119,7 @@ function Install-M365Dependency
                         # Install module.
                         $null = Install-Module -Name $moduleName `
                             -Force `
+                            -AllowClobber:$true `
                             -Scope CurrentUser `
                             -AcceptLicense `
                             -SkipPublisherCheck `
@@ -135,6 +136,7 @@ function Install-M365Dependency
                         # Install module with specific version.
                         $null = Install-Module -Name $moduleName `
                             -Force `
+                            -AllowClobber:$true `
                             -Scope CurrentUser `
                             -AcceptLicense `
                             -SkipPublisherCheck `

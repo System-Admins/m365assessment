@@ -77,7 +77,6 @@ if ($null -ne $installedModules)
 
     # Throw warning.
     Write-CustomLog -Message ('Not all required modules are installed, please run "Install-M365Dependency"') -Level Warning -NoDateTime -NoLogLevel;
-    Write-CustomLog -Message ('Modules that need to be (re)installed is "{0}"' -f (($installedModules).Name) -join '", "') -Level Warning -NoDateTime -NoLogLevel;
     Write-CustomLog -Message ('Then restart the PowerShell session and import the module again') -Level Warning -NoDateTime -NoLogLevel;
 }
 # Else all modules are installed.

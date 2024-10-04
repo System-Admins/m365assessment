@@ -37,7 +37,7 @@
     BEGIN
     {
         # Get access token for Entra ID Access Review API.
-        $accessToken = (Get-AzAccessToken).Token;
+        $accessToken = (Get-AzAccessToken -AsSecureString -WarningAction SilentlyContinue).Token | ConvertFrom-SecureString;
 
         # Construct the headers for the request.
         $headers = @{

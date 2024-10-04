@@ -30,6 +30,7 @@ function Connect-M365Tenant
         # Microsoft Graph scopes.
         $mgScopes = @(
             'RoleManagement.Read.Directory',
+            'Application.Read.All',
             'Directory.Read.All',
             'RoleEligibilitySchedule.Read.Directory',
             'AuditLog.Read.All',
@@ -48,7 +49,7 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Graph' -Message ('Trying to connect to Microsoft Graph') -Level Verbose;
-            Write-CustomLog -Message ('Microsoft Graph: Please provide your credentials for Microsoft Graph in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('Microsoft Graph: Please provide your credentials for Microsoft Graph') -Level Information -NoDateTime -NoLogLevel;
 
             # Force disconnect (else it will use SSO).
             Disconnect-Graph -ErrorAction SilentlyContinue;
@@ -93,10 +94,10 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-CustomLog -Category 'Login' -Subcategory 'Azure' -Message ('Trying to connect to Azure') -Level Verbose;
-            Write-CustomLog -Message ('Entra ID: Please provide your credentials for Entra ID in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('Entra ID: Please provide your credentials for Entra ID') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-AzAccount -WarningAction SilentlyContinue -ErrorAction Stop -Force;
+            $null = Connect-AzAccount -WarningAction SilentlyContinue -ErrorAction Stop -Force 2>$null;
 
             # Throw exception.
             Write-CustomLog -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Verbose;
@@ -123,7 +124,7 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-CustomLog -Category 'Login' -Subcategory 'Exchange Online' -Message ('Trying to connect to Exchange Online') -Level Verbose;
-            Write-CustomLog -Message ('Exchange Online: Please provide your credentials for Exchange Online in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('Exchange Online: Please provide your credentials for Exchange Online') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-ExchangeOnline -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -WarningAction SilentlyContinue -ErrorAction Stop;
@@ -143,7 +144,7 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-CustomLog -Category 'Login' -Subcategory 'Security and Compliance' -Message ('Trying to connect to Security and Compliance') -Level Verbose;
-            Write-CustomLog -Message ('Security and Compliance: Please provide your credentials for Security and Compliance in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('Security and Compliance: Please provide your credentials for Security and Compliance') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-IPPSSession -UserPrincipalName $azContext.Account.Id -ShowBanner:$false -WarningAction SilentlyContinue -ErrorAction Stop;
@@ -163,7 +164,7 @@ function Connect-M365Tenant
         {
             # Write to log.
             Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Verbose;
-            Write-CustomLog -Message ('Microsoft Teams: Please provide your credentials for Teams in the web browser') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('Microsoft Teams: Please provide your credentials for Teams') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
             $null = Connect-MicrosoftTeams -WarningAction SilentlyContinue -ErrorAction Stop;
@@ -181,15 +182,43 @@ function Connect-M365Tenant
         # Get SharePoint URLs.
         $spoUrls = Get-SpoTenantUrl;
 
+        # Get the Pnp.PowerShell application.
+        $application = Get-EntraIdApplicationPnpPowerShell -DisplayName $script:PnPPowerShellApplicationName;
+
+        # If no application was found.
+        if ($null -eq $application)
+        {
+            # Try to register the application.
+            try
+            {
+                # Write to log.
+                Write-CustomLog -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Trying to register application for PnP.PowerShell') -Level Verbose;
+                Write-CustomLog -Message ('SharePoint Online: Please provide your credentials for PnP.PowerShell (global administrator)') -Level Information -NoDateTime -NoLogLevel;
+
+                # Register the application.
+                $null = Register-PnPEntraIDAppForInteractiveLogin -ApplicationName $script:PnPPowerShellApplicationName -Tenant $spoUrls.tenantUrl -SharePointDelegatePermissions "AllSites.FullControl" -Interactive -ErrorAction Stop 2>$null;
+            }
+            # Something went wrong.
+            catch
+            {
+                # Throw exception.
+                throw ("Could not register application for PnP.PowerShell, exception is '{0}'" -f $_);
+            }
+
+        }
+
+        # Get the Pnp.PowerShell application.
+        $application = Get-EntraIdApplicationPnpPowerShell -DisplayName $script:PnPPowerShellApplicationName;
+
         # Try to connect to SharePoint.
         try
         {
             # Write to log.
             Write-CustomLog -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Trying to connect to SharePoint') -Level Verbose;
-            Write-CustomLog -Message ('SharePoint Online: Please provide your credentials for SharePoint in the web browser or webview prompt') -Level Information -NoDateTime -NoLogLevel;
+            Write-CustomLog -Message ('SharePoint Online: Again, please provide your credentials for SharePoint') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-PnPOnline -Interactive -Url $spoUrls.AdminUrl -WarningAction SilentlyContinue -ErrorAction Stop;
+            $null = Connect-PnPOnline -ClientId $application.AppId -Interactive -Url $spoUrls.AdminUrl -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
             Write-CustomLog -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Successfully connected to SharePoint') -Level Verbose;
