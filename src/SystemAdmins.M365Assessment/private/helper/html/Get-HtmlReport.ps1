@@ -76,7 +76,7 @@ function Get-HtmlReport
         # Replace the content in the web template.
         $indexContent = $indexContent.Replace('{{OVERVIEWTABLE}}', $overviewTableHtml);
         $indexContent = $indexContent.Replace('{{REVIEWS}}', $reviewHtml);
-        $indexContent = $indexContent.Replace('{{COMPANYNAME}}', $tenantProfile.Name);
+        $indexContent = $indexContent.Replace('{{COMPANYNAME}}', $tenantProfile.DisplayName);
         $indexContent = $indexContent.Replace('{{SCORE}}', $Score);
         $indexContent = $indexContent.Replace('{{YEAR}}', (Get-Date).Year);
 

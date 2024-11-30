@@ -14,8 +14,6 @@ function Get-TenantProfile
     )
     BEGIN
     {
-        # URL.
-        [string]$Uri = 'https://admin.microsoft.com/admin/api/Settings/company/profile';
     }
     PROCESS
     {
@@ -23,7 +21,7 @@ function Get-TenantProfile
         Write-CustomLog -Category "Tenant" -Subcategory "Profile" -Message ("Getting Microsoft 365 tenant profile") -Level Verbose;
 
         # Get company profile.
-        $companyProfile = Invoke-MsAdminApi -Uri $Uri;
+        $companyProfile = (Get-AzTenant).ExtendedProperties;
     }
     END
     {
