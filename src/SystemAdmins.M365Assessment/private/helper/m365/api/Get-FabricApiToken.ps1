@@ -29,17 +29,14 @@ function Get-FabricApiToken
         Write-CustomLog -Category 'API' -Subcategory 'Microsoft Fabric' -Message ('Getting access token') -Level Verbose;
 
         # Get Azure token for Microsoft Fabric.
-        $azToken = Get-AzAccessToken -AsSecureString -WarningAction SilentlyContinue -ResourceUrl $uri | ConvertFrom-SecureString;
+        $accessToken = (Get-AzAccessToken -AsSecureString -WarningAction SilentlyContinue -ResourceUrl $uri).Token | ConvertFrom-SecureString -AsPlainText;
 
         # If the access token is null.
-        if ($null -eq $azToken.Token)
+        if ([string]::IsNullOrEmpty($accessToken))
         {
             # Throw exception.
             throw ('Something went wrong getting the access token');
         }
-
-        # Save the token.
-        $accessToken = $azToken.Token;
     }
     END
     {

@@ -97,7 +97,7 @@ function Connect-M365Tenant
             Write-CustomLog -Message ('Entra ID: Please provide your credentials for Entra ID') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-AzAccount -WarningAction SilentlyContinue -ErrorAction Stop -Force 2>$null;
+            $null = Connect-AzAccount -WarningAction SilentlyContinue -ErrorAction Stop -InformationAction Ignore -Force 2>$null;
 
             # Throw exception.
             Write-CustomLog -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Verbose;
@@ -107,6 +107,26 @@ function Connect-M365Tenant
         {
             # Throw exception.
             throw ("Could not connect to Entra ID, exception is '{0}'" -f $_);
+        }
+
+        # Try to connect to Microsoft Teams.
+        try
+        {
+            # Write to log.
+            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Verbose;
+            Write-CustomLog -Message ('Microsoft Teams: Please provide your credentials for Teams') -Level Information -NoDateTime -NoLogLevel;
+
+            # Launch interactive login.
+            $null = Connect-MicrosoftTeams -WarningAction SilentlyContinue -ErrorAction Stop;
+
+            # Throw exception.
+            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Verbose;
+        }
+        # Something went wrong.
+        catch
+        {
+            # Throw exception.
+            throw ("Could not connect to Teams, exception is '{0}'" -f $_);
         }
 
         # Get the current context.
@@ -159,26 +179,6 @@ function Connect-M365Tenant
             throw ("Could not connect to Security and Compliance, exception is '{0}'" -f $_);
         }
 
-        # Try to connect to Microsoft Teams.
-        try
-        {
-            # Write to log.
-            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Trying to connect to Teams') -Level Verbose;
-            Write-CustomLog -Message ('Microsoft Teams: Please provide your credentials for Teams') -Level Information -NoDateTime -NoLogLevel;
-
-            # Launch interactive login.
-            $null = Connect-MicrosoftTeams -WarningAction SilentlyContinue -ErrorAction Stop;
-
-            # Throw exception.
-            Write-CustomLog -Category 'Login' -Subcategory 'Microsoft Teams' -Message ('Successfully connected to Teams') -Level Verbose;
-        }
-        # Something went wrong.
-        catch
-        {
-            # Throw exception.
-            throw ("Could not connect to Teams, exception is '{0}'" -f $_);
-        }
-
         # Get SharePoint URLs.
         $spoUrls = Get-SpoTenantUrl;
 
@@ -196,7 +196,7 @@ function Connect-M365Tenant
                 Write-CustomLog -Message ('SharePoint Online: Please provide your credentials for PnP.PowerShell (global administrator)') -Level Information -NoDateTime -NoLogLevel;
 
                 # Register the application.
-                $null = Register-PnPEntraIDAppForInteractiveLogin -ApplicationName $script:PnPPowerShellApplicationName -Tenant $spoUrls.tenantUrl -SharePointDelegatePermissions "AllSites.FullControl" -Interactive -ErrorAction Stop 2>$null;
+                $null = Register-PnPEntraIDAppForInteractiveLogin -ApplicationName $script:PnPPowerShellApplicationName -Tenant $spoUrls.tenantUrl -SharePointDelegatePermissions 'AllSites.FullControl' -Interactive -ErrorAction Stop 2>$null;
             }
             # Something went wrong.
             catch
