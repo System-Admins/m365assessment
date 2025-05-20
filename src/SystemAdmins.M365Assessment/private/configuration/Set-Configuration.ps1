@@ -12,7 +12,7 @@ $script:Modules = [PSCustomObject]@{
     'Microsoft.Graph.Reports'                           = 'latest';
     'Az.Accounts'                                       = 'latest';
     'Az.Resources'                                      = 'latest';
-    'ExchangeOnlineManagement'                          = 'latest';
+    'ExchangeOnlineManagement'                          = '3.5.1';
     'PnP.PowerShell'                                    = 'latest';
     'MicrosoftTeams'                                    = 'latest';
 };
