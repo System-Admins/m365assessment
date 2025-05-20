@@ -3,7 +3,7 @@
     RootModule           = 'SystemAdmins.M365Assessment.psm1';
 
     # Version number of this module.
-    ModuleVersion        = '1.0.14';
+    ModuleVersion        = '1.0.15';
 
     # Supported PSEditions
     CompatiblePSEditions = @('Core');
@@ -18,7 +18,7 @@
     CompanyName          = 'System Admins ApS';
 
     # Copyright statement for this module
-    Copyright            = '2024 System Admins';
+    Copyright            = '2025 System Admins';
 
     # Description of the functionality provided by this module
     Description          = 'Module to review the Microsoft 365 tenant settings';

@@ -97,7 +97,7 @@ function Connect-M365Tenant
             Write-CustomLog -Message ('Entra ID: Please provide your credentials for Entra ID') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-AzAccount -WarningAction SilentlyContinue -ErrorAction Stop -InformationAction Ignore -Force 2>$null;
+            $null = Connect-AzAccount -AuthScope 'https://admin.microsoft.com' -WarningAction SilentlyContinue -ErrorAction Stop -InformationAction Continue -Force;
 
             # Throw exception.
             Write-CustomLog -Category 'Login' -Subcategory 'Azure' -Message ('Successfully connected to Azure') -Level Verbose;
@@ -196,7 +196,7 @@ function Connect-M365Tenant
                 Write-CustomLog -Message ('SharePoint Online: Please provide your credentials for PnP.PowerShell (global administrator)') -Level Information -NoDateTime -NoLogLevel;
 
                 # Register the application.
-                $null = Register-PnPEntraIDAppForInteractiveLogin -ApplicationName $script:PnPPowerShellApplicationName -Tenant $spoUrls.tenantUrl -SharePointDelegatePermissions 'AllSites.FullControl' -Interactive -ErrorAction Stop 2>$null;
+                $null = Register-PnPEntraIDAppForInteractiveLogin -ApplicationName $script:PnPPowerShellApplicationName -Tenant $spoUrls.tenantUrl -SharePointDelegatePermissions 'AllSites.FullControl' -ErrorAction Stop 2>$null;
             }
             # Something went wrong.
             catch
