@@ -3,7 +3,7 @@
     RootModule           = 'SystemAdmins.M365Assessment.psm1';
 
     # Version number of this module.
-    ModuleVersion        = '1.0.15';
+    ModuleVersion        = '1.0.16';
 
     # Supported PSEditions
     CompatiblePSEditions = @('Core');

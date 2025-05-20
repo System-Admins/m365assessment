@@ -218,7 +218,7 @@ function Connect-M365Tenant
             Write-CustomLog -Message ('SharePoint Online: Again, please provide your credentials for SharePoint') -Level Information -NoDateTime -NoLogLevel;
 
             # Launch interactive login.
-            $null = Connect-PnPOnline -ClientId $application.AppId -Interactive -Url $spoUrls.AdminUrl -WarningAction SilentlyContinue -ErrorAction Stop;
+            $null = Connect-PnPOnline -ClientId $application.AppId -Url $spoUrls.AdminUrl -WarningAction SilentlyContinue -ErrorAction Stop;
 
             # Throw exception.
             Write-CustomLog -Category 'Login' -Subcategory 'SharePoint Online' -Message ('Successfully connected to SharePoint') -Level Verbose;
